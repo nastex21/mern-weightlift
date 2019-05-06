@@ -1,14 +1,17 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const Log = require('./Logs');
 const bcrypt = require('bcryptjs');
 mongoose.promise = Promise
 
 // Define userSchema
 const userSchema = new Schema({
 
-	username: { type: String, unique: false, required: false },
-	password: { type: String, unique: false, required: false }
-
+	name: { type: String, required: true},
+	username: { type: String, required: true },
+	password: { type: String, required: true },
+	date: {type: Date, default: Date.now},
+	logs: [Log.schema]
 })
 
 // Define schema methods
