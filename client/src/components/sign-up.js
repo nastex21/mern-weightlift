@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import axios from 'axios'
+import React, { Component } from 'react';
+import axios from 'axios';
+import { Container, Col, Form, FormGroup, Label, Input, FormFeedback, FormText, Button } from 'reactstrap';
 
 class Signup extends Component {
 	constructor() {
@@ -7,7 +8,7 @@ class Signup extends Component {
 		this.state = {
 			username: '',
 			password: '',
-			confirmPassword: '',
+			password2: '',
 
 		}
 		this.handleSubmit = this.handleSubmit.bind(this)
@@ -47,52 +48,54 @@ class Signup extends Component {
 
 
 render() {
-	return (
-		<div className="SignupForm">
-			<h4>Sign up</h4>
-			<form className="form-horizontal">
-				<div className="form-group">
-					<div className="col-1 col-ml-auto">
-						<label className="form-label" htmlFor="username">Username</label>
-					</div>
-					<div className="col-3 col-mr-auto">
-						<input className="form-input"
-							type="text"
-							id="username"
-							name="username"
-							placeholder="Username"
-							value={this.state.username}
-							onChange={this.handleChange}
-						/>
-					</div>
-				</div>
-				<div className="form-group">
-					<div className="col-1 col-ml-auto">
-						<label className="form-label" htmlFor="password">Password: </label>
-					</div>
-					<div className="col-3 col-mr-auto">
-						<input className="form-input"
-							placeholder="password"
-							type="password"
-							name="password"
-							value={this.state.password}
-							onChange={this.handleChange}
-						/>
-					</div>
-				</div>
-				<div className="form-group ">
-					<div className="col-7"></div>
-					<button
-						className="btn btn-primary col-1 col-mr-auto"
-						onClick={this.handleSubmit}
-						type="submit"
-					>Sign up</button>
-				</div>
-			</form>
-		</div>
+	const { username, password, password2 } = this.state;
+    return (
+      <div className="registerForm">
+        <Container className="RegisterBox">
+          <h2>Register</h2>
+          <Form className="form" onSubmit={(e) => this.submitForm(e)}>
+            <Col>
+              <FormGroup>
+                <Label for="formName">Username</Label>
+                <Input type="text" name="name" id="userName" placeholder="Your name" value={username} valid={this.state.validate.nameState === 'has-success'} invalid={this.state.validate.nameState === 'has-danger'} onChange={(e) => {
+                  this.validateName(e)
+                  this.handleChange(e)
+                }} />
+                <FormFeedback valid></FormFeedback>
+                <FormFeedback>Please enter your name.</FormFeedback>
+              </FormGroup>
+            </Col>
+            <Col>
+              <FormGroup>
+                <Label for="formPassword">Password</Label>
+                <Input type="password" name="password" id="formPassword" placeholder="******" value={password} valid={this.state.validate.passwordState === 'has-success'} invalid={this.state.validate.passwordState === 'has-danger'} onChange={(e) => {
+                  this.validatePassword(e)
+                  this.handleChange(e)
+                }}
+                />
+                <FormFeedback valid>Valid password</FormFeedback>
+                <FormFeedback>Please enter a password longer than six characters</FormFeedback>
+              </FormGroup>
+            </Col>
+            <Col>
+              <FormGroup>
+                <Label for="formPassword2">Re-Enter Password</Label>
+                <Input type="password" name="password2" id="formPassword2" placeholder="******" value={password2} valid={this.state.validate.password2State === 'has-success'} invalid={this.state.validate.password2State === 'has-danger'} onChange={(e) => {
+                  this.comparePasswords(e)
+                  this.handleChange(e)
+                }}
+                />
+                <FormFeedback valid>Good!</FormFeedback>
+                <FormFeedback>Password mismatch</FormFeedback>
+              </FormGroup>
+            </Col>
+            <Button>Submit</Button>
+          </Form>
+        </Container>
+      </div>
+    )
+  }	
 
-	)
-}
 }
 
 export default Signup
