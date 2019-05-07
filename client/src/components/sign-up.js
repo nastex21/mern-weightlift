@@ -15,7 +15,7 @@ import { Redirect } from 'react-router-dom';
 
 class Signup extends Component {
     state = {
-        userName: '',
+        username: '',
         password: '',
         password2: '',
         redirectTo: null,
@@ -67,18 +67,14 @@ class Signup extends Component {
         const { name } = target;
         await this.setState({ [name]: value });
 
-        //original
-        /* 	this.setState({
-				[event.target.name]: event.target.value
-			}) */
     }
     handleSubmit = (event) => {
         console.log('sign-up handleSubmit, username: ');
-        console.log(this.state.userName);
+        console.log(this.state.username);
         event.preventDefault();
 
         const { validate } = this.state;
-        if (this.state.userName === '') {
+        if (this.state.username === '') {
             validate.nameState = 'has-danger'
         }
 
@@ -95,7 +91,7 @@ class Signup extends Component {
         if (this.state.validate.nameState !== 'has-danger' || this.state.validate.passwordState !== 'has-danger' || this.state.validate.password2State !== 'has-danger') {
 
             axios.post('/user/', {
-                username: this.state.userName,
+                username: this.state.username,
                 password: this.state.password
             })
                 .then(response => {
@@ -126,14 +122,14 @@ class Signup extends Component {
             <div className="registerForm">
                 <Container className="RegisterBox">
                     <h2>Register</h2>
-                    <Form className="form" onSubmit={(e) => this.submitForm(e)}>
+                    <Form className="form" onSubmit={(e) => this.handleSubmit(e)}>
                         <Col>
                             <FormGroup>
-                                <Label for="formName"> Username</Label>
+                                <Label for="formName"> username</Label>
                                 <Input
                                     type="text"
-                                    name="name"
-                                    id="userName"
+                                    name="username"
+                                    id="username"
                                     placeholder="Your name"
                                     value={username}
                                     valid={this.state.validate.nameState === 'has-success'}
@@ -142,11 +138,8 @@ class Signup extends Component {
                                         this.validateName(e)
                                         this.handleChange(e)
                                     }} />
-                                <FormFeedback valid>
-                                </FormFeedback>
-                                <FormFeedback >
-                                    Please enter your name.
-                                        </FormFeedback>
+                                <FormFeedback valid> </FormFeedback>
+                                <FormFeedback > Please enter your name.</FormFeedback>
                             </FormGroup >
                         </Col>
                         <Col>
