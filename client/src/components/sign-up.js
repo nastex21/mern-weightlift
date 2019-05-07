@@ -18,6 +18,7 @@ class Signup extends Component {
         userName: '',
         password: '',
         password2: '',
+        redirectTo: null,
         validate: {
             nameState: '',
             passwordState: '',
@@ -58,7 +59,7 @@ class Signup extends Component {
         this.setState({ validate })
     }
 
-    handleChange = async (event) => {
+    handleChange = async(event) => {
         const { target } = event;
 
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -125,7 +126,7 @@ class Signup extends Component {
             <div className="registerForm">
                 <Container className="RegisterBox">
                     <h2>Register</h2>
-                    <Form className="form" onSubmit={this.submitForm}>
+                    <Form className="form" onSubmit={(e) => this.submitForm(e)}>
                         <Col>
                             <FormGroup>
                                 <Label for="formName"> Username</Label>
