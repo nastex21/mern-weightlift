@@ -11,7 +11,8 @@ import Dashboard from './components/dashboard';
 class App extends Component {
     state = {
       loggedIn: false,
-      username: null
+      username: null,
+      exerciseLogs: null
     }
 
   componentDidMount() {
@@ -31,7 +32,8 @@ class App extends Component {
 
         this.setState({
           loggedIn: true,
-          username: response.data.user.username
+          username: response.data.user.username,
+          exerciseLogs: response.data.log
         })
       } else {
         console.log('Get user: no user');
@@ -44,35 +46,22 @@ class App extends Component {
   }
 
   render() {
-    const { loggedIn, username } = this.state;
+    const { loggedIn, username, exerciseLogs } = this.state;
     return (
       <div className="App">
-   
         <Navbar updateUser={this.updateUser} loggedIn={loggedIn} />
         {/* greet user if logged in: */}
-        {this.state.loggedIn &&
-          <Route 
-          exact path="/dashboard"
-          component={Dashboard} 
-          />
-        }
+        {this.state.loggedIn && <Route exact path="/dashboard" render={ (props) => <Dashboard {...props} username={username} logs={exerciseLogs} /> } />}
         {/* Routes to different components */}
-        <Route
-          exact path="/"
-          component={Home} />
-        <Route
-          path="/login"
+        <Route exact path="/" component={Home} />
+        <Route path="/login"
           render={() =>
-            <LoginForm
-              updateUser={this.updateUser}
-            />}
+            <LoginForm updateUser={this.updateUser} />}
         />
-        <Route
-          path="/signup"
+        <Route path="/signup"
           render={() =>
             <Signup/>}
         />
-
       </div>
     );
   }

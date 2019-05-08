@@ -3,9 +3,13 @@ import { Redirect } from 'react-router-dom'
 import { Route, Link } from 'react-router-dom'
 import logo from '../logo.svg';
 import '../App.css';
-import axios from 'axios'
+import axios from 'axios';
 
 class Navbar extends Component {
+
+    state = {
+        redirectTo: null
+    }
 
     logout = (event) => {
         event.preventDefault()
@@ -27,17 +31,17 @@ class Navbar extends Component {
         const loggedIn = this.props.loggedIn;
         console.log('navbar render, props: ')
         console.log(this.props);
-        
+        console.log("redirect in navbar " + this.state.redirectTo);
+
         return (
             <div>
-
                 <header className="navbar App-header" id="nav-container">
                     <div className="col-4" >
                         {loggedIn ? (
                             <section className="navbar-section">
-                                <Link to="#" className="btn btn-link text-secondary" onClick={this.logout}>
-                                <span className="text-secondary">logout</span></Link>
-
+                                <Link to="/" className="btn btn-link text-secondary" onClick={this.logout}>
+                                <span className="text-secondary">logout</span>
+                                </Link>
                             </section>
                         ) : (
                                 <section className="navbar-section">
@@ -46,10 +50,10 @@ class Navbar extends Component {
                                         </Link>
                                     <Link to="/login" className="btn btn-link text-secondary">
                                     <span className="text-secondary">login</span>
-				</Link>
+                                    </Link>
                                     <Link to="/signup" className="btn btn-link">
                                     <span className="text-secondary">sign up</span>
-				</Link>
+			                    	</Link>
                                 </section>
                             )}
                     </div>
@@ -62,8 +66,8 @@ class Navbar extends Component {
             </div>
 
         );
-
+                        }
     }
-}
+
 
 export default Navbar

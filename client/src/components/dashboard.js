@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 class Dashboard extends Component {
 
     render() {
+        
         return (
             <div>
-                <p>Dashboard works!</p>
+                <p>Hey {this.props.username}, the Dashboard works! These are your logs {this.props.logs}</p>
             </div>
         )
 
