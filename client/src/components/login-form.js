@@ -21,12 +21,10 @@ class LoginForm extends Component {
         event.preventDefault()
         console.log('handleSubmit')
 
-        axios
-            .post('/user/login', {
+        axios.post('/user/login', {
                 username: this.state.username,
                 password: this.state.password
-            })
-            .then(response => {
+            }).then(response => {
                 console.log('login response: ')
                 console.log(response)
                 if (response.status === 200) {
