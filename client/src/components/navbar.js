@@ -6,12 +6,8 @@ import '../App.css';
 import axios from 'axios'
 
 class Navbar extends Component {
-    constructor() {
-        super()
-        this.logout = this.logout.bind(this)
-    }
 
-    logout(event) {
+    logout = (event) => {
         event.preventDefault()
         console.log('logging out')
         axios.post('/user/logout').then(response => {
