@@ -6,6 +6,7 @@ import Signup from './components/sign-up';
 import LoginForm from './components/login-form';
 import Navbar from './components/navbar';
 import Home from './components/home';
+import Dashboard from './components/dashboard';
 
 class App extends Component {
     state = {
@@ -50,7 +51,10 @@ class App extends Component {
         <Navbar updateUser={this.updateUser} loggedIn={loggedIn} />
         {/* greet user if logged in: */}
         {this.state.loggedIn &&
-          <p>Join the party, {username}!</p>
+          <Route 
+          exact path="/dashboard"
+          component={Dashboard} 
+          />
         }
         {/* Routes to different components */}
         <Route
