@@ -11,6 +11,14 @@ class Navbar extends Component {
         redirectTo: null
         }
 
+    componentDidUpdate(){
+        if(this.state.redirectTo){
+        this.setState({
+            redirectTo: null
+        })
+    }
+}
+
     logout = (event) => {
         event.preventDefault()
         console.log('logging out')
@@ -36,9 +44,6 @@ class Navbar extends Component {
         const loggedIn = this.props.loggedIn;
    
         if (this.state.redirectTo == '/') { 
-            this.setState({
-                redirectTo: null
-            })
             return <Redirect to={{ pathname: '/' }} />;
         } else {
             return (
