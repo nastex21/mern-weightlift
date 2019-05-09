@@ -8,19 +8,11 @@ import axios from 'axios';
 class Navbar extends Component {
 
     state = {
-        counter: 0,
-        username: null,
-        loggedIn: false,
+        counter: 1,
+        username: this.props.username,
+        loggedIn: this.props.loggedIn,
         redirectTo: null
         }
-
-    componentDidMount(){
-        this.setState({
-            counter: 1,
-            username: this.props.username,
-            loggedIn: this.props.loggedIn
-        })
-    }
 
 
     logout = (event) => {
@@ -34,9 +26,7 @@ class Navbar extends Component {
                     username: null
                 })
             }
-            console.log("loggedin: " + this.props.loggedIn);
             if (!this.props.loggedIn){
-                console.log("runninglkjsldfjasld")
                 this.setState({
                     redirectTo: '/',
                     loggedIn: false,
@@ -52,10 +42,6 @@ class Navbar extends Component {
 
     render() {
         const loggedIn = this.props.loggedIn;
-        console.log('navbar render, props: ')
-        console.log(loggedIn);
-        console.log("redirect in navbar " + this.state.redirectTo);
-        console.log("counter: " + this.state.counter)
 
         if (!this.state.loggedIn && !this.state.username && this.state.counter == 0) { 
             console.log('triggered!@')
