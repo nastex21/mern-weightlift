@@ -8,12 +8,8 @@ import axios from 'axios';
 class Navbar extends Component {
 
     state = {
-        counter: 1,
-        username: this.props.username,
-        loggedIn: this.props.loggedIn,
         redirectTo: null
         }
-
 
     logout = (event) => {
         event.preventDefault()
@@ -21,17 +17,13 @@ class Navbar extends Component {
         axios.post('/user/logout').then(response => {
             console.log(response.data)
             if (response.status === 200) {
+                this.setState({
+                    redirectTo: '/'
+                })
+            
                 this.props.updateUser({
                     loggedIn: false,
                     username: null
-                })
-            }
-            if (!this.props.loggedIn){
-                this.setState({
-                    redirectTo: '/',
-                    loggedIn: false,
-                    username: null,
-                    counter: 0
                 })
             }
 
@@ -42,13 +34,12 @@ class Navbar extends Component {
 
     render() {
         const loggedIn = this.props.loggedIn;
-
-        if (!this.state.loggedIn && !this.state.username && this.state.counter == 0) { 
-            console.log('triggered!@')
+   
+        if (this.state.redirectTo == '/') { 
             this.setState({
-            counter: 1   
+                redirectTo: null
             })
-            return <Redirect to={{ pathname: this.state.redirectTo }} />;
+            return <Redirect to={{ pathname: '/' }} />;
         } else {
             return (
                 <div>
