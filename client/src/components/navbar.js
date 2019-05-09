@@ -22,6 +22,7 @@ class Navbar extends Component {
         })
     }
 
+
     logout = (event) => {
         event.preventDefault()
         console.log('logging out')
@@ -34,7 +35,8 @@ class Navbar extends Component {
                 })
             }
             console.log("loggedin: " + this.props.loggedIn);
-            if (this.state.loggedIn){
+            if (!this.props.loggedIn){
+                console.log("runninglkjsldfjasld")
                 this.setState({
                     redirectTo: '/',
                     loggedIn: false,
@@ -53,9 +55,13 @@ class Navbar extends Component {
         console.log('navbar render, props: ')
         console.log(loggedIn);
         console.log("redirect in navbar " + this.state.redirectTo);
+        console.log("counter: " + this.state.counter)
 
         if (!this.state.loggedIn && !this.state.username && this.state.counter == 0) { 
             console.log('triggered!@')
+            this.setState({
+            counter: 1   
+            })
             return <Redirect to={{ pathname: this.state.redirectTo }} />;
         } else {
             return (
