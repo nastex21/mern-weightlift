@@ -33,13 +33,14 @@ class App extends Component {
         this.setState({
           loggedIn: true,
           username: response.data.user.username,
-          exerciseLogs: response.data.log
+          exerciseLogs: response.data.user.logs
         })
       } else {
         console.log('Get user: no user');
         this.setState({
           loggedIn: false,
-          username: null
+          username: null,
+          exerciseLogs: null
         })
       }
     })

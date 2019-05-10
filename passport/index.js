@@ -1,6 +1,6 @@
-const passport = require('passport')
-const LocalStrategy = require('./localStrategy')
-const User = require('../database/models/user')
+const passport = require('passport');
+const LocalStrategy = require('./localStrategy');
+const User = require('../database/models/user');
 
 // called on login, saves the id to session req.session.passport.user = {id:'..'}
 passport.serializeUser((user, done) => {
@@ -8,7 +8,7 @@ passport.serializeUser((user, done) => {
 	console.log(user) // the whole raw user object!
 	console.log('---------')
 	done(null, { _id: user._id })
-})
+});
 
 // user object attaches to the request as req.user
 passport.deserializeUser((id, done) => {
@@ -23,9 +23,9 @@ passport.deserializeUser((id, done) => {
 			done(null, user)
 		}
 	)
-})
+});
 
 //  Use Strategies 
-passport.use(LocalStrategy)
+passport.use(LocalStrategy);
 
-module.exports = passport
+module.exports = passport;
