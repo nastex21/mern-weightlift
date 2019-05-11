@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
 
 class Dashboard extends Component {
 
@@ -6,12 +8,8 @@ class Dashboard extends Component {
         const logs = this.props.logs;
         console.log(logs);
         return (
-            <div>
-                <p>Hey {this.props.username}, the Dashboard works!</p> <p>These are you logs: </p> 
-                <br />
-                {logs.map((items, index) => <div><p key={index}>{items.date}</p><p key={index + "a"}>{items.name}</p></div>)}
-            </div>
-        )
+            <FullCalendar defaultView="dayGridMonth" plugins={[ dayGridPlugin ]} />
+          )
 
     }
 }
