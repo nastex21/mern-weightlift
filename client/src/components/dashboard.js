@@ -9,7 +9,7 @@ class Dashboard extends Component {
             <div>
                 <p>Hey {this.props.username}, the Dashboard works!</p> <p>These are you logs: </p> 
                 <br />
-                {logs.map(logs => <div><p>{logs.date}</p><p>{logs.name}</p></div>)}
+                {logs.map((items, index) => <div><p key={index}>{items.date}</p><p key={index + "a"}>{items.name}</p></div>)}
             </div>
         )
 
