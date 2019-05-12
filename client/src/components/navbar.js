@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import logo from '../logo.svg';
-import '../App.css';
 import axios from 'axios';
 
 class Navbar extends Component {
@@ -48,7 +46,7 @@ class Navbar extends Component {
         } else {
             return (
                 <div>
-                    <header className="navbar App-header" id="nav-container">
+                    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
                         <div className="col-4" >
                             {loggedIn ? (
                                 <section className="navbar-section">
@@ -72,10 +70,9 @@ class Navbar extends Component {
                         </div>
                         <div className="col-4 col-mr-auto">
                             <div id="top-filler"></div>
-                            <img src={logo} className="App-logo" alt="logo" />
-                            <h1 className="App-title">MERN Passport</h1>
+                            <h1 className="App-title">Weightlifting Tracker</h1>
                         </div>
-                    </header>
+                    </nav>
                 </div>
             )}
     }
