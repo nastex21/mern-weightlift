@@ -16,7 +16,14 @@ class App extends Component {
     }
 
   componentDidMount() {
-    this.getUser()
+    this.getUser();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location !== this.props.location) {
+      // navigated!
+      console.log(this.props.location)
+    }
   }
 
   updateUser = (userObject) => {
@@ -50,7 +57,7 @@ class App extends Component {
     const { loggedIn, username, exerciseLogs } = this.state;
     return (
       <div className="App">
-        <Navbar updateUser={this.updateUser} loggedIn={loggedIn} />
+        <Navbar updateUser={this.updateUser} loggedIn={loggedIn} location={this.props.location} />
         {/* greet user if logged in: */}
         {this.state.loggedIn && <Route exact path="/dashboard" render={ (props) => <Dashboard {...props} username={username} logs={exerciseLogs} /> } />}
         {/* Routes to different components */}

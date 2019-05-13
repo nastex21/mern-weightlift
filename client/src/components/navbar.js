@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 
 class Navbar extends Component {
 
     state = {
-        redirectTo: null
+        redirectTo: null,
+        active: null
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
+        console.log(prevState);
         if (this.state.redirectTo) {
             this.setState({
                 redirectTo: null
@@ -17,8 +19,10 @@ class Navbar extends Component {
         }
     }
 
+
+
     logout = (event) => {
-        event.preventDefault()
+        event.preventDefault();
         console.log('logging out')
         axios.post('/user/logout').then(response => {
             console.log(response.data)
@@ -38,34 +42,42 @@ class Navbar extends Component {
         })
     }
 
+    handleClick = (id, e) => {
+        console.log(this.props.location);
+        this.setState({
+            active: id
+        })
+    }
+
     render() {
         const loggedIn = this.props.loggedIn;
-
+        const active = this.state.active;
+        console.log(this);
         if (this.state.redirectTo == '/') {
             return <Redirect to={{ pathname: '/' }} />;
         } else {
             return (
                 <div>
                     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-                            <a class="navbar-brand" href={loggedIn ? "/dashboard" : "/"}>Weight Lifting Tracker</a>
-                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                            <div className="collapse navbar-collapse" id="navbarColor01" >
+                        <a className="navbar-brand" href={loggedIn ? "/dashboard" : "/"}>Weight Lifting Tracker</a>
+                        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                        <div className="collapse navbar-collapse" id="navbarColor01" >
                             {loggedIn ? (
                                 <ul className="navbar-nav mr-auto">
                                     <li className="nav-item">
-                                        <a className="nav-link" href="/" onClick={this.logout}>Log Out<span className="sr-only">(current)</span></a>
+                                        <a className="nav-link active" href="/" onClick={this.logout}>Log Out<span className="sr-only">(current)</span></a>
                                     </li>
                                 </ul>
                             ) : (
 
                                     <ul className="navbar-nav mr-auto">
-                                        <li className="nav-item">
-                                            <a className="nav-link" href="/login">Login</a>
+                                        <li className='nav-item'>
+                                            <NavLink className="nav-link" to='/login'>Login </NavLink>
                                         </li>
-                                        <li className="nav-item">
-                                            <a className="nav-link" href="/signup">Register</a>
+                                        <li className='nav-item'>
+                                            <NavLink className="nav-link" to='/signup'>Register</NavLink>
                                         </li>
                                     </ul>
                                 )}
