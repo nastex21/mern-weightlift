@@ -7,15 +7,15 @@ class Navbar extends Component {
 
     state = {
         redirectTo: null
-        }
-
-    componentDidUpdate(){
-        if(this.state.redirectTo){
-        this.setState({
-            redirectTo: null
-        })
     }
-}
+
+    componentDidUpdate() {
+        if (this.state.redirectTo) {
+            this.setState({
+                redirectTo: null
+            })
+        }
+    }
 
     logout = (event) => {
         event.preventDefault()
@@ -26,7 +26,7 @@ class Navbar extends Component {
                 this.setState({
                     redirectTo: '/'
                 })
-            
+
                 this.props.updateUser({
                     loggedIn: false,
                     username: null
@@ -40,41 +40,46 @@ class Navbar extends Component {
 
     render() {
         const loggedIn = this.props.loggedIn;
-   
-        if (this.state.redirectTo == '/') { 
+
+        if (this.state.redirectTo == '/') {
             return <Redirect to={{ pathname: '/' }} />;
         } else {
             return (
                 <div>
-                    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-                        <div className="col-4" >
+                    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+                        <div className="collapse navbar-collapse" id="navbarColor01" >
                             {loggedIn ? (
-                                <section className="navbar-section">
-                                    <Link to="/" className="btn btn-link text-secondary" onClick={this.logout}>
-                                        <span className="text-secondary">logout</span>
-                                    </Link>
-                                </section>
+                                <div className="collapse navbar-collapse" id="navbarColor01">
+                                    <ul className="navbar-nav mr-auto">
+                                        <li className="nav-item active">
+                                            <a className="nav-link" href="/">Weight Lifting Tracker<span className="sr-only">(current)</span></a>
+                                        </li>
+                                        <li className="nav-item active">
+                                            <a className="nav-link" href="/" onClick={this.logout}>Log Out<span className="sr-only">(current)</span></a>
+                                        </li>
+                                    </ul>
+                                </div>
                             ) : (
-                                    <section className="navbar-section">
-                                        <Link to="/" className="btn btn-link text-secondary">
-                                            <span className="text-secondary">home</span>
-                                        </Link>
-                                        <Link to="/login" className="btn btn-link text-secondary">
-                                            <span className="text-secondary">login</span>
-                                        </Link>
-                                        <Link to="/signup" className="btn btn-link">
-                                            <span className="text-secondary">sign up</span>
-                                        </Link>
-                                    </section>
+
+                                    <div className="collapse navbar-collapse" id="navbarColor01">
+                                        <ul className="navbar-nav mr-auto">
+                                            <li className="nav-item active">
+                                                <a className="nav-link" href="/">Weight Lifting Tracker<span className="sr-only">(current)</span></a>
+                                            </li>
+                                            <li className="nav-item">
+                                                <a className="nav-link" href="/login">Login</a>
+                                            </li>
+                                            <li className="nav-item">
+                                                <a className="nav-link" href="/signup">Register</a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 )}
-                        </div>
-                        <div className="col-4 col-mr-auto">
-                            <div id="top-filler"></div>
-                            <h1 className="App-title">Weightlifting Tracker</h1>
                         </div>
                     </nav>
                 </div>
-            )}
+            )
+        }
     }
 }
 
