@@ -27,6 +27,7 @@ class Dashboard extends Component {
     }
 
     toggle = (info) => {
+        console.log("triggered");
   
         let val = info.event
         let dateVal = "";
@@ -39,7 +40,7 @@ class Dashboard extends Component {
 
         this.setState(prevState => ({
             modal: !prevState.modal,
-            date: dateVal.toLocaleString('en-US', options)
+            date: dateVal.toLocaleString('en-US', options)  == "Invalid Date" ? prevState.modal : dateVal.toLocaleString('en-US', options)
         }))
 
     }
@@ -47,7 +48,7 @@ class Dashboard extends Component {
     dateClickInfo = (info) => {
         let dateVal = new Date(info.date);
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-
+        console.log(dateVal.toLocaleString('en-US', options));
         this.setState(prevState => ({
             modal: !prevState.modal,
             date: dateVal.toLocaleString('en-US', options)
