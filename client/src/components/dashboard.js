@@ -40,7 +40,7 @@ class Dashboard extends Component {
 
         this.setState(prevState => ({
             modal: !prevState.modal,
-            date: dateVal.toLocaleString('en-US', options)  == "Invalid Date" ? prevState.modal : dateVal.toLocaleString('en-US', options)
+            date: dateVal.toLocaleString('en-US', options)  == "Invalid Date" ? prevState.date : dateVal.toLocaleString('en-US', options)
         }))
 
     }
