@@ -14,8 +14,9 @@ class Dashboard extends Component {
     }
 
     componentDidMount(){
-        const newEvents =  [{ title: 'event 1', date: '2019-05-01' },
-        { title: 'event 2', date: '2019-05-20' }];
+        const titleConst = "Entry Added"
+        const newEvents =  [{ title: titleConst, date: '2019-05-01' },
+        { title: titleConst, date: '2019-05-20' }];
         this.setState ({
             events: [...this.state.events, ...newEvents]
         })        
@@ -28,6 +29,7 @@ class Dashboard extends Component {
 
     eventClicky = (info) => {
         alert('Event: ' + info.event.title);
+        console.log(info);
     }
 
     render() {
@@ -35,7 +37,7 @@ class Dashboard extends Component {
         console.log(logs);
         console.log(this.state.events);
         return (
-            <FullCalendar defaultView="dayGridMonth" plugins={[ dayGridPlugin, bootstrapPlugin, interactionPlugin ]} themeSystem='bootstrap' selectable="true"  dateClick={this.test}   events={this.state.events} eventClick={this.eventClicky} />
+            <FullCalendar defaultView="dayGridMonth" height="auto" plugins={[ dayGridPlugin, bootstrapPlugin, interactionPlugin ]} themeSystem='bootstrap' selectable="true"  dateClick={this.test}   events={this.state.events} eventClick={this.eventClicky} />
           )
 
     }
