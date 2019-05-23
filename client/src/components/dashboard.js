@@ -12,7 +12,8 @@ import '@fullcalendar/bootstrap/main.css';
 class Dashboard extends Component {
     state = {
         events: [],
-        modal: false
+        modal: false,
+        date: null
     }
 
     componentDidMount() {
@@ -29,22 +30,43 @@ class Dashboard extends Component {
         alert('Clicked on: ' + info.dateStr)
     }
 
-    toggle = () => {
-        console.log("triggered")
+    toggle = (info) => {
+
+        let val;
+        info.date == "undefined" ?  val = info.event : val = info.date;
+        console.log(val);
+        let dateVal = "";
+
+        if (val.start) {
+            dateVal = val.start
+        } else {
+            dateVal = val;
+        }
+
+        dateVal = new Date(dateVal);
+        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
         this.setState(prevState => ({
-            modal: !prevState.modal
-        }));
+            modal: !prevState.modal,
+            date: dateVal.toLocaleString('en-US', options)
+        }))
+
+    }
+
+    dateClickInfo = (info) => {
+        console.log(info);
     }
 
     render() {
         const logs = this.props.logs;
         console.log(logs);
         console.log(this.state.events);
+        console.log(this.state.date);
         return (
-            <div>
-                <FullCalendar defaultView="dayGridMonth" height="auto" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.test} events={this.state.events} eventClick={this.toggle} />  
+            <div className="calendar-body">
+                <FullCalendar defaultView="dayGridMonth" height="auto" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.toggle} events={this.state.events} eventClick={this.toggle} />
                 <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>Test</ModalHeader>
+                    <ModalHeader toggle={this.toggle}>{<p>{this.state.date}</p>}</ModalHeader>
                     <ModalBody>TEST</ModalBody>
                 </Modal>
             </div>

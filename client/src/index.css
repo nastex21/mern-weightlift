@@ -1,5 +1,8 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+.fc-event-container {
+  cursor: pointer
+}
+
+.calendar-body {
+  margin: 0 auto;
+  max-width: 900px;
 }
