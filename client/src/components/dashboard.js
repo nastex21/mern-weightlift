@@ -26,21 +26,12 @@ class Dashboard extends Component {
         console.log(this.state.events);
     }
 
-    test = (info) => {
-        alert('Clicked on: ' + info.dateStr)
-    }
-
     toggle = (info) => {
-
-        let val;
-        info.date == "undefined" ?  val = info.event : val = info.date;
-        console.log(val);
+  
+        let val = info.event
         let dateVal = "";
-
-        if (val.start) {
-            dateVal = val.start
-        } else {
-            dateVal = val;
+        if (val) {
+            dateVal = val.start;
         }
 
         dateVal = new Date(dateVal);
@@ -54,7 +45,14 @@ class Dashboard extends Component {
     }
 
     dateClickInfo = (info) => {
-        console.log(info);
+        let dateVal = new Date(info.date);
+        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+        this.setState(prevState => ({
+            modal: !prevState.modal,
+            date: dateVal.toLocaleString('en-US', options)
+        }))
+
     }
 
     render() {
@@ -64,7 +62,7 @@ class Dashboard extends Component {
         console.log(this.state.date);
         return (
             <div className="calendar-body">
-                <FullCalendar defaultView="dayGridMonth" height="auto" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.toggle} events={this.state.events} eventClick={this.toggle} />
+                <FullCalendar defaultView="dayGridMonth" height="auto" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={this.state.events} eventClick={this.toggle} />
                 <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>{<p>{this.state.date}</p>}</ModalHeader>
                     <ModalBody>TEST</ModalBody>
