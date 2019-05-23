@@ -26,12 +26,16 @@ class Dashboard extends Component {
         alert('Clicked on: ' + info.dateStr)
     }
 
+    eventClicky = (info) => {
+        alert('Event: ' + info.event.title);
+    }
+
     render() {
         const logs = this.props.logs;
         console.log(logs);
         console.log(this.state.events);
         return (
-            <FullCalendar defaultView="dayGridMonth" plugins={[ dayGridPlugin, bootstrapPlugin, interactionPlugin ]} themeSystem='bootstrap' selectable="true"  dateClick={this.test}   events={this.state.events} />
+            <FullCalendar defaultView="dayGridMonth" plugins={[ dayGridPlugin, bootstrapPlugin, interactionPlugin ]} themeSystem='bootstrap' selectable="true"  dateClick={this.test}   events={this.state.events} eventClick={this.eventClicky} />
           )
 
     }
