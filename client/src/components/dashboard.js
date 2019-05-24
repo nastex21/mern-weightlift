@@ -78,7 +78,8 @@ class Dashboard extends Component {
                     <ModalHeader toggle={this.toggle}>{<p>{this.state.date}</p>}</ModalHeader>
                     <ModalBody>{this.state.events.map(item => {
                         return <p>{item}</p>
-                    })}</ModalBody>
+                    })}
+                    </ModalBody>
                 </Modal>
             </div>
 
