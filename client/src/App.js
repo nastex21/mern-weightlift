@@ -15,10 +15,10 @@ class App extends Component {
       exerciseLogs: []
     }
 
-/*   componentDidMount() {
+ componentDidMount() {
     this.getUser();
   }
- */
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.location !== this.props.location) {
       // navigated!
@@ -27,10 +27,16 @@ class App extends Component {
   }
 
   updateUser = (userObject) => {
-    this.setState(userObject)
+    console.log(userObject);
+    this.setState({
+      loggedIn: userObject.loggedIn,
+      username: userObject.username,
+      exerciseLogs: [...this.state.exerciseLogs, ...userObject.exerciseLogs]
+    })
   }
 
-  /* getUser = () => {
+  //keeps you logged in if you were to refresh
+  getUser = () => {
     console.log("Triggered 34")
     axios.get('/user/').then(response => {
       console.log('Get user response: ')
@@ -53,7 +59,7 @@ class App extends Component {
         })
       }
     })
-  } */
+  } 
 
   render() {
     const { loggedIn, username, exerciseLogs } = this.state;
@@ -61,7 +67,6 @@ class App extends Component {
     return (
       <div className="App">
         <Navbar updateUser={this.updateUser} loggedIn={loggedIn} location={this.props.location} />
-        {/* greet user if logged in: */}
         {this.state.loggedIn && <Route exact path="/dashboard" render={ (props) => <Dashboard {...props} username={username} logs={exerciseLogs} /> } />}
         {/* Routes to different components */}
         <Route exact path="/" component={Home} />
