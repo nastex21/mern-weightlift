@@ -24,22 +24,23 @@ class LoginForm extends Component {
         axios.post('/user/login', {
             username: this.state.username,
             password: this.state.password
-                }).then(response => {
+        }).then(response => {
             console.log('login response: ')
             console.log(response)
             if (response.status === 200) {
                 console.log(response);
+
                 // update App.js state
                 this.props.updateUser({
                     loggedIn: true,
                     username: response.data.username,
                     exerciseLogs: response.data.logs
-                                })
+                })
 
                 // update the state to redirect to home
                 this.setState({
-                     redirectTo: '/dashboard',
-                    })
+                    redirectTo: '/dashboard',
+                })
             }
         }).catch(error => {
             console.log('login error: ')

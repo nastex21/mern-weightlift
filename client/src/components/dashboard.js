@@ -17,18 +17,28 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
-        const titleConst = "Entry Added"
-        const newEvents = [{ title: titleConst, date: '2019-05-01' },
-        { title: titleConst, date: '2019-05-20' }];
-        this.setState({
-            events: [...this.state.events, ...newEvents]
+        const logsArr = this.props.logs;
+
+        logsArr.forEach((item) => {
+            for (let key in item) {
+                if (key == "date") {
+                    let newDay = item[key];
+                    let dateVal = new Date(newDay).toISOString().slice(0,10);
+                    item[key] = dateVal;
+                }
+            }
         })
-        console.log(this.state.events);
+
+        this.setState({
+            events: [...this.state.events, ...logsArr]
+        })
+
+
     }
 
     toggle = (info) => {
         console.log("triggered");
-  
+
         let val = info.event
         let dateVal = "";
         if (val) {
@@ -40,7 +50,7 @@ class Dashboard extends Component {
 
         this.setState(prevState => ({
             modal: !prevState.modal,
-            date: dateVal.toLocaleString('en-US', options)  == "Invalid Date" ? prevState.date : dateVal.toLocaleString('en-US', options)
+            date: dateVal.toLocaleString('en-US', options) == "Invalid Date" ? prevState.date : dateVal.toLocaleString('en-US', options)
         }))
 
     }
@@ -66,7 +76,9 @@ class Dashboard extends Component {
                 <FullCalendar defaultView="dayGridMonth" height="auto" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={this.state.events} eventClick={this.toggle} />
                 <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>{<p>{this.state.date}</p>}</ModalHeader>
-                    <ModalBody>TEST</ModalBody>
+                    <ModalBody>{this.state.events.map(item => {
+                        return <p>{item}</p>
+                    })}</ModalBody>
                 </Modal>
             </div>
 
