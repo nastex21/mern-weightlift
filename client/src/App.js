@@ -12,13 +12,13 @@ class App extends Component {
     state = {
       loggedIn: false,
       username: null,
-      exerciseLogs: null
+      exerciseLogs: []
     }
 
-  componentDidMount() {
+/*   componentDidMount() {
     this.getUser();
   }
-
+ */
   componentWillReceiveProps(nextProps) {
     if (nextProps.location !== this.props.location) {
       // navigated!
@@ -30,31 +30,34 @@ class App extends Component {
     this.setState(userObject)
   }
 
-  getUser = () => {
+  /* getUser = () => {
+    console.log("Triggered 34")
     axios.get('/user/').then(response => {
       console.log('Get user response: ')
-      console.log(response.data)
+      console.log(response);
+      console.log(response.data);
       if (response.data.user) {
         console.log('Get User: There is a user saved in the server session: ')
 
         this.setState({
           loggedIn: true,
           username: response.data.user.username,
-          exerciseLogs: response.data.user.logs
+          exerciseLogs: []
         })
       } else {
         console.log('Get user: no user');
         this.setState({
           loggedIn: false,
           username: null,
-          exerciseLogs: null
+          exerciseLogs: []
         })
       }
     })
-  }
+  } */
 
   render() {
     const { loggedIn, username, exerciseLogs } = this.state;
+    console.log(exerciseLogs);
     return (
       <div className="App">
         <Navbar updateUser={this.updateUser} loggedIn={loggedIn} location={this.props.location} />
