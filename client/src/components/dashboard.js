@@ -13,7 +13,8 @@ class Dashboard extends Component {
     state = {
         events: [],
         modal: false,
-        date: null
+        date: null,
+        exercise: []
     }
 
     componentDidMount() {
@@ -30,19 +31,21 @@ class Dashboard extends Component {
         })
 
         this.setState({
-            events: [...this.state.events, ...logsArr]
+            events: [...this.state.events, ...logsArr],
         })
-
-
     }
+
 
     toggle = (info) => {
         console.log("triggered");
+
+        const arr = [];
 
         let val = info.event
         let dateVal = "";
         if (val) {
             dateVal = val.start;
+            arr.push(info.event.extendedProps.name);
         }
 
         dateVal = new Date(dateVal);
@@ -50,7 +53,8 @@ class Dashboard extends Component {
 
         this.setState(prevState => ({
             modal: !prevState.modal,
-            date: dateVal.toLocaleString('en-US', options) == "Invalid Date" ? prevState.date : dateVal.toLocaleString('en-US', options)
+            date: dateVal.toLocaleString('en-US', options) == "Invalid Date" ? prevState.date : dateVal.toLocaleString('en-US', options),
+            exercise: [...arr]
         }))
 
     }
@@ -76,7 +80,8 @@ class Dashboard extends Component {
                 <FullCalendar defaultView="dayGridMonth" height="auto" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={this.state.events} eventClick={this.toggle} />
                 <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>{<p>{this.state.date}</p>}</ModalHeader>
-                    <ModalBody>{this.state.events.map(item => {
+                    <ModalBody>{this.state.exercise.map(item => {
+                        console.log(item)
                         return <p>{item}</p>
                     })}
                     </ModalBody>
