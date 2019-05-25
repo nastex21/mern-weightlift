@@ -118,6 +118,21 @@ class Dashboard extends Component {
                                         <td>{Number(item.sets) * Number(item.reps) * Number(item.weight)}</td>
                                 </tr>
                             )}
+                            <tr className="table-active">
+                                    <th scope="row">Day Total</th>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>1200</td>
+                                </tr>
+                                <br></br>
+                               <tr className="table-active">
+                                    <th scope="row">Overall Total</th>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>2700</td>
+                                </tr>
                         </tbody>
                         </table>
                     </ModalBody>
