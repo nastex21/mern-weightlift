@@ -14,7 +14,8 @@ class Dashboard extends Component {
         events: [],
         modal: false,
         date: null,
-        exercise: []
+        exercise: [],
+        total: ""
     }
 
     componentDidMount() {
@@ -24,7 +25,7 @@ class Dashboard extends Component {
             for (let key in item) {
                 if (key == "date") {
                     let newDay = item[key];
-                    let dateVal = new Date(newDay).toISOString().slice(0,10);
+                    let dateVal = new Date(newDay).toISOString().slice(0, 10);
                     item[key] = dateVal;
                 }
             }
@@ -39,13 +40,25 @@ class Dashboard extends Component {
     toggle = (info) => {
         console.log("triggered");
 
+        const exerciseObj = {
+            name: "",
+            sets: "",
+            reps: "",
+            weight: ""
+        }
+
+        let val = info.event;
         const arr = [];
 
-        let val = info.event
         let dateVal = "";
         if (val) {
             dateVal = val.start;
-            arr.push(info.event.extendedProps.name);
+            const exerciseItems = info.event.extendedProps;
+            exerciseObj.name = exerciseItems.name;
+            exerciseObj.sets = exerciseItems.sets;
+            exerciseObj.reps = exerciseItems.reps;
+            exerciseObj.weight = exerciseItems.weight;
+            arr.push(exerciseObj);
         }
 
         dateVal = new Date(dateVal);
@@ -74,22 +87,42 @@ class Dashboard extends Component {
         const logs = this.props.logs;
         console.log(logs);
         console.log(this.state.events);
-        console.log(this.state.date);
+        console.log(this.state.exercise);
         return (
             <div className="calendar-body">
                 <FullCalendar defaultView="dayGridMonth" height="auto" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={this.state.events} eventClick={this.toggle} />
                 <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>{<p>{this.state.date}</p>}</ModalHeader>
-                    <ModalBody>{this.state.exercise.map(item => {
-                        console.log(item)
-                        return <p>{item}</p>
-                    })}
+                    <ModalBody>
+                        <p className="headerInfo">Total = Sets * Reps * Weight</p>
+                        <table className="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Exercise</th>
+                                <th scope="col">Sets</th>
+                                <th scope="col">Reps</th>
+                                <th scope="col">Weight</th>
+                                <th scope="col">Total</th> 
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.state.exercise.map(item => 
+                                <tr className="table-active">
+                                    <th scope="row">{item.name}</th>
+                                        <td>{item.sets}</td>
+                                        <td>{item.reps}</td>
+                                        <td>{item.weight}</td>
+                                        <td>{Number(item.sets) * Number(item.reps) * Number(item.weight)}</td>
+                                </tr>
+                            )}
+                        </tbody>
+                        </table>
                     </ModalBody>
                 </Modal>
             </div>
 
-        )
-    }
-}
-
+                    )
+                }
+            }
+            
 export default Dashboard;
