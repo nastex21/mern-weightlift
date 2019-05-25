@@ -15,7 +15,7 @@ class Dashboard extends Component {
         modal: false,
         date: null,
         exercise: [],
-        total: ""
+        total: []
     }
 
     componentDidMount() {
@@ -49,6 +49,7 @@ class Dashboard extends Component {
 
         let val = info.event;
         const arr = [];
+        let totalWeight = "";
 
         let dateVal = "";
         if (val) {
@@ -58,6 +59,7 @@ class Dashboard extends Component {
             exerciseObj.sets = exerciseItems.sets;
             exerciseObj.reps = exerciseItems.reps;
             exerciseObj.weight = exerciseItems.weight;
+            totalWeight = Number(exerciseItems.sets) * Number(exerciseItems.reps) * Number(exerciseItems.weight);
             arr.push(exerciseObj);
         }
 
@@ -67,7 +69,8 @@ class Dashboard extends Component {
         this.setState(prevState => ({
             modal: !prevState.modal,
             date: dateVal.toLocaleString('en-US', options) == "Invalid Date" ? prevState.date : dateVal.toLocaleString('en-US', options),
-            exercise: [...arr]
+            exercise: [...arr],
+            total: [...this.state.total, totalWeight]
         }))
 
     }
