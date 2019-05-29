@@ -13,65 +13,66 @@ class Dashboard extends Component {
     state = {
         events: [],
         modal: false,
-        date: null,
+        date: "",
         exercise: [],
         total: []
     }
 
     componentDidMount() {
-        const logsArr = this.props.logs;
-
-        logsArr.forEach((item) => {
-            for (let key in item) {
-                if (key == "date") {
-                    let newDay = item[key];
-                    let dateVal = new Date(newDay).toISOString().slice(0, 10);
-                    item[key] = dateVal;
-                }
-            }
-        })
+      let eventsArr = [];
+      this.props.logs.map(item => eventsArr.push({
+            "title": item.events[0].title,
+            "date": item.events[0].date,
+            "collections": item.events[0].collections
+        }
+    )
+        ); 
 
         this.setState({
-            events: [...this.state.events, ...logsArr],
+            events: [...eventsArr]   
         })
     }
 
 
     toggle = (info) => {
         console.log("triggered");
-
-        const exerciseObj = {
-            name: "",
-            sets: "",
-            reps: "",
-            weight: ""
-        }
+        console.log(info.event);
 
         let val = info.event;
-        const arr = [];
-        let totalWeight = "";
 
         let dateVal = "";
+
+        var exerciseArr = [];
+
+        let totalWeight = [];
+
+        let sum = "";
+
         if (val) {
             dateVal = val.start;
-            const exerciseItems = info.event.extendedProps;
-            exerciseObj.name = exerciseItems.name;
-            exerciseObj.sets = exerciseItems.sets;
-            exerciseObj.reps = exerciseItems.reps;
-            exerciseObj.weight = exerciseItems.weight;
-            totalWeight = Number(exerciseItems.sets) * Number(exerciseItems.reps) * Number(exerciseItems.weight);
-            arr.push(exerciseObj);
-        }
 
-        dateVal = new Date(dateVal);
+            const dataExObj = info.event.extendedProps.collections;
+
+            dataExObj.forEach(function(item){
+                 console.log(item);
+                 var total = Number(item.sets) * Number(item.reps) * Number(item.weight);
+                 console.log(total);
+                 totalWeight.push(total);
+                 exerciseArr.push(item);
+                })
+
+            sum = totalWeight.reduce((total, amount) => total + amount); 
+            }
+
+
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
         this.setState(prevState => ({
             modal: !prevState.modal,
             date: dateVal.toLocaleString('en-US', options) == "Invalid Date" ? prevState.date : dateVal.toLocaleString('en-US', options),
-            exercise: [...arr],
-            total: [...this.state.total, totalWeight]
-        }))
+            exercise: [...exerciseArr],
+            total: sum
+        })) 
 
     }
 
@@ -87,13 +88,12 @@ class Dashboard extends Component {
     }
 
     render() {
-        const logs = this.props.logs;
-        console.log(logs);
         console.log(this.state.events);
         console.log(this.state.exercise);
+        console.log(this.state.date);
         return (
             <div className="calendar-body">
-                <FullCalendar defaultView="dayGridMonth" height="auto" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={this.state.events} eventClick={this.toggle} />
+                <FullCalendar defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={this.state.events} eventClick={this.toggle} />
                 <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>{<p>{this.state.date}</p>}</ModalHeader>
                     <ModalBody>
@@ -111,7 +111,7 @@ class Dashboard extends Component {
                         <tbody>
                             {this.state.exercise.map(item => 
                                 <tr className="table-active">
-                                    <th scope="row">{item.name}</th>
+                                    <th scope="row">{item.exercise}</th>
                                         <td>{item.sets}</td>
                                         <td>{item.reps}</td>
                                         <td>{item.weight}</td>
@@ -123,15 +123,7 @@ class Dashboard extends Component {
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td>1200</td>
-                                </tr>
-                                <br></br>
-                               <tr className="table-active">
-                                    <th scope="row">Overall Total</th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>2700</td>
+                                        <td>{this.state.total}</td>
                                 </tr>
                         </tbody>
                         </table>
