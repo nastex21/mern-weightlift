@@ -4,7 +4,8 @@ import bootstrapPlugin from '@fullcalendar/bootstrap';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import TableBody  from './table-body';
+import TableBodyEdit  from './Table/table-body-edit';
+import TableBodyAdd from './Table/table-body-add';
 import '@fullcalendar/core/main.css';
 import '@fullcalendar/daygrid/main.css';
 import '@fullcalendar/bootstrap/main.css';
@@ -106,7 +107,7 @@ class Dashboard extends Component {
                     <ModalBody>
                     <p className="headerInfo">Total = Sets * Reps * Weight</p>
                     <div>
-                    {exercise.length > 0 ? <TableBody exerciseArr={exercise} totalArr={total}/> : <p>"Bye"</p> } 
+                    {exercise.length > 0 ? <TableBodyEdit exerciseArr={exercise} totalArr={total}/> : <TableBodyAdd />} 
                     </div>
                     </ModalBody>
                 </Modal>

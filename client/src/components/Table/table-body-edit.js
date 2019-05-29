@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class TableBody extends Component {
+class TableBodyEdit extends Component {
 
 render(){
     console.log(this);
@@ -38,4 +38,4 @@ render(){
 }
 }
 
-export default TableBody;
+export default TableBodyEdit;
