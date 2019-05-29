@@ -1,9 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import TableBody  from './table-body';
 import '@fullcalendar/core/main.css';
 import '@fullcalendar/daygrid/main.css';
 import '@fullcalendar/bootstrap/main.css';
@@ -12,6 +13,7 @@ import '@fullcalendar/bootstrap/main.css';
 class Dashboard extends Component {
     state = {
         events: [],
+        entryAdded: false,
         modal: false,
         date: "",
         exercise: [],
@@ -69,6 +71,7 @@ class Dashboard extends Component {
 
         this.setState(prevState => ({
             modal: !prevState.modal,
+            entryAdded: !prevState.entryAdded,
             date: dateVal.toLocaleString('en-US', options) == "Invalid Date" ? prevState.date : dateVal.toLocaleString('en-US', options),
             exercise: [...exerciseArr],
             total: sum
@@ -82,6 +85,7 @@ class Dashboard extends Component {
         console.log(dateVal.toLocaleString('en-US', options));
         this.setState(prevState => ({
             modal: !prevState.modal,
+            entryAdded: false,
             date: dateVal.toLocaleString('en-US', options)
         }))
 
@@ -91,42 +95,19 @@ class Dashboard extends Component {
         console.log(this.state.events);
         console.log(this.state.exercise);
         console.log(this.state.date);
+        console.log(this.state.entryAdded);
+        const { exercise, modal, date, events, total } = this.state;
+
         return (
             <div className="calendar-body">
-                <FullCalendar defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={this.state.events} eventClick={this.toggle} />
-                <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>{<p>{this.state.date}</p>}</ModalHeader>
+                <FullCalendar defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={events} eventClick={this.toggle} />
+                <Modal isOpen={modal} toggle={this.toggle}>
+                    <ModalHeader toggle={this.toggle}>{<p>{date}</p>}</ModalHeader>
                     <ModalBody>
-                        <p className="headerInfo">Total = Sets * Reps * Weight</p>
-                        <table className="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">Exercise</th>
-                                <th scope="col">Sets</th>
-                                <th scope="col">Reps</th>
-                                <th scope="col">Weight</th>
-                                <th scope="col">Total</th> 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.exercise.map(item => 
-                                <tr className="table-active">
-                                    <th scope="row">{item.exercise}</th>
-                                        <td>{item.sets}</td>
-                                        <td>{item.reps}</td>
-                                        <td>{item.weight}</td>
-                                        <td>{Number(item.sets) * Number(item.reps) * Number(item.weight)}</td>
-                                </tr>
-                            )}
-                            <tr className="table-active">
-                                    <th scope="row">Day Total</th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>{this.state.total}</td>
-                                </tr>
-                        </tbody>
-                        </table>
+                    <p className="headerInfo">Total = Sets * Reps * Weight</p>
+                    <div>
+                    {exercise.length > 0 ? <TableBody exerciseArr={exercise} totalArr={total}/> : <p>"Bye"</p> } 
+                    </div>
                     </ModalBody>
                 </Modal>
             </div>
