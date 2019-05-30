@@ -22,9 +22,6 @@ class TableBodyAdd extends Component {
           let collection = [...this.state.collection]
           collection[e.target.dataset.id][e.target.className] = e.target.value;
           this.setState({ collection }, () => console.log(this.state.collection))
-        } else {
-            console.log("else triggered")
-          this.setState({ [e.target.name]: e.target.value })
         } 
       }
 
@@ -44,7 +41,7 @@ class TableBodyAdd extends Component {
         console.log(this.state.collection);
         const { collection } = this.state;
         return (
-            <Form onSubmit={this.submit}>
+            <Form onSubmit={this.submit} onChange={this.handleChange}>
                 <Button onClick={this.addExercise}>Add Exercise</Button>
                 <ExerciseInputs collections={collection} getInput={this.handleChange}/>
                 <Input type="submit" value="Submit" />
