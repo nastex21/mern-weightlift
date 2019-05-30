@@ -5,9 +5,9 @@ class TableBodyEdit extends Component {
 render(){
     console.log(this);
     return(
-        <table className="table table-hover striped">    
+        <table className="table table-hover">    
         <thead>
-              <tr className="table-primary">
+              <tr className="table-info">
                 <th scope="col">Exercise</th>
                 <th scope="col">Sets</th>
                 <th scope="col">Reps</th>
@@ -25,7 +25,7 @@ render(){
                         <td>{Number(item.sets) * Number(item.reps) * Number(item.weight)}</td>
                 </tr>
             )}
-            <tr className="table-success">
+            <tr className="table-dark">
                     <th scope="row">Day Total</th>
                         <td></td>
                         <td></td>

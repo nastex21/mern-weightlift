@@ -14,7 +14,6 @@ import '@fullcalendar/bootstrap/main.css';
 class Dashboard extends Component {
     state = {
         events: [],
-        entryAdded: false,
         modal: false,
         date: "",
         exercise: [],
@@ -72,7 +71,6 @@ class Dashboard extends Component {
 
         this.setState(prevState => ({
             modal: !prevState.modal,
-            entryAdded: !prevState.entryAdded,
             date: dateVal.toLocaleString('en-US', options) == "Invalid Date" ? prevState.date : dateVal.toLocaleString('en-US', options),
             exercise: [...exerciseArr],
             total: sum
@@ -86,7 +84,6 @@ class Dashboard extends Component {
         console.log(dateVal.toLocaleString('en-US', options));
         this.setState(prevState => ({
             modal: !prevState.modal,
-            entryAdded: false,
             date: dateVal.toLocaleString('en-US', options)
         }))
 
