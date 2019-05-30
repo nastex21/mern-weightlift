@@ -11,13 +11,13 @@ const ExerciseInputs = (props) => {
                         <Row form>
                             <Col md={3}>
                                 <FormGroup>
-                                    <Label htmlFor={exId}>{`Exercise #${idx + 1}`}</Label>
-                                    <Input type="text" data-id={idx} name={exId} id={exId} value={collection[idx].exercise} className="name" placeholder="Name" />
+                                    <Label for={exId}>{`Exercise #${idx + 1}`}</Label>
+                                    <Input type="text" data-id={idx} name={exId} id={exId} value={collection[idx].exercise} className="exercise" placeholder="Name" onChange={props.getInput} />
                                 </FormGroup>
                             </Col>
                             <Col md={3}>
                                 <FormGroup>
-                                    <Label htmlFor={setId}>Sets</Label>
+                                    <Label for={setId}>Sets</Label>
                                     <Input type="number" data-id={idx} name={setId} id={setId} value={collection[idx].sets} className="sets" placeholder="Number" />
                                 </FormGroup>
                             </Col>

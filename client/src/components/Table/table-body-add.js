@@ -13,15 +13,18 @@ class TableBodyAdd extends Component {
     }
 
     handleChange = (e) => {
+        console.log(e.target.value);
+        e.target.className = e.target.className.replace(' form-control','')
         console.log(e.target.className);
+        console.log(e.target.name);
         if (["exercise", "sets", "reps", "weight"].includes(e.target.className) ) {
             console.log("trigger handleChange");
           let collection = [...this.state.collection]
-          collection[e.target.dataset.id][e.target.className] = e.target.value.toUpperCase()
+          collection[e.target.dataset.id][e.target.className] = e.target.value;
           this.setState({ collection }, () => console.log(this.state.collection))
         } else {
             console.log("else triggered")
-          this.setState({ [e.target.name]: e.target.value.toUpperCase() })
+          this.setState({ [e.target.name]: e.target.value })
         } 
       }
 
@@ -41,9 +44,9 @@ class TableBodyAdd extends Component {
         console.log(this.state.collection);
         const { collection } = this.state;
         return (
-            <Form onSubmit={this.submit} onChange={this.handleChange}>
+            <Form onSubmit={this.submit}>
                 <Button onClick={this.addExercise}>Add Exercise</Button>
-                <ExerciseInputs collections={collection}/>
+                <ExerciseInputs collections={collection} getInput={this.handleChange}/>
                 <Input type="submit" value="Submit" />
             </Form>
         )
