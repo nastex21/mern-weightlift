@@ -13,13 +13,15 @@ class TableBodyAdd extends Component {
     }
 
     handleChange = (e) => {
-        console.log(this);
+        console.log(e.target.className);
         if (["exercise", "sets", "reps", "weight"].includes(e.target.className) ) {
+            console.log("trigger handleChange");
           let collection = [...this.state.collection]
-          collection[e.target.dataset.id][e.target.className] = e.target.defaultValue.toUpperCase()
+          collection[e.target.dataset.id][e.target.className] = e.target.value.toUpperCase()
           this.setState({ collection }, () => console.log(this.state.collection))
         } else {
-          this.setState({ [e.target.name]: e.target.defaultValue.toUpperCase() })
+            console.log("else triggered")
+          this.setState({ [e.target.name]: e.target.value.toUpperCase() })
         } 
       }
 
