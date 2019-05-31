@@ -7,9 +7,6 @@ const MongoStore = require('connect-mongo')(session);
 const passport = require('./passport');
 const app = express();
 
-//Route requires
-const user = require('./routes/user');
-
 //MIDDLEWARE
 app.use(morgan('dev'));
 
@@ -33,7 +30,10 @@ app.use(passport.session()) // calls the deserializeUser
 
 
 // Routes
-app.use('/user', user)
+app.use('/api/user', require('./routes/api/user'));
+app.use('/api/login', require('./routes/api/login'));
+app.use('/api/logout', require('./routes/api/logout'));
+app.use('/api/submit-add', require('./routes/api/submitform-add'));
 
 const PORT = process.env.PORT || 3001;
 

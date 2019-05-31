@@ -21,7 +21,7 @@ class LoginForm extends Component {
         event.preventDefault()
         console.log('handleSubmit')
 
-        axios.post('/user/login', {
+        axios.post('/api/login', {
             username: this.state.username,
             password: this.state.password
         }).then(response => {
@@ -39,7 +39,7 @@ class LoginForm extends Component {
 
                 // update the state to redirect to home
                 this.setState({
-                    redirectTo: '/dashboard',
+                    redirectTo: '/api/dashboard',
                 })
             }
         }).catch(error => {

@@ -1,16 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import {
-    Container,
-    Col,
-    Form,
-    FormGroup,
-    Label,
-    Input,
-    FormFeedback,
-    FormText,
-    Button
-} from "reactstrap";
+import { Container, Col, Form, FormGroup, Label, Input, FormFeedback, Button } from "reactstrap";
 import { Redirect } from "react-router-dom";
 
 class Signup extends Component {
@@ -92,18 +82,14 @@ class Signup extends Component {
             this.state.validate.passwordState !== "has-danger" ||
             this.state.validate.password2State !== "has-danger"
         ) {
-            axios
-                .post("/user/", {
-                    username: this.state.username,
-                    password: this.state.password
-                })
+            axios.post("/api/user/", { username: this.state.username, password: this.state.password })
                 .then(response => {
                     console.log(response);
                     if (!response.data.errmsg) {
                         console.log("successful signup");
                         this.setState({
                             //redirect to login page
-                            redirectTo: "/login"
+                            redirectTo: "/api/dashboard"
                         });
                     } else {
                         console.log(response.data.errmsg);

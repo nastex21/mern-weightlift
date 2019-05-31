@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Input, Button } from 'reactstrap';
 import  ExerciseInputs  from './subcomponents/add-exercise'; 
+import axios from 'axios';
 
 class TableBodyAdd extends Component {
     state = {
@@ -13,12 +14,9 @@ class TableBodyAdd extends Component {
     }
 
     handleChange = (e) => {
-        console.log(e.target.value);
         e.target.className = e.target.className.replace(' form-control','')
-        console.log(e.target.className);
-        console.log(e.target.name);
+    
         if (["exercise", "sets", "reps", "weight"].includes(e.target.className) ) {
-            console.log("trigger handleChange");
           let collection = [...this.state.collection]
           collection[e.target.dataset.id][e.target.className] = e.target.value;
           this.setState({ collection }, () => console.log(this.state.collection))
@@ -26,7 +24,6 @@ class TableBodyAdd extends Component {
       }
 
     addExercise = (e) => {
-        console.log("triggered")
         this.setState((prevState) => ({
             collection:[...prevState.collection, {exercise: "", sets: "", reps: "", weight: ""}]
         })
@@ -35,10 +32,19 @@ class TableBodyAdd extends Component {
  
     submit = (e) => {
         e.preventDefault();
+        console.log(this.state.collection)
+        axios.post("/api/add", { collection: this.state.collection })
+        .then(response => {
+            console.log(response);
+        })
+        .catch(error => {
+            console.log("post /api/add error: ");
+            console.log(error);
+        });
+        
     }
 
     render() {
-        console.log(this.state.collection);
         const { collection } = this.state;
         return (
             <Form onSubmit={this.submit} onChange={this.handleChange}>

@@ -38,7 +38,7 @@ class App extends Component {
   //keeps you logged in if you were to refresh
   getUser = () => {
     console.log("Triggered 34")
-    axios.get('/user/').then(response => {
+    axios.get('/api/user/').then(response => {
       console.log('Get user response: ')
       console.log(response);
       if (response.data.user) {
@@ -47,7 +47,7 @@ class App extends Component {
         this.setState({
           loggedIn: true,
           username: response.data.user.username,
-          exerciseLogs: [...this.state.exerciseLogs, ...response.data.user.logs]
+         // exerciseLogs: [...this.state.exerciseLogs, ...response.data.user.logs]
         })
       } else {
         console.log('Get user: no user');
@@ -66,14 +66,14 @@ class App extends Component {
     return (
       <div className="App">
         <Navbar updateUser={this.updateUser} loggedIn={loggedIn} location={this.props.location} />
-        {this.state.loggedIn && <Route exact path="/dashboard" render={ (props) => <Dashboard {...props} username={username} logs={exerciseLogs} /> } />}
+        {this.state.loggedIn && <Route exact path="/api/dashboard" render={ (props) => <Dashboard {...props} username={username} logs={exerciseLogs} /> } />}
         {/* Routes to different components */}
         <Route exact path="/" component={Home} />
-        <Route path="/login"
+        <Route path="/api/login"
           render={() =>
             <LoginForm updateUser={this.updateUser} />}
         />
-        <Route path="/signup"
+        <Route path="/api/signup"
           render={() =>
             <Signup/>}
         />
