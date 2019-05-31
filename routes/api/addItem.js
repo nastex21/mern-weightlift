@@ -3,7 +3,7 @@ const router = express.Router();
 const passport = require('../../passport');
 
 
-router.post('/add', (req, res) => {
+router.post('/', (req, res) => {
     console.log(req.body)
 })
 

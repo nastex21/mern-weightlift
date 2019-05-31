@@ -33,7 +33,7 @@ app.use(passport.session()) // calls the deserializeUser
 app.use('/api/user', require('./routes/api/user'));
 app.use('/api/login', require('./routes/api/login'));
 app.use('/api/logout', require('./routes/api/logout'));
-app.use('/api/submit-add', require('./routes/api/submitform-add'));
+app.use('/api/add-items', require('./routes/api/addItem'));
 
 const PORT = process.env.PORT || 3001;
 

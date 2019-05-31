@@ -33,12 +33,12 @@ class TableBodyAdd extends Component {
     submit = (e) => {
         e.preventDefault();
         console.log(this.state.collection)
-        axios.post("/api/add", { collection: this.state.collection })
+        axios.post("/api/add-items", { collection: this.state.collection })
         .then(response => {
             console.log(response);
         })
         .catch(error => {
-            console.log("post /api/add error: ");
+            console.log("post /api/add-items error: ");
             console.log(error);
         });
         
