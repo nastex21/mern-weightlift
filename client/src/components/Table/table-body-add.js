@@ -5,6 +5,7 @@ import axios from 'axios';
 
 class TableBodyAdd extends Component {
     state = {
+        id: this.props.id,
         collection: [{
             exercise: "",
             sets: "",
@@ -32,8 +33,10 @@ class TableBodyAdd extends Component {
  
     submit = (e) => {
         e.preventDefault();
-        console.log(this.state.collection)
-        axios.post("/api/add-items", { collection: this.state.collection })
+        console.log(this.state.collection);
+        console.log("Id from table-add");
+        console.log(this.state.id);
+        axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection })
         .then(response => {
             console.log(response);
         })

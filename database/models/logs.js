@@ -3,12 +3,19 @@ const Schema = mongoose.Schema;
 const Collection = require('./collections');
 
 //Create Schema
-const LogSchema = new Schema({
+const logSchema = new Schema({
     date: {
         type: Date,
         required: true
     },
-    collections: [Collection.schema]
+    collections: [Collection.schema],
+    overallDailyTotal: {
+        type: Number
+    }
 });
 
-module.exports = mongoose.model('Logs', LogSchema);
+logSchema.pre('save', function (next) {
+	next();
+})
+
+module.exports = mongoose.model('Logs', logSchema);

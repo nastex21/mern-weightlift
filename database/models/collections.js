@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 //Create Schema
-const CollectionSchema = new Schema({
+const collectionSchema = new Schema({
     exercise: {
         type: String,
         required: true
@@ -20,9 +20,13 @@ const CollectionSchema = new Schema({
         required: true
     },
     total: {
-        type: Number,
-        required: true
+        type: Number
     }
 });
 
-module.exports = mongoose.model('Collection', CollectionSchema);
+collectionSchema.pre('save', function (next) {
+	this.total = this.sets * this.reps * this.weight;
+	next();
+})
+
+module.exports = mongoose.model('Collection', collectionSchema);

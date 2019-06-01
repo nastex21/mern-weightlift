@@ -104,7 +104,7 @@ class Dashboard extends Component {
                     <ModalBody>
                     <p className="headerInfo">Total = Sets * Reps * Weight</p>
                     <div>
-                    {exercise.length > 0 ? <TableBodyEdit exerciseArr={exercise} totalArr={total}/> : <TableBodyAdd />} 
+                    {exercise.length > 0 ? <TableBodyEdit exerciseArr={exercise} totalArr={total}/> : <TableBodyAdd id={this.props.id}/>} 
                     </div>
                     </ModalBody>
                 </Modal>

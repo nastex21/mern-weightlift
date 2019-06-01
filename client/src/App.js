@@ -10,6 +10,7 @@ import Dashboard from './components/dashboard';
 
 class App extends Component {
     state = {
+      id: null,
       loggedIn: false,
       username: null,
       exerciseLogs: []
@@ -46,8 +47,8 @@ class App extends Component {
         console.log(response.data.user);
         this.setState({
           loggedIn: true,
+          id: response.data.user._id,
           username: response.data.user.username,
-         // exerciseLogs: [...this.state.exerciseLogs, ...response.data.user.logs]
         })
       } else {
         console.log('Get user: no user');
@@ -61,16 +62,16 @@ class App extends Component {
   } 
 
   render() {
-    const { loggedIn, username, exerciseLogs } = this.state;
+    const { id, loggedIn, username, exerciseLogs } = this.state;
     console.log(exerciseLogs);
     return (
       <div className="App">
         <Navbar updateUser={this.updateUser} loggedIn={loggedIn} location={this.props.location} />
-        {this.state.loggedIn && <Route exact path="/api/dashboard" render={ (props) => <Dashboard {...props} username={username} logs={exerciseLogs} /> } />}
+        {this.state.loggedIn && <Route exact path="/api/dashboard" render={ (props) => <Dashboard {...props} username={username} logs={exerciseLogs} id={id} /> } />}
         {/* Routes to different components */}
         <Route exact path="/" component={Home} />
         <Route path="/api/login"
-          render={() =>
+          render={() =>               
             <LoginForm updateUser={this.updateUser} />}
         />
         <Route path="/api/signup"

@@ -11,11 +11,6 @@ router.post('/',
     },
     passport.authenticate('local'),
     (req, res) => {
-      /*   console.log('logged in', req.user);
-        var userInfo = {
-            username: req.user.username
-        };
-        res.send(userInfo);  */
         User.findOne({ username: req.user.username }, (err, data) => {
             if (err) {
                 console.log('User.js post error: ', err)
