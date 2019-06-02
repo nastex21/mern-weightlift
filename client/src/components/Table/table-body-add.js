@@ -6,6 +6,7 @@ import axios from 'axios';
 class TableBodyAdd extends Component {
     state = {
         id: this.props.id,
+        date: this.props.date,
         collection: [{
             exercise: "",
             sets: "",
@@ -36,7 +37,8 @@ class TableBodyAdd extends Component {
         console.log(this.state.collection);
         console.log("Id from table-add");
         console.log(this.state.id);
-        axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection })
+        console.log(this.state.date);
+        axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date })
         .then(response => {
             console.log(response);
         })
