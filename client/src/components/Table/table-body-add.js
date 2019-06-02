@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Button } from 'reactstrap';
-import  ExerciseInputs  from './subcomponents/add-exercise'; 
+import { Form, FormGroup, FormFeedback, Label, Row, Col, Input, Button } from 'reactstrap';
 import axios from 'axios';
 
 class TableBodyAdd extends Component {
@@ -12,7 +11,37 @@ class TableBodyAdd extends Component {
             sets: "",
             reps: "",
             weight: ""
-        }]
+        }],
+        validate: {
+            nameState: '',
+            setsState: '',
+            repsState: '',
+            weightState: ''
+          }
+    }
+
+    validateName = (e) => {
+        /* const { validate } = this.state;
+        if(this.state.name === ''){
+            validate.nameState = 'has-danger'
+          } else {
+            validate.nameState = 'has-success'
+          }
+          this.setState({ validate }) */
+
+          
+    }
+
+    validateSet = (e) => {
+        const { validate } = this.state;
+    }
+
+    validateReps = (e) => {
+        const { validate } = this.state;
+    }
+
+    validateWeight = (e) => {
+        const { validate } = this.state;
     }
 
     handleChange = (e) => {
@@ -34,10 +63,7 @@ class TableBodyAdd extends Component {
  
     submit = (e) => {
         e.preventDefault();
-        console.log(this.state.collection);
-        console.log("Id from table-add");
-        console.log(this.state.id);
-        console.log(this.state.date);
+
         axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date })
         .then(response => {
             console.log(response);
@@ -53,8 +79,42 @@ class TableBodyAdd extends Component {
         const { collection } = this.state;
         return (
             <Form onSubmit={this.submit} onChange={this.handleChange}>
-                <Button onClick={this.addExercise}>Add Exercise</Button>
-                <ExerciseInputs collections={collection} getInput={this.handleChange}/>
+                <Button onClick={this.addExercise}>Add Exercise</Button>             
+                {collection.map((val, idx) => {
+                let exId = `ex-${idx}`, setId = `sets-${idx}`, repId = `reps-${idx}`, weightId = `weight-${idx}`;
+                return (
+                    <div key={idx}>
+                        <Row form>
+                            <Col md={3}>
+                                <FormGroup>
+                                    <Label for={exId}>{`Exercise #${idx + 1}`}</Label>
+                                    <Input type="text" data-id={idx} name={exId} id={exId} value={collection[idx].exercise} className="exercise" placeholder="Name" valid={ this.state.validate.nameState === 'has-success' } invalid={ this.state.validate.nameState === 'has-danger' } />
+                                    <FormFeedback valid></FormFeedback>
+                                    <FormFeedback invalid>Please enter your name.</FormFeedback>
+                                </FormGroup>
+                            </Col>
+                            <Col md={3}>
+                                <FormGroup>
+                                    <Label for={setId}>Sets</Label>
+                                    <Input type="number" data-id={idx} name={setId} id={setId} value={collection[idx].sets} className="sets" placeholder="Number"  />
+                                </FormGroup>
+                            </Col>
+                            <Col md={3}>
+                                <FormGroup>
+                                    <Label for={repId}>Reps</Label>
+                                    <Input type="number" data-id={idx} name={repId} id={repId} value={collection[idx].reps} className="reps" placeholder="Number"  />
+                                </FormGroup>
+                            </Col>
+                            <Col md={3}>
+                                <FormGroup>
+                                    <Label for={weightId}>Weight</Label>
+                                    <Input type="number" data-id={idx} name={weightId} id={weightId} value={collection[idx].weight} className="weight" placeholder="Number"  />
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                </div>
+                )}
+                )}
                 <Input type="submit" value="Submit" />
             </Form>
         )
