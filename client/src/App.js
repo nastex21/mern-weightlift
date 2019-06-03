@@ -18,14 +18,13 @@ class App extends Component {
     }
 
  componentDidMount() {
-   console.log("get user!!!!!!!!!!!!!!!!!!!!!1 RUUUUNS")
     this.getUser();
   }
 
 
   updateUser = (userObject) => {
-    console.log(userObject);
     this.setState({
+      id: userObject.id,
       loggedIn: userObject.loggedIn,
       username: userObject.username,
       exerciseLogs: [...this.state.exerciseLogs, ...userObject.exerciseLogs]
@@ -34,13 +33,9 @@ class App extends Component {
 
   //keeps you logged in if you were to refresh
   getUser = () => {
-    console.log("Triggered 34")
     axios.get('/api/dashboard/').then(response => {
-      console.log('Get user response: ')
-      console.log(response);
       if (response.data.user) {
         console.log('Get User: There is a user saved in the server session: ')
-        console.log(response.data.user);
         this.setState({
           loggedIn: true,
           id: response.data.user._id,
@@ -60,7 +55,6 @@ class App extends Component {
 
   render() {
     const { id, loggedIn, username, exerciseLogs } = this.state;
-    console.log(this.state.loggedIn);
     return (
       <div className="App">
         {loggedIn ? <NavbarTrue updateUser={this.updateUser} loggedIn={loggedIn}  /> : <NavbarFalse updateUser={this.updateUser} loggedIn={loggedIn}  /> }

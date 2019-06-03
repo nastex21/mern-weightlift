@@ -25,10 +25,8 @@ router.post('/', (req, res) => {
         date: nowDate,
         collections: [...exObj]
     }
-
-    console.log(update);
 User.findByIdAndUpdate(req.body.id, {$push: {"logs": update}}, (err, data) => {
-    if (err) {
+   if (err) {
         console.log("500");
         return res.status(500).send(err);
     }

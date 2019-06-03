@@ -26,12 +26,11 @@ class LoginForm extends Component {
             password: this.state.password
         }).then(response => {
             console.log('login response: ')
-            console.log(response)
             if (response.status === 200) {
-                console.log(response);
 
                 // update App.js state
                 this.props.updateUser({
+                    id: response.data._id,
                     loggedIn: true,
                     username: response.data.username,
                     exerciseLogs: response.data.logs

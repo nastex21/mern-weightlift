@@ -39,7 +39,6 @@ class Dashboard extends Component {
 
     toggle = (info) => {
         console.log("triggered");
-        console.log(info.event);
 
         let val = info.event;
 
@@ -57,9 +56,7 @@ class Dashboard extends Component {
             const dataExObj = info.event.extendedProps.collections;
 
             dataExObj.forEach(function(item){
-                 console.log(item);
                  var total = Number(item.sets) * Number(item.reps) * Number(item.weight);
-                 console.log(total);
                  totalWeight.push(total);
                  exerciseArr.push(item);
                 })
@@ -82,7 +79,6 @@ class Dashboard extends Component {
     dateClickInfo = (info) => {
         let dateVal = new Date(info.date);
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        console.log(dateVal.toLocaleString('en-US', options));
         this.setState(prevState => ({
             modal: !prevState.modal,
             date: dateVal.toLocaleString('en-US', options)
@@ -91,11 +87,6 @@ class Dashboard extends Component {
     }
 
     render() {
-        console.log(this.state.events);
-        /* console.log(this.state.exercise);
-        console.log(this.state.date);
-        console.log(this.state.entryAdded); 
-        console.log(this.props); */
         const { exercise, modal, date, events, total } = this.state;
 
         return (
