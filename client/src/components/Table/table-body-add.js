@@ -11,38 +11,37 @@ class TableBodyAdd extends Component {
             sets: "",
             reps: "",
             weight: ""
-        }],
-        validate: {
-            nameState: '',
-            setsState: '',
-            repsState: '',
-            weightState: ''
-          }
+        }]
     }
 
-    validateName = (e) => {
-        /* const { validate } = this.state;
-        if(this.state.name === ''){
-            validate.nameState = 'has-danger'
-          } else {
-            validate.nameState = 'has-success'
-          }
-          this.setState({ validate }) */
+    validateCollection = () => {
+     var counter = 0;
+     this.state.collection.forEach(function(item){
+        if (item.exercise === ''){
+            counter = 1;
+        }
 
-          
+        if (item.sets === ''){
+            counter = 1;
+        }
+
+        if (item.reps === ''){
+            counter = 1;
+        }
+
+        if(item.weight === ''){
+            counter = 1;
+        }
+
+     }); 
+
+     if (counter === 1){
+         return false;
+     } else {
+         return true;
+     }
     }
 
-    validateSet = (e) => {
-        const { validate } = this.state;
-    }
-
-    validateReps = (e) => {
-        const { validate } = this.state;
-    }
-
-    validateWeight = (e) => {
-        const { validate } = this.state;
-    }
 
     handleChange = (e) => {
         e.target.className = e.target.className.replace(' form-control','')
@@ -62,14 +61,22 @@ class TableBodyAdd extends Component {
     }
  
     submit = (e) => {
-        axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date })
+        e.preventDefault();
+        console.log("submit")
+        console.log(this.state.collection);
+        if (!this.validateCollection()){
+            console.log("can't go, error")
+        } else {
+            console.log("go ahead, add data");
+        }
+    /*     axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date })
         .then(response => {
             console.log(response);
         })
         .catch(error => {
             console.log("post /api/add-items error: ");
             console.log(error);
-        });
+        }); */
         
     }
 
@@ -86,7 +93,7 @@ class TableBodyAdd extends Component {
                             <Col md={3}>
                                 <FormGroup>
                                     <Label for={exId}>{`Exercise #${idx + 1}`}</Label>
-                                    <Input type="text" data-id={idx} name={exId} id={exId} value={collection[idx].exercise} className="exercise" placeholder="Name" valid={ this.state.validate.nameState === 'has-success' } invalid={ this.state.validate.nameState === 'has-danger' } />
+                                    <Input type="text" data-id={idx} name={exId} id={exId} value={collection[idx].exercise} className="exercise" placeholder="Name" />
                                     <FormFeedback valid></FormFeedback>
                                     <FormFeedback invalid>Please enter your name.</FormFeedback>
                                 </FormGroup>
