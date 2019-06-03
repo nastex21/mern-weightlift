@@ -10,7 +10,15 @@ router.post('/', (req, res) => {
     var y = newDate.getFullYear();
     var m = newDate.getMonth() + 1;
     var d = newDate.getDate();
+    if (Number(d) < 10 && Number(d) > 0){
+        d = "0" + d;
+    }
+
+    if (Number(m) < 10 && Number(m) > 0){
+        m = "0" + m;
+    }
     const nowDate = y + "-" + m + "-" + d;
+ 
     const exObj = [];
     req.body.collection.forEach(item => exObj.push(item));
     var update = {
@@ -18,6 +26,7 @@ router.post('/', (req, res) => {
         collections: [...exObj]
     }
 
+    console.log(update);
 User.findByIdAndUpdate(req.body.id, {$push: {"logs": update}}, (err, data) => {
     if (err) {
         console.log("500");
@@ -29,7 +38,7 @@ User.findByIdAndUpdate(req.body.id, {$push: {"logs": update}}, (err, data) => {
     }
     console.log("200");
     console.log(data.logs);
-} )
+} ) 
 
 
 });

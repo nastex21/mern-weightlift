@@ -62,7 +62,6 @@ class TableBodyAdd extends Component {
     }
  
     submit = (e) => {
-        e.preventDefault();
 
         axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date })
         .then(response => {

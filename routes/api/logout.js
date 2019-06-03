@@ -3,9 +3,11 @@ const router = express.Router();
 
 router.post('/', (req, res) => {
     if (req.user) {
-        req.logout()
-        res.send({ msg: 'logging out' })
+        console.log("logging out");
+        req.logout();
+        res.redirect('/');
     } else {
+        console.log("else no user");
         res.send({ msg: 'no user to log out' })
     }
 })

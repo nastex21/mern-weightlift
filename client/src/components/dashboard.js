@@ -22,17 +22,18 @@ class Dashboard extends Component {
 
     componentDidMount() {
       let eventsArr = [];
-      this.props.logs.map(item => eventsArr.push({
-            "title": item.events[0].title,
-            "date": item.events[0].date,
-            "collections": item.events[0].collections
-        }
-    )
-        ); 
+      this.props.logs.map(item =>  
+            eventsArr.push({
+            "title": "Entry Added",
+            "date": item.date,
+            "collections": item.collections
+        }) 
+       
+      ); 
 
         this.setState({
             events: [...eventsArr]   
-        })
+        }) 
     }
 
 
@@ -91,9 +92,10 @@ class Dashboard extends Component {
 
     render() {
         console.log(this.state.events);
-        console.log(this.state.exercise);
+        /* console.log(this.state.exercise);
         console.log(this.state.date);
-        console.log(this.state.entryAdded);
+        console.log(this.state.entryAdded); 
+        console.log(this.props); */
         const { exercise, modal, date, events, total } = this.state;
 
         return (

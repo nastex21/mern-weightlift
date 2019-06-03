@@ -4,28 +4,24 @@ import { Route, Link } from 'react-router-dom';
 // components
 import Signup from './components/sign-up';
 import LoginForm from './components/login-form';
-import Navbar from './components/navbar';
+import NavbarTrue from './components/navbartrue';
+import NavbarFalse from './components/navbarfalse';
 import Home from './components/home';
 import Dashboard from './components/dashboard';
 
 class App extends Component {
     state = {
       id: null,
-      loggedIn: false,
+      loggedIn: null,
       username: null,
       exerciseLogs: []
     }
 
  componentDidMount() {
+   console.log("get user!!!!!!!!!!!!!!!!!!!!!1 RUUUUNS")
     this.getUser();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.location !== this.props.location) {
-      // navigated!
-      console.log(this.props.location)
-    }
-  }
 
   updateUser = (userObject) => {
     console.log(userObject);
@@ -39,7 +35,7 @@ class App extends Component {
   //keeps you logged in if you were to refresh
   getUser = () => {
     console.log("Triggered 34")
-    axios.get('/api/user/').then(response => {
+    axios.get('/api/dashboard/').then(response => {
       console.log('Get user response: ')
       console.log(response);
       if (response.data.user) {
@@ -49,10 +45,11 @@ class App extends Component {
           loggedIn: true,
           id: response.data.user._id,
           username: response.data.user.username,
+          exerciseLogs: [...response.data.user.logs]
         })
       } else {
         console.log('Get user: no user');
-        this.setState({
+        this.setState({ 
           loggedIn: false,
           username: null,
           exerciseLogs: []
@@ -63,13 +60,13 @@ class App extends Component {
 
   render() {
     const { id, loggedIn, username, exerciseLogs } = this.state;
-    console.log(exerciseLogs);
+    console.log(this.state.loggedIn);
     return (
       <div className="App">
-        <Navbar updateUser={this.updateUser} loggedIn={loggedIn} location={this.props.location} />
-        {this.state.loggedIn && <Route exact path="/api/dashboard" render={ (props) => <Dashboard {...props} username={username} logs={exerciseLogs} id={id} /> } />}
+        {loggedIn ? <NavbarTrue updateUser={this.updateUser} loggedIn={loggedIn}  /> : <NavbarFalse updateUser={this.updateUser} loggedIn={loggedIn}  /> }
+        {this.state.loggedIn && <Route exact path="/api/dashboard" render={ (props) => <Dashboard {...props} refreshUser={this.getUser} username={username} logs={exerciseLogs} id={id} /> } />}
+        {!this.state.loggedIn && <Route exact path="/" render={ (props) => <Home {...props} /> } />}
         {/* Routes to different components */}
-        <Route exact path="/" component={Home} />
         <Route path="/api/login"
           render={() =>               
             <LoginForm updateUser={this.updateUser} />}

@@ -13,7 +13,6 @@ app.use(morgan('dev'));
 // Bodyparser
 app.use(express.json());
 
-
 // Sessions
 app.use(
 	session({
@@ -28,9 +27,8 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session()) // calls the deserializeUser
 
-
 // Routes
-app.use('/api/user', require('./routes/api/user'));
+app.use('/api/dashboard', require('./routes/api/dashboard'));
 app.use('/api/login', require('./routes/api/login'));
 app.use('/api/logout', require('./routes/api/logout'));
 app.use('/api/add-items', require('./routes/api/addItem'));

@@ -82,7 +82,7 @@ class Signup extends Component {
             this.state.validate.passwordState !== "has-danger" ||
             this.state.validate.password2State !== "has-danger"
         ) {
-            axios.post("/api/user/", { username: this.state.username, password: this.state.password })
+            axios.post("/api/dashboard/", { username: this.state.username, password: this.state.password })
                 .then(response => {
                     console.log(response);
                     if (!response.data.errmsg) {

@@ -5,7 +5,7 @@ const User = require('../../database/models/user');
 router.post('/', (req, res) => {
     console.log('user signup');
 
-    const { username, password } = req.body
+    const { username, password, logs } = req.body
     // ADD VALIDATION
     User.findOne({ username: username }, (err, user) => {
         if (err) {
@@ -17,7 +17,8 @@ router.post('/', (req, res) => {
         } else {
             const newUser = new User({
                 username: username,
-                password: password
+                password: password,
+                logs: logs
             })
             newUser.save((err, savedUser) => {
                 if (err) return res.json(err)
@@ -30,12 +31,12 @@ router.post('/', (req, res) => {
 
 router.get('/', (req, res, next) => {
     console.log('===== user triggered!!======')
-    console.log(req)
-    if (req.user) {
+    if (req.isAuthenticated()) {
         res.json({ user: req.user })
     } else {
         res.json({ user: null })
     }
+
 });
 
 module.exports = router
