@@ -3,7 +3,6 @@ const router = express.Router();
 const User = require('../../database/models/user');
 
 router.post('/', (req, res) => {
-    console.log('user signup');
 
     const { username, password, logs } = req.body
     // ADD VALIDATION

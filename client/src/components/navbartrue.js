@@ -13,7 +13,6 @@ class NavbarTrue extends Component {
     logout = (event) => {
         console.log('logging out')
         axios.post('/api/logout').then(response => {
-            console.log(response.data)
             if (response.status === 200) {
 
                 this.props.updateUser({
@@ -37,7 +36,6 @@ class NavbarTrue extends Component {
     render() {
         const loggedIn = this.state.loggedIn;
 
-        console.log(loggedIn);
         if (loggedIn == false && this.state.redirectTo !== "") {
             return <Redirect to={{ pathname: this.state.redirectTo }} />
         } else {

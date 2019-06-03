@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 class TableBodyEdit extends Component {
 
 render(){
-    console.log(this);
     return(
         <table className="table table-hover">    
         <thead>

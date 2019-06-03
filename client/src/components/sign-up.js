@@ -53,13 +53,11 @@ class Signup extends Component {
         const { target } = event;
 
         const value = target.type === "checkbox" ? target.checked : target.value;
-        console.log(value);
         const { name } = target;
         await this.setState({ [name]: value });
     };
     handleSubmit = event => {
         console.log("sign-up handleSubmit, username: ");
-        console.log(this.state.username);
         event.preventDefault();
 
         const { validate } = this.state;
@@ -84,7 +82,6 @@ class Signup extends Component {
         ) {
             axios.post("/api/dashboard/", { username: this.state.username, password: this.state.password })
                 .then(response => {
-                    console.log(response);
                     if (!response.data.errmsg) {
                         console.log("successful signup");
                         this.setState({
@@ -92,7 +89,6 @@ class Signup extends Component {
                             redirectTo: "/api/dashboard"
                         });
                     } else {
-                        console.log(response.data.errmsg);
                         console.log("username already taken");
                     }
                 })
