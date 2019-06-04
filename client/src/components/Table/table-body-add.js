@@ -11,31 +11,55 @@ class TableBodyAdd extends Component {
             sets: "",
             reps: "",
             weight: ""
-        }]
+        }],
+        showError: false
     }
 
+    //valadation for collection
     validateCollection = () => {
-        var errCounter = 0;
+        //counter to keep track of errors. If at the end of the tests, the counter is not zero, don't proceed to axios.post
+        var errCounter = 0; 
+        //regex to search for numbers
+        const re = /^\d+$\b/; 
+        //find any error and stop test immediately
         this.state.collection.some(function (item) {
+            //find empty strings
             if (item.exercise === '' || item.sets === '' || item.reps === '' || item.weight === '') {
+                errCounter = 1;
+            }
+            //if it doesn't pass the regex test
+            if (!re.test(item.sets)|| !re.test(item.reps) || !re.test(item.weight)) {
                 errCounter = 1;
             }
         });
 
         if (errCounter === 1) {
+            this.setState({
+                showError: true
+            })
             return false;
         } else {
+            this.setState({
+                showError: false
+            })
             return true;
         }
+
     }
 
-
+//changes when keys are pressed
     handleChange = (e) => {
+        //get the className and remove the 'form-control' suffix at the end
         e.target.className = e.target.className.replace(' form-control', '');
+        //if the className is in the array
         if (["exercise", "sets", "reps", "weight"].includes(e.target.className)) {
-            let collection = [...this.state.collection];
+            let collection = [...this.state.collection];           
+            //collection[location in array][exercise,sets,reps, or weight] = e.target.value
             collection[e.target.dataset.id][e.target.className] = e.target.value;
+            //regex to look for number
             const re = /^\d+$\b/;
+            console.log(re.test(e.target.value))
+            //if the target.value is empty or it doesn't pass the test, then setState
             if (e.target.className == "sets" || e.target.className == "reps" || e.target.className == "weight") {
                 if (e.target.value == '' || re.test(e.target.value)) {
                     this.setState({ collection }, () => console.log(this.state.collection))
@@ -46,6 +70,7 @@ class TableBodyAdd extends Component {
         }
     }
 
+    //grab the previous state of collection, add new object with empty values after
     addExercise = (e) => {
         this.setState((prevState) => ({
             collection: [...prevState.collection, { exercise: "", sets: "", reps: "", weight: "" }]
@@ -55,20 +80,19 @@ class TableBodyAdd extends Component {
 
     submit = (e) => {
         e.preventDefault();
-        console.log("submit")
-        console.log(this.state.collection);
+        //if validateCollection is false, don't go on else post
         if (!this.validateCollection()) {
             console.log("can't go, error")
         } else {
             console.log("post is triggered")
-            axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date })
+       axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date })
                 .then(response => {
                     console.log(response);
                 })
                 .catch(error => {
                     console.log("post /api/add-items error: ");
                     console.log(error);
-                });
+                });  
         }
 
     }
@@ -77,6 +101,7 @@ class TableBodyAdd extends Component {
         const { collection } = this.state;
         return (
             <Form onSubmit={this.submit}  onChange={this.handleChange}>
+                {this.state.showError && <div className="error-message">Oops! Something went wrong!</div>}
                 <Button onClick={this.addExercise}>Add Exercise</Button>
                 {collection.map((val, idx) => {
                     let exId = `ex-${idx}`, setId = `sets-${idx}`, repId = `reps-${idx}`, weightId = `weight-${idx}`;
@@ -87,8 +112,6 @@ class TableBodyAdd extends Component {
                                     <FormGroup>
                                         <Label for={exId}>{`Exercise #${idx + 1}`}</Label>
                                         <Input type="text" data-id={idx} name={exId} id={exId} value={collection[idx].exercise} className="exercise" placeholder="Name"  />
-                                        <FormFeedback valid></FormFeedback>
-                                        <FormFeedback invalid>Please enter your name.</FormFeedback>
                                     </FormGroup>
                                 </Col>
                                 <Col md={3}>
