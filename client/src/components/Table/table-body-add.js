@@ -15,27 +15,35 @@ class TableBodyAdd extends Component {
     }
 
     validateCollection = () => {
-     var counter = 0;
-     this.state.collection.forEach(function(item){
-        if (item.exercise === ''){
-            counter = 1;
-        }
-
+     var errCounter = 0;
+     var numCounter = 0;
+     this.state.collection.some(function(item){
+        if (item.exercise === '' || item.sets === '' ||item.reps === '' || item.weight === ''){
+            errCounter = 1;
+        } 
+    });
+/* 
         if (item.sets === ''){
-            counter = 1;
+            errCounter = 1;
+        } else if (/^\d+$/.test(item.sets)) {
+            console.log();
         }
 
         if (item.reps === ''){
-            counter = 1;
+            errCounter = 1;
+        } else {
+            console.log(/^\d+$/.test(item.reps));
         }
 
         if(item.weight === ''){
-            counter = 1;
+            errCounter = 1;
+        } else {
+            console.log(/^\d+$/.test(item.weight));
         }
 
-     }); 
+     });  */
 
-     if (counter === 1){
+     if (errCounter === 1){
          return false;
      } else {
          return true;
@@ -44,14 +52,20 @@ class TableBodyAdd extends Component {
 
 
     handleChange = (e) => {
-        e.target.className = e.target.className.replace(' form-control','')
-    
-        if (["exercise", "sets", "reps", "weight"].includes(e.target.className) ) {
-          let collection = [...this.state.collection]
+        e.target.className = e.target.className.replace(' form-control','');
+        if (["exercise", "sets", "reps", "weight"].includes(e.target.className)) {
+          let collection = [...this.state.collection];
           collection[e.target.dataset.id][e.target.className] = e.target.value;
-          this.setState({ collection }, () => console.log(this.state.collection))
-        } 
+          const re =  /^\d+$\b/;
+          if (e.target.className == "sets" || e.target.className == "reps" || e.target.className == "weight"){
+            if(re.test(e.target.value)){
+                this.setState({ collection }, () => console.log(this.state.collection))
+          } 
+        } else {
+            this.setState({ collection }, () => console.log(this.state.collection))
+          }
       }
+    }
 
     addExercise = (e) => {
         this.setState((prevState) => ({
@@ -101,19 +115,19 @@ class TableBodyAdd extends Component {
                             <Col md={3}>
                                 <FormGroup>
                                     <Label for={setId}>Sets</Label>
-                                    <Input type="number" data-id={idx} name={setId} id={setId} value={collection[idx].sets} className="sets" placeholder="Number"  />
+                                    <Input type="text" data-id={idx} name={setId} id={setId} value={collection[idx].sets} className="sets" placeholder="Number"  />
                                 </FormGroup>
                             </Col>
                             <Col md={3}>
                                 <FormGroup>
                                     <Label for={repId}>Reps</Label>
-                                    <Input type="number" data-id={idx} name={repId} id={repId} value={collection[idx].reps} className="reps" placeholder="Number"  />
+                                    <Input type="text" data-id={idx} name={repId} id={repId} value={collection[idx].reps} className="reps" placeholder="Number"  />
                                 </FormGroup>
                             </Col>
                             <Col md={3}>
                                 <FormGroup>
                                     <Label for={weightId}>Weight</Label>
-                                    <Input type="number" data-id={idx} name={weightId} id={weightId} value={collection[idx].weight} className="weight" placeholder="Number"  />
+                                    <Input type="text" data-id={idx} name={weightId} id={weightId} value={collection[idx].weight} className="weight" placeholder="Number"  />
                                 </FormGroup>
                             </Col>
                         </Row>
