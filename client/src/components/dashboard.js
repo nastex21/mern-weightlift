@@ -17,7 +17,8 @@ class Dashboard extends Component {
         modal: false,
         date: "",
         exercise: [],
-        total: []
+        total: [], 
+        showError: false
     }
 
     componentDidMount() {
@@ -34,6 +35,18 @@ class Dashboard extends Component {
         this.setState({
             events: [...eventsArr]   
         }) 
+    }
+
+    showErrorMsg = (value) => {
+        if (value == true) {
+            this.setState({
+                showError: true
+            })
+        } else {
+                this.setState({
+                    showError: false
+                })
+        }
     }
 
 
@@ -95,9 +108,10 @@ class Dashboard extends Component {
                 <Modal isOpen={modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>{<p>{date}</p>}</ModalHeader>
                     <ModalBody>
+                    {this.state.showError && <div className="error-message">Oops! Something went wrong!</div>}
                     <p className="headerInfo">Total = Sets * Reps * Weight</p>
                     <div>
-                    {exercise.length > 0 ? <TableBodyEdit exerciseArr={exercise} totalArr={total}/> : <TableBodyAdd id={this.props.id} date={this.state.date}/>} 
+                    {exercise.length > 0 ? <TableBodyEdit exerciseArr={exercise} totalArr={total}/> : <TableBodyAdd id={this.props.id} date={this.state.date} msgUpdate={this.showErrorMsg}/>} 
                     </div>
                     </ModalBody>
                 </Modal>

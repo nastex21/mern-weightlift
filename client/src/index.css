@@ -10,3 +10,9 @@
 .headerInfo {
   font-size: .7em
 }
+
+.error-message {
+  background-color: #ff7272;
+  color: white;
+  padding: 1em;
+}

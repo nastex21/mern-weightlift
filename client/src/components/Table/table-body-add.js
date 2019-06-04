@@ -11,8 +11,7 @@ class TableBodyAdd extends Component {
             sets: "",
             reps: "",
             weight: ""
-        }],
-        showError: false
+        }]
     }
 
     //valadation for collection
@@ -34,14 +33,10 @@ class TableBodyAdd extends Component {
         });
 
         if (errCounter === 1) {
-            this.setState({
-                showError: true
-            })
+            this.props.msgUpdate(true);
             return false;
         } else {
-            this.setState({
-                showError: false
-            })
+            this.props.msgUpdate(false);
             return true;
         }
 
@@ -100,8 +95,7 @@ class TableBodyAdd extends Component {
     render() {
         const { collection } = this.state;
         return (
-            <Form onSubmit={this.submit}  onChange={this.handleChange}>
-                {this.state.showError && <div className="error-message">Oops! Something went wrong!</div>}
+            <Form onSubmit={this.submit}  onChange={this.handleChange}>                
                 <Button onClick={this.addExercise}>Add Exercise</Button>
                 {collection.map((val, idx) => {
                     let exId = `ex-${idx}`, setId = `sets-${idx}`, repId = `reps-${idx}`, weightId = `weight-${idx}`;
