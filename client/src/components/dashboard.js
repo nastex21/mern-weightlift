@@ -31,9 +31,8 @@ class Dashboard extends Component {
         }) 
        
       ); 
-
         this.setState({
-            events: [...eventsArr]   
+            events: [...eventsArr],
         }) 
     }
 
@@ -79,32 +78,33 @@ class Dashboard extends Component {
 
 
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        console.log(exerciseArr.length);
 
         this.setState(prevState => ({
             modal: !prevState.modal,
             date: dateVal.toLocaleString('en-US', options) == "Invalid Date" ? prevState.date : dateVal.toLocaleString('en-US', options),
             exercise: [...exerciseArr],
-            total: sum
+            total: sum,
         })) 
 
     }
 
     dateClickInfo = (info) => {
+        console.log('triggered2');
         let dateVal = new Date(info.date);
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         this.setState(prevState => ({
             modal: !prevState.modal,
-            date: dateVal.toLocaleString('en-US', options)
+            date: dateVal.toLocaleString('en-US', options),
         }))
 
     }
 
     render() {
         const { exercise, modal, date, events, total } = this.state;
-
         return (
             <div className="calendar-body">
-                <FullCalendar defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={events} eventClick={this.toggle} />
+                <FullCalendar defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={events} eventClick={this.toggle}  />
                 <Modal isOpen={modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>{<p>{date}</p>}</ModalHeader>
                     <ModalBody>
