@@ -3,9 +3,10 @@ import FullCalendar from '@fullcalendar/react';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import TableBodyEdit  from './Table/table-body-edit';
-import TableBodyAdd from './Table/table-body-add';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import TableBodyEdit from './Table/weight-components/table-body-edit';
+import TableBodyAdd from './Table/weight-components/table-body-add';
+import ModalTabs from './Table/modal-tabs';
 import '@fullcalendar/core/main.css';
 import '@fullcalendar/daygrid/main.css';
 import '@fullcalendar/bootstrap/main.css';
@@ -17,23 +18,23 @@ class Dashboard extends Component {
         modal: false,
         date: "",
         exercise: [],
-        total: [], 
+        total: [],
         showError: false
     }
 
     componentDidMount() {
-      let eventsArr = [];
-      this.props.logs.map(item =>  
+        let eventsArr = [];
+        this.props.logs.map(item =>
             eventsArr.push({
-            "title": "Entry Added",
-            "date": item.date,
-            "collections": item.collections
-        }) 
-       
-      ); 
+                "title": "Entry Added",
+                "date": item.date,
+                "collections": item.collections
+            })
+
+        );
         this.setState({
             events: [...eventsArr],
-        }) 
+        })
     }
 
     showErrorMsg = (value) => {
@@ -42,9 +43,9 @@ class Dashboard extends Component {
                 showError: true
             })
         } else {
-                this.setState({
-                    showError: false
-                })
+            this.setState({
+                showError: false
+            })
         }
     }
 
@@ -67,14 +68,14 @@ class Dashboard extends Component {
 
             const dataExObj = info.event.extendedProps.collections;
 
-            dataExObj.forEach(function(item){
-                 var total = Number(item.sets) * Number(item.reps) * Number(item.weight);
-                 totalWeight.push(total);
-                 exerciseArr.push(item);
-                })
+            dataExObj.forEach(function (item) {
+                var total = Number(item.sets) * Number(item.reps) * Number(item.weight);
+                totalWeight.push(total);
+                exerciseArr.push(item);
+            })
 
-            sum = totalWeight.reduce((total, amount) => total + amount); 
-            }
+            sum = totalWeight.reduce((total, amount) => total + amount);
+        }
 
 
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -85,7 +86,7 @@ class Dashboard extends Component {
             date: dateVal.toLocaleString('en-US', options) == "Invalid Date" ? prevState.date : dateVal.toLocaleString('en-US', options),
             exercise: [...exerciseArr],
             total: sum,
-        })) 
+        }))
 
     }
 
@@ -100,25 +101,35 @@ class Dashboard extends Component {
 
     }
 
+    closeErr = () => {
+        this.setState({
+            showError: false
+        })
+    }
+
     render() {
         const { exercise, modal, date, events, total } = this.state;
+        const styleObj = {
+            textAlign: 'center'
+        }
         return (
             <div className="calendar-body">
-                <FullCalendar defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={events} eventClick={this.toggle}  />
+                <FullCalendar defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={events} eventClick={this.toggle} />
                 <Modal isOpen={modal} toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>{<p>{date}</p>}</ModalHeader>
-                    <ModalBody>
-                    {this.state.showError && <div className="error-message">Oops! Something went wrong!</div>}
-                    <p className="headerInfo">Total = Sets * Reps * Weight</p>
-                    <div>
-                    {exercise.length > 0 ? <TableBodyEdit exerciseArr={exercise} totalArr={total}/> : <TableBodyAdd id={this.props.id} date={this.state.date} msgUpdate={this.showErrorMsg}/>} 
-                    </div>
-                    </ModalBody>
+                    <ModalHeader toggle={this.toggle}>              
+                         <p style={styleObj}>{this.state.date}</p>
+                    </ModalHeader>
+                        <ModalBody>
+                            {this.state.showError && <div class="alert alert-danger">
+                                <button type="button" class="close" data-dismiss="alert" onClick={this.closeErr}>&times;</button> Uh-oh! Try changing a few things up and hit submit again.
+                        </div>}
+                             <ModalTabs id={this.props.id} date={this.state.date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} />
+                        </ModalBody>
                 </Modal>
             </div>
 
-                    )
-                }
+                )
             }
-            
+        }
+        
 export default Dashboard;

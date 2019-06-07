@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, FormGroup, FormFeedback, Label, Row, Col, Input, Button } from 'reactstrap';
 import axios from 'axios';
 
-class TableBodyAdd extends Component {
+class WeightsAdd extends Component {
     state = {
         id: this.props.id,
         date: this.props.date,
@@ -137,4 +137,4 @@ class TableBodyAdd extends Component {
     }
 }
 
-export default TableBodyAdd;
+export default WeightsAdd;

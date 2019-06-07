@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class TableBodyEdit extends Component {
+class WeightEdit extends Component {
 
 render(){
     return(
@@ -37,4 +37,4 @@ render(){
 }
 }
 
-export default TableBodyEdit;
+export default WeightEdit;
