@@ -4,8 +4,6 @@ import bootstrapPlugin from '@fullcalendar/bootstrap';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
-import TableBodyEdit from './Table/weight-components/table-body-edit';
-import TableBodyAdd from './Table/weight-components/table-body-add';
 import ModalTabs from './Table/modal-tabs';
 import '@fullcalendar/core/main.css';
 import '@fullcalendar/daygrid/main.css';

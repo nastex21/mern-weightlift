@@ -5,44 +5,14 @@ mongoose.promise = Promise
 
 // Define userSchema
 
-var collectionSchema = new Schema({
-    exercise: {
-        type: String,
-        required: true
-    },
-    sets: {
-        type: Number,
-        required: true
-    },
-    reps: {
-        type: Number,
-        required: true
-    },
-    weight: {
-        type: Number,
-        required: true
-    },
-    total: {
-        type: Number
-    }
-});
-
-var logSchema = new Schema({
-    date: {
-        type: String,
-        required: true
-    },
-    collections: [collectionSchema],
-    overallDailyTotal: {
-        type: Number
-    }
-});
-
 var userSchema = new Schema({
 	username: { type: String, required: true },
 	password: { type: String, required: true },
 	date: {type: Date, default: Date.now},
-	logs: { type : Array , "default" : [] }
+    logs: { type : Array , "default" : [] },
+	cardiologs: {type: Array, "default": []},
+	bwlogs: {type: Array, "default": []},
+	vidsLogs: {type: Array, "default": []}
 })
 
 // Define schema methods

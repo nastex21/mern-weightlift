@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, FormGroup, FormFeedback, Label, Row, Col, Input, Button } from 'reactstrap';
 import axios from 'axios';
 
-class WeightsAdd extends Component {
+class CardioAdd extends Component {
     state = {
         id: this.props.id,
         date: this.props.date,
@@ -80,7 +80,7 @@ class WeightsAdd extends Component {
             console.log("can't go, error")
         } else {
             console.log("post is triggered")
-       axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, weightFlag: 1 })
+       axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, bwFlag: 1 })
                 .then(response => {
                     console.log(response);
                 })
@@ -88,9 +88,9 @@ class WeightsAdd extends Component {
                     console.log("post /api/add-items error: ");
                     console.log(error);
                 });  
-        }
-
+        } 
     }
+    
 
     render() {
         const { collection } = this.state;
@@ -102,28 +102,22 @@ class WeightsAdd extends Component {
                     return (
                         <div key={idx}>
                             <Row form>
-                                <Col md={3}>
+                                <Col md={4}>
                                     <FormGroup>
                                         <Label for={exId}>{`Exercise #${idx + 1}`}</Label>
                                         <Input type="text" data-id={idx} name={exId} id={exId} value={collection[idx].exercise} className="exercise" placeholder="Name"  />
                                     </FormGroup>
                                 </Col>
-                                <Col md={3}>
+                                <Col md={4}>
                                     <FormGroup>
                                         <Label for={setId}>Sets</Label>
                                         <Input type="text" data-id={idx} name={setId} id={setId} value={collection[idx].sets} className="sets" placeholder="Number" />
                                     </FormGroup>
                                 </Col>
-                                <Col md={3}>
+                                <Col md={4}>
                                     <FormGroup>
-                                        <Label for={repId}>Reps</Label>
-                                        <Input type="text" data-id={idx} name={repId} id={repId} value={collection[idx].reps} className="reps" placeholder="Number" />
-                                    </FormGroup>
-                                </Col>
-                                <Col md={3}>
-                                    <FormGroup>
-                                        <Label for={weightId}>Weight</Label>
-                                        <Input type="text" data-id={idx} name={weightId} id={weightId} value={collection[idx].weight} className="weight" placeholder="Number" />
+                                        <Label for={weightId}>Reps</Label>
+                                        <Input type="text" data-id={idx} name={weightId} id={weightId} value={collection[idx].weight} className="reps" placeholder="Number" />
                                     </FormGroup>
                                 </Col>
                             </Row>
@@ -137,4 +131,4 @@ class WeightsAdd extends Component {
     }
 }
 
-export default WeightsAdd;
+export default CardioAdd;
