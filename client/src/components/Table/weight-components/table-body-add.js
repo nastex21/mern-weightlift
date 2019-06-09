@@ -48,18 +48,30 @@ class WeightsAdd extends Component {
         e.target.className = e.target.className.replace(' form-control', '');
         //if the className is in the array
         if (["exercise", "sets", "reps", "weight"].includes(e.target.className)) {
-            let collection = [...this.state.collection];           
-            //collection[location in array][exercise,sets,reps, or weight] = e.target.value
-            collection[e.target.dataset.id][e.target.className] = e.target.value;
-            //regex to look for number
-            const re = /^\d+$\b/;
-            console.log(re.test(e.target.value))
-            //if the target.value is empty or it doesn't pass the test, then setState
-            if (e.target.className == "sets" || e.target.className == "reps" || e.target.className == "weight") {
-                if (e.target.value == '' || re.test(e.target.value)) {
+            let collection = [...this.state.collection];       
+
+            //look for number and single decimal
+            const reNum = /^\d+$\b/;
+            const re = /^\d*\.?\d+$/;
+
+        
+            console.log(reNum.test(e.target.value));
+            console.log(re.test(e.target.value));
+            if (["sets", "reps"].includes(e.target.className)) {            
+                if (e.target.value == '' || reNum.test(e.target.value)){
+                    //collection[location in array][exercise,sets,reps, or weight] = e.target.value
+                    collection[e.target.dataset.id][e.target.className] = e.target.value;
+                    this.setState({ collection }, () => console.log(this.state.collection))
+                }
+            } else if (e.target.className == "weight"){
+                if (e.target.value == '' || re.test(e.target.value) ){
+                    console.log(re.test(e.target.value));
+                    collection[e.target.dataset.id][e.target.className] = e.target.value;
                     this.setState({ collection }, () => console.log(this.state.collection))
                 }
             } else {
+                console.log("else state")
+                collection[e.target.dataset.id][e.target.className] = e.target.value;
                 this.setState({ collection }, () => console.log(this.state.collection))
             }
         }
@@ -111,19 +123,19 @@ class WeightsAdd extends Component {
                                 <Col md={3}>
                                     <FormGroup>
                                         <Label for={setId}>Sets</Label>
-                                        <Input type="text" data-id={idx} name={setId} id={setId} value={collection[idx].sets} className="sets" placeholder="Number" />
+                                        <Input type="tel" data-id={idx} name={setId} id={setId} value={collection[idx].sets} className="sets" placeholder="Number" />
                                     </FormGroup>
                                 </Col>
                                 <Col md={3}>
                                     <FormGroup>
                                         <Label for={repId}>Reps</Label>
-                                        <Input type="text" data-id={idx} name={repId} id={repId} value={collection[idx].reps} className="reps" placeholder="Number" />
+                                        <Input type="tel" data-id={idx} name={repId} id={repId} value={collection[idx].reps} className="reps" placeholder="Number" />
                                     </FormGroup>
                                 </Col>
                                 <Col md={3}>
                                     <FormGroup>
                                         <Label for={weightId}>Weight</Label>
-                                        <Input type="text" data-id={idx} name={weightId} id={weightId} value={collection[idx].weight} className="weight" placeholder="Number" />
+                                        <Input type="number" data-id={idx} name={weightId} id={weightId} value={collection[idx].weight} className="weight" placeholder="Number" />
                                     </FormGroup>
                                 </Col>
                             </Row>
