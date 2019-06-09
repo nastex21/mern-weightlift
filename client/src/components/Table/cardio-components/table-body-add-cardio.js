@@ -66,11 +66,18 @@ class CardioAdd extends Component {
                     collection[e.target.dataset.id][e.target.className] = e.target.value;
                     this.setState({ collection }, () => console.log(this.state.collection))
                 }
-            } else if(e.target.className == "hours" || e.target.className == "minutes"){
-                if (e.target.value == '' || re.test(e.target.value)){
+            } else if(e.target.className == "hours"){
+                if (e.target.value == '' || reDecimal.test(e.target.value)){
                     collection[e.target.dataset.id][e.target.className] = e.target.value;
                     this.setState({ collection }, () => console.log(this.state.collection))
                 } 
+            } else if (e.target.className == "minutes"){
+                if (e.target.value == '' || reDecimal.test(e.target.value) && e.target.value >= 0 && e.target.value < 60) {
+                    collection[e.target.dataset.id][e.target.className] = e.target.value;
+                    this.setState({ collection }, () => console.log(this.state.collection))
+                } else {
+                    console.log("Error: Minutes to be less than 60")
+                }
             } else {
                      collection[e.target.dataset.id][e.target.className] = e.target.value;
                      this.setState({ collection }, () => console.log(this.state.collection))
@@ -87,6 +94,7 @@ class CardioAdd extends Component {
     }
 
     submit = (e) => {
+        //e.target.value = e.target.value.replace(/^0+/, ''); -- get rid of leading zeroes
         e.preventDefault();
         //if validateCollection is false, don't go on else post
         if (!this.validateCollection()) {
@@ -132,11 +140,11 @@ class CardioAdd extends Component {
                                         <Label for={durationId}>Duration</Label>
                                         <Row>
                                             <Col>
-                                                <Input type="number" data-id={idx} name={hrId} id={hrId} min="0" value={collection[idx].hours} className="hours" placeholder="Number" />
+                                                <Input type="tel" data-id={idx} name={hrId} id={hrId} value={Number(collection[idx].hours).toString()} className="hours" placeholder="Number" />
                                                 <span>HR</span>
                                             </Col>
                                             <Col>
-                                                <Input type="number" min="0" max="59" data-id={idx} name={minId} id={minId} value={collection[idx].minutes} className="minutes" placeholder="Number" />
+                                                <Input type="tel" data-id={idx} name={minId} id={minId} value={Number(collection[idx].minutes).toString()} className="minutes" placeholder="Number" />
                                                 <span>MIN</span>
                                             </Col>
                                         </Row>
