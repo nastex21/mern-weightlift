@@ -56,8 +56,6 @@ class Dashboard extends Component {
 
 
     toggle = (info) => {
-        console.log("triggered");
-
         let val = info.event;
 
         let dateVal = "";
@@ -84,7 +82,6 @@ class Dashboard extends Component {
 
 
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        console.log(exerciseArr.length);
 
         this.setState(prevState => ({
             modal: !prevState.modal,
@@ -96,7 +93,6 @@ class Dashboard extends Component {
     }
 
     dateClickInfo = (info) => {
-        console.log('triggered2');
         let dateVal = new Date(info.date);
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         this.setState(prevState => ({
