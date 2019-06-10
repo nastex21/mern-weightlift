@@ -14,7 +14,10 @@ class App extends Component {
       id: null,
       loggedIn: null,
       username: null,
-      exerciseLogs: []
+      exerciseLogs: [],
+      cardioLogs: [],
+      bwLogs: [],
+	    vidsLogs: []
     }
 
  componentDidMount() {
@@ -27,7 +30,10 @@ class App extends Component {
       id: userObject.id,
       loggedIn: userObject.loggedIn,
       username: userObject.username,
-      exerciseLogs: [...this.state.exerciseLogs, ...userObject.exerciseLogs]
+      exerciseLogs: [...this.state.exerciseLogs, ...userObject.exerciseLogs],
+      cardioLogs: [...this.state.cardioLogs, ...userObject.cardioLogs],
+      bwLogs: [...this.state.bwLogs, ...userObject.bwLogs],
+      vidsLogs: [...this.state.vidsLogs, ...userObject.vidsLogs]
     })
   }
 
@@ -40,25 +46,31 @@ class App extends Component {
           loggedIn: true,
           id: response.data.user._id,
           username: response.data.user.username,
-          exerciseLogs: [...response.data.user.logs]
+          exerciseLogs: [...response.data.user.logs],
+          cardioLogs: [...response.data.user.cardiologs],
+          bwLogs: [...response.data.user.bwlogs],
+          vidsLogs: [...response.data.user.vidslogs]
         })
       } else {
         console.log('Get user: no user');
         this.setState({ 
           loggedIn: false,
           username: null,
-          exerciseLogs: []
+          exerciseLogs: [],
+          cardioLogs: [],
+          bwLogs: [],
+          vidsLogs: []
         })
       }
     })
   } 
 
   render() {
-    const { id, loggedIn, username, exerciseLogs } = this.state;
+    const { id, loggedIn, username, exerciseLogs, cardioLogs, bwLogs, vidsLogs } = this.state;
     return (
       <div className="App">
         {loggedIn ? <NavbarTrue updateUser={this.updateUser} loggedIn={loggedIn}  /> : <NavbarFalse updateUser={this.updateUser} loggedIn={loggedIn}  /> }
-        {this.state.loggedIn && <Route exact path="/api/dashboard" render={ (props) => <Dashboard {...props} refreshUser={this.getUser} username={username} logs={exerciseLogs} id={id} /> } />}
+        {this.state.loggedIn && <Route exact path="/api/dashboard" render={ (props) => <Dashboard {...props} refreshUser={this.getUser} username={username} logs={exerciseLogs} cardiologs={cardioLogs} bwlogs={bwLogs} vidslogs={vidsLogs} id={id} /> } />}
         {!this.state.loggedIn && <Route exact path="/" render={ (props) => <Home {...props} /> } />}
         {/* Routes to different components */}
         <Route path="/api/login"

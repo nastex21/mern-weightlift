@@ -12,7 +12,7 @@ var userSchema = new Schema({
     logs: { type : Array , "default" : [] },
 	cardiologs: {type: Array, "default": []},
 	bwlogs: {type: Array, "default": []},
-	vidsLogs: {type: Array, "default": []}
+	vidslogs: {type: Array, "default": []}
 })
 
 // Define schema methods

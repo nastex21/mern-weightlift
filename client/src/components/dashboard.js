@@ -28,7 +28,14 @@ class Dashboard extends Component {
                 "date": item.date,
                 "collections": item.collections
             })
-
+        );
+        this.props.cardiologs.map(item =>
+            eventsArr.push({
+                "title": "Entry Added",
+                "date": item.date,
+                'color': 'purple',
+                "collections": item.collections
+            })
         );
         this.setState({
             events: [...eventsArr],
