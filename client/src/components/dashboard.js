@@ -37,6 +37,25 @@ class Dashboard extends Component {
                 "collections": item.collections
             })
         );
+
+        this.props.bwlogs.map(item =>
+            eventsArr.push({
+                "title": "Entry Added",
+                "date": item.date,
+                'color': 'red',
+                "collections": item.collections
+            })
+        );
+
+        this.props.vidslogs.map(item =>
+            eventsArr.push({
+                "title": "Entry Added",
+                "date": item.date,
+                'color': 'red',
+                "collections": item.collections
+            })
+        );
+
         this.setState({
             events: [...eventsArr],
         })
@@ -118,13 +137,13 @@ class Dashboard extends Component {
                 <FullCalendar defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={events} eventClick={this.toggle} />
                 <Modal isOpen={modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>              
-                         <p style={styleObj}>{this.state.date}</p>
+                         <p style={styleObj}>{date}</p>
                     </ModalHeader>
                         <ModalBody>
                             {this.state.showError && <div class="alert alert-danger">
                                 <button type="button" class="close" data-dismiss="alert" onClick={this.closeErr}>&times;</button> Uh-oh! Try changing a few things up and hit submit again.
                         </div>}
-                             <ModalTabs id={this.props.id} date={this.state.date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} />
+                             <ModalTabs id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} />
                         </ModalBody>
                 </Modal>
             </div>

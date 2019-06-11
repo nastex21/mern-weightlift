@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import { Form, FormGroup, FormFeedback, Label, Row, Col, Input, Button } from 'reactstrap';
 import axios from 'axios';
 
-class CardioAdd extends Component {
+class BWAdd extends Component {
     state = {
         id: this.props.id,
         date: this.props.date,
         collection: [{
             exercise: "",
             sets: "",
-            reps: "",
-            weight: ""
+            reps: ""
         }]
     }
 
@@ -23,11 +22,11 @@ class CardioAdd extends Component {
         //find any error and stop test immediately
         this.state.collection.some(function (item) {
             //find empty strings
-            if (item.exercise === '' || item.sets === '' || item.reps === '' || item.weight === '') {
+            if (item.exercise === '' || item.sets === '' || item.reps === '' ) {
                 errCounter = 1;
             }
             //if it doesn't pass the regex test
-            if (!re.test(item.sets)|| !re.test(item.reps) || !re.test(item.weight)) {
+            if (!re.test(item.sets)|| !re.test(item.reps)) {
                 errCounter = 1;
             }
         });
@@ -47,15 +46,15 @@ class CardioAdd extends Component {
         //get the className and remove the 'form-control' suffix at the end
         e.target.className = e.target.className.replace(' form-control', '');
         //if the className is in the array
-        if (["exercise", "sets", "reps", "weight"].includes(e.target.className)) {
+        if (["exercise", "sets", "reps"].includes(e.target.className)) {
             let collection = [...this.state.collection];           
-            //collection[location in array][exercise,sets,reps, or weight] = e.target.value
+            //collection[location in array][exercise,sets, or reps] = e.target.value
             collection[e.target.dataset.id][e.target.className] = e.target.value;
             //regex to look for number
             const re = /^\d+$\b/;
             console.log(re.test(e.target.value))
             //if the target.value is empty or it doesn't pass the test, then setState
-            if (e.target.className == "sets" || e.target.className == "reps" || e.target.className == "weight") {
+            if (e.target.className == "sets" || e.target.className == "reps") {
                 if (e.target.value == '' || re.test(e.target.value)) {
                     this.setState({ collection }, () => console.log(this.state.collection))
                 }
@@ -68,7 +67,7 @@ class CardioAdd extends Component {
     //grab the previous state of collection, add new object with empty values after
     addExercise = (e) => {
         this.setState((prevState) => ({
-            collection: [...prevState.collection, { exercise: "", sets: "", reps: "", weight: "" }]
+            collection: [...prevState.collection, { exercise: "", sets: "", reps: ""}]
         })
         )
     }
@@ -98,7 +97,7 @@ class CardioAdd extends Component {
             <Form onSubmit={this.submit}  onChange={this.handleChange}>                
                 <Button onClick={this.addExercise}>Add Exercise</Button>
                 {collection.map((val, idx) => {
-                    let exId = `ex-${idx}`, setId = `sets-${idx}`, repId = `reps-${idx}`, weightId = `weight-${idx}`;
+                    let exId = `ex-${idx}`, setId = `sets-${idx}`, repId = `reps-${idx}`;
                     return (
                         <div key={idx}>
                             <Row form>
@@ -116,8 +115,8 @@ class CardioAdd extends Component {
                                 </Col>
                                 <Col md={4}>
                                     <FormGroup>
-                                        <Label for={weightId}>Reps</Label>
-                                        <Input type="text" data-id={idx} name={weightId} id={weightId} value={collection[idx].weight} className="reps" placeholder="Number" />
+                                        <Label for={repId}>Reps</Label>
+                                        <Input type="text" data-id={idx} name={repId} id={repId} value={collection[idx].reps} className="reps" placeholder="Number" />
                                     </FormGroup>
                                 </Col>
                             </Row>
@@ -131,4 +130,4 @@ class CardioAdd extends Component {
     }
 }
 
-export default CardioAdd;
+export default BWAdd;

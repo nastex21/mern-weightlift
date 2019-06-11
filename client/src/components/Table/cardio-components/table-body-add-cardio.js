@@ -54,12 +54,10 @@ class CardioAdd extends Component {
             console.log(e.target.className);
 
             let collection = [...this.state.collection];
-            //collection[location in array][exercise,distance or duration] = e.target.value
+            //collection[location in array][exercise,distance, hours or minutes] = e.target.value
 
             //regex to look for number
-            const re = /^\d+$\b/;
             const reDecimal = /^\d*\.?\d+$/;
-            console.log(re.test(e.target.value))
             //if the target.value is empty or it doesn't pass the test, then setState
             if (e.target.className == "distance") {
                 if (e.target.value == '' || reDecimal.test(e.target.value)) {
@@ -88,7 +86,7 @@ class CardioAdd extends Component {
     //grab the previous state of collection, add new object with empty values after
     addExercise = (e) => {
         this.setState((prevState) => ({
-            collection: [...prevState.collection, { exercise: "", distance: "", reps: "", duration: "" }]
+            collection: [...prevState.collection, { exercise: "", distance: "", hours: "", minutes: "" }]
         })
         )
     }

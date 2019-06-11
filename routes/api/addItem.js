@@ -78,7 +78,16 @@ router.post('/', (req, res) => {
     }
 
     if (req.body.bwFlag == 1){
-        console.log("hola");
+        var updateObj = createObj(req.body.collection);
+
+        var pushThis = {
+            $push: {
+                "bwlogs": updateObj
+            }
+        }
+
+        update(req.body.id, pushThis);
+
     }
 
     if (req.body.vidsFlag == 1){
