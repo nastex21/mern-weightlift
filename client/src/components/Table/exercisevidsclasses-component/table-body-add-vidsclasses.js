@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Form, FormGroup, FormFeedback, Label, Row, Col, Input, Button, CustomInput } from 'reactstrap';
 import axios from 'axios';
-import { ETIME } from 'constants';
 
 class ExVidsClassesAdd extends Component {
     state = {
@@ -11,7 +10,7 @@ class ExVidsClassesAdd extends Component {
             exercise: "",
             hours: "",
             minutes: "",
-            completed: null
+            completed: false
         }],
         completed: false
     }
@@ -49,36 +48,40 @@ class ExVidsClassesAdd extends Component {
         //get the className and remove the 'form-control' suffix at the end
         e.target.className = e.target.className.replace(' form-control', '');
         console.log(e.target.className);
-        if (e.target.className == 'custom-control-input'){
+        if (e.target.className == 'custom-control-input') {
             e.target.className = "completed"
         }
         //if the className is in the array
         if (["exercise", "hours", "minutes", "completed"].includes(e.target.className)) {
             console.log(e.target.value);
             let collection = [...this.state.collection];
-            console.log(collection);
-            //collection[location in array][exercise,distance or duration] = e.target.value
-            collection[e.target.dataset.id] = e.target.value;
-            console.log(collection);
+
             //regex to look for number
             const reDecimal = /^\d*\.?\d+$/;
             //if the target.value is empty or it doesn't pass the test, then setState
             if (e.target.className == "hours") {
                 if (e.target.value == '' || reDecimal.test(e.target.value)) {
-                    collection[e.target.dataset.id][e.target.className] = e.target.value;
-                    this.setState({ collection }, () => console.log(this.state.collection))
+                    if (!this.state.completed){
+                        collection[e.target.dataset.id][e.target.className] = e.target.value;
+                        this.setState({ collection }, () => console.log(this.state.collection));
+                    } else {
+                        collection[e.target.dataset.id][e.target.className] = "";
+                        this.setState({ collection }, () => console.log(this.state.collection));
+                    }
                 }
             } else if (e.target.className == "minutes") {
                 if (e.target.value == '' || reDecimal.test(e.target.value) && e.target.value >= 0 && e.target.value < 60) {
-                    collection[e.target.dataset.id][e.target.className] = e.target.value;
-                    this.setState({ collection }, () => console.log(this.state.collection))
+                    if (!this.state.completed){
+                        collection[e.target.dataset.id][e.target.className] = e.target.value;
+                        this.setState({ collection }, () => console.log(this.state.collection));
+                    } else {
+                        collection[e.target.dataset.id][e.target.className] = "";
+                        this.setState({ collection }, () => console.log(this.state.collection));
+                    }
                 } else {
                     console.log("Error: Minutes to be less than 60")
                 }
-            }  else {
-                console.log(e.target.dataset.id);
-                console.log(e.target.className);
-                console.log(e.target.value);
+            } else {
                 collection[e.target.dataset.id][e.target.className] = e.target.value;
                 this.setState({ collection }, () => console.log(this.state.collection))
             }
@@ -88,7 +91,7 @@ class ExVidsClassesAdd extends Component {
     //grab the previous state of collection, add new object with empty values after
     addExercise = (e) => {
         this.setState((prevState) => ({
-            collection: [...prevState.collection, { exercise: "", hours: "", minutes: "", completed: "" }]
+            collection: [...prevState.collection, { exercise: "", hours: "", minutes: "", completed: false }]
         })
         )
     }
@@ -112,7 +115,7 @@ class ExVidsClassesAdd extends Component {
     }
 
     toggleCheckBox = () => {
-        this.setState(prevState => ({completed: !prevState.completed}));
+        this.setState(prevState => ({ completed: !prevState.completed}))
     }
 
 
@@ -134,23 +137,26 @@ class ExVidsClassesAdd extends Component {
                                     </FormGroup>
                                 </Col>
                                 <Col md={4}>
-                                    <FormGroup>
-                                    <Label for={durationId}>Duration</Label>
-                                    <Row>
-                                     <Col>
-                                        <Input type="tel" data-id={idx} name={hrId} id={hrId} value={Number(collection[idx].hours).toString()} className="hours" disabled={completed} placeholder="Number" />
+                                    <FormGroup disabled={completed}>
+                                        <Label for={durationId}>Duration</Label>
+                                        <Row>
+                                            <Col>
+                                                <Input type="tel" data-id={idx} name={hrId} id={hrId} value={Number(collection[idx].hours).toString()} className="hours" disabled={completed} placeholder="Number" />
                                                 <span>HR</span>
-                                    </Col>
-                                    <Col>
+                                            </Col>
+                                            <Col>
                                                 <Input type="tel" data-id={idx} name={minId} id={minId} value={Number(collection[idx].minutes).toString()} className="minutes" disabled={completed} placeholder="Number" />
-                                                <span>MIN</span>                     
-                                    </Col>
-                                    </Row>                
-                                </FormGroup>
+                                                <span>MIN</span>
+                                            </Col>
+                                        </Row>
+                                    </FormGroup>
                                 </Col>
-                                <Col md={3}>
-                                    <FormGroup>
-                                        <CustomInput type="checkbox" data-id={idx} name={completedId} id={completedId} className="completed" label="Completed class/video" value={!completed} onClick={this.toggleCheckBox} />
+                                <Col md={4}>
+                                    <FormGroup check>
+                                        <Label check >
+                                            <Input type="checkbox" data-id={idx} name={completedId} id={completedId} className="completed" value={!completed} onClick={this.toggleCheckBox} />{' '}
+                                            Completed
+                                        </Label>
                                     </FormGroup>
                                 </Col>
                             </Row>
