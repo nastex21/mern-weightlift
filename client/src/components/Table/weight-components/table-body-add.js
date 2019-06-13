@@ -54,9 +54,6 @@ class WeightsAdd extends Component {
             const reNum = /^\d+$\b/;
             const re = /^\d*\.?\d+$/;
 
-        
-            console.log(reNum.test(e.target.value));
-            console.log(re.test(e.target.value));
             if (["sets", "reps"].includes(e.target.className)) {            
                 if (e.target.value == '' || reNum.test(e.target.value)){
                     //collection[location in array][exercise,sets,reps, or weight] = e.target.value
