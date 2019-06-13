@@ -91,7 +91,15 @@ router.post('/', (req, res) => {
     }
 
     if (req.body.vidsFlag == 1){
-        console.log('konichiwa');
+        var updateObj = createObj(req.body.collection);
+
+        var pushThis = {
+            $push: {
+                "vidslogs": updateObj
+            }
+        }
+
+        update(req.body.id, pushThis);
     }
 
 

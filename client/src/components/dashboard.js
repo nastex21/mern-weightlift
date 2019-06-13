@@ -5,6 +5,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import ModalTabs from './Table/modal-tabs';
+import ModalTabsEdit from './Table/modal-tabs-edit';
 import '@fullcalendar/core/main.css';
 import '@fullcalendar/daygrid/main.css';
 import '@fullcalendar/bootstrap/main.css';
@@ -17,7 +18,8 @@ class Dashboard extends Component {
         date: "",
         exercise: [],
         total: [],
-        showError: false
+        showError: false,
+        eventClicked: false
     }
 
     componentDidMount() {
@@ -51,7 +53,7 @@ class Dashboard extends Component {
             eventsArr.push({
                 "title": "Entry Added",
                 "date": item.date,
-                'color': 'red',
+                'color': 'green',
                 "collections": item.collections
             })
         );
@@ -75,6 +77,7 @@ class Dashboard extends Component {
 
 
     toggle = (info) => {
+        console.log('event');
         let val = info.event;
 
         let dateVal = "";
@@ -89,6 +92,7 @@ class Dashboard extends Component {
             dateVal = val.start;
 
             const dataExObj = info.event.extendedProps.collections;
+            console.log(info.event.extendedProps.collections);
 
             dataExObj.forEach(function (item) {
                 var total = Number(item.sets) * Number(item.reps) * Number(item.weight);
@@ -98,7 +102,7 @@ class Dashboard extends Component {
 
             sum = totalWeight.reduce((total, amount) => total + amount);
         }
-
+        console.log(exerciseArr);
 
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
@@ -107,6 +111,7 @@ class Dashboard extends Component {
             date: dateVal.toLocaleString('en-US', options) == "Invalid Date" ? prevState.date : dateVal.toLocaleString('en-US', options),
             exercise: [...exerciseArr],
             total: sum,
+            eventClicked: !prevState.eventClicked
         }))
 
     }
@@ -128,10 +133,12 @@ class Dashboard extends Component {
     }
 
     render() {
-        const { exercise, modal, date, events, total } = this.state;
+        const { exercise, modal, date, events, total, eventClicked } = this.state;
         const styleObj = {
             textAlign: 'center'
         }
+        console.log("Event Clicked");
+        console.log(eventClicked);
         return (
             <div className="calendar-body">
                 <FullCalendar defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={events} eventClick={this.toggle} />
@@ -142,8 +149,8 @@ class Dashboard extends Component {
                         <ModalBody>
                             {this.state.showError && <div class="alert alert-danger">
                                 <button type="button" class="close" data-dismiss="alert" onClick={this.closeErr}>&times;</button> Uh-oh! Try changing a few things up and hit submit again.
-                        </div>}
-                             <ModalTabs id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} />
+                             </div>}
+                            {this.state.exercise.length == 0 ? <ModalTabs id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} /> :<ModalTabsEdit id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} />}
                         </ModalBody>
                 </Modal>
             </div>

@@ -131,14 +131,14 @@ class ExVidsClassesAdd extends Component {
             console.log("can't go, error")
         } else {
             console.log("post is triggered")
-            /*  axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, bwFlag: 1 })
+             axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, vidsFlag: 1 })
                   .then(response => {
                       console.log(response);
                   })
                   .catch(error => {
                       console.log("post /api/add-items error: ");
                       console.log(error);
-                  }); */
+                  }); 
         }
     }
 

@@ -86,7 +86,7 @@ class CardioAdd extends Component {
     //grab the previous state of collection, add new object with empty values after
     addExercise = (e) => {
         this.setState((prevState) => ({
-            collection: [...prevState.collection, { exercise: "", distance: "", hours: "", minutes: "" }]
+            collection: [...prevState.collection, { exercise: "", distance: "", hours: 0, minutes: 0 }]
         })
         )
     }
@@ -113,6 +113,7 @@ class CardioAdd extends Component {
 
     render() {
         const { collection } = this.state;
+        console.log(collection);
         return (
             <Form onSubmit={this.submit} onChange={this.handleChange}>
                 <Button onClick={this.addExercise}>Add Exercise</Button>
