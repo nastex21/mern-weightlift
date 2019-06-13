@@ -7,10 +7,6 @@ class ExVidsClassesAdd extends Component {
         id: this.props.id,
         date: this.props.date,
         collection: [{
-            exercise: "",
-            hours: "",
-            minutes: "",
-            completed: false
         }],
         completed: false
     }
@@ -22,16 +18,32 @@ class ExVidsClassesAdd extends Component {
         //regex to search for numbers
         const re = /^\d+$\b/;
         //find any error and stop test immediately
-        this.state.collection.some(function (item) {
-            //find empty strings
-            if (item.exercise === '' || item.hours === '' || item.minutes === '') {
+        if (this.state.completed == "false") {
+            this.state.collection.some(function (item) {
+                //find empty strings
+                if (item.exercise === '' || item.hours === '' || item.minutes === '') {
+                    errCounter = 1;
+                }
+                //if it doesn't pass the regex test
+                if (!re.test(item.hours) || !re.test(item.minutes)) {
+                    errCounter = 1;
+                }
+            });
+        } else {
+            this.state.collection.some(function (item) {
+                //find empty strings
+                if (item.exercise === '') {
+                    errCounter = 1;
+                }
+            });
+        }
+
+        this.state.collection.forEach(function(item){
+            if (item.hours == 0 && item.minutes == 0){
                 errCounter = 1;
+                console.log("hours and minutes can't be zero")
             }
-            //if it doesn't pass the regex test
-            if (!re.test(item.hours) || !re.test(item.minutes)) {
-                errCounter = 1;
-            }
-        });
+        })
 
         if (errCounter === 1) {
             this.props.msgUpdate(true);
@@ -40,28 +52,37 @@ class ExVidsClassesAdd extends Component {
             this.props.msgUpdate(false);
             return true;
         }
-
     }
 
     //changes when keys are pressed
     handleChange = (e) => {
         //get the className and remove the 'form-control' suffix at the end
         e.target.className = e.target.className.replace(' form-control', '');
+
         console.log(e.target.className);
-        if (e.target.className == 'custom-control-input') {
-            e.target.className = "completed"
+        if (e.target.className == 'completed form-check-input') {
+            e.target.className = "completed";
         }
+
+        console.log(e.target.className);
         //if the className is in the array
         if (["exercise", "hours", "minutes", "completed"].includes(e.target.className)) {
-            console.log(e.target.value);
             let collection = [...this.state.collection];
+
+            if (e.target.value == "true") {
+                collection[e.target.dataset.id][e.target.className] = e.target.value;
+                delete collection[e.target.dataset.id].hours;
+                delete collection[e.target.dataset.id].minutes;
+                this.setState({ collection }, () => console.log(this.state.collection));
+
+            }
 
             //regex to look for number
             const reDecimal = /^\d*\.?\d+$/;
             //if the target.value is empty or it doesn't pass the test, then setState
             if (e.target.className == "hours") {
                 if (e.target.value == '' || reDecimal.test(e.target.value)) {
-                    if (!this.state.completed){
+                    if (!this.state.completed) {
                         collection[e.target.dataset.id][e.target.className] = e.target.value;
                         this.setState({ collection }, () => console.log(this.state.collection));
                     } else {
@@ -71,7 +92,7 @@ class ExVidsClassesAdd extends Component {
                 }
             } else if (e.target.className == "minutes") {
                 if (e.target.value == '' || reDecimal.test(e.target.value) && e.target.value >= 0 && e.target.value < 60) {
-                    if (!this.state.completed){
+                    if (!this.state.completed) {
                         collection[e.target.dataset.id][e.target.className] = e.target.value;
                         this.setState({ collection }, () => console.log(this.state.collection));
                     } else {
@@ -103,25 +124,27 @@ class ExVidsClassesAdd extends Component {
             console.log("can't go, error")
         } else {
             console.log("post is triggered")
-            axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, bwFlag: 1 })
-                .then(response => {
-                    console.log(response);
-                })
-                .catch(error => {
-                    console.log("post /api/add-items error: ");
-                    console.log(error);
-                });
+            /*  axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, bwFlag: 1 })
+                  .then(response => {
+                      console.log(response);
+                  })
+                  .catch(error => {
+                      console.log("post /api/add-items error: ");
+                      console.log(error);
+                  }); */
         }
     }
 
+
     toggleCheckBox = () => {
-        this.setState(prevState => ({ completed: !prevState.completed}))
+        this.setState(prevState => ({ completed: !prevState.completed }))
     }
 
 
     render() {
         const { collection, completed } = this.state;
-        console.log(this.state.completed);
+        console.log(collection);
+        console.log(completed);
         return (
             <Form onSubmit={this.submit} onChange={this.handleChange}>
                 <Button onClick={this.addExercise}>Add Exercise</Button>
@@ -141,11 +164,11 @@ class ExVidsClassesAdd extends Component {
                                         <Label for={durationId}>Duration</Label>
                                         <Row>
                                             <Col>
-                                                <Input type="tel" data-id={idx} name={hrId} id={hrId} value={Number(collection[idx].hours).toString()} className="hours" disabled={completed} placeholder="Number" />
+                                                <Input type="tel" data-id={idx} name={hrId} id={hrId} value={isNaN(Number(collection[idx].hours).toString()) ? 0 : Number(collection[idx].hours).toString()} className="hours" disabled={completed} placeholder="Number" />
                                                 <span>HR</span>
                                             </Col>
                                             <Col>
-                                                <Input type="tel" data-id={idx} name={minId} id={minId} value={Number(collection[idx].minutes).toString()} className="minutes" disabled={completed} placeholder="Number" />
+                                                <Input type="tel" data-id={idx} name={minId} id={minId} value={isNaN(Number(collection[idx].minutes).toString()) ? 0 : Number(collection[idx].minutes).toString()} className="minutes" disabled={completed} placeholder="Number" />
                                                 <span>MIN</span>
                                             </Col>
                                         </Row>
