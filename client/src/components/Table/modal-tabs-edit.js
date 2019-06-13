@@ -34,7 +34,11 @@ class ModalTabsEdit extends Component {
             return (
                 <tr>
                     {Object.entries(data).map((rowValue) => {
-                        return <td>{rowValue[1]}</td>
+                        if (rowValue[0] == "exercise"){
+                            return <th scope="row">{rowValue[1]}</th>
+                        } else {
+                            return <td>{rowValue[1]}</td>
+                        }
                     })}
                 </tr>
             )
