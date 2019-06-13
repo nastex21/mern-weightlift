@@ -18,10 +18,17 @@ class ExVidsClassesAdd extends Component {
         //regex to search for numbers
         const re = /^\d+$\b/;
         //find any error and stop test immediately
-        if (this.state.completed == "false") {
+        console.log(this.state.completed);
+        if (this.state.completed == false) {
             this.state.collection.some(function (item) {
+                console.log(item.hours)
                 //find empty strings
                 if (item.exercise === '' || item.hours === '' || item.minutes === '') {
+                    errCounter = 1;
+                }
+
+                if(item.hours == undefined || item.minutes == undefined){
+                    console.log("Hours and minutes can't both be zero")
                     errCounter = 1;
                 }
                 //if it doesn't pass the regex test
