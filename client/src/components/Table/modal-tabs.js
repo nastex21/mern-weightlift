@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, TabContent, TabPane, Nav, NavItem, NavLink, Col, Row, Card, CardTitle, CardText,  } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink  } from 'reactstrap';
 import classnames from 'classnames';
 import WeightsAdd from './weight-components/table-body-add';
 import CardioAdd from './cardio-components/table-body-add-cardio';
@@ -22,7 +22,7 @@ class ModalTabs extends Component {
 
     render() {
         console.log(this.props);
-        const { id, date, exerciseArr, msgUpdate } = this.props;
+        const { id, date, msgUpdate } = this.props;
         return (
             <React.Fragment>
             <Nav tabs>
