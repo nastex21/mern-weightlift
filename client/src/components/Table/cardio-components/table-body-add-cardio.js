@@ -140,11 +140,11 @@ class CardioAdd extends Component {
                                         <Label for={durationId}>Duration</Label>
                                         <Row>
                                             <Col>
-                                                <Input type="tel" data-id={idx} name={hrId} id={hrId} value={Number(collection[idx].hours).toString()} className="hours" placeholder="Number" />
+                                                <Input type="tel" data-id={idx} name={hrId} id={hrId} value={collection[idx].hours} className="hours" placeholder="Number" />
                                                 <span>HR</span>
                                             </Col>
                                             <Col>
-                                                <Input type="tel" data-id={idx} name={minId} id={minId} value={Number(collection[idx].minutes).toString()} className="minutes" placeholder="Number" />
+                                                <Input type="tel" data-id={idx} name={minId} id={minId} value={collection[idx].minutes} className="minutes" placeholder="Number" />
                                                 <span>MIN</span>
                                             </Col>
                                         </Row>
