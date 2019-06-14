@@ -81,14 +81,12 @@ class ExVidsClassesAdd extends Component {
                 delete collection[e.target.dataset.id].hours;
                 delete collection[e.target.dataset.id].minutes;
                 this.setState({ collection }, () => console.log(this.state.collection));
-
             }
 
-            //regex to look for number
-            const reDecimal = /^\d*\.?\d+$/;
             //if the target.value is empty or it doesn't pass the test, then setState
             if (e.target.className == "hours") {
-                if (e.target.value == '' || reDecimal.test(e.target.value)) {
+                e.target.value = parseInt(e.target.value, 10) 
+                if (e.target.value == '') {
                     if (!this.state.completed) {
                         collection[e.target.dataset.id][e.target.className] = e.target.value;
                         this.setState({ collection }, () => console.log(this.state.collection));
@@ -97,8 +95,12 @@ class ExVidsClassesAdd extends Component {
                         this.setState({ collection }, () => console.log(this.state.collection));
                     }
                 }
+
+                collection[e.target.dataset.id][e.target.className] = e.target.value;
+                this.setState({ collection }, () => console.log(this.state.collection));
             } else if (e.target.className == "minutes") {
-                if (e.target.value == '' || reDecimal.test(e.target.value) && e.target.value >= 0 && e.target.value < 60) {
+                if (e.target.value == '' || e.target.value >= 0 && e.target.value < 60) {
+                    e.target.value = parseInt(e.target.value, 10) 
                     if (!this.state.completed) {
                         collection[e.target.dataset.id][e.target.className] = e.target.value;
                         this.setState({ collection }, () => console.log(this.state.collection));

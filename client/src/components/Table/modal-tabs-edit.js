@@ -3,25 +3,6 @@ import { Table } from 'reactstrap';
 
 class ModalTabsEdit extends Component {
 
-    /*    <Table>
-           <thead>
-             <tr>
-               <th>#</th>
-               <th>First Name</th>
-               <th>Last Name</th>
-               <th>Username</th>
-             </tr>
-           </thead>
-           <tbody>
-             <tr>
-               <th scope="row">1</th>
-               <td>Mark</td>
-               <td>Otto</td>
-               <td>@mdo</td>
-             </tr>
-           </tbody>
-       </Table> */
-
     tableHeaders = () => {
         let header = Object.keys(this.props.exerciseArr[0])
         return header.map((key, index) => {

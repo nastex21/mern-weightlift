@@ -54,13 +54,15 @@ class WeightsAdd extends Component {
             const reNum = /^\d+$\b/;
             const re = /^\d*\.?\d+$/;
 
-            if (["sets", "reps"].includes(e.target.className)) {            
+            if (["sets", "reps"].includes(e.target.className)) {    
+                e.target.value =  parseInt(e.target.value, 10)         
                 if (e.target.value == '' || reNum.test(e.target.value)){
                     //collection[location in array][exercise,sets,reps, or weight] = e.target.value
                     collection[e.target.dataset.id][e.target.className] = e.target.value;
                     this.setState({ collection }, () => console.log(this.state.collection))
                 }
             } else if (e.target.className == "weight"){
+                e.target.value =  +e.target.value;
                 if (e.target.value == '' || re.test(e.target.value) ){
                     console.log(re.test(e.target.value));
                     collection[e.target.dataset.id][e.target.className] = e.target.value;

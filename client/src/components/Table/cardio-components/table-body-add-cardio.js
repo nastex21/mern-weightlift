@@ -57,20 +57,24 @@ class CardioAdd extends Component {
             //collection[location in array][exercise,distance, hours or minutes] = e.target.value
 
             //regex to look for number
-            const reDecimal = /^\d*\.?\d+$/;
+            //const reDecimal = /^\d*\.?\d+$/;
             //if the target.value is empty or it doesn't pass the test, then setState
             if (e.target.className == "distance") {
-                if (e.target.value == '' || reDecimal.test(e.target.value)) {
+                if (e.target.value == '' ) {
                     collection[e.target.dataset.id][e.target.className] = e.target.value;
                     this.setState({ collection }, () => console.log(this.state.collection))
                 }
             } else if(e.target.className == "hours"){
-                if (e.target.value == '' || reDecimal.test(e.target.value)){
+                e.target.value =  parseInt(e.target.value, 10)  
+                if (e.target.value == '' ){       
                     collection[e.target.dataset.id][e.target.className] = e.target.value;
                     this.setState({ collection }, () => console.log(this.state.collection))
                 } 
+                     collection[e.target.dataset.id][e.target.className] = e.target.value;
+                    this.setState({ collection }, () => console.log(this.state.collection))
             } else if (e.target.className == "minutes"){
-                if (e.target.value == '' || reDecimal.test(e.target.value) && e.target.value >= 0 && e.target.value < 60) {
+                e.target.value = parseInt(e.target.value, 10) 
+                if (e.target.value == '' || e.target.value >= 0 && e.target.value < 60) {                 
                     collection[e.target.dataset.id][e.target.className] = e.target.value;
                     this.setState({ collection }, () => console.log(this.state.collection))
                 } else {
