@@ -56,14 +56,11 @@ class CardioAdd extends Component {
             let collection = [...this.state.collection];
             //collection[location in array][exercise,distance, hours or minutes] = e.target.value
 
-            //regex to look for number
-            //const reDecimal = /^\d*\.?\d+$/;
             //if the target.value is empty or it doesn't pass the test, then setState
             if (e.target.className == "distance") {
-                if (e.target.value == '' ) {
+                    e.target.value = +e.target.value;
                     collection[e.target.dataset.id][e.target.className] = e.target.value;
-                    this.setState({ collection }, () => console.log(this.state.collection))
-                }
+                    this.setState({ collection }, () => console.log(this.state.collection))  
             } else if(e.target.className == "hours"){
                 e.target.value =  parseInt(e.target.value, 10)  
                 if (e.target.value == '' ){       

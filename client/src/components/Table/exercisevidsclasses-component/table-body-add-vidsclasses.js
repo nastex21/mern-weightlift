@@ -19,6 +19,7 @@ class ExVidsClassesAdd extends Component {
         const re = /^\d+$\b/;
         //find any error and stop test immediately
         console.log(this.state.completed);
+        
         if (this.state.completed == false) {
             this.state.collection.some(function (item) {
                 console.log(item.hours)
@@ -40,6 +41,7 @@ class ExVidsClassesAdd extends Component {
             this.state.collection.some(function (item) {
                 //find empty strings
                 if (item.exercise === '') {
+                    console.log("found!")
                     errCounter = 1;
                 }
             });
@@ -54,10 +56,10 @@ class ExVidsClassesAdd extends Component {
 
         if (errCounter === 1) {
             this.props.msgUpdate(true);
-            return false;
+            return true;
         } else {
             this.props.msgUpdate(false);
-            return true;
+            return false;
         }
     }
 
@@ -132,7 +134,7 @@ class ExVidsClassesAdd extends Component {
         if (!this.validateCollection()) {
             console.log("can't go, error")
         } else {
-            console.log("post is triggered")
+           /*  console.log("post is triggered")
              axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, vidsFlag: 1 })
                   .then(response => {
                       console.log(response);
@@ -140,7 +142,7 @@ class ExVidsClassesAdd extends Component {
                   .catch(error => {
                       console.log("post /api/add-items error: ");
                       console.log(error);
-                  }); 
+                  });  */
         }
     }
 

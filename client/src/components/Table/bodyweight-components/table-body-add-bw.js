@@ -54,7 +54,9 @@ class BWAdd extends Component {
             const re = /^\d+$\b/;
             console.log(re.test(e.target.value))
             //if the target.value is empty or it doesn't pass the test, then setState
+            
             if (e.target.className == "sets" || e.target.className == "reps") {
+                e.target.value =  parseInt(e.target.value, 10) 
                 if (e.target.value == '' || re.test(e.target.value)) {
                     this.setState({ collection }, () => console.log(this.state.collection))
                 }
