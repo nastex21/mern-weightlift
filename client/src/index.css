@@ -1,3 +1,15 @@
+.modal-title, .exerciseTitle, .dateTitle {
+  width: 100%
+}
+
+.exerciseTitle, .dateTitle {
+  text-align: center
+}
+
+.exerciseTitle {
+  text-transform: capitalize;
+}
+
 .fc-event-container {
   cursor: pointer
 }

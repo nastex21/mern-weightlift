@@ -19,7 +19,7 @@ class Dashboard extends Component {
         exercise: [],
         total: [],
         showError: false,
-        eventClicked: false
+        color: ""
     }
 
     componentDidMount() {
@@ -28,6 +28,7 @@ class Dashboard extends Component {
             eventsArr.push({
                 "title": "Entry Added",
                 "date": item.date,
+                "color": "red",
                 "collections": item.collections
             })
         );
@@ -35,7 +36,7 @@ class Dashboard extends Component {
             eventsArr.push({
                 "title": "Entry Added",
                 "date": item.date,
-                'color': 'purple',
+                'color': 'blue',
                 "collections": item.collections
             })
         );
@@ -44,7 +45,7 @@ class Dashboard extends Component {
             eventsArr.push({
                 "title": "Entry Added",
                 "date": item.date,
-                'color': 'red',
+                'color': 'green',
                 "collections": item.collections
             })
         );
@@ -53,7 +54,7 @@ class Dashboard extends Component {
             eventsArr.push({
                 "title": "Entry Added",
                 "date": item.date,
-                'color': 'green',
+                'color': 'black',
                 "collections": item.collections
             })
         );
@@ -82,6 +83,8 @@ class Dashboard extends Component {
 
         let dateVal = "";
 
+        let color = "";
+
         var exerciseArr = [];
 
         let totalWeight = [];
@@ -90,6 +93,8 @@ class Dashboard extends Component {
 
         if (val) {
             dateVal = val.start;
+            
+            color = val.backgroundColor;
 
             const dataExObj = info.event.extendedProps.collections;
             console.log(info.event.extendedProps.collections);
@@ -111,7 +116,7 @@ class Dashboard extends Component {
             date: dateVal.toLocaleString('en-US', options) == "Invalid Date" ? prevState.date : dateVal.toLocaleString('en-US', options),
             exercise: [...exerciseArr],
             total: sum,
-            eventClicked: !prevState.eventClicked
+            color: color
         }))
 
     }
@@ -133,24 +138,21 @@ class Dashboard extends Component {
     }
 
     render() {
-        const { exercise, modal, date, events, total, eventClicked } = this.state;
-        const styleObj = {
-            textAlign: 'center'
-        }
-        console.log("Event Clicked");
-        console.log(eventClicked);
+        const { exercise, modal, date, events, total, color } = this.state;
+        console.log(color);
         return (
             <div className="calendar-body">
                 <FullCalendar defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={events} eventClick={this.toggle} />
                 <Modal isOpen={modal} toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>              
-                         <p style={styleObj}>{date}</p>
+                    <ModalHeader toggle={this.toggle}>             
+                         <p className="exerciseTitle">{this.state.color == "black" ? "Exercise videos and/or classes" : this.state.color == "red" ? "Weightlifting Exercises" : this.state.color == "blue" ? "Cardio Exercises" : this.state.color == "green" ? "Bodyweight Exercises" : null }</p>
+                         <p className="dateTitle">{date}</p>
                     </ModalHeader>
                         <ModalBody>
                             {this.state.showError && <div class="alert alert-danger">
                                 <button type="button" class="close" data-dismiss="alert" onClick={this.closeErr}>&times;</button> Uh-oh! Try changing a few things up and hit submit again.
                              </div>}
-                            {this.state.exercise.length == 0 ? <ModalTabs id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} /> :<ModalTabsEdit id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} />}
+                            {this.state.exercise.length == 0 ? <ModalTabs id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} /> :<ModalTabsEdit title={this.state.title} id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} />}
                         </ModalBody>
                 </Modal>
             </div>

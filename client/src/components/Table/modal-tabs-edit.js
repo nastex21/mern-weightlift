@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Table } from 'reactstrap';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
+ 
 class ModalTabsEdit extends Component {
 
     tableHeaders = () => {
@@ -40,7 +42,8 @@ class ModalTabsEdit extends Component {
                 <tbody>
                     {this.tableBody()}
                 </tbody>
-            </Table>
+                <FontAwesomeIcon icon={faEdit} size="lg" />
+            </Table> 
         )
     }
 }
