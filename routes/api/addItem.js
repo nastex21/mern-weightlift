@@ -1,15 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const User = require("../../database/models/user");
-const Log = require("../../database/models/logs");
-const Collections = require("../../database/models/collections");
 
 router.post('/', (req, res) => {
 
     const update = (id, updateObj) => {
         console.log(id);
         console.log(updateObj);
-        //req.body.id, { $push: { "logs": update } },
         User.findByIdAndUpdate(id, updateObj, (err, data) => {
             if (err) {
                 console.log("500");

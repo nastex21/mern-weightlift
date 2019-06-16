@@ -143,7 +143,7 @@ class Dashboard extends Component {
         return (
             <div className="calendar-body">
                 <FullCalendar defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={events} eventClick={this.toggle} />
-                <Modal isOpen={modal} toggle={this.toggle}>
+                <Modal isOpen={modal} toggle={this.toggle} size="lg"  style={{maxWidth: '1600px', width: '80%'}}>
                     <ModalHeader toggle={this.toggle}>             
                          <p className="exerciseTitle">{this.state.color == "black" ? "Exercise videos and/or classes" : this.state.color == "red" ? "Weightlifting Exercises" : this.state.color == "blue" ? "Cardio Exercises" : this.state.color == "green" ? "Bodyweight Exercises" : null }</p>
                          <p className="dateTitle">{date}</p>

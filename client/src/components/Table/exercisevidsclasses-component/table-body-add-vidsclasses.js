@@ -7,8 +7,10 @@ class ExVidsClassesAdd extends Component {
         id: this.props.id,
         date: this.props.date,
         collection: [{
+            exercise: '',
             hours: '',
-            minutes: ''
+            minutes: '',
+            completed: ''
         }],
         completed: false
     }
@@ -18,11 +20,34 @@ class ExVidsClassesAdd extends Component {
         //counter to keep track of errors. If at the end of the tests, the counter is not zero, don't proceed to axios.post
         var errCounter = 0;
 
+        var arr = [];
+
+
+        this.state.collection.forEach(function(item){
+            let newObj = {
+                exercise: "",
+                hours: "",
+                minutes: "",
+                completed: ""        
+            };
+            newObj.exercise = item.exercise;
+            if (item.hours !== "" || item.hours !== undefined){ 
+                newObj.hours = item.hours;
+            }
+            if (item.minutes !== "" || item.minutes !== undefined){
+                newObj.minutes = item.minutes;
+            }
+            newObj.completed = item.completed;
+            arr.push(newObj);
+        });
+
+        console.log(arr);
+
         //find any error and stop test immediately
         console.log(this.state.completed);
         
         if (this.state.completed == false) {
-            this.state.collection.some(function (item) {
+            arr.some(function (item) {
                 console.log(item.hours)
                 //find empty strings
                 if (item.exercise === '' || item.hours === '' || item.minutes === '') {
@@ -37,7 +62,7 @@ class ExVidsClassesAdd extends Component {
 
             });
         } else {
-            this.state.collection.some(function (item) {
+            arr.some(function (item) {
                 //find empty strings
                 if (item.exercise === '') {
                     console.log("found!")
@@ -46,7 +71,7 @@ class ExVidsClassesAdd extends Component {
             });
         }
 
-        this.state.collection.forEach(function(item){
+        arr.forEach(function(item){
             if (item.hours == 0 && item.minutes == 0){
                 errCounter = 1;
                 console.log("hours and minutes can't be zero")
@@ -141,14 +166,17 @@ class ExVidsClassesAdd extends Component {
             console.log("can't go, error")
         } else {
             console.log("post is triggered")
-            axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, vidsFlag: 1 })
+       
+             axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, vidsFlag: 1 })
                   .then(response => {
                       console.log(response);
                   })
                   .catch(error => {
                       console.log("post /api/add-items error: ");
                       console.log(error);
-                  });  
+                  });   
+
+        console.log(this.state.collection);
         }
     }
 

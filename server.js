@@ -32,6 +32,8 @@ app.use('/api/dashboard', require('./routes/api/dashboard'));
 app.use('/api/login', require('./routes/api/login'));
 app.use('/api/logout', require('./routes/api/logout'));
 app.use('/api/add-items', require('./routes/api/addItem'));
+app.use('/api/edit-items', require('./routes/api/editItem'));
+app.use('/api/del-items', require('./routes/api/delItem'));
 
 const PORT = process.env.PORT || 3001;
 
