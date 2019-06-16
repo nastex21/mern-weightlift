@@ -9,13 +9,21 @@ import axios from 'axios';
 class ModalTabsEdit extends Component {
     state = {
         editOn: false,
-        nestedModal: false
+        nestedModal: false,
+        index: "",
+        collection: ""
     }
 
-    toggleNested() {
-        console.log("toggle")
+    componentDidMount() {
         this.setState({
-            nestedModal: !this.state.nestedModal
+            collection: this.props.exerciseArr
+        })
+    }
+
+    toggleNested(index) {
+        this.setState({
+            nestedModal: !this.state.nestedModal,
+            index: index
         });
     }
 
@@ -25,23 +33,24 @@ class ModalTabsEdit extends Component {
         }))
     }
 
-    deleteThis = (index) => {
-        /* axios.post("/api/del-items/", { username: this.state.username, password: this.state.password })
-         .then(response => {
-             if (!response.data.errmsg) {
-                 console.log("successful signup");
-                 this.setState({
-                     //redirect to login page
-                     redirectTo: "/api/dashboard"
-                 });
-             } else {
-                 console.log("username already taken");
-             }
-         })
-         .catch(error => {
-             console.log("signup error: ");
-             console.log(error);
-         }); */
+    deleteThis = () => {
+        console.log("yes, here's the index: " + this.state.index);
+        axios.post("/api/del-items/", { id: this.props.id, date: this.props.date, deleteItem: this.state.collection[this.state.index] })
+            .then(response => {
+                if (!response.data.errmsg) {
+                    console.log("successful signup");
+                    this.setState({
+                        //redirect to login page
+                        redirectTo: "/api/dashboard"
+                    });
+                } else {
+                    console.log("username already taken");
+                }
+            })
+            .catch(error => {
+                console.log("signup error: ");
+                console.log(error);
+            });
 
     }
 
@@ -64,7 +73,7 @@ class ModalTabsEdit extends Component {
                             return <td>{rowValue[1]}</td>
                         }
                     })}
-                    <td><FontAwesomeIcon icon={faTrashAlt} size="lg" onClick={() => this.toggleNested()} /></td>
+                    <td><FontAwesomeIcon icon={faTrashAlt} size="lg" onClick={() => this.toggleNested(index)} /></td>
                 </tr>
             )
         }
@@ -98,15 +107,16 @@ class ModalTabsEdit extends Component {
     render() {
         console.log(this.props);
         const { id, exerciseArr, date, msgUpdate } = this.props;
-        const { editOn, nestedModal } = this.state;
+        const { editOn, nestedModal, index } = this.state;
+        console.log(index);
         return (
             <div>
                 {editOn ? <TableEditer id={id} date={date} exercise={exerciseArr} msgUpdate={msgUpdate} /> : this.tableRender(exerciseArr)}
                 {nestedModal ? <Modal isOpen={this.state.nestedModal} toggle={this.toggleNested} onClosed={this.state.closeAll ? this.toggle : undefined}>
                     <ModalBody>Are you sure you want to delete this?</ModalBody>
                     <ModalFooter>
-                        <Button color="primary" onClick={this.toggleNested}>Yes</Button>{' '}
-                        <Button color="secondary" onClick={this.toggleAll}>No</Button>
+                        <Button color="primary" onClick={() => this.deleteThis()}>Yes</Button>{' '}
+                        <Button color="secondary" onClick={() => this.toggleNested()}>No</Button>
                     </ModalFooter>
                 </Modal> : null}
             </div>

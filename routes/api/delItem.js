@@ -4,7 +4,7 @@ const User = require("../../database/models/user");
 
 router.post('/', (req, res) => {
 console.log('delitems');
-    console.log(req);
+    console.log(req.body);
 
 });
 
