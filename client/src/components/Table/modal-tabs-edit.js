@@ -11,11 +11,13 @@ class ModalTabsEdit extends Component {
         editOn: false,
         nestedModal: false,
         index: "",
-        collection: ""
+        collection: "",
+        color: ""
     }
 
     componentDidMount() {
         this.setState({
+            color: this.props.color,
             collection: this.props.exerciseArr
         })
     }
@@ -34,95 +36,97 @@ class ModalTabsEdit extends Component {
     }
 
     deleteThis = () => {
-        console.log("yes, here's the index: " + this.state.index);
-        axios.post("/api/del-items/", { id: this.props.id, date: this.props.date, deleteItem: this.state.collection[this.state.index] })
+        //console.log("yes, here's the index: " + this.state.index);
+
+        var userId = this.props.id;
+        var itemId = this.state.collection[this.state.index]._id;
+        axios.delete("/api/del-items/" + this.state.color + "/itemid/" + itemId + "/user/" + userId)
             .then(response => {
-                if (!response.data.errmsg) {
-                    console.log("successful signup");
-                    this.setState({
-                        //redirect to login page
-                        redirectTo: "/api/dashboard"
-                    });
-                } else {
-                    console.log("username already taken");
-                }
+                console.log(response);
             })
             .catch(error => {
-                console.log("signup error: ");
+                console.log("post /api/add-items error: ");
                 console.log(error);
             });
 
     }
 
     tableHeaders = (items) => {
-        let header = Object.keys(items[0])
+        let header = Object.keys(items[0]);
         return header.map((key, index) => {
-            return <th key={index}>{key.toUpperCase()}</th>
-        })
-    }
-
-    tableBody = (items) => {
-        return items.map((data, index) => {
-            return (
-                <tr>
-                    <td><FontAwesomeIcon icon={faEdit} size="lg" onClick={this.toggle} /></td>
-                    {Object.entries(data).map((rowValue) => {
-                        if (rowValue[0] == "exercise") {
-                            return <th scope="row">{rowValue[1]}</th>
-                        } else {
-                            return <td>{rowValue[1]}</td>
-                        }
-                    })}
-                    <td><FontAwesomeIcon icon={faTrashAlt} size="lg" onClick={() => this.toggleNested(index)} /></td>
-                </tr>
-            )
+            console.log(key)
+            if (key !== "_id") {
+                return <th key={index}>{key.toUpperCase()}</th>
+            }
         }
         )
     }
 
-    tableRender = (data) => {
+tableBody = (items) => {
+    return items.map((data, index) => {
         return (
-            <Table>
-                <thead>
-                    <tr>
-                        <th>EDIT</th>
-                        {this.tableHeaders(data)}
-                        <th>DELETE</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.tableBody(data)}
-                </tbody>
-            </Table>
+            <tr>
+                <td><FontAwesomeIcon icon={faEdit} size="lg" onClick={this.toggle} /></td>
+                {Object.entries(data).map((rowValue) => {
+                    if (rowValue[0] == "exercise") {
+                        return <th scope="row">{rowValue[1]}</th>
+                    } else if (rowValue[0] == "_id") {
+                        return null;
+                    } else {
+                        return <td>{rowValue[1]}</td>
+                    }
+                })}
+                <td><FontAwesomeIcon icon={faTrashAlt} size="lg" onClick={() => this.toggleNested(index)} /></td>
+            </tr>
         )
     }
+    )
+}
 
-    toggle = () => {
-        this.setState(prevState => ({
-            editOn: !prevState.editOn
-        }))
-    }
+tableRender = (data) => {
+    return (
+        <Table>
+            <thead>
+                <tr>
+                    <th>EDIT</th>
+                    {this.tableHeaders(data)}
+                    <th>DELETE</th>
+                </tr>
+            </thead>
+            <tbody>
+                {this.tableBody(data)}
+            </tbody>
+        </Table>
+    )
+}
+
+toggle = () => {
+    this.setState(prevState => ({
+        editOn: !prevState.editOn
+    }))
+}
 
 
-    render() {
-        console.log(this.props);
-        const { id, exerciseArr, date, msgUpdate } = this.props;
-        const { editOn, nestedModal, index } = this.state;
-        console.log(index);
-        return (
-            <div>
-                {editOn ? <TableEditer id={id} date={date} exercise={exerciseArr} msgUpdate={msgUpdate} /> : this.tableRender(exerciseArr)}
-                {nestedModal ? <Modal isOpen={this.state.nestedModal} toggle={this.toggleNested} onClosed={this.state.closeAll ? this.toggle : undefined}>
-                    <ModalBody>Are you sure you want to delete this?</ModalBody>
-                    <ModalFooter>
-                        <Button color="primary" onClick={() => this.deleteThis()}>Yes</Button>{' '}
-                        <Button color="secondary" onClick={() => this.toggleNested()}>No</Button>
-                    </ModalFooter>
-                </Modal> : null}
-            </div>
+render() {
+    console.log(this.props);
+    const { id, exerciseArr, date, msgUpdate } = this.props;
+    const { editOn, nestedModal, index } = this.state;
+    console.log(index);
+    console.log(this.props.exerciseArr);
+    return (
+        <div>
+            {editOn ? <TableEditer id={id} date={date} exercise={exerciseArr} msgUpdate={msgUpdate} /> : this.tableRender(exerciseArr)}
+            {nestedModal ? <Modal isOpen={this.state.nestedModal} toggle={this.toggleNested} onClosed={this.state.closeAll ? this.toggle : undefined}>
+                <ModalBody>Are you sure you want to delete this?</ModalBody>
+                <ModalFooter>
+                    <Button color="primary" onClick={() => this.deleteThis()}>Yes</Button>{' '}
+                    <Button color="secondary" onClick={() => this.toggleNested()}>No</Button>
+                </ModalFooter>
+            </Modal> : null}
+        </div>
 
-        )
-    }
+    )
+}
 }
 
 export default ModalTabsEdit;

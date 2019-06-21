@@ -5,9 +5,10 @@ const User = require("../../database/models/user");
 router.post('/', (req, res) => {
 
     const update = (id, updateObj) => {
-        console.log(id);
+        console.log("updateobj");
         console.log(updateObj);
-        User.findByIdAndUpdate(id, updateObj, (err, data) => {
+        console.log(req.body);
+        User.findOneAndUpdate({"_id": id}, updateObj, (err, data) => {
             if (err) {
                 console.log("500");
                 return res.status(500).send(err);
@@ -17,7 +18,7 @@ router.post('/', (req, res) => {
                 return res.status(404).end();
             }
             console.log("200");
-            console.log(data.logs);
+            console.log(data);
         })
     }
 
@@ -42,12 +43,13 @@ router.post('/', (req, res) => {
         const exObj = [];
         var nowDate = createDate(req.body.date);
         data.forEach(item => exObj.push(item));
+
         var updateObj = {
             date: nowDate,
             collections: [...exObj]
         }
-
-        return updateObj;
+        console.log(updateObj);
+         return updateObj; 
     }
 
     if (req.body.weightFlag == 1) {
@@ -55,7 +57,7 @@ router.post('/', (req, res) => {
 
         var pushThis = {
             $push: {
-                "logs": updateObj
+                logs: updateObj
             }
         }
     
@@ -67,7 +69,7 @@ router.post('/', (req, res) => {
 
         var pushThis = {
             $push: {
-                "cardiologs": updateObj
+                cardiologs: updateObj
             }
         }
     
@@ -79,7 +81,7 @@ router.post('/', (req, res) => {
 
         var pushThis = {
             $push: {
-                "bwlogs": updateObj
+                bwlogs: updateObj
             }
         }
 
@@ -92,7 +94,7 @@ router.post('/', (req, res) => {
 
         var pushThis = {
             $push: {
-                "vidslogs": updateObj
+                vidslogs: updateObj
             }
         }
 

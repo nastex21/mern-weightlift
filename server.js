@@ -12,6 +12,7 @@ app.use(morgan('dev'));
 
 // Bodyparser
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // Sessions
 app.use(

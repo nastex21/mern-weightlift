@@ -61,6 +61,7 @@ class BWAdd extends Component {
                     this.setState({ collection }, () => console.log(this.state.collection))
                 }
             } else {
+                
                 this.setState({ collection }, () => console.log(this.state.collection))
             }
         }

@@ -25,11 +25,13 @@ class ExVidsClassesAdd extends Component {
 
         this.state.collection.forEach(function(item){
             let newObj = {
+                _id: '',
                 exercise: "",
                 hours: "",
                 minutes: "",
                 completed: ""        
             };
+            newObj._id = item._id;
             newObj.exercise = item.exercise;
             if (item.hours !== "" || item.hours !== undefined){ 
                 newObj.hours = item.hours;
@@ -154,7 +156,7 @@ class ExVidsClassesAdd extends Component {
     //grab the previous state of collection, add new object with empty values after
     addExercise = (e) => {
         this.setState((prevState) => ({
-            collection: [...prevState.collection, { exercise: "", hours: "", minutes: "", completed: false }]
+            collection: [...prevState.collection, { _id: '', exercise: "", hours: "", minutes: "", completed: false }]
         })
         )
     }

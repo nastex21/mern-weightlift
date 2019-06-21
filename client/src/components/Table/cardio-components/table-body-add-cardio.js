@@ -100,6 +100,7 @@ class CardioAdd extends Component {
             console.log("can't go, error")
         } else {
             console.log("post is triggered")
+            console.log(this.props.id);
             axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, cardioFlag: 1 })
                 .then(response => {
                     console.log(response);
