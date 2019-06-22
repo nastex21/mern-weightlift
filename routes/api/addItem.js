@@ -8,6 +8,7 @@ router.post('/', (req, res) => {
         console.log("updateobj");
         console.log(updateObj);
         console.log(req.body);
+        //{$pull: {"vidslogs.$[].collections": {"_id": req.params.item}}}
         User.findOneAndUpdate({"_id": id}, updateObj, (err, data) => {
             if (err) {
                 console.log("500");
@@ -91,6 +92,7 @@ router.post('/', (req, res) => {
 
     if (req.body.vidsFlag == 1){
         var updateObj = createObj(req.body.collection);
+        //{$pull: {"vidslogs.$[].collections": {"_id": req.params.item}}}
 
         var pushThis = {
             $push: {

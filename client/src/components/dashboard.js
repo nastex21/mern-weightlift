@@ -25,40 +25,48 @@ class Dashboard extends Component {
     componentDidMount() {
         console.log(this.props.logs)
         let eventsArr = [];
-        this.props.logs.map(item =>
-            eventsArr.push({
+        this.props.logs.map(function(item){
+            if (item.collections.length > 0) {
+                eventsArr.push({
                 "title": "Entry Added",
                 "date": item.date,
                 "color": "red",
                 "collections": item.collections
-            })
-        );
-        this.props.cardiologs.map(item =>
-            eventsArr.push({
+                })
+            }
+        })
+        this.props.cardiologs.map(function(item){
+            if (item.collections.length > 0){
+                eventsArr.push({
                 "title": "Entry Added",
                 "date": item.date,
                 'color': 'blue',
                 "collections": item.collections
             })
-        );
+        }
+        });
 
-        this.props.bwlogs.map(item =>
-            eventsArr.push({
+        this.props.bwlogs.map(function(item){
+            if(item.collections.length > 0){
+                eventsArr.push({
                 "title": "Entry Added",
                 "date": item.date,
                 'color': 'green',
                 "collections": item.collections
             })
-        );
+        }
+        });
 
-        this.props.vidslogs.map(item =>
-            eventsArr.push({
+        this.props.vidslogs.map(function(item){
+            if(item.collections.length > 0){
+                eventsArr.push({
                 "title": "Entry Added",
                 "date": item.date,
                 'color': 'black',
                 "collections": item.collections
-            })
-        );
+                })
+            }
+        });
 
         this.setState({
             events: [...eventsArr],
@@ -106,7 +114,6 @@ class Dashboard extends Component {
                 exerciseArr.push(item);
             })
 
-            sum = totalWeight.reduce((total, amount) => total + amount);
         }
         console.log(exerciseArr);
 
