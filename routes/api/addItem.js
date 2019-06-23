@@ -4,12 +4,48 @@ const User = require("../../database/models/user");
 
 router.post('/', (req, res) => {
 
-    const update = (id, updateObj) => {
-        console.log("updateobj");
-        console.log(updateObj);
-        console.log(req.body);
-        //{$pull: {"vidslogs.$[].collections": {"_id": req.params.item}}}
-        User.findOneAndUpdate({"_id": id}, updateObj, (err, data) => {
+    const updateWeights = (id, updateObj) => {
+        var update = {
+            $addToSet: {
+                'logs.$[i].collections': updateObj.logs.collections
+            }
+        }
+        var filter = {
+            arrayFilters: [
+                {
+                 'i.date': updateObj.logs.date
+                }
+            ]
+        }
+        
+        User.findOneAndUpdate({"_id": id}, update, filter, (err, data) => {
+            if (err) {
+                console.log("500");
+                return res.status(500).send(err);
+            }
+            if (!data) {
+                console.log("404");
+                return res.status(404).end();
+            }
+            console.log("200");
+            console.log(data);
+        })
+    };
+
+    const updateCardio = (id, updateObj) => {
+        var update = {
+            $addToSet: {
+                'cardiologs.$[i].collections': updateObj.cardiologs.collections
+            }
+        }
+        var filter = {
+            arrayFilters: [
+                {
+                 'i.date': updateObj.cardiologs.date
+                }
+            ]
+        }
+        User.findOneAndUpdate({"_id": id}, update, filter, (err, data) => {
             if (err) {
                 console.log("500");
                 return res.status(500).send(err);
@@ -22,6 +58,63 @@ router.post('/', (req, res) => {
             console.log(data);
         })
     }
+
+    const updateBodyWeight = (id, updateObj) => {
+        var update = {
+            $addToSet: {
+                'bwlogs.$[i].collections': updateObj.bwlogs.collections
+            }
+        }
+        var filter = {
+            arrayFilters: [
+                {
+                 'i.date': updateObj.bwlogs.date
+                }
+            ]
+        }
+        
+        User.findOneAndUpdate({"_id": id}, update, filter, (err, data) => {
+            if (err) {
+                console.log("500");
+                return res.status(500).send(err);
+            }
+            if (!data) {
+                console.log("404");
+                return res.status(404).end();
+            }
+            console.log("200");
+            console.log(data);
+        })
+    };
+
+    const updateVids = (id, updateObj) => {
+        var update = {
+            $addToSet: {
+                'vidslogs.$[i].collections': updateObj.vidslogs.collections
+            }
+        }
+        var filter = {
+            arrayFilters: [
+                {
+                 'i.date': updateObj.vidslogs.date
+                }
+            ]
+        }
+        
+        User.findOneAndUpdate({"_id": id}, update, filter, (err, data) => {
+            if (err) {
+                console.log("500");
+                return res.status(500).send(err);
+            }
+            if (!data) {
+                console.log("404");
+                return res.status(404).end();
+            }
+            console.log("200");
+            console.log(data);
+        })
+    }
+
 
     const createDate = (date) => {
         let newDate = new Date(date);
@@ -49,61 +142,50 @@ router.post('/', (req, res) => {
             date: nowDate,
             collections: [...exObj]
         }
-        console.log(updateObj);
-         return updateObj; 
+
+        return updateObj; 
     }
 
     if (req.body.weightFlag == 1) {
         var updateObj = createObj(req.body.collection);
 
         var pushThis = {
-            $push: {
                 logs: updateObj
-            }
         }
     
-        update(req.body.id, pushThis);
+        updateWeights(req.body.id, pushThis);
     }
 
     if (req.body.cardioFlag == 1) {
         var updateObj = createObj(req.body.collection);
 
         var pushThis = {
-            $push: {
                 cardiologs: updateObj
-            }
         }
     
-        update(req.body.id, pushThis);
+        updateCardio(req.body.id, pushThis);
     }
 
     if (req.body.bwFlag == 1){
         var updateObj = createObj(req.body.collection);
 
         var pushThis = {
-            $push: {
                 bwlogs: updateObj
-            }
         }
 
-        update(req.body.id, pushThis);
+        updateBodyWeight(req.body.id, pushThis);
 
     }
 
     if (req.body.vidsFlag == 1){
         var updateObj = createObj(req.body.collection);
-        //{$pull: {"vidslogs.$[].collections": {"_id": req.params.item}}}
 
         var pushThis = {
-            $push: {
                 vidslogs: updateObj
-            }
         }
 
-        update(req.body.id, pushThis);
+        updateVids(req.body.id, pushThis);
     }
-
-
 });
 
 module.exports = router;
