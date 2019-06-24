@@ -4,32 +4,65 @@ const User = require("../../database/models/user");
 
 router.post('/', (req, res) => {
 
+
+
     const updateWeights = (id, updateObj) => {
+        console.log(updateObj);
         var update = {
             $addToSet: {
                 'logs.$[i].collections': updateObj.logs.collections
             }
-        }
+        };
+
+        var updateSet = {
+                $push: {
+                    'logs': {
+                        'date': updateObj.logs.date,
+                        'collections': updateObj.logs.collections
+                    }
+                }
+            }
+
         var filter = {
             arrayFilters: [
                 {
-                 'i.date': updateObj.logs.date
+                    'i.date': updateObj.logs.date
                 }
             ]
+        };
+
+        var counter = 0;
+
+        if (counter == 0) {
+            User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
+                console.log("first findOneAndUpdate");
+                if (err) {
+                    return console.log("500");
+                }
+                if (!data) {
+                    return console.log("404");
+                }
+                counter = 1;
+                console.log("200");
+                console.log(data);
+            });
         }
-        
-        User.findOneAndUpdate({"_id": id}, update, filter, (err, data) => {
-            if (err) {
-                console.log("500");
-                return res.status(500).send(err);
-            }
-            if (!data) {
-                console.log("404");
-                return res.status(404).end();
-            }
-            console.log("200");
-            console.log(data);
-        })
+    if (counter == 0) {
+            User.findByIdAndUpdate({ "_id": id }, updateSet, (err, data) => {
+                console.log("second findOneAndUpdate");
+                if (err) {
+                    console.log("500");
+                    return res.status(500).send(err);
+                }
+                if (!data) {
+                    console.log("404");
+                    return res.status(404).end();
+                }
+                counter = 1;
+                console.log("200");
+                console.log(data);
+            })
+        } 
     };
 
     const updateCardio = (id, updateObj) => {
@@ -41,11 +74,11 @@ router.post('/', (req, res) => {
         var filter = {
             arrayFilters: [
                 {
-                 'i.date': updateObj.cardiologs.date
+                    'i.date': updateObj.cardiologs.date
                 }
             ]
         }
-        User.findOneAndUpdate({"_id": id}, update, filter, (err, data) => {
+        User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
             if (err) {
                 console.log("500");
                 return res.status(500).send(err);
@@ -68,12 +101,12 @@ router.post('/', (req, res) => {
         var filter = {
             arrayFilters: [
                 {
-                 'i.date': updateObj.bwlogs.date
+                    'i.date': updateObj.bwlogs.date
                 }
             ]
         }
-        
-        User.findOneAndUpdate({"_id": id}, update, filter, (err, data) => {
+
+        User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
             if (err) {
                 console.log("500");
                 return res.status(500).send(err);
@@ -96,12 +129,12 @@ router.post('/', (req, res) => {
         var filter = {
             arrayFilters: [
                 {
-                 'i.date': updateObj.vidslogs.date
+                    'i.date': updateObj.vidslogs.date
                 }
             ]
         }
-        
-        User.findOneAndUpdate({"_id": id}, update, filter, (err, data) => {
+
+        User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
             if (err) {
                 console.log("500");
                 return res.status(500).send(err);
@@ -143,16 +176,16 @@ router.post('/', (req, res) => {
             collections: [...exObj]
         }
 
-        return updateObj; 
+        return updateObj;
     }
 
     if (req.body.weightFlag == 1) {
         var updateObj = createObj(req.body.collection);
 
         var pushThis = {
-                logs: updateObj
+            logs: updateObj
         }
-    
+
         updateWeights(req.body.id, pushThis);
     }
 
@@ -160,28 +193,28 @@ router.post('/', (req, res) => {
         var updateObj = createObj(req.body.collection);
 
         var pushThis = {
-                cardiologs: updateObj
+            cardiologs: updateObj
         }
-    
+
         updateCardio(req.body.id, pushThis);
     }
 
-    if (req.body.bwFlag == 1){
+    if (req.body.bwFlag == 1) {
         var updateObj = createObj(req.body.collection);
 
         var pushThis = {
-                bwlogs: updateObj
+            bwlogs: updateObj
         }
 
         updateBodyWeight(req.body.id, pushThis);
 
     }
 
-    if (req.body.vidsFlag == 1){
+    if (req.body.vidsFlag == 1) {
         var updateObj = createObj(req.body.collection);
 
         var pushThis = {
-                vidslogs: updateObj
+            vidslogs: updateObj
         }
 
         updateVids(req.body.id, pushThis);
