@@ -4,8 +4,6 @@ const User = require("../../database/models/user");
 
 router.post('/', (req, res) => {
 
-
-
     const updateWeights = (id, updateObj) => {
         console.log(updateObj);
         var update = {
@@ -32,8 +30,35 @@ router.post('/', (req, res) => {
         };
 
         var counter = 0;
-
         if (counter == 0) {
+            User.findOne({"_id": id, 'logs': {$not: {$elemMatch: {'date': updateObj.logs.date}}}}, (err, data) => {
+                if (err) {
+                    return console.log("500");
+                }
+                if (!data) {
+                    return console.log("404");
+                }
+                console.log("200");
+
+                User.findByIdAndUpdate({ "_id": id }, updateSet, (err, data) => {
+                    console.log("second findOneAndUpdate");
+                    if (err) {
+                        console.log("500");
+                        return res.status(500).send(err);
+                    }
+                    if (!data) {
+                        console.log("404");
+                        return res.status(404).end();
+                    }
+                    counter = 1;
+                    console.log("200");
+                    console.log(data);
+                })
+            
+            })
+    };
+        
+    if (counter == 0) {
             User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
                 console.log("first findOneAndUpdate");
                 if (err) {
@@ -46,22 +71,6 @@ router.post('/', (req, res) => {
                 console.log("200");
                 console.log(data);
             });
-        }
-    if (counter == 0) {
-            User.findByIdAndUpdate({ "_id": id }, updateSet, (err, data) => {
-                console.log("second findOneAndUpdate");
-                if (err) {
-                    console.log("500");
-                    return res.status(500).send(err);
-                }
-                if (!data) {
-                    console.log("404");
-                    return res.status(404).end();
-                }
-                counter = 1;
-                console.log("200");
-                console.log(data);
-            })
         } 
     };
 
