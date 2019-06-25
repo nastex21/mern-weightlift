@@ -5,7 +5,6 @@ const User = require("../../database/models/user");
 router.post('/', (req, res) => {
 
     const updateWeights = (id, updateObj) => {
-        console.log(updateObj);
         var update = {
             $addToSet: {
                 'logs.$[i].collections': updateObj.logs.collections
@@ -13,13 +12,13 @@ router.post('/', (req, res) => {
         };
 
         var updateSet = {
-                $push: {
-                    'logs': {
-                        'date': updateObj.logs.date,
-                        'collections': updateObj.logs.collections
-                    }
+            $push: {
+                'logs': {
+                    'date': updateObj.logs.date,
+                    'collections': updateObj.logs.collections
                 }
             }
+        }
 
         var filter = {
             arrayFilters: [
@@ -31,7 +30,7 @@ router.post('/', (req, res) => {
 
         var counter = 0;
         if (counter == 0) {
-            User.findOne({"_id": id, 'logs': {$not: {$elemMatch: {'date': updateObj.logs.date}}}}, (err, data) => {
+            User.findOne({ "_id": id, 'logs': { $not: { $elemMatch: { 'date': updateObj.logs.date } } } }, (err, data) => {
                 if (err) {
                     return console.log("500");
                 }
@@ -54,11 +53,11 @@ router.post('/', (req, res) => {
                     console.log("200");
                     console.log(data);
                 })
-            
+
             })
-    };
-        
-    if (counter == 0) {
+        };
+
+        if (counter == 0) {
             User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
                 console.log("first findOneAndUpdate");
                 if (err) {
@@ -71,7 +70,7 @@ router.post('/', (req, res) => {
                 console.log("200");
                 console.log(data);
             });
-        } 
+        }
     };
 
     const updateCardio = (id, updateObj) => {
@@ -79,54 +78,137 @@ router.post('/', (req, res) => {
             $addToSet: {
                 'cardiologs.$[i].collections': updateObj.cardiologs.collections
             }
+        };
+
+        var updateSet = {
+            $push: {
+                'cardiologs': {
+                    'date': updateObj.cardiologs.date,
+                    'collections': updateObj.cardiologs.collections
+                }
+            }
         }
+
         var filter = {
             arrayFilters: [
                 {
                     'i.date': updateObj.cardiologs.date
                 }
             ]
-        }
-        User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
-            if (err) {
-                console.log("500");
-                return res.status(500).send(err);
-            }
-            if (!data) {
-                console.log("404");
-                return res.status(404).end();
-            }
-            console.log("200");
-            console.log(data);
-        })
-    }
+        };
 
-    const updateBodyWeight = (id, updateObj) => {
+        var counter = 0;
+        if (counter == 0) {
+            User.findOne({ "_id": id, 'cardiologs': { $not: { $elemMatch: { 'date': updateObj.cardiologs.date } } } }, (err, data) => {
+                if (err) {
+                    return console.log("500");
+                }
+                if (!data) {
+                    return console.log("404");
+                }
+                console.log("200");
+
+                User.findByIdAndUpdate({ "_id": id }, updateSet, (err, data) => {
+                    console.log("second findOneAndUpdate");
+                    if (err) {
+                        console.log("500");
+                        return res.status(500).send(err);
+                    }
+                    if (!data) {
+                        console.log("404");
+                        return res.status(404).end();
+                    }
+                    counter = 1;
+                    console.log("200");
+                    console.log(data);
+                })
+
+            })
+        };
+
+        if (counter == 0) {
+            User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
+                console.log("first findOneAndUpdate");
+                if (err) {
+                    return console.log("500");
+                }
+                if (!data) {
+                    return console.log("404");
+                }
+                counter = 1;
+                console.log("200");
+                console.log(data);
+            });
+        }
+    };
+
+    const updateBW = (id, updateObj) => {
         var update = {
             $addToSet: {
                 'bwlogs.$[i].collections': updateObj.bwlogs.collections
             }
+        };
+
+        var updateSet = {
+            $push: {
+                'bwlogs': {
+                    'date': updateObj.bwlogs.date,
+                    'collections': updateObj.bwlogs.collections
+                }
+            }
         }
+
         var filter = {
             arrayFilters: [
                 {
                     'i.date': updateObj.bwlogs.date
                 }
             ]
-        }
+        };
 
-        User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
-            if (err) {
-                console.log("500");
-                return res.status(500).send(err);
-            }
-            if (!data) {
-                console.log("404");
-                return res.status(404).end();
-            }
-            console.log("200");
-            console.log(data);
-        })
+        var counter = 0;
+        if (counter == 0) {
+            User.findOne({ "_id": id, 'bwlogs': { $not: { $elemMatch: { 'date': updateObj.bwlogs.date } } } }, (err, data) => {
+                if (err) {
+                    return console.log("500");
+                }
+                if (!data) {
+                    return console.log("404");
+                }
+                console.log("200");
+
+                User.findByIdAndUpdate({ "_id": id }, updateSet, (err, data) => {
+                    console.log("second findOneAndUpdate");
+                    if (err) {
+                        console.log("500");
+                        return res.status(500).send(err);
+                    }
+                    if (!data) {
+                        console.log("404");
+                        return res.status(404).end();
+                    }
+                    counter = 1;
+                    console.log("200");
+                    console.log(data);
+                })
+
+            })
+        };
+
+        if (counter == 0) {
+            User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
+                console.log("first findOneAndUpdate");
+                if (err) {
+                    return console.log("500");
+                }
+                if (!data) {
+                    return console.log("404");
+                }
+                counter = 1;
+                console.log("200");
+                console.log(data);
+            });
+        }
     };
 
     const updateVids = (id, updateObj) => {
@@ -134,29 +216,69 @@ router.post('/', (req, res) => {
             $addToSet: {
                 'vidslogs.$[i].collections': updateObj.vidslogs.collections
             }
+        };
+
+        var updateSet = {
+            $push: {
+                'vidslogs': {
+                    'date': updateObj.vidslogs.date,
+                    'collections': updateObj.vidslogs.collections
+                }
+            }
         }
+
         var filter = {
             arrayFilters: [
                 {
                     'i.date': updateObj.vidslogs.date
                 }
             ]
+        };
+
+        var counter = 0;
+        if (counter == 0) {
+            User.findOne({ "_id": id, 'vidslogs': { $not: { $elemMatch: { 'date': updateObj.vidslogs.date } } } }, (err, data) => {
+                if (err) {
+                    return console.log("500");
+                }
+                if (!data) {
+                    return console.log("404");
+                }
+                console.log("200");
+
+                User.findByIdAndUpdate({ "_id": id }, updateSet, (err, data) => {
+                    console.log("second findOneAndUpdate");
+                    if (err) {
+                        console.log("500");
+                        return res.status(500).send(err);
+                    }
+                    if (!data) {
+                        console.log("404");
+                        return res.status(404).end();
+                    }
+                    counter = 1;
+                    console.log("200");
+                    console.log(data);
+                })
+
+            })
+        };
+
+        if (counter == 0) {
+            User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
+                console.log("first findOneAndUpdate");
+                if (err) {
+                    return console.log("500");
+                }
+                if (!data) {
+                    return console.log("404");
+                }
+                counter = 1;
+                console.log("200");
+                console.log(data);
+            });
         }
-
-        User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
-            if (err) {
-                console.log("500");
-                return res.status(500).send(err);
-            }
-            if (!data) {
-                console.log("404");
-                return res.status(404).end();
-            }
-            console.log("200");
-            console.log(data);
-        })
-    }
-
+    };
 
     const createDate = (date) => {
         let newDate = new Date(date);
@@ -215,7 +337,7 @@ router.post('/', (req, res) => {
             bwlogs: updateObj
         }
 
-        updateBodyWeight(req.body.id, pushThis);
+        updateBW(req.body.id, pushThis);
 
     }
 
