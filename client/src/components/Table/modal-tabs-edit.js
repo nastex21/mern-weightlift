@@ -40,6 +40,8 @@ class ModalTabsEdit extends Component {
 
         var userId = this.props.id;
         var itemId = this.state.collection[this.state.index]._id;
+        console.log(userId);
+        console.log(itemId);
         axios.delete("/api/del-items/" + this.state.color + "/itemid/" + itemId + "/user/" + userId)
             .then(response => {
                 console.log(response);
