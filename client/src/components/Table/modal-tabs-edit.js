@@ -64,71 +64,71 @@ class ModalTabsEdit extends Component {
         )
     }
 
-tableBody = (items) => {
-    return items.map((data, index) => {
-        return (
-            <tr>
-                <td><FontAwesomeIcon icon={faEdit} size="lg" onClick={this.toggle} /></td>
-                {Object.entries(data).map((rowValue) => {
-                    if (rowValue[0] == "exercise") {
-                        return <th scope="row">{rowValue[1]}</th>
-                    } else if (rowValue[0] == "_id") {
-                        return null;
-                    } else {
-                        return <td>{rowValue[1]}</td>
-                    }
-                })}
-                <td><FontAwesomeIcon icon={faTrashAlt} size="lg" onClick={() => this.toggleNested(index)} /></td>
-            </tr>
+    tableBody = (items) => {
+        return items.map((data, index) => {
+            return (
+                <tr>
+                    <td><FontAwesomeIcon icon={faEdit} size="lg" onClick={this.toggle} /></td>
+                    {Object.entries(data).map((rowValue) => {
+                        if (rowValue[0] == "exercise") {
+                            return <th scope="row">{rowValue[1]}</th>
+                        } else if (rowValue[0] == "_id") {
+                            return null;
+                        } else {
+                            return <td>{rowValue[1]}</td>
+                        }
+                    })}
+                    <td><FontAwesomeIcon icon={faTrashAlt} size="lg" onClick={() => this.toggleNested(index)} /></td>
+                </tr>
+            )
+        }
         )
     }
-    )
-}
 
-tableRender = (data) => {
-    return (
-        <Table>
-            <thead>
-                <tr>
-                    <th>EDIT</th>
-                    {this.tableHeaders(data)}
-                    <th>DELETE</th>
-                </tr>
-            </thead>
-            <tbody>
-                {this.tableBody(data)}
-            </tbody>
-        </Table>
-    )
-}
+    tableRender = (data) => {
+        return (
+            <Table>
+                <thead>
+                    <tr>
+                        <th>EDIT</th>
+                        {this.tableHeaders(data)}
+                        <th>DELETE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {this.tableBody(data)}
+                </tbody>
+            </Table>
+        )
+    }
 
-toggle = () => {
-    this.setState(prevState => ({
-        editOn: !prevState.editOn
-    }))
-}
+    toggle = () => {
+        this.setState(prevState => ({
+            editOn: !prevState.editOn
+        }))
+    }
 
 
-render() {
-    console.log(this.props);
-    const { id, exerciseArr, date, msgUpdate } = this.props;
-    const { editOn, nestedModal, index } = this.state;
-    console.log(index);
-    console.log(this.props.exerciseArr);
-    return (
-        <div>
-            {editOn ? <TableEditer id={id} date={date} exercise={exerciseArr} msgUpdate={msgUpdate} /> : this.tableRender(exerciseArr)}
-            {nestedModal ? <Modal isOpen={this.state.nestedModal} toggle={this.toggleNested} onClosed={this.state.closeAll ? this.toggle : undefined}>
-                <ModalBody>Are you sure you want to delete this?</ModalBody>
-                <ModalFooter>
-                    <Button color="primary" onClick={() => this.deleteThis()}>Yes</Button>{' '}
-                    <Button color="secondary" onClick={() => this.toggleNested()}>No</Button>
-                </ModalFooter>
-            </Modal> : null}
-        </div>
+    render() {
+        console.log(this.props);
+        const { id, exerciseArr, date, msgUpdate } = this.props;
+        const { editOn, nestedModal, index, color } = this.state;
+        console.log(index);
+        console.log(this.props.exerciseArr);
+        return (
+            <div>
+                {editOn ? <TableEditer id={id} date={date} exercise={exerciseArr} msgUpdate={msgUpdate} color={color} index={index} /> : this.tableRender(exerciseArr)}
+                {nestedModal ? <Modal isOpen={this.state.nestedModal} toggle={this.toggleNested} onClosed={this.state.closeAll ? this.toggle : undefined}>
+                    <ModalBody>Are you sure you want to delete this?</ModalBody>
+                    <ModalFooter>
+                        <Button color="primary" onClick={() => this.deleteThis()}>Yes</Button>{' '}
+                        <Button color="secondary" onClick={() => this.toggleNested()}>No</Button>
+                    </ModalFooter>
+                </Modal> : null}
+            </div>
 
-    )
-}
+        )
+    }
 }
 
 export default ModalTabsEdit;
