@@ -5,7 +5,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import ModalTabs from './Table/modal-tabs';
-import ModalTabsEdit from './Table/modal-tabs-edit';
+import ModalEditDel from './Table/modal-edit-del';
 import '@fullcalendar/core/main.css';
 import '@fullcalendar/daygrid/main.css';
 import '@fullcalendar/bootstrap/main.css';
@@ -160,7 +160,7 @@ class Dashboard extends Component {
                             {this.state.showError && <div class="alert alert-danger">
                                 <button type="button" class="close" data-dismiss="alert" onClick={this.closeErr}>&times;</button> Uh-oh! Try changing a few things up and hit submit again.
                              </div>}
-                            {this.state.exercise.length == 0 ? <ModalTabs id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} /> :<ModalTabsEdit title={this.state.title} id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} />}
+                            {this.state.exercise.length == 0 ? <ModalTabs id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} /> :<ModalEditDel title={this.state.title} id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} />}
                         </ModalBody>
                 </Modal>
             </div>

@@ -3,10 +3,10 @@ import { Table } from 'reactstrap';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import TableEditer from './modal-tabs-edit-delete';
+import TableEditer from './modal-edit';
 import axios from 'axios';
 
-class ModalTabsEdit extends Component {
+class ModalEditDel extends Component {
     state = {
         editOn: false,
         nestedModal: false,
@@ -131,4 +131,4 @@ class ModalTabsEdit extends Component {
     }
 }
 
-export default ModalTabsEdit;
+export default ModalEditDel;
