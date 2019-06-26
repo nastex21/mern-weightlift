@@ -94,7 +94,7 @@ class BWAdd extends Component {
     }
     
 
-    render() {
+    render() { 
         const { collection } = this.state;
         return (
             <Form onSubmit={this.submit}  onChange={this.handleChange}>                

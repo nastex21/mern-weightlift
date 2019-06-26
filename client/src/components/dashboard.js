@@ -146,8 +146,7 @@ class Dashboard extends Component {
     }
 
     render() {
-        const { exercise, modal, date, events, total, color } = this.state;
-        console.log(color);
+        const { exercise, modal, date, events, color } = this.state;
         return (
             <div className="calendar-body">
                 <FullCalendar defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={events} eventClick={this.toggle} />
