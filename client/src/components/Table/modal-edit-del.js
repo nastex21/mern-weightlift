@@ -29,12 +29,6 @@ class ModalEditDel extends Component {
         });
     }
 
-    editToggle = () => {
-        this.setState(prevState => ({
-            editOn: !prevState.editOn
-        }))
-    }
-
     deleteThis = () => {
         //console.log("yes, here's the index: " + this.state.index);
 
