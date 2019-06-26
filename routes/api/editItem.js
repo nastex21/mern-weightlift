@@ -42,7 +42,7 @@ router.post('/', (req, res) => {
             var filter = {
                 arrayFilters: [
                     {
-                        'i.collections._id': collection[0]._id
+                        'i.collections._id': collection[i]._id
                     }
                 ]
             };
@@ -71,7 +71,7 @@ router.post('/', (req, res) => {
             var filter = {
                 arrayFilters: [
                     {
-                        'i.collections._id': collection[0]._id
+                        'i.collections._id': collection[i]._id
                     }
                 ]
             };
@@ -100,7 +100,7 @@ router.post('/', (req, res) => {
             var filter = {
                 arrayFilters: [
                     {
-                        'i.collections._id': collection[0]._id
+                        'i.collections._id': collection[i]._id
                     }
                 ]
             };
