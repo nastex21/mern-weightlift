@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require("../../database/models/user");
-const Validate = require('../../validation/validateEdit');
+const Validate = require('../../validation/validate');
 
 router.post('/', Validate, (req, res) => {
     console.log('edit-items');
