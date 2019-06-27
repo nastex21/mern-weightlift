@@ -15,80 +15,6 @@ class ExVidsClassesAdd extends Component {
         completed: false
     }
 
-    //valadation for collection
-    validateCollection = () => {
-        //counter to keep track of errors. If at the end of the tests, the counter is not zero, don't proceed to axios.post
-        var errCounter = 0;
-
-        var arr = [];
-
-
-        this.state.collection.forEach(function(item){
-            let newObj = {
-                _id: '',
-                exercise: "",
-                hours: "",
-                minutes: "",
-                completed: ""        
-            };
-            newObj._id = item._id;
-            newObj.exercise = item.exercise;
-            if (item.hours !== "" || item.hours !== undefined){ 
-                newObj.hours = item.hours;
-            }
-            if (item.minutes !== "" || item.minutes !== undefined){
-                newObj.minutes = item.minutes;
-            }
-            newObj.completed = item.completed;
-            arr.push(newObj);
-        });
-
-        console.log(arr);
-
-        //find any error and stop test immediately
-        console.log(this.state.completed);
-        
-        if (this.state.completed == false) {
-            arr.some(function (item) {
-                console.log(item.hours)
-                //find empty strings
-                if (item.exercise === '' || item.hours === '' || item.minutes === '') {
-                    console.log("Undefined");
-                    errCounter = 1;
-                }
-
-                if(item.hours == undefined || item.minutes == undefined){
-                    console.log("Hours and minutes can't both be zero")
-                    errCounter = 1;
-                }
-
-            });
-        } else {
-            arr.some(function (item) {
-                //find empty strings
-                if (item.exercise === '') {
-                    console.log("found!")
-                    errCounter = 1;
-                }
-            });
-        }
-
-        arr.forEach(function(item){
-            if (item.hours == 0 && item.minutes == 0){
-                errCounter = 1;
-                console.log("hours and minutes can't be zero")
-            }
-        })
-
-        if (errCounter === 1) {
-            this.props.msgUpdate(true);
-            return false;
-        } else {
-            this.props.msgUpdate(false);
-            return true;
-        }
-    }
-
     //changes when keys are pressed
     handleChange = (e) => {
         console.log('triggered handleChange');
@@ -115,7 +41,7 @@ class ExVidsClassesAdd extends Component {
             console.log(e.target.className);
             //if the target.value is empty or it doesn't pass the test, then setState
             if (e.target.className == "hours") {
-                e.target.value = parseInt(e.target.value, 10) 
+                e.target.value = parseInt(e.target.value, 10)
                 if (e.target.value == '') {
                     if (!this.state.completed) {
                         collection[e.target.dataset.id][e.target.className] = e.target.value;
@@ -132,7 +58,7 @@ class ExVidsClassesAdd extends Component {
                 this.setState({ collection }, () => console.log(this.state.collection));
             } else if (e.target.className == "minutes") {
                 if (e.target.value == '' || e.target.value >= 0 && e.target.value < 60) {
-                    e.target.value = parseInt(e.target.value, 10) 
+                    e.target.value = parseInt(e.target.value, 10)
                     if (!this.state.completed) {
                         collection[e.target.dataset.id][e.target.className] = e.target.value;
                         collection[e.target.dataset.id].completed = "false";
@@ -163,23 +89,15 @@ class ExVidsClassesAdd extends Component {
 
     submit = (e) => {
         e.preventDefault();
-        //if validateCollection is false, don't go on else post
-        if (!this.validateCollection()) {
-            console.log("can't go, error")
-        } else {
-            console.log("post is triggered")
-       
-             axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, vidsFlag: 1 })
-                  .then(response => {
-                      console.log(response);
-                  })
-                  .catch(error => {
-                      console.log("post /api/add-items error: ");
-                      console.log(error);
-                  });   
 
-        console.log(this.state.collection);
-        }
+        axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, completed: this.state.completed, vidsFlag: 1 })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log("post /api/add-items error: ");
+                console.log(error);
+            });
     }
 
 
@@ -212,13 +130,13 @@ class ExVidsClassesAdd extends Component {
                                             <Col md={6}>
                                                 <Label />
                                                 <Input type="tel" data-id={idx} name={hrId} id={hrId} value={isNaN(collection[idx].hours) ? '' : collection[idx].hours} className="hours" placeholder="Number" disabled={completed} />
-                                                <span>HR</span>     
-                                            </Col>          
-                                            <Col md={6}>                   
+                                                <span>HR</span>
+                                            </Col>
+                                            <Col md={6}>
                                                 <Label />
-                                                <Input type="tel" data-id={idx} name={minId} id={minId} value={isNaN(collection[idx].minutes) ? '' : collection[idx].minutes} className="minutes" placeholder="Number"  disabled={completed}/>
+                                                <Input type="tel" data-id={idx} name={minId} id={minId} value={isNaN(collection[idx].minutes) ? '' : collection[idx].minutes} className="minutes" placeholder="Number" disabled={completed} />
                                                 <span>MIN</span>
-                                            </Col>     
+                                            </Col>
                                         </Row>
                                     </FormGroup>
                                 </Col>

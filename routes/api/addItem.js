@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const User = require("../../database/models/user");
+const Validate = require('../../validation/validateAdd');
 
-router.post('/', (req, res) => {
+router.post('/', Validate, (req, res) => {
 
     const updateWeights = (id, updateObj) => {
         var update = {

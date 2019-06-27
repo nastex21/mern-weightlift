@@ -14,36 +14,6 @@ class CardioAdd extends Component {
         }]
     }
 
-    //valadation for collection
-    validateCollection = () => {
-        //counter to keep track of errors. If at the end of the tests, the counter is not zero, don't proceed to axios.post
-        var errCounter = 0;
-        //regex to search for numbers
-        const re = /^\d+$\b/;
-        //find any error and stop test immediately
-        this.state.collection.some(function (item) {
-            //find empty strings
-            if (item.exercise === '' || item.distance === '' || item.hours === '' || item.minutes === '') {
-                errCounter = 1;
-            }
-            //if it doesn't pass the regex test
-            if (!re.test(item.hours) || !re.test(item.minutes)) {
-                errCounter = 1;
-            }
-        });
-
-        if (errCounter === 1) {
-            this.props.msgUpdate(true);
-            return false;
-        } else {
-            this.props.msgUpdate(false);
-            return true;
-        }
-
-    }
-
-
-
     //changes when keys are pressed
     handleChange = (e) => {
         console.log(e.target.className);
@@ -58,28 +28,28 @@ class CardioAdd extends Component {
 
             //if the target.value is empty or it doesn't pass the test, then setState
             if (e.target.className == "distance") {
-                    e.target.value = +e.target.value;
-                    collection[e.target.dataset.id][e.target.className] = e.target.value;
-                    this.setState({ collection }, () => console.log(this.state.collection))  
-            } else if(e.target.className == "hours"){
-                e.target.value =  parseInt(e.target.value, 10)  
-                if (e.target.value == '' ){       
+                e.target.value = +e.target.value;
+                collection[e.target.dataset.id][e.target.className] = e.target.value;
+                this.setState({ collection }, () => console.log(this.state.collection))
+            } else if (e.target.className == "hours") {
+                e.target.value = parseInt(e.target.value, 10)
+                if (e.target.value == '') {
                     collection[e.target.dataset.id][e.target.className] = e.target.value;
                     this.setState({ collection }, () => console.log(this.state.collection))
-                } 
-                     collection[e.target.dataset.id][e.target.className] = e.target.value;
-                    this.setState({ collection }, () => console.log(this.state.collection))
-            } else if (e.target.className == "minutes"){
-                e.target.value = parseInt(e.target.value, 10) 
-                if (e.target.value == '' || e.target.value >= 0 && e.target.value < 60) {                 
+                }
+                collection[e.target.dataset.id][e.target.className] = e.target.value;
+                this.setState({ collection }, () => console.log(this.state.collection))
+            } else if (e.target.className == "minutes") {
+                e.target.value = parseInt(e.target.value, 10)
+                if (e.target.value == '' || e.target.value >= 0 && e.target.value < 60) {
                     collection[e.target.dataset.id][e.target.className] = e.target.value;
                     this.setState({ collection }, () => console.log(this.state.collection))
                 } else {
                     console.log("Error: Minutes to be less than 60")
                 }
             } else {
-                     collection[e.target.dataset.id][e.target.className] = e.target.value;
-                     this.setState({ collection }, () => console.log(this.state.collection))
+                collection[e.target.dataset.id][e.target.className] = e.target.value;
+                this.setState({ collection }, () => console.log(this.state.collection))
             }
         }
     }
@@ -95,21 +65,18 @@ class CardioAdd extends Component {
     submit = (e) => {
         //e.target.value = e.target.value.replace(/^0+/, ''); -- get rid of leading zeroes
         e.preventDefault();
-        //if validateCollection is false, don't go on else post
-        if (!this.validateCollection()) {
-            console.log("can't go, error")
-        } else {
-            console.log("post is triggered")
-            console.log(this.props.id);
-            axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, cardioFlag: 1 })
-                .then(response => {
-                    console.log(response);
-                })
-                .catch(error => {
-                    console.log("post /api/add-items error: ");
-                    console.log(error);
-                });
-        }
+
+        console.log("post is triggered")
+        console.log(this.props.id);
+        axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, cardioFlag: 1 })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log("post /api/add-items error: ");
+                console.log(error);
+            });
+
     }
 
 

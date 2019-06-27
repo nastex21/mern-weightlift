@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const User = require("../../database/models/user");
+const Validate = require('../../validation/validateEdit');
 
-router.post('/', (req, res) => {
+router.post('/', Validate, (req, res) => {
     console.log('edit-items');
     console.log(req.body);
 
     //WORKS but only for June 7! Need to fix around the variables.
     const { id, date, color, collection } = req.body;
-
 
     const createDate = (date) => {
         let newDate = new Date(date);

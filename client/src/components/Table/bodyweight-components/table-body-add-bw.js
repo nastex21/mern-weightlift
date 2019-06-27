@@ -13,34 +13,6 @@ class BWAdd extends Component {
         }]
     }
 
-    //valadation for collection
-    validateCollection = () => {
-        //counter to keep track of errors. If at the end of the tests, the counter is not zero, don't proceed to axios.post
-        var errCounter = 0;
-        //regex to search for numbers
-        const re = /^\d+$\b/;
-        //find any error and stop test immediately
-        this.state.collection.some(function (item) {
-            //find empty strings
-            if (item.exercise === '' || item.sets === '' || item.reps === '') {
-                errCounter = 1;
-            }
-            //if it doesn't pass the regex test
-            if (!re.test(item.sets) || !re.test(item.reps)) {
-                errCounter = 1;
-            }
-        });
-
-        if (errCounter === 1) {
-            this.props.msgUpdate(true);
-            return false;
-        } else {
-            this.props.msgUpdate(false);
-            return true;
-        }
-
-    }
-
     //changes when keys are pressed
     handleChange = (e) => {
         //get the className and remove the 'form-control' suffix at the end
@@ -77,20 +49,17 @@ class BWAdd extends Component {
 
     submit = (e) => {
         e.preventDefault();
-        //if validateCollection is false, don't go on else post
-        if (!this.validateCollection()) {
-            console.log("can't go, error")
-        } else {
-            console.log("post is triggered")
-            axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, bwFlag: 1 })
-                .then(response => {
-                    console.log(response);
-                })
-                .catch(error => {
-                    console.log("post /api/add-items error: ");
-                    console.log(error);
-                });
-        }
+
+        console.log("post is triggered")
+        axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, bwFlag: 1 })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log("post /api/add-items error: ");
+                console.log(error);
+            });
+
     }
 
 
