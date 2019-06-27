@@ -67,58 +67,52 @@ module.exports = function (req, res, next) {
             }
             newObj.completed = item.completed;
             arr.push(newObj);
-            completeCheck.push(item.completed);
         });
 
-        completeCheck.forEach(data => {
-            console.log("completeCheck");
-            console.log(data);
-            if (data == 'false') {
-                arr.some(function (item) {
-                    console.log("if");
-                    console.log(item.hours)
-                    //find empty strings
-                    if (item.exercise === '' || item.hours === '' || item.minutes === '') {
-                        console.log("Undefined");
-                        errCounter = 1;
-                    }
+        arr.forEach(item => {
+            if (item.completed == "false") {
+                console.log('false');
+                if (item.exercise === '' || item.hours === '' || item.minutes === '') {
+                    console.log("Undefined");
+                    errCounter = 1;
+                }
 
-                    if (item.hours == undefined || item.minutes == undefined) {
-                        console.log("Hours and minutes can't both be zero")
-                        errCounter = 1;
-                    }
+                if (item.hours == undefined || item.minutes == undefined) {
+                    console.log("Hours and minutes can't both be zero")
+                    errCounter = 1;
+                }
 
-                    if (isNaN(item.hours) || isNaN(item.minutes)) {
-                        errCounter = 1;
-                    }
-
-                });
+                if (isNaN(item.hours) || isNaN(item.minutes)) {
+                    errCounter = 1;
+                }
             } else {
-                arr.some(function (item) {
-                    console.log("else")
-                    //find empty strings
-                    if (item.exercise === '') {
-                        console.log("found!")
-                        errCounter = 1;
-                    }
-                });
-            }
-        })
+                if (data == 'true') {
+                    console.log("true");
+                    arr.some(function (item) {
+                        console.log("else")
+                        //find empty strings
+                        if (item.exercise === '') {
+                            console.log("found!")
+                            errCounter = 1;
+                        }
+                    });
+                }
+            }})
 
         arr.forEach(function (item) {
             if (item.hours == 0 && item.minutes == 0) {
                 errCounter = 1;
-                console.log("hours and minutes can't be zero")
+                console.log("hours and minutes can't both be zero")
             }
         })
 
     }
 
-    if (errCounter === 1) {
-        return res.status(400).send({
-            message: 'This is an error!'
-        });
-    } else {
-        next()
-    }
+      if (errCounter === 1) {
+         return res.status(400).send({
+             message: 'This is an error!'
+         });
+     } else {
+         next()
+     } 
 };
