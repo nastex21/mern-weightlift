@@ -2,10 +2,9 @@ module.exports = function (req, res, next) {
     console.log('vaildate');
     console.log(req.body);
     console.log('after');
-    const { weightFlag, cardioFlag, bwFlag, vidsFlag, completed, color } = req.body;
+    const { weightFlag, cardioFlag, bwFlag, vidsFlag, color } = req.body;
     var data = req.body;
     var arr = [];
-    var completeCheck = [];
     var error = {};
     //counter to keep track of errors. If at the end of the tests, the counter is not zero, don't proceed to axios.post
     var errCounter = 0;
@@ -70,6 +69,7 @@ module.exports = function (req, res, next) {
         });
 
         arr.forEach(item => {
+            console.log(item.completed);
             if (item.completed == "false") {
                 console.log('false');
                 if (item.exercise === '' || item.hours === '' || item.minutes === '') {

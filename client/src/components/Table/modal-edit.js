@@ -84,28 +84,58 @@ class TableEditer extends Component {
             return [{
                 Header: 'Name',
                 accessor: 'exercise',
-                Cell: this.renderEditable
             },
             {
+                id: "exHrs",
                 Header: 'Hours',
                 accessor: 'hours',
-                Cell: this.renderEditable
+                Cell: item => item.original.completed == "false" ? (
+                <div style={{ backgroundColor: "#fafafa" }} contentEditable suppressContentEditableWarning
+                        onBlur={e => { const collection = [...this.state.collection];
+                            collection[item.index][item.column.id] = e.target.innerHTML;
+                            this.setState({ collection });
+                        }}
+
+                        dangerouslySetInnerHTML={{
+                            __html: this.state.collection[item.index][item.column.id]}}
+                /> ): null }
             },
             {
+                id: "exMins",
                 Header: 'Minutes',
                 accessor: 'minutes',
-                Cell: this.renderEditable
+                Cell: item => item.original.completed == "false" ? {
+                    id: "exHrs",
+                    Header: 'Hours',
+                    accessor: 'hours',
+                    Cell: item => item.original.completed == "false" ? <div
+                        style={{ backgroundColor: "#fafafa" }}
+                        contentEditable
+                        suppressContentEditableWarning
+                        onBlur={e => {
+                            const collection = [...this.state.collection];
+                            collection[item.index][item.column.id] = e.target.innerHTML;
+                            this.setState({ collection });
+                        }}
+
+                        dangerouslySetInnerHTML={{
+                            __html: this.state.collection[item.index][item.column.id]
+                        }}
+                } />: null
             },
             {
                 Header: 'Completed',
                 accessor: 'completed',
-                Cell: this.renderEditable
+                Cell: this.nonEditable
             }
             ];
         }
     }
 
-    renderEditable = (cellInfo) => {
+
+
+    nonEditable = (cellInfo) => {
+        console.log("nonEditable")
         console.log(cellInfo);
         return (
             <div
@@ -117,12 +147,14 @@ class TableEditer extends Component {
                     collection[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
                     this.setState({ collection });
                 }}
+
                 dangerouslySetInnerHTML={{
                     __html: this.state.collection[cellInfo.index][cellInfo.column.id]
                 }}
             />
         );
     }
+
 
     submitThis = () => {
         console.log("works")

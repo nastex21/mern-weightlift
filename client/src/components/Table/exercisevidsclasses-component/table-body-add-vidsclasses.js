@@ -12,11 +12,12 @@ class ExVidsClassesAdd extends Component {
             minutes: '',
             completed: ''
         }],
-        completed: false
+        completed: ''
     }
 
     //changes when keys are pressed
     handleChange = (e) => {
+        console.log(e.target.checked);
         console.log('triggered handleChange');
         //get the className and remove the 'form-control' suffix at the end
         e.target.className = e.target.className.replace(' form-control', '');
@@ -31,39 +32,39 @@ class ExVidsClassesAdd extends Component {
         if (["exercise", "hours", "minutes", "completed"].includes(e.target.className)) {
             let collection = [...this.state.collection];
 
-            if (e.target.className == "completed" && e.target.value == "true") {
-                collection[e.target.dataset.id][e.target.className] = e.target.value;
-                delete collection[e.target.dataset.id].hours;
-                delete collection[e.target.dataset.id].minutes;
-                this.setState({ collection }, () => console.log(this.state.collection));
-            }
-
             console.log(e.target.className);
             //if the target.value is empty or it doesn't pass the test, then setState
             if (e.target.className == "hours") {
+                console.log('1')
                 e.target.value = parseInt(e.target.value, 10)
                 if (e.target.value == '') {
                     if (!this.state.completed) {
+                        console.log('2')
                         collection[e.target.dataset.id][e.target.className] = e.target.value;
                         collection[e.target.dataset.id].completed = "false";
                         this.setState({ collection }, () => console.log(this.state.collection));
                     } else {
+                        console.log('3')
                         collection[e.target.dataset.id].completed = "false";
                         collection[e.target.dataset.id][e.target.className] = "";
                         this.setState({ collection }, () => console.log(this.state.collection));
                     }
                 }
+                console.log('4')
                 collection[e.target.dataset.id][e.target.className] = e.target.value;
                 collection[e.target.dataset.id].completed = "false";
                 this.setState({ collection }, () => console.log(this.state.collection));
             } else if (e.target.className == "minutes") {
                 if (e.target.value == '' || e.target.value >= 0 && e.target.value < 60) {
+                    console.log('5')
                     e.target.value = parseInt(e.target.value, 10)
                     if (!this.state.completed) {
+                        console.log('6')
                         collection[e.target.dataset.id][e.target.className] = e.target.value;
                         collection[e.target.dataset.id].completed = "false";
                         this.setState({ collection }, () => console.log(this.state.collection));
                     } else {
+                        console.log('7')
                         collection[e.target.dataset.id][e.target.className] = "";
                         collection[e.target.dataset.id].completed = "false";
                         this.setState({ collection }, () => console.log(this.state.collection));
@@ -72,9 +73,16 @@ class ExVidsClassesAdd extends Component {
                     console.log("Error: Minutes to be less than 60")
                 }
             } else {
-                collection[e.target.dataset.id][e.target.className] = e.target.value;
-                collection[e.target.dataset.id].completed = "false";
-                this.setState({ collection }, () => console.log(this.state.collection))
+                console.log('8')
+                if (["exercise"].includes(e.target.className)) {
+                    collection[e.target.dataset.id].exercise = e.target.value;
+                }
+                if(['completed'].includes(e.target.className)) {
+                    collection[e.target.dataset.id].completed = e.target.checked;
+                }
+                delete collection[e.target.dataset.id].hours;
+                delete collection[e.target.dataset.id].minutes;
+                this.setState({ collection }, () => console.log(this.state.collection));
             }
         }
     }
@@ -143,7 +151,7 @@ class ExVidsClassesAdd extends Component {
                                 <Col md={4}>
                                     <FormGroup check>
                                         <Label check >
-                                            <Input type="checkbox" data-id={idx} name={completedId} id={completedId} className="completed" value={!completed} onClick={this.toggleCheckBox} />{' '}
+                                            <Input type="checkbox" data-id={idx} name={completedId} id={completedId} className="completed" value={!completed} onChange={this.handleChange} onClick={this.toggleCheckBox} />{' '}
                                             Completed
                                         </Label>
                                     </FormGroup>
