@@ -82,79 +82,86 @@ class TableEditer extends Component {
 
         if (color == 'black') {
             return [{
+                id: 'exName',
                 Header: 'Name',
                 accessor: 'exercise',
+                Cell: item => item.original.completed == "false" ? (
+                    <div
+                        style={{ backgroundColor: "#fafafa" }}
+                        contentEditable
+                        suppressContentEditableWarning
+                        onBlur={e => {
+                            const collection = [...this.state.collection];
+                            collection[item.index].exercise = e.target.innerHTML;
+                            this.setState({ collection });
+                        }}
+
+                        dangerouslySetInnerHTML={{
+                            __html: this.state.collection[item.index].exercise
+                        }}
+                    />) : (
+                        <div
+                            style={{ backgroundColor: "#fafafa" }}
+                            contentEditable
+                            suppressContentEditableWarning
+                            onBlur={e => {
+                                const collection = [...this.state.collection];
+                                collection[item.index].exercise = e.target.innerHTML;
+                                this.setState({ collection });
+                            }}
+
+                            dangerouslySetInnerHTML={{
+                                __html: this.state.collection[item.index].exercise
+                            }}
+                        />)
             },
             {
                 id: "exHrs",
                 Header: 'Hours',
                 accessor: 'hours',
                 Cell: item => item.original.completed == "false" ? (
-                <div style={{ backgroundColor: "#fafafa" }} contentEditable suppressContentEditableWarning
-                        onBlur={e => { const collection = [...this.state.collection];
-                            collection[item.index][item.column.id] = e.target.innerHTML;
-                            this.setState({ collection });
-                        }}
-
-                        dangerouslySetInnerHTML={{
-                            __html: this.state.collection[item.index][item.column.id]}}
-                /> ): null }
-            },
-            {
-                id: "exMins",
-                Header: 'Minutes',
-                accessor: 'minutes',
-                Cell: item => item.original.completed == "false" ? {
-                    id: "exHrs",
-                    Header: 'Hours',
-                    accessor: 'hours',
-                    Cell: item => item.original.completed == "false" ? <div
+                    <div
                         style={{ backgroundColor: "#fafafa" }}
                         contentEditable
                         suppressContentEditableWarning
                         onBlur={e => {
                             const collection = [...this.state.collection];
-                            collection[item.index][item.column.id] = e.target.innerHTML;
+                            collection[item.index].hours = e.target.innerHTML;
                             this.setState({ collection });
                         }}
 
                         dangerouslySetInnerHTML={{
-                            __html: this.state.collection[item.index][item.column.id]
+                            __html: this.state.collection[item.index].hours
                         }}
-                } />: null
+                    />) : null
+            },
+            {
+                id: "exMins",
+                Header: 'Minutes',
+                accessor: 'minutes',
+                Cell: item => item.original.completed == "false" ? (
+                    <div
+                        style={{ backgroundColor: "#fafafa" }}
+                        contentEditable
+                        suppressContentEditableWarning
+                        onBlur={e => {
+                            const collection = [...this.state.collection];
+                            collection[item.index].minutes = e.target.innerHTML;
+                            this.setState({ collection });
+                        }}
+
+                        dangerouslySetInnerHTML={{
+                            __html: this.state.collection[item.index].minutes
+                        }}
+                    />) : null
             },
             {
                 Header: 'Completed',
-                accessor: 'completed',
-                Cell: this.nonEditable
+                accessor: 'completed'
             }
             ];
         }
     }
-
-
-
-    nonEditable = (cellInfo) => {
-        console.log("nonEditable")
-        console.log(cellInfo);
-        return (
-            <div
-                style={{ backgroundColor: "#fafafa" }}
-                contentEditable
-                suppressContentEditableWarning
-                onBlur={e => {
-                    const collection = [...this.state.collection];
-                    collection[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
-                    this.setState({ collection });
-                }}
-
-                dangerouslySetInnerHTML={{
-                    __html: this.state.collection[cellInfo.index][cellInfo.column.id]
-                }}
-            />
-        );
-    }
-
 
     submitThis = () => {
         console.log("works")
