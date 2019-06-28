@@ -115,16 +115,15 @@ class ExVidsClassesAdd extends Component {
 
 
     render() {
-        const { collection, completed } = this.state;
-        console.log(collection);
-        console.log(completed);
+        const { id, collection, completed } = this.state;
+  
         return (
             <Form onSubmit={this.submit} onChange={this.handleChange}>
                 <Button onClick={this.addExercise}>Add Exercise</Button>
                 {collection.map((val, idx) => {
-                    let exId = `ex-${idx}`, durationId = `duration-${idx}`, hrId = `hr-${idx}`, minId = `min-${idx}`, completedId = `comp-${idx}`;
+                    let exId = `ex-${idx}`, hrId = `hr-${idx}`, minId = `min-${idx}`, completedId = `comp-${idx}`;
                     return (
-                        <div key={idx}>
+                        <div key={id + idx}>
                             <Row form>
                                 <Col md={4}>
                                     <FormGroup>

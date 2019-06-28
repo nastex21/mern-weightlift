@@ -81,15 +81,15 @@ class CardioAdd extends Component {
 
 
     render() {
-        const { collection } = this.state;
-        console.log(collection);
+        const { id, collection } = this.state;
+
         return (
             <Form onSubmit={this.submit} onChange={this.handleChange}>
                 <Button onClick={this.addExercise}>Add Exercise</Button>
                 {collection.map((val, idx) => {
                     let exId = `ex-${idx}`, distanceId = `distance-${idx}`, durationId = `duration-${idx}`, hrId = `hr-${idx}`, minId = `min-${idx}`;
                     return (
-                        <div key={idx}>
+                        <div key={id + idx}>
                             <Row form>
                                 <Col md={4}>
                                     <FormGroup>

@@ -64,14 +64,14 @@ class BWAdd extends Component {
 
 
     render() {
-        const { collection } = this.state;
+        const { id, collection } = this.state;
         return (
             <Form onSubmit={this.submit} onChange={this.handleChange}>
                 <Button onClick={this.addExercise}>Add Exercise</Button>
                 {collection.map((val, idx) => {
                     let exId = `ex-${idx}`, setId = `sets-${idx}`, repId = `reps-${idx}`;
                     return (
-                        <div key={idx}>
+                        <div key={id + idx}>
                             <Row form>
                                 <Col md={4}>
                                     <FormGroup>

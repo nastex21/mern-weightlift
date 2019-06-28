@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import ReactTable from 'react-table';
-import { Button } from 'reactstrap'
-import 'react-table/react-table.css';
+import { Button } from 'reactstrap';
+import BootstrapTable from 'react-bootstrap-table-next';
+import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import axios from 'axios';
 
 class TableEditer extends Component {
@@ -12,176 +12,25 @@ class TableEditer extends Component {
         collection: [...this.props.exercise]
     }
 
-    componentDidUpdate() {
-        console.log(this.state.collection)
-    }
-
-    chooseTable = () => {
-        const { color } = this.state;
-
-        if (color == "red") {
-            return [{
-                Header: 'Name',
-                accessor: 'exercise',
-                Cell: this.renderEditable
-            }, {
-                Header: 'Reps',
-                accessor: 'reps',
-                Cell: this.renderEditable
-            },
-            {
-                Header: 'Sets',
-                accessor: 'sets',
-                Cell: this.renderEditable
-            },
-            {
-                Header: 'Weight',
-                accessor: 'weight',
-                Cell: this.renderEditable
-            }];
-        }
-
-        if (color == 'blue') {
-            return [{
-                Header: 'Name',
-                accessor: 'exercise',
-                Cell: this.renderEditable
-            }, {
-                Header: 'Distance',
-                accessor: 'distance',
-                Cell: this.renderEditable
-            },
-            {
-                Header: 'Hours',
-                accessor: 'hours',
-                Cell: this.renderEditable
-            },
-            {
-                Header: 'Minutes',
-                accessor: 'minutes',
-                Cell: this.renderEditable
-            }];
-        }
-
-        if (color == 'green') {
-            return [{
-                Header: 'Name',
-                accessor: 'exercise',
-                Cell: this.renderEditable
-            }, {
-                Header: 'Sets',
-                accessor: 'sets',
-                Cell: this.renderEditable
-            },
-            {
-                Header: 'Reps',
-                accessor: 'reps',
-                Cell: this.renderEditable
-            }];
-        }
-
-        if (color == 'black') {
-            return [{
-                id: 'exName',
-                Header: 'Name',
-                accessor: 'exercise',
-                Cell: item => item.original.completed == "false" ? (
-                    <div
-                        style={{ backgroundColor: "#fafafa" }}
-                        contentEditable
-                        suppressContentEditableWarning
-                        onBlur={e => {
-                            const collection = [...this.state.collection];
-                            collection[item.index].exercise = e.target.innerHTML;
-                            this.setState({ collection });
-                        }}
-
-                        dangerouslySetInnerHTML={{
-                            __html: this.state.collection[item.index].exercise
-                        }}
-                    />) : (
-                        <div
-                            style={{ backgroundColor: "#fafafa" }}
-                            contentEditable
-                            suppressContentEditableWarning
-                            onBlur={e => {
-                                const collection = [...this.state.collection];
-                                collection[item.index].exercise = e.target.innerHTML;
-                                this.setState({ collection });
-                            }}
-
-                            dangerouslySetInnerHTML={{
-                                __html: this.state.collection[item.index].exercise
-                            }}
-                        />)
-            },
-            {
-                id: "exHrs",
-                Header: 'Hours',
-                accessor: 'hours',
-                Cell: item => item.original.completed == "false" ? (
-                    <div
-                        style={{ backgroundColor: "#fafafa" }}
-                        contentEditable
-                        suppressContentEditableWarning
-                        onBlur={e => {
-                            const collection = [...this.state.collection];
-                            collection[item.index].hours = e.target.innerHTML;
-                            this.setState({ collection });
-                        }}
-
-                        dangerouslySetInnerHTML={{
-                            __html: this.state.collection[item.index].hours
-                        }}
-                    />) : null
-            },
-            {
-                id: "exMins",
-                Header: 'Minutes',
-                accessor: 'minutes',
-                Cell: item => item.original.completed == "false" ? (
-                    <div
-                        style={{ backgroundColor: "#fafafa" }}
-                        contentEditable
-                        suppressContentEditableWarning
-                        onBlur={e => {
-                            const collection = [...this.state.collection];
-                            collection[item.index].minutes = e.target.innerHTML;
-                            this.setState({ collection });
-                        }}
-
-                        dangerouslySetInnerHTML={{
-                            __html: this.state.collection[item.index].minutes
-                        }}
-                    />) : null
-            },
-            {
-                Header: 'Completed',
-                accessor: 'completed'
-            }
-            ];
-        }
-    }
-
-    submitThis = () => {
-        console.log("works")
-        console.log(this.state.collection);
-        axios.post('/api/edit-items', { id: this.state.id, date: this.state.date, color: this.state.color, collection: this.state.collection })
-            .then(response => {
-                console.log(response);
-            })
-            .catch(error => {
-                console.log("post /api/edit-items error: ");
-                console.log(error);
-            });
-    }
+ 
 
     render() {
         const { collection } = this.state;
+    
+        const columns = [{
+            dataField: 'name',
+            text: 'Exercise Name'
+        }, {
+            dataField: 'hour',
+            text: 'Product Name'
+        }, {
+            dataField: 'price',
+            text: 'Product Price'
+        }];
         console.log(collection);
         return (
             <div>
-                <ReactTable data={collection} columns={this.chooseTable()} defaultPageSize={5} className="-striped -highlight" />
+                <BootstrapTable keyField='id' data={ collection } columns={ columns } />
                 <Button onClick={this.submitThis}>Save Changes</Button>
             </div>
         )
