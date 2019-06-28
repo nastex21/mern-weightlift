@@ -86,7 +86,7 @@ module.exports = function (req, res, next) {
                     errCounter = 1;
                 }
             } else {
-                if (data == 'true') {
+                if (item.completed == 'true') {
                     console.log("true");
                     arr.some(function (item) {
                         console.log("else")
