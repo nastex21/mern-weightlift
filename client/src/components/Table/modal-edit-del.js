@@ -20,10 +20,24 @@ class ModalEditDel extends Component {
         edit: false
     }
 
+    deleteItem = (value) => {
+        let filterOut = this.state.collection.filter((item) => {
+            return item._id !== value._id
+        })
+
+        this.setState({
+            collection: [...filterOut]
+        })
+    }
+
     edit = () => {
         this.setState((prevState) => ({
             edit: !prevState.edit
         }))
+    }
+
+    saveChanges = () => {
+        
     }
 
     render() {
@@ -35,10 +49,10 @@ class ModalEditDel extends Component {
             isDummyField: true,
             text: 'Delete',
             formatter: (cellContent, row) => {
+                console.log(cellContent);
+                console.log(row);
                 return (
-                    console.log(cellContent),
-                    console.log(row),
-                    <FontAwesomeIcon icon={faTrashAlt} size="lg" onClick={() => this.edit(cellContent)} />
+                    <FontAwesomeIcon icon={faTrashAlt} size="lg" onClick={() => this.deleteItem(row)} />
                 );
             }
         };
