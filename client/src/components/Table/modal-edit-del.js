@@ -15,7 +15,14 @@ class ModalEditDel extends Component {
         msgUpdate: this.props.msgUpdate,
         rowData: '',
         selectAll: false,
-        selected: []
+        selected: [],
+        edit: false
+    }
+
+    edit = () => {
+        this.setState((prevState) => ({
+            edit: !prevState.edit
+        }))
     }
 
     checkName = (value) => {
@@ -115,150 +122,113 @@ class ModalEditDel extends Component {
         return true;
     }
 
-    handleOnSelect = (row, isSelect, index) => {
-        console.log(row);
-        console.log(isSelect);
-        if (isSelect) {
-            this.setState(() => ({
-                selected: [...this.state.selected, index]
-            }));
-        } else {
-            this.setState(() => ({
-                selected: this.state.selected.filter(x => x !== index)
-            }));
-        }
-    }
-
-    handleOnSelectAll = (isSelect, rows) => {
-        const ids = rows.map(r => r.id);
-        if (isSelect) {
-            this.setState(() => ({
-                selected: ids
-            }));
-        } else {
-            this.setState(() => ({
-                selected: []
-            }));
-        }
-    }
-
-    onBeforeSaveCell = (rowIndex, fieldName, value, confirmEdit) => {
-        console.log('rowIndex');
-        console.log(rowIndex);
-        console.log('fieldName');
-        console.log(fieldName);
-        console.log('value');
-        console.log(value);
-        console.log('confirmEdit');
-        console.log(confirmEdit);
-        let toSave = false;
-        window.confirm('Are you sure you want to edit this value?').then(
-            (result) => {
-                // `proceed` callback
-                console.log('proceed called');
-                toSave = true;
-            },
-            (result) => {
-                // `cancel` callback
-                console.log('cancel called');
-                toSave = false;
-            }
-        );
-        // save change to database if toSave is true and update cell, otherwise return false and have cell reset or should this replace proceed callback line?
-        this.confirmEdit(rowIndex, fieldName, value, toSave);
-    }
-
-    rankFormatter = (cell, row, rowIndex, formatExtraData) => {
-        return (
-            < div
-                style={{
-                    textAlign: "center",
-                    cursor: "pointer",
-                    lineHeight: "normal"
-                }}>
-
-                <FontAwesomeIcon icon={faEdit} size="lg" onClick={this.toggle} />
-            </div>
-        );
-    }
-
-    deleteAll = () => {
-        console.log(this.state.rowData);
-    }
-
     render() {
-        const { collection, color, selectAll, rowData } = this.state;
+        const { color, edit, collection } = this.state;
         var columns;
+        var dummy = {
+            dataField: 'df2',
+            editable: false,
+            isDummyField: true,
+            text: 'Delete',
+            formatter: (cellContent, row) => {
+                return (
+                    console.log(cellContent),
+                    console.log(row),
+                    <FontAwesomeIcon icon={faTrashAlt} size="lg" onClick={() => this.edit(cellContent)} />
+                );
+            }
+        };
 
         if (color == "#d9534f") {
             columns = [{
                 dataField: 'exercise',
                 text: 'Exercise Name',
-                editable: true,
+                editable: () => {
+                    return edit ? true : false;
+                },
                 validator: (newValue, row, column) => {
                     return this.checkName(newValue)
                 }
             }, {
                 dataField: 'reps',
                 text: 'Reps',
-                editable: true,
+                editable: () => {
+                    return edit ? true : false;
+                },
                 validator: (newValue, row, column) => {
                     return this.wholeNumValidation(newValue)
                 }
             }, {
                 dataField: 'sets',
                 text: 'Sets',
-                editable: true,
+                editable: () => {
+                    return edit ? true : false;
+                },
                 validator: (newValue, row, column) => {
                     return this.wholeNumValidation(newValue)
                 }
             }, {
                 dataField: 'weight',
                 text: "Weight",
-                editable: true,
+                editable: () => {
+                    return edit ? true : false;
+                },
                 validator: (newValue, row, column) => {
                     return this.checkWeight(newValue);
                 }
             }];
+
+            if (this.state.edit) {
+                columns.push(dummy);
+            }
         }
 
         if (color == "#0275d8") {
             columns = [{
                 dataField: 'exercise',
                 text: 'Exercise Name',
-                editable: true,
+                editable: (cell, row, rowIndex, colIndex) => {                     
+                    return edit ? true : false;                 },
                 validator: (newValue, row, column) => {
                     return this.checkName(newValue)
                 }
             }, {
                 dataField: 'distance',
                 text: 'Distance',
-                editable: true,
+                editable:  (cell, row, rowIndex, colIndex) => {                     
+                    return edit ? true : false;                 },
                 validator: (newValue, row, column) => {
                     return this.checkWeight(newValue);
                 }
             }, {
                 dataField: 'hours',
                 text: 'Hours',
-                editable: true,
+                editable:  (cell, row, rowIndex, colIndex) => {                     
+                    return edit ? true : false;                 },
                 validator: (newValue, row, column) => {
                     return this.wholeNumValidation(newValue)
                 }
             }, {
                 dataField: 'minutes',
                 text: "Minutes",
-                editable: true,
+                editable:  (cell, row, rowIndex, colIndex) => {                    
+                     return edit ? true : false;                 },
                 validator: (newValue, row, column) => {
                     return this.checkMinutes(newValue)
                 }
             }];
+
+            if (this.state.edit) {
+                columns.push(dummy);
+            }
         }
 
         if (color == "#f0ad4e") {
             columns = [{
                 dataField: 'exercise',
                 text: 'Exercise Name',
-                editable: true,
+                editable:  (cell, row, rowIndex, colIndex) => {                    
+                     return edit ? true : false;                 },
                 validator: (newValue, row, column) => {
                     return this.checkName(newValue)
                 }
@@ -285,64 +255,58 @@ class ModalEditDel extends Component {
                 text: "Completed",
                 editable: false
             }];
+
+            if (this.state.edit) {
+                columns.push(dummy);
+            }
         }
 
         if (color == "#5cb85c") {
             columns = [{
                 dataField: 'exercise',
                 text: 'Exercise Name',
-                editable: true,
+                editable:  (cell, row, rowIndex, colIndex) => {                     
+                    return edit ? true : false;                 },
                 validator: (newValue, row, column) => {
                     return this.checkName(newValue)
                 }
             }, {
                 dataField: 'reps',
                 text: 'Reps',
-                editable: true,
+                editable:  (cell, row, rowIndex, colIndex) => {                     
+                    return edit ? true : false;                 },
                 validator: (newValue, row, column) => {
                     return this.wholeNumValidation(newValue)
                 }
             }, {
                 dataField: 'sets',
                 text: 'Sets',
-                editable: true,
+                editable:  (cell, row, rowIndex, colIndex) => {                    
+                     return edit ? true : false;                 },
                 validator: (newValue, row, column) => {
                     return this.wholeNumValidation(newValue)
                 }
-            }]
-        }
+            }];
 
-        const selectRow = {
-            mode: 'radio',
-            clickToSelect: true,
-            onSelect: (row, isSelect, rowIndex, e) => {
-                    this.setState(prevState => ({
-                        selectAll: isSelect,
-                        rowData: row
-                    })
-                    )
-                console.log(row);
-                console.log(isSelect);
-                console.log(rowIndex);
-                console.log(e);
+            if (this.state.edit) {
+                columns.push(dummy);
             }
-        };
+        }
 
         const cellEdit = cellEditFactory({
             mode: 'click',
-            blurToSave: false,
-            formatter: this.rankFormatter,
+            blurToSave: false
         });
 
         var style = {
             backgroundcolor: 'danger',
-
         }
 
+        console.log(this.state.edit);
         return (
             <div>
-                <BootstrapTable keyField='_id' bootstrap4 data={collection} columns={columns} selectRow={selectRow} cellEdit={cellEdit} />
-                {this.state.selectAll ? <Button as="input" type="button" style={style} value="DELETE ALL" size="sm" block onClick={this.deleteAll} /> : <Button as="input" variant="secondary" type="button" value="SAVE CHANGES" size="sm" block />}
+                <BootstrapTable keyField='_id' bootstrap4 data={collection} columns={columns} cellEdit={cellEdit} />
+                {this.state.edit ? <Button as="input" variant="secondary" type="button" value="SAVE CHANGES" size="sm" block /> : <Button as="input" type="button" style={style} value="EDIT" size="sm" block onClick={this.edit} />}
             </div>
         )
     }
