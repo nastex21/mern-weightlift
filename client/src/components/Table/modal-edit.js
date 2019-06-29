@@ -12,8 +12,6 @@ class TableEditer extends Component {
         collection: [...this.props.exercise]
     }
 
- 
-
     render() {
         const { collection } = this.state;
     

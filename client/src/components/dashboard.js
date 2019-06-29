@@ -30,7 +30,7 @@ class Dashboard extends Component {
                 eventsArr.push({
                 "title": "Entry Added",
                 "date": item.date,
-                "color": "red",
+                "color": "#d9534f",
                 "collections": item.collections
                 })
             }
@@ -40,7 +40,7 @@ class Dashboard extends Component {
                 eventsArr.push({
                 "title": "Entry Added",
                 "date": item.date,
-                'color': 'blue',
+                'color': '#0275d8',
                 "collections": item.collections
             })
         }
@@ -51,7 +51,7 @@ class Dashboard extends Component {
                 eventsArr.push({
                 "title": "Entry Added",
                 "date": item.date,
-                'color': 'green',
+                'color': '#5cb85c',
                 "collections": item.collections
             })
         }
@@ -62,7 +62,7 @@ class Dashboard extends Component {
                 eventsArr.push({
                 "title": "Entry Added",
                 "date": item.date,
-                'color': 'black',
+                'color': '#f0ad4e',
                 "collections": item.collections
                 })
             }
@@ -152,7 +152,7 @@ class Dashboard extends Component {
                 <FullCalendar defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={events} eventClick={this.toggle} />
                 <Modal isOpen={modal} toggle={this.toggle} size="lg"  style={{maxWidth: '1600px', width: '80%'}} color={this.state.color}>
                     <ModalHeader toggle={this.toggle}>             
-                         <p className="exerciseTitle">{this.state.color == "black" ? "Exercise videos and/or classes" : this.state.color == "red" ? "Weightlifting Exercises" : this.state.color == "blue" ? "Cardio Exercises" : this.state.color == "green" ? "Bodyweight Exercises" : null }</p>
+                         <p className="exerciseTitle">{this.state.color == "#f0ad4e" ? "Exercise videos and/or classes" : this.state.color == "#d9534f" ? "Weightlifting Exercises" : this.state.color == "#0275d8" ? "Cardio Exercises" : this.state.color == "#5cb85c" ? "Bodyweight Exercises" : null }</p>
                          <p className="dateTitle">{date}</p>
                     </ModalHeader>
                         <ModalBody>

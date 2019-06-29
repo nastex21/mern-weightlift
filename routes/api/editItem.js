@@ -30,7 +30,7 @@ router.post('/', Validate, (req, res) => {
 
     var newDate = createDate(date);
 
-    if (color == 'red') {
+    if (color == '#d9534f') {
 
         for (var i = 0; i < collection.length; i++) {
             var update = {
@@ -59,7 +59,7 @@ router.post('/', Validate, (req, res) => {
         }
     }
 
-    if (color == 'blue') {
+    if (color == '#0275d8') {
 
         for (var i = 0; i < collection.length; i++) {
             var update = {
@@ -88,7 +88,7 @@ router.post('/', Validate, (req, res) => {
         }
     }
 
-    if (color == 'green') {
+    if (color == '#5cb85c') {
 
         for (var i = 0; i < collection.length; i++) {
             var update = {
@@ -117,7 +117,7 @@ router.post('/', Validate, (req, res) => {
         }
     }
 
-    if (color == 'black') {
+    if (color == '#f0ad4e') {
 
         for (var i = 0; i < collection.length; i++) {
             var update = {

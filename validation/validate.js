@@ -11,13 +11,13 @@ module.exports = function (req, res, next) {
     console.log('color');
     console.log(color);
 
-    if (weightFlag == 1 || cardioFlag == 1 || bwFlag == 1 || color == 'red' || color == 'blue' || color == 'green') {
+    if (weightFlag == 1 || cardioFlag == 1 || bwFlag == 1 || color == '#d9534f' || color == '#0275d8' || color == '#5cb85c') {
 
         //regex to search for numbers
         const re = /^\d+$\b/;
         //find any error and stop test immediately
         data.collection.some(function (item) {
-            if (weightFlag == 1 || bwFlag == 1 || color == 'red' || color == 'green') {
+            if (weightFlag == 1 || bwFlag == 1 || color == '#d9534f' || color == '#5cb85c') {
                 //find empty strings
                 if (item.exercise === '' || item.sets === '' || item.reps === '' || item.weight === '') {
                     errCounter = 1;
@@ -30,7 +30,7 @@ module.exports = function (req, res, next) {
                 }
             }
 
-            if (cardioFlag == 1 || color == 'blue') {
+            if (cardioFlag == 1 || color == '#0275d8') {
                 //find empty strings
                 if (item.exercise === '' || item.distance === '' || item.hours === '' || item.minutes === '') {
                     errCounter = 1;
@@ -46,7 +46,7 @@ module.exports = function (req, res, next) {
         });
     }
 
-    if (vidsFlag == 1 || color == 'black') {
+    if (vidsFlag == 1 || color == '#f0ad4e') {
 
         data.collection.forEach(function (item) {
             let newObj = {
