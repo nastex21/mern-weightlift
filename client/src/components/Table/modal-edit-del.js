@@ -4,6 +4,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import { Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { checkName, checkMinutes, checkWeight, wholeNumValidation } from '../Validation/validate';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 
 class ModalEditDel extends Component {
@@ -23,103 +24,6 @@ class ModalEditDel extends Component {
         this.setState((prevState) => ({
             edit: !prevState.edit
         }))
-    }
-
-    checkName = (value) => {
-        if (value == '') {
-            return {
-                valid: false,
-                message: 'No empty strings'
-            };
-        }
-
-        return true;
-    }
-
-    wholeNumValidation = (value) => {
-        if (isNaN(value)) {
-            return {
-                valid: false,
-                message: 'Only numbers '
-            };
-        }
-
-        if (value < 0) {
-            return {
-                valid: false,
-                message: "Number must be greater than zero"
-            }
-        }
-
-        var checkResult = /^[0-9]+$/;
-
-        if (!value.match(checkResult)) {
-            return {
-                valid: false,
-                message: 'No symbols '
-            }
-        }
-
-        return true;
-    }
-
-    checkWeight = (value) => {
-        if (value.split('.').length > 2) {
-            return {
-                valid: false,
-                message: 'Only one decimal point'
-            }
-        }
-
-        if (isNaN(value)) {
-            return {
-                valid: false,
-                message: 'Only numbers '
-            };
-        }
-
-        if (value < 0) {
-            return {
-                valid: false,
-                message: "Number must be greater than zero"
-            }
-        }
-
-        return true;
-    }
-
-    checkMinutes = (value) => {
-        if (isNaN(value)) {
-            return {
-                valid: false,
-                message: 'Only numbers '
-            };
-        }
-
-        if (value < 0) {
-            return {
-                valid: false,
-                message: "Number must be greater than zero"
-            }
-        }
-
-        if (value > 59) {
-            return {
-                valid: false,
-                message: "Minutes must be less than 60"
-            }
-        }
-
-        var checkResult = /^[0-9]+$/;
-
-        if (!value.match(checkResult)) {
-            return {
-                valid: false,
-                message: 'No decimals '
-            }
-        }
-
-        return true;
     }
 
     render() {
@@ -147,7 +51,7 @@ class ModalEditDel extends Component {
                     return edit ? true : false;
                 },
                 validator: (newValue, row, column) => {
-                    return this.checkName(newValue)
+                    return checkName(newValue)
                 }
             }, {
                 dataField: 'reps',
@@ -156,7 +60,7 @@ class ModalEditDel extends Component {
                     return edit ? true : false;
                 },
                 validator: (newValue, row, column) => {
-                    return this.wholeNumValidation(newValue)
+                   return wholeNumValidation(newValue)
                 }
             }, {
                 dataField: 'sets',
@@ -165,7 +69,7 @@ class ModalEditDel extends Component {
                     return edit ? true : false;
                 },
                 validator: (newValue, row, column) => {
-                    return this.wholeNumValidation(newValue)
+                    return wholeNumValidation(newValue)
                 }
             }, {
                 dataField: 'weight',
@@ -174,7 +78,7 @@ class ModalEditDel extends Component {
                     return edit ? true : false;
                 },
                 validator: (newValue, row, column) => {
-                    return this.checkWeight(newValue);
+                    return checkWeight(newValue);
                 }
             }];
 
@@ -190,7 +94,7 @@ class ModalEditDel extends Component {
                 editable: (cell, row, rowIndex, colIndex) => {                     
                     return edit ? true : false;                 },
                 validator: (newValue, row, column) => {
-                    return this.checkName(newValue)
+                    return checkName(newValue)
                 }
             }, {
                 dataField: 'distance',
@@ -198,7 +102,7 @@ class ModalEditDel extends Component {
                 editable:  (cell, row, rowIndex, colIndex) => {                     
                     return edit ? true : false;                 },
                 validator: (newValue, row, column) => {
-                    return this.checkWeight(newValue);
+                    return checkWeight(newValue);
                 }
             }, {
                 dataField: 'hours',
@@ -206,7 +110,7 @@ class ModalEditDel extends Component {
                 editable:  (cell, row, rowIndex, colIndex) => {                     
                     return edit ? true : false;                 },
                 validator: (newValue, row, column) => {
-                    return this.wholeNumValidation(newValue)
+                    return  wholeNumValidation(newValue)
                 }
             }, {
                 dataField: 'minutes',
@@ -214,7 +118,7 @@ class ModalEditDel extends Component {
                 editable:  (cell, row, rowIndex, colIndex) => {                    
                      return edit ? true : false;                 },
                 validator: (newValue, row, column) => {
-                    return this.checkMinutes(newValue)
+                    return checkMinutes(newValue)
                 }
             }];
 
@@ -230,7 +134,7 @@ class ModalEditDel extends Component {
                 editable:  (cell, row, rowIndex, colIndex) => {                    
                      return edit ? true : false;                 },
                 validator: (newValue, row, column) => {
-                    return this.checkName(newValue)
+                    return checkName(newValue)
                 }
             }, {
                 dataField: 'hours',
@@ -239,7 +143,7 @@ class ModalEditDel extends Component {
                     return row.minutes ? true : false;
                 },
                 validator: (newValue, row, column) => {
-                    return this.wholeNumValidation(newValue)
+                    return wholeNumValidation(newValue)
                 }
             }, {
                 dataField: 'minutes',
@@ -248,7 +152,7 @@ class ModalEditDel extends Component {
                     return row.minutes ? true : false;
                 },
                 validator: (newValue, row, column) => {
-                    return this.checkMinutes(newValue)
+                    return  checkMinutes(newValue)
                 }
             }, {
                 dataField: "completed",
@@ -268,7 +172,7 @@ class ModalEditDel extends Component {
                 editable:  (cell, row, rowIndex, colIndex) => {                     
                     return edit ? true : false;                 },
                 validator: (newValue, row, column) => {
-                    return this.checkName(newValue)
+                    return checkName(newValue)
                 }
             }, {
                 dataField: 'reps',
@@ -276,7 +180,7 @@ class ModalEditDel extends Component {
                 editable:  (cell, row, rowIndex, colIndex) => {                     
                     return edit ? true : false;                 },
                 validator: (newValue, row, column) => {
-                    return this.wholeNumValidation(newValue)
+                    return wholeNumValidation(newValue)
                 }
             }, {
                 dataField: 'sets',
@@ -284,7 +188,7 @@ class ModalEditDel extends Component {
                 editable:  (cell, row, rowIndex, colIndex) => {                    
                      return edit ? true : false;                 },
                 validator: (newValue, row, column) => {
-                    return this.wholeNumValidation(newValue)
+                    return  wholeNumValidation(newValue)
                 }
             }];
 
@@ -295,7 +199,7 @@ class ModalEditDel extends Component {
 
         const cellEdit = cellEditFactory({
             mode: 'click',
-            blurToSave: false
+            blurToSave: true
         });
 
         var style = {
