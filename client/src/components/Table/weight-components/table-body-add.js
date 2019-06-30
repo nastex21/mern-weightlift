@@ -1,6 +1,5 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Form, FormGroup, FormFeedback, Label, Row, Col, Input, Button } from 'reactstrap';
-import GenerateTable from '../generatetable';
 import axios from 'axios';
 
 class WeightsAdd extends Component {
@@ -12,8 +11,7 @@ class WeightsAdd extends Component {
             sets: "",
             reps: "",
             weight: ""
-        }],
-        exercise: this.props.exercise
+        }]
     }
 
     //changes when keys are pressed
@@ -50,6 +48,14 @@ class WeightsAdd extends Component {
         }
     }
 
+    //grab the previous state of collection, add new object with empty values after
+    addExercise = (e) => {
+        this.setState((prevState) => ({
+            collection: [...prevState.collection, { exercise: "", sets: "", reps: "", weight: "" }]
+        })
+        )
+    }
+
     submit = (e) => {
         e.preventDefault();
 
@@ -66,13 +72,10 @@ class WeightsAdd extends Component {
     }
 
     render() {
-        console.log('this.props.exerciseArr');
-        console.log(this.props.exercise);
-        const { id, collection, exercise } = this.state;
-        console.log(this.state.exercise)
+        const { id, collection } = this.state;
         return (
-            <div id="formWeight">
             <Form onSubmit={this.submit} onChange={this.handleChange}>
+                <Button onClick={this.addExercise}>Add Exercise</Button>
                 {collection.map((val, idx) => {
                     let exId = `ex-${idx}`, setId = `sets-${idx}`, repId = `reps-${idx}`, weightId = `weight-${idx}`;
                     return (
@@ -107,9 +110,8 @@ class WeightsAdd extends Component {
                     )
                 }
                 )}
-                <Button type="submit" onClick={this.addExercise} block>Add Exercise</Button>
+                <Input type="submit" value="Submit" />
             </Form>
-            </div>
         )
     }
 }

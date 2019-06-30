@@ -5,7 +5,6 @@ import WeightsAdd from './weight-components/table-body-add';
 import CardioAdd from './cardio-components/table-body-add-cardio';
 import BWAdd from './bodyweight-components/table-body-add-bw';
 import ExVidsClassesAdd from './exercisevidsclasses-component/table-body-add-vidsclasses';
-import axios from 'axios';
 
 class ModalTabs extends Component {
 
@@ -13,8 +12,7 @@ class ModalTabs extends Component {
         activeTab: '1'
     };
 
-    toggle(tab){
-        console.log("tab trigger")
+    toggle = (tab) => {
         if (this.state.activeTab !== tab) {
             this.setState({
                 activeTab: tab
@@ -24,7 +22,7 @@ class ModalTabs extends Component {
 
     render() {
         console.log(this.props);
-        const { id, date, msgUpdate, exerciseArr } = this.props;
+        const { id, date, msgUpdate } = this.props;
         return (
             <React.Fragment>
                 <Nav tabs>
@@ -50,16 +48,16 @@ class ModalTabs extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <WeightsAdd id={id} date={date} msgUpdate={msgUpdate} exercise={exerciseArr} />
+                        <WeightsAdd id={id} date={date} msgUpdate={msgUpdate} />
                     </TabPane>
                     <TabPane tabId="2">
-                        <CardioAdd id={id} date={date} msgUpdate={msgUpdate} exercise={exerciseArr}/>
+                        <CardioAdd id={id} date={date} msgUpdate={msgUpdate} />
                     </TabPane>
                     <TabPane tabId="3">
-                        <BWAdd id={id} date={date} msgUpdate={msgUpdate} exercise={exerciseArr} />
+                        <BWAdd id={id} date={date} msgUpdate={msgUpdate} />
                     </TabPane>
                     <TabPane tabId="4">
-                        <ExVidsClassesAdd id={id} date={date} msgUpdate={msgUpdate} exercise={exerciseArr} />
+                        <ExVidsClassesAdd id={id} date={date} msgUpdate={msgUpdate} />
                     </TabPane>
                 </TabContent>
             </React.Fragment>
