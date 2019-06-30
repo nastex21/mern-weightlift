@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const User = require("../../database/models/user");
+const Validate = require('../../validation/validate');
 
-router.post('/',  (req, res) => {
+router.post('/', Validate, (req, res) => {
     console.log('edit-items');
     console.log(req.body);
 
@@ -28,84 +29,121 @@ router.post('/',  (req, res) => {
 
 
     var newDate = createDate(date);
-    console.log(id);
-    console.log(newDate);
 
     if (color == '#d9534f') {
 
-        var update = {
-            $set: {
-                'logs.$.collections': collection
-            }
-        };
+        for (var i = 0; i < collection.length; i++) {
+            var update = {
+                $set: {
+                    'logs.$[i].collections': collection
+                }
+            };
 
-        User.findOneAndUpdate({ "_id": id, 'logs': { $elemMatch: { 'date': newDate } } }, update, (err, data) => {
-            if (err) {
-                return console.log("500");
-            }
-            if (!data) {
-                return console.log("404");
-            }
-            console.log("200");
-        })
+            var filter = {
+                arrayFilters: [
+                    {
+                        'i.collections._id': collection[i]._id
+                    }
+                ]
+            };
+
+            User.findOneAndUpdate({ "_id": id, 'logs': { $elemMatch: { 'date': newDate } } }, update, filter, (err, data) => {
+                if (err) {
+                    return console.log("500");
+                }
+                if (!data) {
+                    return console.log("404");
+                }
+                console.log("200");
+            })
+        }
     }
 
     if (color == '#0275d8') {
 
-        var update = {
-            $set: {
-                'cardiologs.$.collections': collection
-            }
-        };
+        for (var i = 0; i < collection.length; i++) {
+            var update = {
+                $set: {
+                    'cardiologs.$[i].collections': collection
+                }
+            };
 
-        User.findOneAndUpdate({ "_id": id, 'cardiologs': { $elemMatch: { 'date': newDate } } }, update, (err, data) => {
-            if (err) {
-                return console.log("500");
-            }
-            if (!data) {
-                return console.log("404");
-            }
-            console.log("200");
-        })
+            var filter = {
+                arrayFilters: [
+                    {
+                        'i.collections._id': collection[i]._id
+                    }
+                ]
+            };
+
+            User.findOneAndUpdate({ "_id": id, 'cardiologs': { $elemMatch: { 'date': newDate } } }, update, filter, (err, data) => {
+                if (err) {
+                    return console.log("500");
+                }
+                if (!data) {
+                    return console.log("404");
+                }
+                console.log("200");
+            })
+        }
     }
-
 
     if (color == '#5cb85c') {
 
-        var update = {
-            $set: {
-                'bwlogs.$.collections': collection
-            }
-        };
+        for (var i = 0; i < collection.length; i++) {
+            var update = {
+                $set: {
+                    'bwlogs.$[i].collections': collection
+                }
+            };
 
-        User.findOneAndUpdate({ "_id": id, 'bwlogs': { $elemMatch: { 'date': newDate } } }, update, (err, data) => {
-            if (err) {
-                return console.log("500");
-            }
-            if (!data) {
-                return console.log("404");
-            }
-            console.log("200");
-        })
+            var filter = {
+                arrayFilters: [
+                    {
+                        'i.collections._id': collection[i]._id
+                    }
+                ]
+            };
+
+            User.findOneAndUpdate({ "_id": id, 'bwlogs': { $elemMatch: { 'date': newDate } } }, update, filter, (err, data) => {
+                if (err) {
+                    return console.log("500");
+                }
+                if (!data) {
+                    return console.log("404");
+                }
+                console.log("200");
+            })
+        }
     }
 
-if (color == '#f0ad4e') {
+    if (color == '#f0ad4e') {
 
-        var update = {
-            $set: {
-                'vidslogs.$.collections': collection
-            }
-        };
+        for (var i = 0; i < collection.length; i++) {
+            var update = {
+                $set: {
+                    'vidslogs.$[i].collections': collection
+                }
+            };
 
-        User.findOneAndUpdate({ "_id": id, 'vidslogs': { $elemMatch: { 'date': newDate } } }, update, (err, data) => {
-            if (err) {
-                return console.log("500");
-            }
-            if (!data) {
-                return console.log("404");
-            }
-            console.log("200");
-        })
+            var filter = {
+                arrayFilters: [
+                    {
+                        'i.collections._id': collection[i]._id
+                    }
+                ]
+            };
+
+            User.findOneAndUpdate({ "_id": id, 'vidslogs': { $elemMatch: { 'date': newDate } } }, update, filter, (err, data) => {
+                if (err) {
+                    return console.log("500");
+                }
+                if (!data) {
+                    return console.log("404");
+                }
+                console.log("200");
+            })
+        }
     }
 })
 
