@@ -16,10 +16,15 @@ class Dashboard extends Component {
         events: [],
         modal: false,
         date: "",
+        logs: this.props.logs,
         exercise: [],
         total: [],
         showError: false,
-        color: ""
+        color: "",
+        weightLogs: [],
+        cardioLogs: [],
+        bodyweightLogs: [],
+        vidsLogs: []
     }
 
     componentDidMount() {
@@ -146,7 +151,7 @@ class Dashboard extends Component {
     }
 
     render() {
-        const { exercise, modal, date, events, color } = this.state;
+        const { exercise, modal, date, events, color, logs } = this.state;
         return (
             <div className="calendar-body">
                 <FullCalendar defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={events} eventClick={this.toggle} />
@@ -159,7 +164,7 @@ class Dashboard extends Component {
                             {this.state.showError && <div class="alert alert-danger">
                                 <button type="button" class="close" data-dismiss="alert" onClick={this.closeErr}>&times;</button> Uh-oh! Try changing a few things up and hit submit again.
                              </div>}
-                            {this.state.exercise.length == 0 ? <ModalTabs id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} /> :<ModalEditDel title={this.state.title} id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} />}
+                            {this.state.exercise.length == 0 ? <ModalTabs id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={logs} color={color} /> :<ModalEditDel title={this.state.title} id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={logs} color={color} />}
                         </ModalBody>
                 </Modal>
             </div>

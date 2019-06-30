@@ -15,10 +15,10 @@ class ModalEditDel extends Component {
         color: this.props.color,
         collection: this.props.exerciseArr,
         msgUpdate: this.props.msgUpdate,
+        edit: false,
         rowData: '',
         selectAll: false,
         selected: [],
-        edit: false
     }
 
     deleteItem = (value) => {

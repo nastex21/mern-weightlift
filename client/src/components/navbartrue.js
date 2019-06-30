@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 
 class NavbarTrue extends Component {
@@ -8,7 +7,6 @@ class NavbarTrue extends Component {
         loggedIn: '',
         redirectTo: ''
     }
-    
 
     logout = (event) => {
         console.log('logging out')
