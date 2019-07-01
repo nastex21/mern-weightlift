@@ -10,22 +10,25 @@ import Home from './components/home';
 import Dashboard from './components/dashboard';
 
 class App extends Component {
-    state = {
-      id: null,
-      loggedIn: null,
-      username: null,
-      exerciseLogs: [],
-      cardioLogs: [],
-      bwLogs: [],
-	    vidsLogs: []
-    }
+  state = {
+    id: null,
+    loggedIn: null,
+    username: null,
+    exerciseLogs: [],
+    cardioLogs: [],
+    bwLogs: [],
+    vidsLogs: []
+  }
 
- componentDidMount() {
+  componentDidMount() {
+    console.log("component mounted");
+    console.log(this.state.vidsLogs);
+    console.log(this.state.cardioLogs);
     this.getUser();
   }
 
-
   updateUser = (userObject) => {
+    console.log("triggered updateuser")
     this.setState({
       id: userObject.id,
       loggedIn: userObject.loggedIn,
@@ -40,6 +43,7 @@ class App extends Component {
   //keeps you logged in if you were to refresh
   getUser = () => {
     axios.get('/api/dashboard/').then(response => {
+
       if (response.data.user) {
         console.log('Get User: There is a user saved in the server session: ')
         this.setState({
@@ -53,7 +57,7 @@ class App extends Component {
         })
       } else {
         console.log('Get user: no user');
-        this.setState({ 
+        this.setState({
           loggedIn: false,
           username: null,
           exerciseLogs: [],
@@ -63,23 +67,23 @@ class App extends Component {
         })
       }
     })
-  } 
+  }
 
   render() {
     const { id, loggedIn, username, exerciseLogs, cardioLogs, bwLogs, vidsLogs } = this.state;
     return (
       <div className="App">
-        {loggedIn ? <NavbarTrue updateUser={this.updateUser} loggedIn={loggedIn}  /> : <NavbarFalse updateUser={this.updateUser} loggedIn={loggedIn}  /> }
-        {this.state.loggedIn && <Route exact path="/api/dashboard" render={ (props) => <Dashboard {...props} refreshUser={this.getUser} username={username} logs={exerciseLogs} cardiologs={cardioLogs} bwlogs={bwLogs} vidslogs={vidsLogs} id={id} /> } />}
-        {!this.state.loggedIn && <Route exact path="/" render={ (props) => <Home {...props} /> } />}
+        {loggedIn ? <NavbarTrue updateUser={this.updateUser} loggedIn={loggedIn} /> : <NavbarFalse updateUser={this.updateUser} loggedIn={loggedIn} />}
+        {this.state.loggedIn && <Route exact path="/api/dashboard" render={(props) => <Dashboard {...props} refreshUser={this.getUser} username={username} logs={exerciseLogs} cardiologs={cardioLogs} bwlogs={bwLogs} vidslogs={vidsLogs} id={id} getLogs={this.getLogs} />} />}
+        {!this.state.loggedIn && <Route exact path="/" render={(props) => <Home {...props} />} />}
         {/* Routes to different components */}
         <Route path="/api/login"
-          render={() =>               
+          render={() =>
             <LoginForm updateUser={this.updateUser} />}
         />
         <Route path="/api/signup"
           render={() =>
-            <Signup/>}
+            <Signup />}
         />
       </div>
     );

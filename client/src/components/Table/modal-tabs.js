@@ -9,16 +9,56 @@ import ExVidsClassesAdd from './exercisevidsclasses-component/table-body-add-vid
 class ModalTabs extends Component {
 
     state = {
-        activeTab: '1'
+        activeTab: '1',
+        weightlogs: this.props.weightlogs,
+        cardiologs: this.props.cardiologs,
+        bwlogs: this.props.bwlogs,
+        vidslogs: this.props.vidslogs
     };
+
+    createDate = (date) => {
+        let newDate = new Date(date);
+        var y = newDate.getFullYear();
+        var m = newDate.getMonth() + 1;
+        var d = newDate.getDate();
+        if (Number(d) < 10 && Number(d) > 0) {
+          d = "0" + d;
+        }
+    
+        if (Number(m) < 10 && Number(m) > 0) {
+          m = "0" + m;
+        }
+        const nowDate = y + "-" + m + "-" + d;
+    
+        return nowDate;
+      }
+    
+    componentDidUpdate(){
+        console.log(this.state.activeTab);
+        console.log(this.props);
+    } 
+
+    componentDidMount(){
+        console.log(this.state.activeTab);
+        console.log(this.props);
+    } 
+
+
+    getLogs = () => {
+        const { weightlogs, cardiologs, bwlogs, vidslogs } = this.state;
+
+        console.log(weightlogs);
+    }
 
     toggle = (tab) => {
         if (this.state.activeTab !== tab) {
             this.setState({
                 activeTab: tab
-            });
-        }
-    }
+            }, () => {
+                this.getLogs();
+            }
+            )}
+        };
 
     render() {
         console.log(this.props);

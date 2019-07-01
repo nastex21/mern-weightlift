@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Form, FormGroup, FormFeedback, Label, Row, Col, Input, Button } from 'reactstrap';
+import { Form, FormGroup, Label, Row, Col, Input, Button } from 'reactstrap';
+import GenerateTable from '../generatetable';
 import axios from 'axios';
 
 class WeightsAdd extends Component {
@@ -73,7 +74,9 @@ class WeightsAdd extends Component {
 
     render() {
         const { id, collection } = this.state;
+        console.log(this.props.date);
         return (
+            <div>
             <Form onSubmit={this.submit} onChange={this.handleChange}>
                 <Button onClick={this.addExercise}>Add Exercise</Button>
                 {collection.map((val, idx) => {
@@ -112,6 +115,8 @@ class WeightsAdd extends Component {
                 )}
                 <Input type="submit" value="Submit" />
             </Form>
+            {/* <GenerateTable id={this.props.id} date={this.props.date} msgUpdate={this.props.msgUpdate} exerciseArr={this.props.exerciseArr} color={this.props.color} /> */}
+            </div>
         )
     }
 }
