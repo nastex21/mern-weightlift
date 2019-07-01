@@ -63,6 +63,18 @@ class CardioAdd extends Component {
         axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, cardioFlag: 1 })
             .then(response => {
                 console.log(response);
+                this.props.updateData(2, this.state.collection)
+            })
+            .then(() => {
+                console.log("form reset in submit button promise")
+                this.setState({
+                    collection: [{
+                        exercise: "",
+                        distance: "",
+                        hours: "",
+                        minutes: ""
+                    }]
+                })
             })
             .catch(error => {
                 console.log("post /api/add-items error: ");

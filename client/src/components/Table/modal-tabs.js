@@ -60,6 +60,34 @@ class ModalTabs extends Component {
         })
     }
 
+    updateLogs = (path, data) => {
+        console.log("updateData trig");
+        console.log("path: " + path);
+        if (path == 1){
+            this.setState({
+                weightlogs: [...this.state.weightlogs, ...data]
+            })
+        }
+
+        if (path == 2){
+            this.setState({
+                cardiologs: [...this.state.cardiologs, ...data]
+            })
+        }
+
+        if (path == 3){
+            this.setState({
+                bwlogs: [...this.state.bwlogs, ...data]
+            })
+        }
+
+        if (path == 4){
+            this.setState({
+                vidslogs: [...this.state.vidslogs, ...data]
+            })
+        }
+    }
+
     getLogs = (tab) => {
         const { weightlogs, cardiologs, bwlogs, vidslogs } = this.state;
         console.log(weightlogs);
@@ -135,16 +163,16 @@ class ModalTabs extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <WeightsAdd id={id} date={date} msgUpdate={msgUpdate} />
+                        <WeightsAdd id={id} date={date} msgUpdate={msgUpdate} updateData={this.updateLogs} />
                     </TabPane>
                     <TabPane tabId="2">
-                        <CardioAdd id={id} date={date} msgUpdate={msgUpdate} cardiologs={this.state.cardiologs} />
+                        <CardioAdd id={id} date={date} msgUpdate={msgUpdate} updateData={this.updateLogs} cardiologs={this.state.cardiologs} />
                     </TabPane>
                     <TabPane tabId="3">
-                        <BWAdd id={id} date={date} msgUpdate={msgUpdate} bwlogs={this.state.bwlogs} />
+                        <BWAdd id={id} date={date} msgUpdate={msgUpdate} updateData={this.updateLogs} bwlogs={this.state.bwlogs} />
                     </TabPane>
                     <TabPane tabId="4">
-                        <ExVidsClassesAdd id={id} date={date} msgUpdate={msgUpdate} vidslogs={this.state.vidslogs} />
+                        <ExVidsClassesAdd id={id} date={date} msgUpdate={msgUpdate} updateData={this.updateLogs} vidslogs={this.state.vidslogs} />
                     </TabPane>
                     {this.state.dataloaded && <GenerateTable id={this.props.id} date={this.props.date} msgUpdate={this.props.msgUpdate} logs={weightlogs} cardiologs={cardiologs} bwlogs={bwlogs} vidslogs={vidslogs} tabIndex={this.state.activeTab} />}
                 </TabContent>

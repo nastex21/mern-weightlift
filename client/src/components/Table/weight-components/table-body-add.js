@@ -14,7 +14,6 @@ class WeightsAdd extends Component {
         }]
     }
 
-
     //changes when keys are pressed
     handleChange = (e) => {
         //get the className and remove the 'form-control' suffix at the end
@@ -51,10 +50,24 @@ class WeightsAdd extends Component {
 
     submit = (e) => {
         e.preventDefault();
-
+        console.log("submit trig");
+        console.log(this.state.collection)
         axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, weightFlag: 1 })
-            .then(response => {
-                console.log(response);
+            .then((response) => {
+                console.log("submit then")
+                console.log(this.props);
+                this.props.updateData(1, this.state.collection)
+            })
+            .then(() => {
+                console.log("form reset in submit button promise")
+                this.setState({
+                    collection: [{
+                        exercise: "",
+                        sets: "",
+                        reps: "",
+                        weight: ""
+                    }]
+                })
             })
             .catch(error => {
                 console.log("post /api/add-items error: ");

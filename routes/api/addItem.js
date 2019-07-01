@@ -53,6 +53,7 @@ console.log("additem init")
                     counter = 1;
                     console.log("200");
                     console.log(data);
+                    return res.status(200).send("Successfully added!")
                 })
 
             })
@@ -70,6 +71,7 @@ console.log("additem init")
                 counter = 1;
                 console.log("200");
                 console.log(data);
+                return res.status(200).send("Successfully added!")
             });
         }
     };
@@ -122,6 +124,7 @@ console.log("additem init")
                     counter = 1;
                     console.log("200");
                     console.log(data);
+                    return res.status(200).send("Successfully added!")
                 })
 
             })
@@ -139,6 +142,7 @@ console.log("additem init")
                 counter = 1;
                 console.log("200");
                 console.log(data);
+                return res.status(200).send("Successfully added!")
             });
         }
     };
@@ -191,6 +195,7 @@ console.log("additem init")
                     counter = 1;
                     console.log("200");
                     console.log(data);
+                    return res.status(200).send("Successfully added!");
                 })
 
             })
@@ -208,6 +213,7 @@ console.log("additem init")
                 counter = 1;
                 console.log("200");
                 console.log(data);
+                return res.status(200).send("Successfully added!");
             });
         }
     };
@@ -260,6 +266,7 @@ console.log("additem init")
                     counter = 1;
                     console.log("200");
                     console.log(data);
+                    return res.status(200).send("Successfully added!");
                 })
 
             })
@@ -277,6 +284,7 @@ console.log("additem init")
                 counter = 1;
                 console.log("200");
                 console.log(data);
+                return res.status(200).send("Successfully added!");
             });
         }
     };
