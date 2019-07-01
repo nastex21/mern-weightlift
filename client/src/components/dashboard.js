@@ -19,51 +19,55 @@ class Dashboard extends Component {
         exercise: [],
         total: [],
         showError: false,
-        color: ""
+        color: "",
+        weightlogs: "",
+        cardiologs: "",
+        bwlogs: "",
+        vidslogs: ""
     }
 
     componentDidMount() {
         console.log(this.props.logs)
         let eventsArr = [];
-        this.props.logs.map(function(item){
+        this.props.logs.map(function (item) {
             if (item.collections.length > 0) {
                 eventsArr.push({
-                "title": "Entry Added",
-                "date": item.date,
-                "color": "#d9534f",
-                "collections": item.collections
+                    "title": "Entry Added",
+                    "date": item.date,
+                    "color": "#d9534f",
+                    "collections": item.collections
                 })
             }
         })
-        this.props.cardiologs.map(function(item){
-            if (item.collections.length > 0){
+        this.props.cardiologs.map(function (item) {
+            if (item.collections.length > 0) {
                 eventsArr.push({
-                "title": "Entry Added",
-                "date": item.date,
-                'color': '#0275d8',
-                "collections": item.collections
-            })
-        }
+                    "title": "Entry Added",
+                    "date": item.date,
+                    'color': '#0275d8',
+                    "collections": item.collections
+                })
+            }
         });
 
-        this.props.bwlogs.map(function(item){
-            if(item.collections.length > 0){
+        this.props.bwlogs.map(function (item) {
+            if (item.collections.length > 0) {
                 eventsArr.push({
-                "title": "Entry Added",
-                "date": item.date,
-                'color': '#5cb85c',
-                "collections": item.collections
-            })
-        }
+                    "title": "Entry Added",
+                    "date": item.date,
+                    'color': '#5cb85c',
+                    "collections": item.collections
+                })
+            }
         });
 
-        this.props.vidslogs.map(function(item){
-            if(item.collections.length > 0){
+        this.props.vidslogs.map(function (item) {
+            if (item.collections.length > 0) {
                 eventsArr.push({
-                "title": "Entry Added",
-                "date": item.date,
-                'color': '#f0ad4e',
-                "collections": item.collections
+                    "title": "Entry Added",
+                    "date": item.date,
+                    'color': '#f0ad4e',
+                    "collections": item.collections
                 })
             }
         });
@@ -102,7 +106,7 @@ class Dashboard extends Component {
 
         if (val) {
             dateVal = val.start;
-            
+
             color = val.backgroundColor;
 
             const dataExObj = info.event.extendedProps.collections;
@@ -156,22 +160,22 @@ class Dashboard extends Component {
         return (
             <div className="calendar-body">
                 <FullCalendar defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={events} eventClick={this.toggle} />
-                <Modal isOpen={modal} toggle={this.toggle} size="lg"  style={{maxWidth: '1600px', width: '80%'}} color={this.state.color}>
-                    <ModalHeader toggle={this.toggle}>             
-                         <p className="exerciseTitle">{this.state.color == "#f0ad4e" ? "Exercise videos and/or classes" : this.state.color == "#d9534f" ? "Weightlifting Exercises" : this.state.color == "#0275d8" ? "Cardio Exercises" : this.state.color == "#5cb85c" ? "Bodyweight Exercises" : null }</p>
-                         <p className="dateTitle">{date}</p>
+                <Modal isOpen={modal} toggle={this.toggle} size="lg" style={{ maxWidth: '1600px', width: '80%' }} color={this.state.color}>
+                    <ModalHeader toggle={this.toggle}>
+                        <p className="exerciseTitle">{this.state.color == "#f0ad4e" ? "Exercise videos and/or classes" : this.state.color == "#d9534f" ? "Weightlifting Exercises" : this.state.color == "#0275d8" ? "Cardio Exercises" : this.state.color == "#5cb85c" ? "Bodyweight Exercises" : null}</p>
+                        <p className="dateTitle">{date}</p>
                     </ModalHeader>
-                        <ModalBody>
-                            {this.state.showError && <div class="alert alert-danger">
-                                <button type="button" class="close" data-dismiss="alert" onClick={this.closeErr}>&times;</button> Uh-oh! Try changing a few things up and hit submit again.
+                    <ModalBody>
+                        {this.state.showError && <div class="alert alert-danger">
+                            <button type="button" class="close" data-dismiss="alert" onClick={this.closeErr}>&times;</button> Uh-oh! Try changing a few things up and hit submit again.
                              </div>}
-                            {this.state.exercise.length == 0 ? <ModalTabs id={this.props.id} date={date} msgUpdate={this.showErrorMsg} weightlogs={this.props.logs} cardiologs={this.props.cardiologs} bwlogs={this.props.bwlogs} vidslogs={this.props.vidslogs} color={color} /> :<ModalEditDel title={this.state.title} id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} />}
-                        </ModalBody>
+                        {this.state.exercise.length == 0 ? <ModalTabs id={this.props.id} date={date} msgUpdate={this.showErrorMsg} weightlogs={this.props.logs} cardiologs={this.props.cardiologs} bwlogs={this.props.bwlogs} vidslogs={this.props.vidslogs} color={color} /> : <ModalEditDel title={this.state.title} id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} />}
+                    </ModalBody>
                 </Modal>
             </div>
 
-                )
-            }                                 
-        }
-        
+        )
+    }
+}
+
 export default Dashboard;

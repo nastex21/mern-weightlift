@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Form, FormGroup, Label, Row, Col, Input, Button } from 'reactstrap';
-import GenerateTable from '../generatetable';
 import axios from 'axios';
 
 class WeightsAdd extends Component {
@@ -14,6 +13,7 @@ class WeightsAdd extends Component {
             weight: ""
         }]
     }
+
 
     //changes when keys are pressed
     handleChange = (e) => {
@@ -74,48 +74,47 @@ class WeightsAdd extends Component {
 
     render() {
         const { id, collection } = this.state;
-        console.log(this.props.date);
+        console.log(this.props);
         return (
             <div>
-            <Form onSubmit={this.submit} onChange={this.handleChange}>
-                <Button onClick={this.addExercise}>Add Exercise</Button>
-                {collection.map((val, idx) => {
-                    let exId = `ex-${idx}`, setId = `sets-${idx}`, repId = `reps-${idx}`, weightId = `weight-${idx}`;
-                    return (
-                        <div key={id + idx}>
-                            <Row form>
-                                <Col md={3}>
-                                    <FormGroup>
-                                        <Label for={exId}>{`Exercise #${idx + 1}`}</Label>
-                                        <Input type="text" data-id={idx} name={exId} id={exId} value={collection[idx].exercise} className="exercise" placeholder="Name" />
-                                    </FormGroup>
-                                </Col>
-                                <Col md={3}>
-                                    <FormGroup>
-                                        <Label for={setId}>Sets</Label>
-                                        <Input type="tel" data-id={idx} name={setId} id={setId} value={collection[idx].sets} className="sets" placeholder="Number" />
-                                    </FormGroup>
-                                </Col>
-                                <Col md={3}>
-                                    <FormGroup>
-                                        <Label for={repId}>Reps</Label>
-                                        <Input type="tel" data-id={idx} name={repId} id={repId} value={collection[idx].reps} className="reps" placeholder="Number" />
-                                    </FormGroup>
-                                </Col>
-                                <Col md={3}>
-                                    <FormGroup>
-                                        <Label for={weightId}>Weight</Label>
-                                        <Input type="number" data-id={idx} name={weightId} id={weightId} value={collection[idx].weight} className="weight" placeholder="Number" />
-                                    </FormGroup>
-                                </Col>
-                            </Row>
-                        </div>
-                    )
-                }
-                )}
-                <Input type="submit" value="Submit" />
-            </Form>
-            {/* <GenerateTable id={this.props.id} date={this.props.date} msgUpdate={this.props.msgUpdate} exerciseArr={this.props.exerciseArr} color={this.props.color} /> */}
+                <Form onSubmit={this.submit} onChange={this.handleChange}>
+                    <Button onClick={this.addExercise}>Add Exercise</Button>
+                    {collection.map((val, idx) => {
+                        let exId = `ex-${idx}`, setId = `sets-${idx}`, repId = `reps-${idx}`, weightId = `weight-${idx}`;
+                        return (
+                            <div key={id + idx}>
+                                <Row form>
+                                    <Col md={3}>
+                                        <FormGroup>
+                                            <Label for={exId}>{`Exercise #${idx + 1}`}</Label>
+                                            <Input type="text" data-id={idx} name={exId} id={exId} value={collection[idx].exercise} className="exercise" placeholder="Name" />
+                                        </FormGroup>
+                                    </Col>
+                                    <Col md={3}>
+                                        <FormGroup>
+                                            <Label for={setId}>Sets</Label>
+                                            <Input type="tel" data-id={idx} name={setId} id={setId} value={collection[idx].sets} className="sets" placeholder="Number" />
+                                        </FormGroup>
+                                    </Col>
+                                    <Col md={3}>
+                                        <FormGroup>
+                                            <Label for={repId}>Reps</Label>
+                                            <Input type="tel" data-id={idx} name={repId} id={repId} value={collection[idx].reps} className="reps" placeholder="Number" />
+                                        </FormGroup>
+                                    </Col>
+                                    <Col md={3}>
+                                        <FormGroup>
+                                            <Label for={weightId}>Weight</Label>
+                                            <Input type="number" data-id={idx} name={weightId} id={weightId} value={collection[idx].weight} className="weight" placeholder="Number" />
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                            </div>
+                        )
+                    }
+                    )}
+                    <Input type="submit" value="Submit" />
+                </Form>
             </div>
         )
     }

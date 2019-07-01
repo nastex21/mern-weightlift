@@ -5,16 +5,28 @@ import WeightsAdd from './weight-components/table-body-add';
 import CardioAdd from './cardio-components/table-body-add-cardio';
 import BWAdd from './bodyweight-components/table-body-add-bw';
 import ExVidsClassesAdd from './exercisevidsclasses-component/table-body-add-vidsclasses';
+import GenerateTable from './generatetable';
 
 class ModalTabs extends Component {
 
     state = {
         activeTab: '1',
-        weightlogs: this.props.weightlogs,
-        cardiologs: this.props.cardiologs,
-        bwlogs: this.props.bwlogs,
-        vidslogs: this.props.vidslogs
+        weightlogs: [],
+        cardiologs: '',
+        bwlogs: '',
+        vidslogs: '',
+        dataloaded: false
     };
+
+    componentDidMount() {
+        console.log(this.props.weightlogs);
+        this.setState({
+            weightlogs: this.props.weightlogs,
+            cardiologs: this.props.cardiologs,
+            bwlogs: this.props.bwlogs,
+            vidslogs: this.props.vidslogs
+        });
+    }
 
     createDate = (date) => {
         let newDate = new Date(date);
@@ -22,32 +34,56 @@ class ModalTabs extends Component {
         var m = newDate.getMonth() + 1;
         var d = newDate.getDate();
         if (Number(d) < 10 && Number(d) > 0) {
-          d = "0" + d;
+            d = "0" + d;
         }
-    
+
         if (Number(m) < 10 && Number(m) > 0) {
-          m = "0" + m;
+            m = "0" + m;
         }
         const nowDate = y + "-" + m + "-" + d;
-    
+
         return nowDate;
-      }
-    
-    componentDidUpdate(){
-        console.log(this.state.activeTab);
-        console.log(this.props);
-    } 
+    }
 
-    componentDidMount(){
-        console.log(this.state.activeTab);
-        console.log(this.props);
-    } 
-
-
-    getLogs = () => {
+    getLogs = (tab) => {
+        console.log("it's running")
         const { weightlogs, cardiologs, bwlogs, vidslogs } = this.state;
-
         console.log(weightlogs);
+        const newDate = this.createDate(this.props.date)
+        var newArr = [];
+        var exercise;
+        if (tab == 1) {
+            exercise = weightlogs.filter((item) => item.date == newDate);
+            exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj) })});
+            console.log(newArr);
+            this.setState({
+                weightlogs: [...newArr],
+                dataloaded: true
+            })
+        }
+        if (tab == 2) {
+            exercise = cardiologs.filter((item) => item.date == newDate);
+            exercise.forEach((data) => { newArr.push(data.collections) });
+            this.setState({
+                cardiologs: [...newArr]
+            })
+        }
+        if (tab == 3) {
+            exercise = bwlogs.filter((item) => item.date == newDate);
+            exercise.forEach((data) => { newArr.push(data.collections) });
+            this.setState({
+                bwlogs: [...newArr]
+            })
+        }
+        if (tab == 4) {
+            exercise = vidslogs.filter((item) => item.date == newDate);
+            exercise.forEach((data) => { newArr.push(data.collections) });
+            this.setState({
+                vidslogs: [...newArr]
+            })
+        }
+        console.log(newArr);
+
     }
 
     toggle = (tab) => {
@@ -55,13 +91,13 @@ class ModalTabs extends Component {
             this.setState({
                 activeTab: tab
             }, () => {
-                this.getLogs();
+                this.getLogs(tab);
             }
-            )}
-        };
+            )
+        }
+    };
 
     render() {
-        console.log(this.props);
         const { id, date, msgUpdate } = this.props;
         return (
             <React.Fragment>
@@ -89,15 +125,16 @@ class ModalTabs extends Component {
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
                         <WeightsAdd id={id} date={date} msgUpdate={msgUpdate} />
+                        {this.state.dataloaded && <GenerateTable id={this.props.id} date={this.props.date} msgUpdate={this.props.msgUpdate} weightlogs={this.state.weightlogs} color={this.props.color} />}
                     </TabPane>
                     <TabPane tabId="2">
-                        <CardioAdd id={id} date={date} msgUpdate={msgUpdate} />
+                        <CardioAdd id={id} date={date} msgUpdate={msgUpdate} cardiologs={this.state.cardiologs} />
                     </TabPane>
                     <TabPane tabId="3">
-                        <BWAdd id={id} date={date} msgUpdate={msgUpdate} />
+                        <BWAdd id={id} date={date} msgUpdate={msgUpdate} bwlogs={this.state.bwlogs} />
                     </TabPane>
                     <TabPane tabId="4">
-                        <ExVidsClassesAdd id={id} date={date} msgUpdate={msgUpdate} />
+                        <ExVidsClassesAdd id={id} date={date} msgUpdate={msgUpdate} vidslogs={this.state.vidslogs} />
                     </TabPane>
                 </TabContent>
             </React.Fragment>
