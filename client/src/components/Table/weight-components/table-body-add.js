@@ -49,14 +49,6 @@ class WeightsAdd extends Component {
         }
     }
 
-    //grab the previous state of collection, add new object with empty values after
-    addExercise = (e) => {
-        this.setState((prevState) => ({
-            collection: [...prevState.collection, { exercise: "", sets: "", reps: "", weight: "" }]
-        })
-        )
-    }
-
     submit = (e) => {
         e.preventDefault();
 
@@ -78,7 +70,6 @@ class WeightsAdd extends Component {
         return (
             <div>
                 <Form onSubmit={this.submit} onChange={this.handleChange}>
-                    <Button onClick={this.addExercise}>Add Exercise</Button>
                     {collection.map((val, idx) => {
                         let exId = `ex-${idx}`, setId = `sets-${idx}`, repId = `reps-${idx}`, weightId = `weight-${idx}`;
                         return (
@@ -113,7 +104,7 @@ class WeightsAdd extends Component {
                         )
                     }
                     )}
-                    <Input type="submit" value="Submit" />
+                    <Button type="submit" onClick={this.submit} block>Add Exercise</Button>
                 </Form>
             </div>
         )

@@ -77,7 +77,7 @@ class ExVidsClassesAdd extends Component {
                 if (["exercise"].includes(e.target.className)) {
                     collection[e.target.dataset.id].exercise = e.target.value;
                 }
-                if(['completed'].includes(e.target.className)) {
+                if (['completed'].includes(e.target.className)) {
                     collection[e.target.dataset.id].completed = e.target.checked;
                 }
                 delete collection[e.target.dataset.id].hours;
@@ -85,14 +85,6 @@ class ExVidsClassesAdd extends Component {
                 this.setState({ collection }, () => console.log(this.state.collection));
             }
         }
-    }
-
-    //grab the previous state of collection, add new object with empty values after
-    addExercise = (e) => {
-        this.setState((prevState) => ({
-            collection: [...prevState.collection, { _id: '', exercise: "", hours: "", minutes: "", completed: false }]
-        })
-        )
     }
 
     submit = (e) => {
@@ -116,10 +108,9 @@ class ExVidsClassesAdd extends Component {
 
     render() {
         const { id, collection, completed } = this.state;
-  
+
         return (
             <Form onSubmit={this.submit} onChange={this.handleChange}>
-                <Button onClick={this.addExercise}>Add Exercise</Button>
                 {collection.map((val, idx) => {
                     let exId = `ex-${idx}`, hrId = `hr-${idx}`, minId = `min-${idx}`, completedId = `comp-${idx}`;
                     return (
@@ -160,7 +151,7 @@ class ExVidsClassesAdd extends Component {
                     )
                 }
                 )}
-                <Input type="submit" value="Submit" />
+                <Button onClick={this.submit} block>Add Exercise</Button>
             </Form>
         )
     }

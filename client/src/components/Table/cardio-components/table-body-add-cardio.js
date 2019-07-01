@@ -54,14 +54,6 @@ class CardioAdd extends Component {
         }
     }
 
-    //grab the previous state of collection, add new object with empty values after
-    addExercise = (e) => {
-        this.setState((prevState) => ({
-            collection: [...prevState.collection, { exercise: "", distance: "", hours: 0, minutes: 0 }]
-        })
-        )
-    }
-
     submit = (e) => {
         //e.target.value = e.target.value.replace(/^0+/, ''); -- get rid of leading zeroes
         e.preventDefault();
@@ -85,7 +77,6 @@ class CardioAdd extends Component {
 
         return (
             <Form onSubmit={this.submit} onChange={this.handleChange}>
-                <Button onClick={this.addExercise}>Add Exercise</Button>
                 {collection.map((val, idx) => {
                     let exId = `ex-${idx}`, distanceId = `distance-${idx}`, durationId = `duration-${idx}`, hrId = `hr-${idx}`, minId = `min-${idx}`;
                     return (
@@ -123,7 +114,7 @@ class CardioAdd extends Component {
                     )
                 }
                 )}
-                <Input type="submit" value="Submit" />
+                <Button onClick={this.submit} block>Add Exercise</Button>
             </Form>
         )
     }

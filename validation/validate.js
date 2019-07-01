@@ -8,8 +8,6 @@ module.exports = function (req, res, next) {
     var error = {};
     //counter to keep track of errors. If at the end of the tests, the counter is not zero, don't proceed to axios.post
     var errCounter = 0;
-    console.log('color');
-    console.log(color);
 
     if (weightFlag == 1 || cardioFlag == 1 || bwFlag == 1 || color == '#d9534f' || color == '#0275d8' || color == '#5cb85c') {
 
@@ -18,15 +16,26 @@ module.exports = function (req, res, next) {
         //find any error and stop test immediately
         data.collection.some(function (item) {
             if (weightFlag == 1 || bwFlag == 1 || color == '#d9534f' || color == '#5cb85c') {
+                console.log("weightflag or bwFlag")
                 //find empty strings
                 if (item.exercise === '' || item.sets === '' || item.reps === '' || item.weight === '') {
+                    console.log("error 24")
                     errCounter = 1;
                     return error.emptyStringCheck = "Please don't leave blank";
                 }
                 //if it doesn't pass the regex test
-                if (!re.test(item.sets) || !re.test(item.reps) || !re.test(item.weight)) {
-                    errCounter = 1;
-                    return error.numCheck = "Please enter numbers only";
+                if (weightFlag == 1) {
+                    if (!re.test(item.sets) || !re.test(item.reps) || !re.test(item.weight)) {
+                        errCounter = 1;
+                        return error.numCheck = "Please enter numbers only";
+                    }
+                }
+
+                if (bwFlag == 1) {
+                    if (!re.test(item.sets) || !re.test(item.reps)) {
+                        errCounter = 1;
+                        return error.numCheck = "Please enter numbers only";
+                    }
                 }
             }
 
@@ -47,7 +56,6 @@ module.exports = function (req, res, next) {
     }
 
     if (vidsFlag == 1 || color == '#f0ad4e') {
-
         data.collection.forEach(function (item) {
             let newObj = {
                 _id: '',
@@ -97,7 +105,8 @@ module.exports = function (req, res, next) {
                         }
                     });
                 }
-            }})
+            }
+        })
 
         arr.forEach(function (item) {
             if (item.hours == 0 && item.minutes == 0) {
@@ -108,11 +117,11 @@ module.exports = function (req, res, next) {
 
     }
 
-      if (errCounter === 1) {
-         return res.status(400).send({
-             message: 'This is an error!'
-         });
-     } else {
-         next()
-     } 
+    if (errCounter === 1) {
+        return res.status(400).send({
+            message: 'This is an error!'
+        });
+    } else {
+        next()
+    }
 };

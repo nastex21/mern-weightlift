@@ -39,14 +39,6 @@ class BWAdd extends Component {
         }
     }
 
-    //grab the previous state of collection, add new object with empty values after
-    addExercise = (e) => {
-        this.setState((prevState) => ({
-            collection: [...prevState.collection, { exercise: "", sets: "", reps: "" }]
-        })
-        )
-    }
-
     submit = (e) => {
         e.preventDefault();
 
@@ -67,7 +59,6 @@ class BWAdd extends Component {
         const { id, collection } = this.state;
         return (
             <Form onSubmit={this.submit} onChange={this.handleChange}>
-                <Button onClick={this.addExercise}>Add Exercise</Button>
                 {collection.map((val, idx) => {
                     let exId = `ex-${idx}`, setId = `sets-${idx}`, repId = `reps-${idx}`;
                     return (
@@ -96,7 +87,7 @@ class BWAdd extends Component {
                     )
                 }
                 )}
-                <Input type="submit" value="Submit" />
+                <Button onClick={this.submit} block>Add Exercise</Button>
             </Form>
         )
     }

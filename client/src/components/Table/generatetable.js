@@ -6,8 +6,7 @@ class GenerateTable extends Component {
     state = {
         id: this.props.id,
         date: this.props.date,
-        color: this.props.color,
-        collection: this.props.weightlogs,
+        tabIndex: this.props.tabIndex,
         msgUpdate: this.props.msgUpdate,
         rowData: '',
         selectAll: false,
@@ -15,33 +14,63 @@ class GenerateTable extends Component {
         edit: false
     }
 
+    componentDidMount() {
+        if (this.props.tabIndex == 1) {
+            this.setState({
+                collection: this.props.logs
+            })
+        }
+
+        if (this.props.tabIndex == 2) {
+            this.setState({
+                collection: this.props.cardiologs
+            })
+        }
+
+        if (this.props.tabIndex == 3) {
+            this.setState({
+                collection: this.props.bwlogs
+            })
+        }
+
+        if (this.props.tabIndex == 4) {
+            this.setState({
+                collection: this.props.vidslogs
+            })
+        }
+    }
+
     render() {
         console.log(this.props)
-        const { collection } = this.state;
+        var collection;
         var columns;
-        const { id, date, msgUpdate, weightlogs, color } = this.props;
+        const { id, date, msgUpdate, logs, cardiologs, bwlogs, vidslogs, color, tabIndex } = this.props;
         console.log(id);
-        console.log(weightlogs);
-
-        columns = [{
-            dataField: 'exercise',
-            text: 'Exercise Name',
-            editable: false
-        }, {
-            dataField: 'reps',
-            text: 'Reps',
-            editable: false
-        }, {
-            dataField: 'sets',
-            text: 'Sets',
-            editable: false
-        }, {
-            dataField: 'weight',
-            text: "Weight",
-            editable: false
-        }];
-
-        if (color == "#0275d8") {
+        console.log(logs);
+        console.log(tabIndex);
+        if (tabIndex == 1) {
+            collection = logs;
+            columns = [{
+                dataField: 'exercise',
+                text: 'Exercise Name',
+                editable: false
+            }, {
+                dataField: 'sets',
+                text: 'Sets',
+                editable: false
+            }, {
+                dataField: 'reps',
+                text: 'Reps',
+                editable: false
+            }, {
+                dataField: 'weight',
+                text: "Weight",
+                editable: false
+            }];
+        }
+        if (tabIndex == 2) {
+            collection = cardiologs;
+            console.log('tabindex 2')
             columns = [{
                 dataField: 'exercise',
                 text: 'Exercise Name',
@@ -61,7 +90,26 @@ class GenerateTable extends Component {
             }];
         }
 
-        if (color == "#f0ad4e") {
+        if (tabIndex == 3) {
+            collection = bwlogs;
+            columns = [{
+                dataField: 'exercise',
+                text: 'Exercise Name',
+                editable: false
+            },{
+                dataField: 'sets',
+                text: 'Sets',
+                editable: false
+            }, {
+                dataField: 'reps',
+                text: 'Reps',
+                editable: false
+            }];
+        }
+
+        if (tabIndex == 4) {
+            console.log(vidslogs);
+            collection = vidslogs;
             columns = [{
                 dataField: 'exercise',
                 text: 'Exercise Name',
@@ -81,24 +129,8 @@ class GenerateTable extends Component {
             }];
         }
 
-        if (color == "#5cb85c") {
-            columns = [{
-                dataField: 'exercise',
-                text: 'Exercise Name',
-                editable: false
-            }, {
-                dataField: 'reps',
-                text: 'Reps',
-                editable: false
-            }, {
-                dataField: 'sets',
-                text: 'Sets',
-                editable: false
-            }];
-        }
-
         return (
-            <BootstrapTable keyField='_id' bootstrap4 data={weightlogs} columns={columns} />
+            <BootstrapTable keyField='_id' bootstrap4 data={collection} columns={columns} />
         )
     }
 };

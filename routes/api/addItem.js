@@ -4,7 +4,7 @@ const User = require("../../database/models/user");
 const Validate = require('../../validation/validate');
 
 router.post('/', Validate, (req, res) => {
-
+console.log("additem init")
     const updateWeights = (id, updateObj) => {
         var update = {
             $addToSet: {

@@ -11,7 +11,7 @@ class ModalTabs extends Component {
 
     state = {
         activeTab: '1',
-        weightlogs: [],
+        weightlogs: '',
         cardiologs: '',
         bwlogs: '',
         vidslogs: '',
@@ -19,13 +19,22 @@ class ModalTabs extends Component {
     };
 
     componentDidMount() {
-        console.log(this.props.weightlogs);
+        console.log("component mounted")
+        const { weightlogs } = this.props;
+        console.log(weightlogs);
+        const newDate = this.createDate(this.props.date)
+        var newArr = [];
+        var exercise;
+        exercise = weightlogs.filter((item) => item.date == newDate);
+        exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj)})});
+        console.log(newArr);
+  
         this.setState({
-            weightlogs: this.props.weightlogs,
-            cardiologs: this.props.cardiologs,
-            bwlogs: this.props.bwlogs,
-            vidslogs: this.props.vidslogs
-        });
+            weightlogs: newArr
+        }, this.setState({
+            dataloaded: true
+        })
+        )
     }
 
     createDate = (date) => {
@@ -45,41 +54,41 @@ class ModalTabs extends Component {
         return nowDate;
     }
 
+    loadedDataTrue = () => {
+        this.setState({
+            dataloaded: true
+        })
+    }
+
     getLogs = (tab) => {
-        console.log("it's running")
         const { weightlogs, cardiologs, bwlogs, vidslogs } = this.state;
         console.log(weightlogs);
         const newDate = this.createDate(this.props.date)
         var newArr = [];
         var exercise;
         if (tab == 1) {
-            exercise = weightlogs.filter((item) => item.date == newDate);
-            exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj) })});
-            console.log(newArr);
-            this.setState({
-                weightlogs: [...newArr],
-                dataloaded: true
-            })
+            console.log(weightlogs);
+
         }
         if (tab == 2) {
-            exercise = cardiologs.filter((item) => item.date == newDate);
-            exercise.forEach((data) => { newArr.push(data.collections) });
+            exercise = this.props.cardiologs.filter((item) => item.date == newDate);
+            exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj)}) });
             this.setState({
-                cardiologs: [...newArr]
+                cardiologs: newArr
             })
         }
         if (tab == 3) {
-            exercise = bwlogs.filter((item) => item.date == newDate);
-            exercise.forEach((data) => { newArr.push(data.collections) });
+            exercise = this.props.bwlogs.filter((item) => item.date == newDate);
+            exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj)}) });
             this.setState({
-                bwlogs: [...newArr]
+                bwlogs: newArr
             })
         }
         if (tab == 4) {
-            exercise = vidslogs.filter((item) => item.date == newDate);
-            exercise.forEach((data) => { newArr.push(data.collections) });
+            exercise = this.props.vidslogs.filter((item) => item.date == newDate);
+            exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj)}) });
             this.setState({
-                vidslogs: [...newArr]
+                vidslogs: newArr
             })
         }
         console.log(newArr);
@@ -99,6 +108,8 @@ class ModalTabs extends Component {
 
     render() {
         const { id, date, msgUpdate } = this.props;
+        const { activeTab, weightlogs, cardiologs, bwlogs, vidslogs } = this.state;
+        console.log(activeTab);
         return (
             <React.Fragment>
                 <Nav tabs>
@@ -125,7 +136,6 @@ class ModalTabs extends Component {
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
                         <WeightsAdd id={id} date={date} msgUpdate={msgUpdate} />
-                        {this.state.dataloaded && <GenerateTable id={this.props.id} date={this.props.date} msgUpdate={this.props.msgUpdate} weightlogs={this.state.weightlogs} color={this.props.color} />}
                     </TabPane>
                     <TabPane tabId="2">
                         <CardioAdd id={id} date={date} msgUpdate={msgUpdate} cardiologs={this.state.cardiologs} />
@@ -136,6 +146,7 @@ class ModalTabs extends Component {
                     <TabPane tabId="4">
                         <ExVidsClassesAdd id={id} date={date} msgUpdate={msgUpdate} vidslogs={this.state.vidslogs} />
                     </TabPane>
+                    {this.state.dataloaded && <GenerateTable id={this.props.id} date={this.props.date} msgUpdate={this.props.msgUpdate} logs={weightlogs} cardiologs={cardiologs} bwlogs={bwlogs} vidslogs={vidslogs} tabIndex={this.state.activeTab} />}
                 </TabContent>
             </React.Fragment>
         )
