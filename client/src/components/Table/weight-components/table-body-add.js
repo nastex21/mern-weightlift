@@ -27,7 +27,7 @@ class WeightsAdd extends Component {
             const re = /^\d*\.?\d+$/;
 
             if (["sets", "reps"].includes(e.target.className)) {
-                e.target.value = parseInt(e.target.value, 10)
+
                 if (e.target.value == '' || reNum.test(e.target.value)) {
                     //collection[location in array][exercise,sets,reps, or weight] = e.target.value
                     collection[e.target.dataset.id][e.target.className] = e.target.value;

@@ -35,8 +35,6 @@ class ExVidsClassesAdd extends Component {
             console.log(e.target.className);
             //if the target.value is empty or it doesn't pass the test, then setState
             if (e.target.className == "hours") {
-                console.log('1')
-                e.target.value = parseInt(e.target.value, 10)
                 if (e.target.value == '') {
                     if (!this.state.completed) {
                         console.log('2')
@@ -56,9 +54,8 @@ class ExVidsClassesAdd extends Component {
                 this.setState({ collection }, () => console.log(this.state.collection));
             } else if (e.target.className == "minutes") {
                 if (e.target.value == '' || e.target.value >= 0 && e.target.value < 60) {
-                    console.log('5')
-                    e.target.value = parseInt(e.target.value, 10)
-                    if (!this.state.completed) {
+               
+                   if (!this.state.completed) {
                         console.log('6')
                         collection[e.target.dataset.id][e.target.className] = e.target.value;
                         collection[e.target.dataset.id].completed = "false";

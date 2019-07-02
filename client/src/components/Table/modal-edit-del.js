@@ -36,10 +36,6 @@ class ModalEditDel extends Component {
         }))
     }
 
-    saveChanges = () => {
-        
-    }
-
     render() {
         const { color, edit, collection } = this.state;
         var columns;
