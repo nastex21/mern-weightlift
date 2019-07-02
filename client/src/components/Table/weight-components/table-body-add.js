@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Form, FormGroup, Label, Row, Col, Input, Button } from 'reactstrap';
+import { Form, FormGroup, Label, Row, Col, Input, Button, Alert } from 'reactstrap';
 import axios from 'axios';
+import { checkName } from '../../Validation/validateAddTable';
 
 class WeightsAdd extends Component {
     state = {
@@ -11,7 +12,9 @@ class WeightsAdd extends Component {
             sets: "",
             reps: "",
             weight: ""
-        }]
+        }],
+        invalid: false,
+        msg: ''
     }
 
     //changes when keys are pressed
@@ -48,10 +51,19 @@ class WeightsAdd extends Component {
         }
     }
 
+
     submit = (e) => {
         e.preventDefault();
-        console.log("submit trig");
-        console.log(this.state.collection)
+
+        console.log(this.state.collection[0].exercise);
+
+        if (checkName(this.state.collection[0].exercise)) {
+            this.props.msgUpdate(true, "Make sure name field ");
+            this.setState({
+                invalid: "true"
+            })
+        } 
+
         axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, weightFlag: 1 })
             .then((response) => {
                 console.log("submit then")
@@ -72,7 +84,7 @@ class WeightsAdd extends Component {
             .catch(error => {
                 console.log("post /api/add-items error: ");
                 console.log(error);
-                console.log(this.props.msgUpdate(true));
+                
             });
 
     }
@@ -82,6 +94,9 @@ class WeightsAdd extends Component {
         console.log(this.props);
         return (
             <div>
+                {this.state.msg ? (
+                        <Alert color='danger'>{this.state.msg}</Alert>
+                    ) : null}
                 <Form onSubmit={this.submit} onChange={this.handleChange}>
                     {collection.map((val, idx) => {
                         let exId = `ex-${idx}`, setId = `sets-${idx}`, repId = `reps-${idx}`, weightId = `weight-${idx}`;
@@ -91,7 +106,7 @@ class WeightsAdd extends Component {
                                     <Col md={3}>
                                         <FormGroup>
                                             <Label for={exId}>{`Exercise #${idx + 1}`}</Label>
-                                            <Input type="text" data-id={idx} name={exId} id={exId} value={collection[idx].exercise} className="exercise" placeholder="Name" />
+                                            <Input invalid={this.state.invalid} type="text" data-id={idx} name={exId} id={exId} value={collection[idx].exercise} className="exercise" placeholder="Name" />
                                         </FormGroup>
                                     </Col>
                                     <Col md={3}>
