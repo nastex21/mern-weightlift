@@ -118,10 +118,12 @@ module.exports = function (req, res, next) {
     }
 
     if (errCounter === 1) {
+        console.log('fails Validate');
         return res.status(400).send({
             message: 'This is an error!'
-        });
+        }).end();
     } else {
+        console.log('passes Validate');
         next()
     }
 };

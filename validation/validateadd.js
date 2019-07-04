@@ -90,7 +90,9 @@ module.exports = async function (req, res, next) {
     }
 
     if (weightFlag == 1) {
+        console.log("weightflag")
         for (var key in rootValue) {
+            console.log("95")
             console.log(key);
             if (key == 'exercise') {
                 if (rootValue.exercise == '') {
@@ -222,5 +224,5 @@ module.exports = async function (req, res, next) {
             }
         }
     }
-
+    next();
 }

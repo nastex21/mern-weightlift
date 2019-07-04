@@ -5,6 +5,7 @@ import axios from 'axios';
 class WeightsAdd extends Component {
     state = {
         id: this.props.id,
+        tabIndex: this.props.tabIndex,
         date: this.props.date,
         collection: [{
             exercise: "",
@@ -18,6 +19,7 @@ class WeightsAdd extends Component {
         invalidWeight: false,
         msg: ''
     }
+
 
     //changes when keys are pressed
     handleChange = (e) => {
@@ -38,19 +40,37 @@ class WeightsAdd extends Component {
                 if (e.target.value == '' || reNum.test(e.target.value)) {
                     //collection[location in array][exercise,sets,reps, or weight] = e.target.value
                     collection[e.target.dataset.id][e.target.className] = e.target.value;
-                    this.setState({ collection }, () => console.log(this.state.collection))
+                    this.setState({ collection }, () => this.setState({
+                        invalidEx: false,
+                        invalidSets: false,
+                        invalidReps: false,
+                        invalidWeight: false,
+                        msg: ''
+                    }))
                 }
             } else if (e.target.className == "weight") {
                 e.target.value = +e.target.value;
                 if (e.target.value == '' || re.test(e.target.value)) {
                     console.log(re.test(e.target.value));
                     collection[e.target.dataset.id][e.target.className] = e.target.value;
-                    this.setState({ collection }, () => console.log(this.state.collection))
+                    this.setState({ collection }, () => this.setState({ collection }, () => this.setState({
+                        invalidEx: false,
+                        invalidSets: false,
+                        invalidReps: false,
+                        invalidWeight: false,
+                        msg: ''
+                    })))
                 }
             } else {
                 console.log("else state")
                 collection[e.target.dataset.id][e.target.className] = e.target.value;
-                this.setState({ collection }, () => console.log(this.state.collection))
+                this.setState({ collection }, () => this.setState({ collection }, () => this.setState({
+                    invalidEx: false,
+                    invalidSets: false,
+                    invalidReps: false,
+                    invalidWeight: false,
+                    msg: ''
+                })))
             }
         }
     }

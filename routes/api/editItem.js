@@ -9,6 +9,7 @@ router.post('/', Validate, (req, res) => {
 
     //WORKS but only for June 7! Need to fix around the variables.
     const { id, date, color, collection } = req.body;
+    var update, filter;
 
     const createDate = (date) => {
         let newDate = new Date(date);
@@ -31,23 +32,27 @@ router.post('/', Validate, (req, res) => {
     var newDate = createDate(date);
 
     if (color == '#d9534f') {
-
+        console.log(newDate);
         if (collection.length == 0) {
+            console.log("length is 0");
 
-            var update = {
-                $pull: {
-                    'logs.$[i].collections': collection
+            update = {
+                $set: {
+                    'logs': []
                 }
             };
 
-            var filter = {
-                $arrayFilters: {
-                    'i.collections.date': collection[i].date
-                }
+            filter = {
+                arrayFilters: [
+                    {
+                        'logs.date': newDate 
+                    }
+                ]
             };
 
-            User.findOneAndUpdate({ "_id": id, 'logs': { $elemMatch: { 'date': newDate } } }, update, (err, data) => {
+            User.findOneAndUpdate({ "_id": id}, update, filter, (err, data) => {
                 if (err) {
+                    console.log(err);
                     return console.log("500");
                 }
                 if (!data) {
@@ -75,6 +80,7 @@ router.post('/', Validate, (req, res) => {
                 User.findOneAndUpdate({ "_id": id, 'logs': { $elemMatch: { 'date': newDate } } }, update, filter, (err, data) => {
                     if (err) {
                         return console.log("500");
+
                     }
                     if (!data) {
                         return console.log("404");

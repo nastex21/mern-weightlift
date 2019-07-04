@@ -163,16 +163,16 @@ class ModalTabs extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <WeightsAdd id={id} date={date} msgUpdate={msgUpdate} updateData={this.updateLogs} />
+                        <WeightsAdd id={id} date={date} msgUpdate={msgUpdate} updateData={this.updateLogs} tabIndex={this.state.activeTab} />
                     </TabPane>
                     <TabPane tabId="2">
-                        <CardioAdd id={id} date={date} msgUpdate={msgUpdate} updateData={this.updateLogs} cardiologs={this.state.cardiologs} />
+                        <CardioAdd id={id} date={date} msgUpdate={msgUpdate} updateData={this.updateLogs} cardiologs={this.state.cardiologs} tabIndex={this.state.activeTab}/>
                     </TabPane>
                     <TabPane tabId="3">
-                        <BWAdd id={id} date={date} msgUpdate={msgUpdate} updateData={this.updateLogs} bwlogs={this.state.bwlogs} />
+                        <BWAdd id={id} date={date} msgUpdate={msgUpdate} updateData={this.updateLogs} bwlogs={this.state.bwlogs} tabIndex={this.state.activeTab} />
                     </TabPane>
                     <TabPane tabId="4">
-                        <ExVidsClassesAdd id={id} date={date} msgUpdate={msgUpdate} updateData={this.updateLogs} vidslogs={this.state.vidslogs} />
+                        <ExVidsClassesAdd id={id} date={date} msgUpdate={msgUpdate} updateData={this.updateLogs} vidslogs={this.state.vidslogs} tabIndex={this.state.activeTab}/>
                     </TabPane>
                     {this.state.dataloaded && <GenerateTable id={this.props.id} date={this.props.date} msgUpdate={this.props.msgUpdate} logs={weightlogs} cardiologs={cardiologs} bwlogs={bwlogs} vidslogs={vidslogs} tabIndex={this.state.activeTab} />}
                 </TabContent>
