@@ -9,7 +9,7 @@ router.post('/', Validate, (req, res) => {
 
     //WORKS but only for June 7! Need to fix around the variables.
     const { id, date, color, collection } = req.body;
-    var update, filter;
+    var query, update, filter;
 
     const createDate = (date) => {
         let newDate = new Date(date);
@@ -36,21 +36,20 @@ router.post('/', Validate, (req, res) => {
         if (collection.length == 0) {
             console.log("length is 0");
 
+            query = {
+                "_id": id
+            }
+
             update = {
-                $set: {
-                    'logs': []
-                }
-            };
-
-            filter = {
-                arrayFilters: [
-                    {
-                        'logs.date': newDate 
+                '$pull': {
+                    'logs': {
+                        'date': newDate
                     }
-                ]
-            };
+                }
+            }
 
-            User.findOneAndUpdate({ "_id": id}, update, filter, (err, data) => {
+
+            User.update(query, update, (err, data) => {
                 if (err) {
                     console.log(err);
                     return console.log("500");
@@ -59,6 +58,7 @@ router.post('/', Validate, (req, res) => {
                     return console.log("404");
                 }
                 console.log("200");
+                console.log(data);
             });
         }
         if (collection.length > 0) {
