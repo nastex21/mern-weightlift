@@ -32,22 +32,21 @@ router.post('/', Validate, (req, res) => {
 
     if (color == '#d9534f') {
 
-        for (var i = 0; i < collection.length; i++) {
+        if (collection.length == 0) {
+
             var update = {
-                $set: {
+                $pull: {
                     'logs.$[i].collections': collection
                 }
             };
 
             var filter = {
-                arrayFilters: [
-                    {
-                        'i.collections._id': collection[i]._id
-                    }
-                ]
+                $arrayFilters: {
+                    'i.collections.date': collection[i].date
+                }
             };
 
-            User.findOneAndUpdate({ "_id": id, 'logs': { $elemMatch: { 'date': newDate } } }, update, filter, (err, data) => {
+            User.findOneAndUpdate({ "_id": id, 'logs': { $elemMatch: { 'date': newDate } } }, update, (err, data) => {
                 if (err) {
                     return console.log("500");
                 }
@@ -55,10 +54,36 @@ router.post('/', Validate, (req, res) => {
                     return console.log("404");
                 }
                 console.log("200");
-            })
+            });
+        }
+        if (collection.length > 0) {
+            for (var i = 0; i < collection.length; i++) {
+                var update = {
+                    $set: {
+                        'logs.$[i].collections': collection
+                    }
+                };
+
+                var filter = {
+                    arrayFilters: [
+                        {
+                            'i.collections._id': collection[i]._id
+                        }
+                    ]
+                };
+
+                User.findOneAndUpdate({ "_id": id, 'logs': { $elemMatch: { 'date': newDate } } }, update, filter, (err, data) => {
+                    if (err) {
+                        return console.log("500");
+                    }
+                    if (!data) {
+                        return console.log("404");
+                    }
+                    console.log("200");
+                })
+            }
         }
     }
-
     if (color == '#0275d8') {
 
         for (var i = 0; i < collection.length; i++) {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, FormGroup, FormFeedback, Label, Row, Col, Input, Button } from 'reactstrap';
+import { Form, FormGroup, Alert, Label, Row, Col, Input, Button } from 'reactstrap';
 import axios from 'axios';
 
 class BWAdd extends Component {
@@ -10,13 +10,19 @@ class BWAdd extends Component {
             exercise: "",
             sets: "",
             reps: ""
-        }]
+        }],
+        invalidEx: false,
+        invalidSets: false,
+        invalidReps: false,
+        msg: ''
     }
 
     //changes when keys are pressed
     handleChange = (e) => {
         //get the className and remove the 'form-control' suffix at the end
         e.target.className = e.target.className.replace(' form-control', '');
+        e.target.className = e.target.className.replace(' is-invalid', '');
+
         //if the className is in the array
         if (["exercise", "sets", "reps"].includes(e.target.className)) {
             let collection = [...this.state.collection];
@@ -61,6 +67,27 @@ class BWAdd extends Component {
             .catch(error => {
                 console.log("post /api/add-items error: ");
                 console.log(error);
+                const err = error.response.data;
+                if (err.target == "name") {
+                    this.setState({
+                        invalidEx: true,
+                        msg: err.msg
+                    })
+                }
+                if (err.target == "sets") {
+                    this.setState({
+                        invalidSets: true,
+                        msg: err.msg
+                    })
+                }
+
+                if (err.target == "reps") {
+                    this.setState({
+                        invalidReps: true,
+                        msg: err.msg
+                    })
+                }
+
             });
 
     }
@@ -70,6 +97,9 @@ class BWAdd extends Component {
         const { id, collection } = this.state;
         return (
             <Form onSubmit={this.submit} onChange={this.handleChange}>
+                  {this.state.msg ? (
+                    <Alert color='danger'>{this.state.msg}</Alert>
+                ) : null}
                 {collection.map((val, idx) => {
                     let exId = `ex-${idx}`, setId = `sets-${idx}`, repId = `reps-${idx}`;
                     return (
@@ -78,19 +108,19 @@ class BWAdd extends Component {
                                 <Col md={4}>
                                     <FormGroup>
                                         <Label for={exId}>{`Exercise #${idx + 1}`}</Label>
-                                        <Input type="text" data-id={idx} name={exId} id={exId} value={collection[idx].exercise} className="exercise" placeholder="Name" />
+                                        <Input invalid={this.state.invalidEx} type="text" data-id={idx} name={exId} id={exId} value={collection[idx].exercise} className="exercise" placeholder="Name" />
                                     </FormGroup>
                                 </Col>
                                 <Col md={4}>
                                     <FormGroup>
                                         <Label for={setId}>Sets</Label>
-                                        <Input type="text" data-id={idx} name={setId} id={setId} value={collection[idx].sets} className="sets" placeholder="Number" />
+                                        <Input invalid={this.state.invalidSets} type="text" data-id={idx} name={setId} id={setId} value={collection[idx].sets} className="sets" placeholder="Number" />
                                     </FormGroup>
                                 </Col>
                                 <Col md={4}>
                                     <FormGroup>
                                         <Label for={repId}>Reps</Label>
-                                        <Input type="text" data-id={idx} name={repId} id={repId} value={collection[idx].reps} className="reps" placeholder="Number" />
+                                        <Input invalid={this.state.invalidReps}type="text" data-id={idx} name={repId} id={repId} value={collection[idx].reps} className="reps" placeholder="Number" />
                                     </FormGroup>
                                 </Col>
                             </Row>

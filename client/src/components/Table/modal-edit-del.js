@@ -3,9 +3,10 @@ import cellEditFactory from 'react-bootstrap-table2-editor';
 import BootstrapTable from 'react-bootstrap-table-next';
 import { Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { checkName, checkMinutes, checkWeight, wholeNumValidation } from '../Validation/validate';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+import axios from 'axios';
 
 class ModalEditDel extends Component {
     state = {
@@ -34,6 +35,18 @@ class ModalEditDel extends Component {
         this.setState((prevState) => ({
             edit: !prevState.edit
         }))
+    }
+
+    saveChanges = () => {
+        axios.post('/api/edit-items', { id: this.state.id, date: this.state.date, color: this.state.color, collection: this.state.collection })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log("post /api/edit-items error: ");
+                console.log(error);
+            });
+        
     }
 
     render() {
@@ -220,7 +233,7 @@ class ModalEditDel extends Component {
         return (
             <div>
                 <BootstrapTable keyField='_id' bootstrap4 data={collection} columns={columns} cellEdit={cellEdit} />
-                {this.state.edit ? <Button as="input" variant="secondary" type="button" value="SAVE CHANGES" size="sm" block /> : <Button as="input" type="button" style={style} value="EDIT" size="sm" block onClick={this.edit} />}
+                {this.state.edit ? <Button as="input" variant="secondary" type="button" value="SAVE CHANGES" size="sm" block onClick={this.saveChanges}/> : <Button as="input" type="button" style={style} value="EDIT" size="sm" block onClick={this.edit} />}
             </div>
         )
     }

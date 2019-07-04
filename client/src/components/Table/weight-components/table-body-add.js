@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Form, FormGroup, Label, Row, Col, Input, Button, Alert } from 'reactstrap';
 import axios from 'axios';
-import { checkName } from '../../Validation/validateAddTable';
 
 class WeightsAdd extends Component {
     state = {
@@ -13,14 +12,19 @@ class WeightsAdd extends Component {
             reps: "",
             weight: ""
         }],
-        invalid: false,
+        invalidEx: false,
+        invalidSets: false,
+        invalidReps: false,
+        invalidWeight: false,
         msg: ''
     }
 
     //changes when keys are pressed
     handleChange = (e) => {
+        console.log(e.target.value)
         //get the className and remove the 'form-control' suffix at the end
         e.target.className = e.target.className.replace(' form-control', '');
+        e.target.className = e.target.className.replace(' is-invalid', '');
         //if the className is in the array
         if (["exercise", "sets", "reps", "weight"].includes(e.target.className)) {
             let collection = [...this.state.collection];
@@ -55,15 +59,6 @@ class WeightsAdd extends Component {
     submit = (e) => {
         e.preventDefault();
 
-        console.log(this.state.collection[0].exercise);
-
-        if (checkName(this.state.collection[0].exercise)) {
-            this.props.msgUpdate(true, "Make sure name field ");
-            this.setState({
-                invalid: "true"
-            })
-        } 
-
         axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, weightFlag: 1 })
             .then((response) => {
                 console.log("submit then")
@@ -81,10 +76,38 @@ class WeightsAdd extends Component {
                     }]
                 })
             })
-            .catch(error => {
+            .catch((error) => {
                 console.log("post /api/add-items error: ");
-                console.log(error);
-                
+                console.log(error.response);
+                const err = error.response.data;
+                if (err.target == "name") {
+                    this.setState({
+                        invalidEx: true,
+                        msg: err.msg
+                    })
+                }
+                if (err.target == "sets") {
+                    this.setState({
+                        invalidSets: true,
+                        msg: err.msg
+                    })
+                }
+
+                if (err.target == "reps") {
+                    this.setState({
+                        invalidReps: true,
+                        msg: err.msg
+                    })
+                }
+
+                if (err.target == "weight") {
+                    this.setState({
+                        invalidWeight: true,
+                        msg: err.msg
+                    })
+                }
+
+
             });
 
     }
@@ -95,8 +118,8 @@ class WeightsAdd extends Component {
         return (
             <div>
                 {this.state.msg ? (
-                        <Alert color='danger'>{this.state.msg}</Alert>
-                    ) : null}
+                    <Alert color='danger'>{this.state.msg}</Alert>
+                ) : null}
                 <Form onSubmit={this.submit} onChange={this.handleChange}>
                     {collection.map((val, idx) => {
                         let exId = `ex-${idx}`, setId = `sets-${idx}`, repId = `reps-${idx}`, weightId = `weight-${idx}`;
@@ -106,25 +129,25 @@ class WeightsAdd extends Component {
                                     <Col md={3}>
                                         <FormGroup>
                                             <Label for={exId}>{`Exercise #${idx + 1}`}</Label>
-                                            <Input invalid={this.state.invalid} type="text" data-id={idx} name={exId} id={exId} value={collection[idx].exercise} className="exercise" placeholder="Name" />
+                                            <Input invalid={this.state.invalidEx} type="text" data-id={idx} name={exId} id={exId} value={collection[idx].exercise} className="exercise" placeholder="Name" />
                                         </FormGroup>
                                     </Col>
                                     <Col md={3}>
                                         <FormGroup>
                                             <Label for={setId}>Sets</Label>
-                                            <Input type="tel" data-id={idx} name={setId} id={setId} value={collection[idx].sets} className="sets" placeholder="Number" />
+                                            <Input invalid={this.state.invalidSets} type="tel" data-id={idx} name={setId} id={setId} value={collection[idx].sets} className="sets" placeholder="Number" />
                                         </FormGroup>
                                     </Col>
                                     <Col md={3}>
                                         <FormGroup>
                                             <Label for={repId}>Reps</Label>
-                                            <Input type="tel" data-id={idx} name={repId} id={repId} value={collection[idx].reps} className="reps" placeholder="Number" />
+                                            <Input invalid={this.state.invalidReps} type="tel" data-id={idx} name={repId} id={repId} value={collection[idx].reps} className="reps" placeholder="Number" />
                                         </FormGroup>
                                     </Col>
                                     <Col md={3}>
                                         <FormGroup>
                                             <Label for={weightId}>Weight</Label>
-                                            <Input type="number" data-id={idx} name={weightId} id={weightId} value={collection[idx].weight} className="weight" placeholder="Number" />
+                                            <Input invalid={this.state.invalidWeight} type="number" data-id={idx} name={weightId} id={weightId} value={collection[idx].weight} className="weight" placeholder="Number" />
                                         </FormGroup>
                                     </Col>
                                 </Row>

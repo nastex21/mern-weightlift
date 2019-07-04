@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const User = require("../../database/models/user");
-const Validate = require('../../validation/validate');
+const Validate = require("../../validation/validateadd");
 
-router.post('/', Validate, (req, res) => {
+router.post('/', Validate, async (req, res) => {
 console.log("additem init")
     const updateWeights = (id, updateObj) => {
         var update = {

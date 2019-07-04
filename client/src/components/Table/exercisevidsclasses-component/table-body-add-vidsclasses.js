@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, FormGroup, FormFeedback, Label, Row, Col, Input, Button, CustomInput } from 'reactstrap';
+import { Form, FormGroup, Label, Row, Col, Input, Button, Alert } from 'reactstrap';
 import axios from 'axios';
 
 class ExVidsClassesAdd extends Component {
@@ -10,9 +10,13 @@ class ExVidsClassesAdd extends Component {
             exercise: '',
             hours: '',
             minutes: '',
-            completed: ''
+            completed: 'false'
         }],
-        completed: ''
+        completed: false,
+        invalidEx: false,
+        invalidHrs: false,
+        invalidMins: false,
+        msg: ''
     }
 
     //changes when keys are pressed
@@ -21,6 +25,7 @@ class ExVidsClassesAdd extends Component {
         console.log('triggered handleChange');
         //get the className and remove the 'form-control' suffix at the end
         e.target.className = e.target.className.replace(' form-control', '');
+        e.target.className = e.target.className.replace(' is-invalid', '');
 
         console.log(e.target.className);
         if (e.target.className == 'completed form-check-input') {
@@ -42,9 +47,9 @@ class ExVidsClassesAdd extends Component {
                         collection[e.target.dataset.id].completed = "false";
                         this.setState({ collection }, () => console.log(this.state.collection));
                     } else {
-                        console.log('3')
-                        collection[e.target.dataset.id].completed = "false";
+                        console.log('3')                        
                         collection[e.target.dataset.id][e.target.className] = "";
+                        collection[e.target.dataset.id].completed = "false";
                         this.setState({ collection }, () => console.log(this.state.collection));
                     }
                 }
@@ -87,6 +92,7 @@ class ExVidsClassesAdd extends Component {
     submit = (e) => {
         e.preventDefault();
 
+        
         axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, completed: this.state.completed, vidsFlag: 1 })
             .then(response => {
                 console.log(response);
@@ -103,9 +109,29 @@ class ExVidsClassesAdd extends Component {
                     }]
                 })
             })
-            .catch(error => {
-                console.log("post /api/add-items error: ");
+            .catch((error) => {
                 console.log(error);
+                console.log(error.response);
+                if (error.response.data.target == "name") {
+                    this.setState({
+                        invalidEx: true,
+                        msg: error.response.data.msg
+                    })
+                } else if (error.response.data.target == "hrs") {
+                    this.setState({
+                        invalidHrs: true,
+                        msg: error.response.data.msg
+                    })
+                } else if (error.response.data.target == "mins") {
+                    this.setState({
+                        invalidMins: true,
+                        msg: error.response.data.msg
+                    })
+                } else {
+                    this.setState({
+                        msg: error.response.data.msg
+                    })
+                } 
             });
     }
 
@@ -120,6 +146,9 @@ class ExVidsClassesAdd extends Component {
 
         return (
             <Form onSubmit={this.submit} onChange={this.handleChange}>
+                  {this.state.msg ? (
+                    <Alert color='danger'>{this.state.msg}</Alert>
+                ) : null}
                 {collection.map((val, idx) => {
                     let exId = `ex-${idx}`, hrId = `hr-${idx}`, minId = `min-${idx}`, completedId = `comp-${idx}`;
                     return (
@@ -128,7 +157,7 @@ class ExVidsClassesAdd extends Component {
                                 <Col md={4}>
                                     <FormGroup>
                                         <Label for={exId}>{`Exercise #${idx + 1}`}</Label>
-                                        <Input type="text" data-id={idx} name={exId} id={exId} value={collection[idx].exercise} className="exercise" placeholder="Name" />
+                                        <Input invalid={this.state.invalidEx} type="text" data-id={idx} name={exId} id={exId} value={collection[idx].exercise} className="exercise" placeholder="Name" />
                                     </FormGroup>
                                 </Col>
                                 <Col md={4}>
@@ -136,12 +165,12 @@ class ExVidsClassesAdd extends Component {
                                         <Row>
                                             <Col md={6}>
                                                 <Label />
-                                                <Input type="tel" data-id={idx} name={hrId} id={hrId} value={isNaN(collection[idx].hours) ? '' : collection[idx].hours} className="hours" placeholder="Number" disabled={completed} />
+                                                <Input invalid={this.state.invalidHrs} type="tel" data-id={idx} name={hrId} id={hrId} value={isNaN(collection[idx].hours) ? '' : collection[idx].hours} className="hours" placeholder="Number" disabled={completed} />
                                                 <span>HR</span>
                                             </Col>
                                             <Col md={6}>
                                                 <Label />
-                                                <Input type="tel" data-id={idx} name={minId} id={minId} value={isNaN(collection[idx].minutes) ? '' : collection[idx].minutes} className="minutes" placeholder="Number" disabled={completed} />
+                                                <Input invalid={this.state.invalidMins} type="tel" data-id={idx} name={minId} id={minId} value={isNaN(collection[idx].minutes) ? '' : collection[idx].minutes} className="minutes" placeholder="Number" disabled={completed} />
                                                 <span>MIN</span>
                                             </Col>
                                         </Row>

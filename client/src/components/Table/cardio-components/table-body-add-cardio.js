@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, FormGroup, FormFeedback, Label, Row, Col, Input, Button } from 'reactstrap';
+import { Form, FormGroup,  Label, Row, Col, Input, Button, Alert } from 'reactstrap';
 import axios from 'axios';
 
 class CardioAdd extends Component {
@@ -11,7 +11,12 @@ class CardioAdd extends Component {
             distance: "",
             hours: "",
             minutes: ""
-        }]
+        }],
+        invalidEx: false,
+        invalidDistance: false,
+        invalidHrs: false,
+        invalidMins: false,
+        msg: ''
     }
 
     //changes when keys are pressed
@@ -19,6 +24,8 @@ class CardioAdd extends Component {
         console.log(e.target.className);
         //get the className and remove the 'form-control' suffix at the end
         e.target.className = e.target.className.replace(' form-control', '');
+        e.target.className = e.target.className.replace(' is-invalid', '');
+
         //if the className is in the array
         if (["exercise", "distance", "hours", "minutes"].includes(e.target.className)) {
             console.log(e.target.className);
@@ -32,7 +39,6 @@ class CardioAdd extends Component {
                 collection[e.target.dataset.id][e.target.className] = e.target.value;
                 this.setState({ collection }, () => console.log(this.state.collection))
             } else if (e.target.className == "hours") {
-                e.target.value = parseInt(e.target.value, 10)
                 if (e.target.value == '') {
                     collection[e.target.dataset.id][e.target.className] = e.target.value;
                     this.setState({ collection }, () => console.log(this.state.collection))
@@ -40,7 +46,6 @@ class CardioAdd extends Component {
                 collection[e.target.dataset.id][e.target.className] = e.target.value;
                 this.setState({ collection }, () => console.log(this.state.collection))
             } else if (e.target.className == "minutes") {
-                e.target.value = parseInt(e.target.value, 10)
                 if (e.target.value == '' || e.target.value >= 0 && e.target.value < 60) {
                     collection[e.target.dataset.id][e.target.className] = e.target.value;
                     this.setState({ collection }, () => console.log(this.state.collection))
@@ -79,6 +84,33 @@ class CardioAdd extends Component {
             .catch(error => {
                 console.log("post /api/add-items error: ");
                 console.log(error);
+                const err = error.response.data;
+                if (err.target == "name") {
+                    this.setState({
+                        invalidEx: true,
+                        msg: err.msg
+                    })
+                }
+                if (err.target == "distance") {
+                    this.setState({
+                        invalidDistance: true,
+                        msg: err.msg
+                    })
+                }
+
+                if (err.target == "hrs") {
+                    this.setState({
+                        invalidHrs: true,
+                        msg: err.msg
+                    })
+                }
+
+                if (err.target == "mins") {
+                    this.setState({
+                        invalidMins: true,
+                        msg: err.msg
+                    })
+                }
             });
 
     }
@@ -89,6 +121,9 @@ class CardioAdd extends Component {
 
         return (
             <Form onSubmit={this.submit} onChange={this.handleChange}>
+                  {this.state.msg ? (
+                    <Alert color='danger'>{this.state.msg}</Alert>
+                ) : null}
                 {collection.map((val, idx) => {
                     let exId = `ex-${idx}`, distanceId = `distance-${idx}`, durationId = `duration-${idx}`, hrId = `hr-${idx}`, minId = `min-${idx}`;
                     return (
@@ -97,13 +132,13 @@ class CardioAdd extends Component {
                                 <Col md={4}>
                                     <FormGroup>
                                         <Label for={exId}>{`Exercise #${idx + 1}`}</Label>
-                                        <Input type="text" data-id={idx} name={exId} id={exId} value={collection[idx].exercise} className="exercise" placeholder="Name" />
+                                        <Input invalid={this.state.invalidEx} type="text" data-id={idx} name={exId} id={exId} value={collection[idx].exercise} className="exercise" placeholder="Name" />
                                     </FormGroup>
                                 </Col>
                                 <Col md={4}>
                                     <FormGroup>
                                         <Label for={distanceId}>Distance</Label>
-                                        <Input type="number" data-id={idx} name={distanceId} id={distanceId} value={collection[idx].distance} className="distance" placeholder="Number" />
+                                        <Input invalid={this.state.invalidDistance} type="number" data-id={idx} name={distanceId} id={distanceId} value={collection[idx].distance} className="distance" placeholder="Number" />
                                     </FormGroup>
                                 </Col>
                                 <Col md={4}>
@@ -111,11 +146,11 @@ class CardioAdd extends Component {
                                         <Label for={durationId}>Duration</Label>
                                         <Row>
                                             <Col>
-                                                <Input type="tel" data-id={idx} name={hrId} id={hrId} value={collection[idx].hours} className="hours" placeholder="Number" />
+                                                <Input invalid={this.state.invalidHrs} type="tel" data-id={idx} name={hrId} id={hrId} value={collection[idx].hours} className="hours" placeholder="Number" />
                                                 <span>HR</span>
                                             </Col>
                                             <Col>
-                                                <Input type="tel" data-id={idx} name={minId} id={minId} value={collection[idx].minutes} className="minutes" placeholder="Number" />
+                                                <Input invalid={this.state.invalidMins} type="tel" data-id={idx} name={minId} id={minId} value={collection[idx].minutes} className="minutes" placeholder="Number" />
                                                 <span>MIN</span>
                                             </Col>
                                         </Row>
