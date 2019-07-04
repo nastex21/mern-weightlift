@@ -11,7 +11,7 @@ var weightSchema = new Schema({
         reps: {type: String},
         weight: {type: String}
     }]
-});
+},{_id: false});
 
 const WeightLogs = mongoose.model('WeightLogs', weightSchema);
 module.exports = WeightLogs;

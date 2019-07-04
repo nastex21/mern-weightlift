@@ -4,10 +4,7 @@ const User = require("../../database/models/user");
 const Validate = require('../../validation/validate');
 
 router.post('/', Validate, (req, res) => {
-    console.log('edit-items');
-    console.log(req.body);
 
-    //WORKS but only for June 7! Need to fix around the variables.
     const { id, date, color, collection } = req.body;
     var query, update, filter;
 
@@ -32,9 +29,7 @@ router.post('/', Validate, (req, res) => {
     var newDate = createDate(date);
 
     if (color == '#d9534f') {
-        console.log(newDate);
         if (collection.length == 0) {
-            console.log("length is 0");
 
             query = {
                 "_id": id
@@ -48,19 +43,18 @@ router.post('/', Validate, (req, res) => {
                 }
             }
 
-
             User.update(query, update, (err, data) => {
                 if (err) {
-                    console.log(err);
-                    return console.log("500");
+                    
+                    return res.status(500).end();
                 }
                 if (!data) {
-                    return console.log("404");
+                    return res.status(404).end();
                 }
-                console.log("200");
-                console.log(data);
+                return res.status(200).end();
             });
         }
+
         if (collection.length > 0) {
             for (var i = 0; i < collection.length; i++) {
                 var update = {
@@ -79,101 +73,188 @@ router.post('/', Validate, (req, res) => {
 
                 User.findOneAndUpdate({ "_id": id, 'logs': { $elemMatch: { 'date': newDate } } }, update, filter, (err, data) => {
                     if (err) {
-                        return console.log("500");
+                        return res.status(500).end();
 
                     }
                     if (!data) {
-                        return console.log("404");
+                        return res.status(404).end();
                     }
-                    console.log("200");
+                    return res.status(200).end();
                 })
             }
         }
     }
+
     if (color == '#0275d8') {
+        if (collection.length == 0) {
 
-        for (var i = 0; i < collection.length; i++) {
-            var update = {
-                $set: {
-                    'cardiologs.$[i].collections': collection
-                }
-            };
+            query = {
+                "_id": id
+            }
 
-            var filter = {
-                arrayFilters: [
-                    {
-                        'i.collections._id': collection[i]._id
+            update = {
+                '$pull': {
+                    'cardiologs': {
+                        'date': newDate
                     }
-                ]
-            };
+                }
+            }
 
-            User.findOneAndUpdate({ "_id": id, 'cardiologs': { $elemMatch: { 'date': newDate } } }, update, filter, (err, data) => {
+            User.update(query, update, (err, data) => {
                 if (err) {
-                    return console.log("500");
+                    
+                    return res.status(500).end();
                 }
                 if (!data) {
-                    return console.log("404");
+                    return res.status(404).end();
                 }
-                console.log("200");
-            })
+                return res.status(200).end();
+                
+            });
+        }
+
+        if (collection.length > 0) {
+            for (var i = 0; i < collection.length; i++) {
+                var update = {
+                    $set: {
+                        'cardiologs.$[i].collections': collection
+                    }
+                };
+
+                var filter = {
+                    arrayFilters: [
+                        {
+                            'i.collections._id': collection[i]._id
+                        }
+                    ]
+                };
+
+                User.findOneAndUpdate({ "_id": id, 'cardiologs': { $elemMatch: { 'date': newDate } } }, update, filter, (err, data) => {
+                    if (err) {
+                        return res.status(500).end();
+                    }
+                    if (!data) {
+                        return res.status(404).end();
+                    }
+                    return res.status(200).end();
+                })
+            }
         }
     }
 
     if (color == '#5cb85c') {
+        if (collection.length == 0) {
+            
 
-        for (var i = 0; i < collection.length; i++) {
-            var update = {
-                $set: {
-                    'bwlogs.$[i].collections': collection
-                }
-            };
+            query = {
+                "_id": id
+            }
 
-            var filter = {
-                arrayFilters: [
-                    {
-                        'i.collections._id': collection[i]._id
+            update = {
+                '$pull': {
+                    'bwlogs': {
+                        'date': newDate
                     }
-                ]
-            };
+                }
+            }
 
-            User.findOneAndUpdate({ "_id": id, 'bwlogs': { $elemMatch: { 'date': newDate } } }, update, filter, (err, data) => {
+            User.update(query, update, (err, data) => {
                 if (err) {
-                    return console.log("500");
+                    
+                    return res.status(500).end();
                 }
                 if (!data) {
-                    return console.log("404");
+                    return res.status(404).end();
                 }
-                console.log("200");
-            })
+                return res.status(200).end();
+                
+            });
+        }
+
+        if (collection.length > 0) {
+            for (var i = 0; i < collection.length; i++) {
+                var update = {
+                    $set: {
+                        'bwlogs.$[i].collections': collection
+                    }
+                };
+
+                var filter = {
+                    arrayFilters: [
+                        {
+                            'i.collections._id': collection[i]._id
+                        }
+                    ]
+                };
+
+                User.findOneAndUpdate({ "_id": id, 'bwlogs': { $elemMatch: { 'date': newDate } } }, update, filter, (err, data) => {
+                    if (err) {
+                        return res.status(500).end();
+                    }
+                    if (!data) {
+                        return res.status(404).end();
+                    }
+                    return res.status(200).end();
+                })
+            }
         }
     }
 
     if (color == '#f0ad4e') {
 
-        for (var i = 0; i < collection.length; i++) {
-            var update = {
-                $set: {
-                    'vidslogs.$[i].collections': collection
-                }
-            };
+        if (collection.length == 0) {
+            
+            query = {
+                "_id": id
+            }
 
-            var filter = {
-                arrayFilters: [
-                    {
-                        'i.collections._id': collection[i]._id
+            update = {
+                '$pull': {
+                    'vidslogs': {
+                        'date': newDate
                     }
-                ]
-            };
+                }
+            }
 
-            User.findOneAndUpdate({ "_id": id, 'vidslogs': { $elemMatch: { 'date': newDate } } }, update, filter, (err, data) => {
+            User.update(query, update, (err, data) => {
                 if (err) {
-                    return console.log("500");
+                    
+                    return res.status(500).end();
                 }
                 if (!data) {
-                    return console.log("404");
+                    return res.status(404).end();
                 }
-                console.log("200");
-            })
+                return res.status(200).end();
+                
+            });
+        }
+
+        if (collection.length > 0) {
+            for (var i = 0; i < collection.length; i++) {
+                var update = {
+                    $set: {
+                        'vidslogs.$[i].collections': collection
+                    }
+                };
+
+                var filter = {
+                    arrayFilters: [
+                        {
+                            'i.collections._id': collection[i]._id
+                        }
+                    ]
+                };
+
+                User.findOneAndUpdate({ "_id": id, 'vidslogs': { $elemMatch: { 'date': newDate } } }, update, filter, (err, data) => {
+                    if (err) {
+                        return res.status(500).end();
+                    }
+                    if (!data) {
+                        return res.status(404).end();
+                    }
+                 return res.status(200).end();
+                })
+            }
         }
     }
 })
