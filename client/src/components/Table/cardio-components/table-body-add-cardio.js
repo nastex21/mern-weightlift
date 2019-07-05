@@ -68,7 +68,7 @@ class CardioAdd extends Component {
         axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, cardioFlag: 1 })
             .then(response => {
                 console.log(response);
-                this.props.updateData(1,this.state.collection); 
+                this.props.updateData(2,this.state.collection); 
             })
             .then(() => { this.props.refreshUser(); })
             .then(() => {

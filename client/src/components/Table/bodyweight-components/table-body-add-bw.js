@@ -52,7 +52,7 @@ class BWAdd extends Component {
         axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, bwFlag: 1 })
             .then(response => {
                 console.log(response);
-                this.props.updateData(1,this.state.collection); 
+                this.props.updateData(3,this.state.collection); 
             })
             .then(() => { this.props.refreshUser(); })
             .then(() => {
