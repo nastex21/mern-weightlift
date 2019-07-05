@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Container, Col, Form, FormGroup, Label, Input, FormFeedback, Button } from "reactstrap";
+import { Container, Col, Form, FormGroup, Label, Input, FormFeedback, Button, Alert } from "reactstrap";
 import { Redirect } from "react-router-dom";
 
 class Signup extends Component {
@@ -13,7 +13,9 @@ class Signup extends Component {
             nameState: "",
             passwordState: "",
             password2State: ""
-        }
+        },
+        msg: false,
+        warning: ''
     };
 
     validateName = e => {
@@ -81,19 +83,25 @@ class Signup extends Component {
             this.state.validate.password2State !== "has-danger"
         ) {
             axios.post("/api/dashboard/", { username: this.state.username, password: this.state.password })
-                .then(() => this.props.updateSuccess())
                 .then(response => {
+                    if (!response.data.error) {
                         this.setState({
                             //redirect to login page
                             redirectTo: "/api/login"
-                        });
+                        }, this.props.updateSuccess());
+                    } else {
+                        this.setState({
+                            warning: true,
+                            msg: response.data.error
+                        })
+                    }
                 })
                 .catch(error => {
                     console.log("signup error: ");
                     console.log(error);
-                });
+                })
         }
-    };
+    }
 
     render() {
         const { username, password, password2 } = this.state;
@@ -104,6 +112,7 @@ class Signup extends Component {
                 <div className="registerForm">
                     <Container className="RegisterBox">
                         <h2>Register</h2>
+                        {this.state.warning ? <Alert color="danger">{this.state.msg}</Alert> : null}
                         <Form className="form" onSubmit={e => this.handleSubmit(e)}>
                             <Col>
                                 <FormGroup>

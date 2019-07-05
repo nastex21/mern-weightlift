@@ -11,7 +11,7 @@ router.post('/', (req, res) => {
             console.log('User.js post error: ', err)
         } else if (user) {
             res.json({
-                error: `Sorry, already a user with the username: ${username}`
+                error: `Sorry, there's already a user with the username: ${username}`
             })
         } else {
             const newUser = new User({
