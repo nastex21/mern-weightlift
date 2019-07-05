@@ -25,3 +25,4 @@ yarn-error.log*
 .snyk
 .snyk
 client/.snyk
+client/.babelrc

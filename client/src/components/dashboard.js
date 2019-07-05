@@ -156,6 +156,7 @@ class Dashboard extends Component {
         })
     }
 
+
     render() {
         const { exercise, modal, date, events, color } = this.state;
         console.log(this.props);

@@ -43,7 +43,6 @@ class ModalEditDel extends Component {
                 console.log(response);
             })
             .catch(error => {
-                console.log("post /api/edit-items error: ");
                 console.log(error);
             });
 
@@ -61,8 +60,6 @@ class ModalEditDel extends Component {
             align: 'center',
             footerAlign: 'center',
             formatter: (cellContent, row) => {
-                console.log(cellContent);
-                console.log(row);
                 return (
                     <FontAwesomeIcon icon={faTrashAlt} size="lg" onClick={() => this.deleteItem(row)} />
                 );
@@ -263,8 +260,6 @@ class ModalEditDel extends Component {
                 footerAlign: 'center',
                 editable: false,
                 formatter: (cellContent, row) => {
-                    console.log(cellContent);
-                    console.log(row);
                     if (cellContent == "true") {
                         return <FontAwesomeIcon icon={faCheck} size="lg" />
                     } else {
@@ -330,7 +325,6 @@ class ModalEditDel extends Component {
             backgroundcolor: 'danger',
         }
 
-        console.log(this.state.edit);
         return (
             <div>
                 <BootstrapTable variant="dark" keyField='_id' bootstrap4={true} striped={true} data={collection} columns={columns} cellEdit={cellEdit} />
