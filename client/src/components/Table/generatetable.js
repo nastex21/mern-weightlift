@@ -44,7 +44,7 @@ class GenerateTable extends Component {
         console.log(this.props)
         var collection;
         var columns;
-        const { id, date, msgUpdate, logs, cardiologs, bwlogs, vidslogs, color, tabIndex } = this.props;
+        const { id,  logs, cardiologs, bwlogs, vidslogs, tabIndex } = this.props;
         console.log(id);
         console.log(logs);
         console.log(tabIndex);
