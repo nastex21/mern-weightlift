@@ -44,7 +44,7 @@ console.log("additem init")
                     console.log("second findOneAndUpdate");
                     if (err) {
                         console.log("500");
-                        return res.status(500).send(err).end();
+                        return res.status(500).end();
                     }
                     if (!data) {
                         console.log("404");
@@ -53,7 +53,7 @@ console.log("additem init")
                     counter = 1;
                     console.log("200");
                     console.log(data);
-                    return res.status(200).send("Successfully added!").end();
+                    return res.status(200).end();
                 })
 
             })
@@ -71,7 +71,7 @@ console.log("additem init")
                 counter = 1;
                 console.log("200");
                 console.log(data);
-                return res.status(200).send("Successfully added!").end();
+                return res.status(200).end();
             });
         }
     };
@@ -115,7 +115,7 @@ console.log("additem init")
                     console.log("second findOneAndUpdate");
                     if (err) {
                         console.log("500");
-                        return res.status(500).send(err).end();
+                        return res.status(500).end();
                     }
                     if (!data) {
                         console.log("404");
@@ -124,7 +124,7 @@ console.log("additem init")
                     counter = 1;
                     console.log("200");
                     console.log(data);
-                    return res.status(200).send("Successfully added!").end();
+                    return res.status(200).end();
                 })
 
             })
@@ -142,7 +142,7 @@ console.log("additem init")
                 counter = 1;
                 console.log("200");
                 console.log(data);
-                return res.status(200).send("Successfully added!").end();
+                return res.status(200).end();
             });
         }
     };
@@ -186,7 +186,7 @@ console.log("additem init")
                     console.log("second findOneAndUpdate");
                     if (err) {
                         console.log("500");
-                        return res.status(500).send(err).end();
+                        return res.status(500).end();
                     }
                     if (!data) {
                         console.log("404");
@@ -195,7 +195,7 @@ console.log("additem init")
                     counter = 1;
                     console.log("200");
                     console.log(data);
-                    return res.status(200).send("Successfully added!").end();
+                    return res.status(200).end();
                 })
 
             })
@@ -213,7 +213,7 @@ console.log("additem init")
                 counter = 1;
                 console.log("200");
                 console.log(data);
-                return res.status(200).send("Successfully added!").end();
+                return res.status(200).end();
             });
         }
     };
@@ -257,7 +257,7 @@ console.log("additem init")
                     console.log("second findOneAndUpdate");
                     if (err) {
                         console.log("500");
-                        return res.status(500).send(err).end();
+                        return res.status(500).end();
                     }
                     if (!data) {
                         console.log("404");
@@ -266,7 +266,7 @@ console.log("additem init")
                     counter = 1;
                     console.log("200");
                     console.log(data);
-                    return res.status(200).send("Successfully added!").end();
+                    return res.status(200).end();
                 })
 
             })
@@ -284,7 +284,7 @@ console.log("additem init")
                 counter = 1;
                 console.log("200");
                 console.log(data);
-                return res.status(200).send("Successfully added!").end();
+                return res.status(200).end();
             });
         }
     };
