@@ -7,8 +7,16 @@ class LoginForm extends Component {
     state = {
         username: '',
         password: '',
-        msg: null,
-        redirectTo: null
+        msg: this.props.msg,
+        redirectTo: null,
+        success: this.props.success
+    }
+
+    updateMsg = () => {
+        this.setState({
+            msg: "Sucessfully registered, please log in.",
+            success: true
+        })
     }
 
     handleChange = (event) => {
@@ -59,7 +67,8 @@ class LoginForm extends Component {
             return (
                 <div>
                     <h4>Login</h4>
-                    {this.state.msg ? <Alert color="danger">{this.state.msg}</Alert> : null}
+                    {this.state.msg && !this.state.success ? <Alert color="danger">{this.state.msg}</Alert> : null}
+                    {this.state.msg && this.state.success ? <Alert color="success">{this.state.msg}</Alert> : null}
                     <Container className="loginForm">
                         <Form onSubmit={e => this.handleSubmit(e)}>
                             <Col>

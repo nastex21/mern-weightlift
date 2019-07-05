@@ -81,16 +81,12 @@ class Signup extends Component {
             this.state.validate.password2State !== "has-danger"
         ) {
             axios.post("/api/dashboard/", { username: this.state.username, password: this.state.password })
+                .then(() => this.props.updateSuccess())
                 .then(response => {
-                    if (!response.data.errmsg) {
-                        console.log("successful signup");
                         this.setState({
                             //redirect to login page
-                            redirectTo: "/api/dashboard"
+                            redirectTo: "/api/login"
                         });
-                    } else {
-                        console.log("username already taken");
-                    }
                 })
                 .catch(error => {
                     console.log("signup error: ");

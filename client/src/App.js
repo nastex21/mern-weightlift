@@ -18,11 +18,21 @@ class App extends Component {
     cardioLogs: [],
     bwLogs: [],
     vidsLogs: [],
-    events: []
+    events: [],
+    success: false,
+    msg: null
   }
 
   componentDidMount() {
     this.getUser();
+  }
+
+  updateSuccess = () => {
+    console.log("updateSuccess");
+    this.setState({
+      sucess: true,
+      msg: "Sucessfully registered! Please login."
+    })
   }
 
   updateEventCalendar = () => {
@@ -148,11 +158,11 @@ class App extends Component {
         {/* Routes to different components */}
         <Route path="/api/login"
           render={() =>
-            <LoginForm updateUser={this.updateUser} />}
+            <LoginForm updateUser={this.updateUser} success={this.state.success} msg={this.state.msg} />}
         />
         <Route path="/api/signup"
           render={() =>
-            <Signup />}
+            <Signup updateSuccess={this.updateSuccess} />}
         />
       </div>
     );
