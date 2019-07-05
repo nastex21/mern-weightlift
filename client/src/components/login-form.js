@@ -33,7 +33,10 @@ class LoginForm extends Component {
                     id: response.data._id,
                     loggedIn: true,
                     username: response.data.username,
-                    exerciseLogs: response.data.logs
+                    exerciseLogs: response.data.logs,
+                    cardioLogs: response.data.cardiologs,
+                    bwLogs: response.data.bwlogs,
+                    vidsLogs: response.data.vidslogs
                 })
 
                 // update the state to redirect to home
