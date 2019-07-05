@@ -17,15 +17,82 @@ class App extends Component {
     exerciseLogs: [],
     cardioLogs: [],
     bwLogs: [],
-    vidsLogs: []
+    vidsLogs: [],
+    events: []
   }
 
   componentDidMount() {
-    console.log("component mounted");
-    console.log(this.state.vidsLogs);
-    console.log(this.state.cardioLogs);
     this.getUser();
   }
+
+  updateEventCalendar = () => {
+    let eventsArr = [];
+    console.log("this.state.exerciselogs");
+    console.log(this.state.exerciseLogs);
+    this.state.exerciseLogs.map(function (item) {
+      if (item.collections.length > 0) {
+        eventsArr.push({
+          "title": "Entry Added",
+          "date": item.date,
+          "color": "#d9534f",
+          "collections": item.collections
+        })
+      }
+    })
+    this.state.cardioLogs.map(function (item) {
+      if (item.collections.length > 0) {
+        eventsArr.push({
+          "title": "Entry Added",
+          "date": item.date,
+          'color': '#0275d8',
+          "collections": item.collections
+        })
+      }
+    });
+
+    this.state.bwLogs.map(function (item) {
+      if (item.collections.length > 0) {
+        eventsArr.push({
+          "title": "Entry Added",
+          "date": item.date,
+          'color': '#5cb85c',
+          "collections": item.collections
+        })
+      }
+    });
+
+    this.state.vidsLogs.map(function (item) {
+      if (item.collections.length > 0) {
+        eventsArr.push({
+          "title": "Entry Added",
+          "date": item.date,
+          'color': '#f0ad4e',
+          "collections": item.collections
+        })
+      }
+    });
+
+    this.setState({
+      events: [...eventsArr]
+    })
+  }
+
+ createDate = (date) => {
+    let newDate = new Date(date);
+    var y = newDate.getFullYear();
+    var m = newDate.getMonth() + 1;
+    var d = newDate.getDate();
+    if (Number(d) < 10 && Number(d) > 0) {
+        d = "0" + d;
+    }
+
+    if (Number(m) < 10 && Number(m) > 0) {
+        m = "0" + m;
+    }
+    const nowDate = y + "-" + m + "-" + d;
+
+    return nowDate;
+}
 
   updateUser = (userObject) => {
     console.log("triggered updateuser")
@@ -37,11 +104,13 @@ class App extends Component {
       cardioLogs: [...this.state.cardioLogs, ...userObject.cardioLogs],
       bwLogs: [...this.state.bwLogs, ...userObject.bwLogs],
       vidsLogs: [...this.state.vidsLogs, ...userObject.vidsLogs]
-    })
+    }
+    )
   }
 
   //keeps you logged in if you were to refresh
   getUser = () => {
+    console.log("GETUSER")
     axios.get('/api/dashboard/').then(response => {
 
       if (response.data.user) {
@@ -54,7 +123,7 @@ class App extends Component {
           cardioLogs: [...response.data.user.cardiologs],
           bwLogs: [...response.data.user.bwlogs],
           vidsLogs: [...response.data.user.vidslogs]
-        })
+        }, this.updateEventCalendar)
       } else {
         console.log('Get user: no user');
         this.setState({
@@ -74,7 +143,7 @@ class App extends Component {
     return (
       <div className="App">
         {loggedIn ? <NavbarTrue updateUser={this.updateUser} loggedIn={loggedIn} /> : <NavbarFalse updateUser={this.updateUser} loggedIn={loggedIn} />}
-        {this.state.loggedIn && <Route exact path="/api/dashboard" render={(props) => <Dashboard {...props} refreshUser={this.getUser} username={username} logs={exerciseLogs} cardiologs={cardioLogs} bwlogs={bwLogs} vidslogs={vidsLogs} id={id} getLogs={this.getLogs} />} />}
+        {this.state.loggedIn && <Route exact path="/api/dashboard" render={(props) => <Dashboard {...props}refreshUser={this.getUser} username={username} logs={exerciseLogs} cardiologs={cardioLogs} bwlogs={bwLogs} vidslogs={vidsLogs} id={id} getLogs={this.getLogs} events={this.state.events} />}  />}
         {!this.state.loggedIn && <Route exact path="/" render={(props) => <Home {...props} />} />}
         {/* Routes to different components */}
         <Route path="/api/login"

@@ -13,71 +13,14 @@ import '@fullcalendar/bootstrap/main.css';
 
 class Dashboard extends Component {
     state = {
-        events: [],
         modal: false,
         date: "",
         exercise: [],
         total: [],
         showError: false,
         color: "",
-        weightlogs: "",
-        cardiologs: "",
-        bwlogs: "",
-        vidslogs: "",
         msg: '',
     }
-
-    componentDidMount() {
-        console.log(this.props.logs)
-        let eventsArr = [];
-        this.props.logs.map(function (item) {
-            if (item.collections.length > 0) {
-                eventsArr.push({
-                    "title": "Entry Added",
-                    "date": item.date,
-                    "color": "#d9534f",
-                    "collections": item.collections
-                })
-            }
-        })
-        this.props.cardiologs.map(function (item) {
-            if (item.collections.length > 0) {
-                eventsArr.push({
-                    "title": "Entry Added",
-                    "date": item.date,
-                    'color': '#0275d8',
-                    "collections": item.collections
-                })
-            }
-        });
-
-        this.props.bwlogs.map(function (item) {
-            if (item.collections.length > 0) {
-                eventsArr.push({
-                    "title": "Entry Added",
-                    "date": item.date,
-                    'color': '#5cb85c',
-                    "collections": item.collections
-                })
-            }
-        });
-
-        this.props.vidslogs.map(function (item) {
-            if (item.collections.length > 0) {
-                eventsArr.push({
-                    "title": "Entry Added",
-                    "date": item.date,
-                    'color': '#f0ad4e',
-                    "collections": item.collections
-                })
-            }
-        });
-
-        this.setState({
-            events: [...eventsArr]
-        })
-    }
-
 
     closeModal = () => {
         this.setState(prevState => ({
@@ -166,11 +109,11 @@ class Dashboard extends Component {
 
 
     render() {
-        const { exercise, modal, date, events, color } = this.state;
+        const { exercise, modal, date, color } = this.state;
         console.log(this.props);
         return (
             <div className="calendar-body">
-                <FullCalendar defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={events} eventClick={this.toggle} />
+                <FullCalendar defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={this.props.events} eventClick={this.toggle} />
                 <Modal isOpen={modal} toggle={this.toggle} size="lg" style={{ maxWidth: '1600px', width: '80%' }} color={this.state.color} onClosed={this.showErrorMsg} >
                     <ModalHeader toggle={this.toggle}>
                         <p className="exerciseTitle">{this.state.color == "#f0ad4e" ? "Exercise videos and/or classes" : this.state.color == "#d9534f" ? "Weightlifting Exercises" : this.state.color == "#0275d8" ? "Cardio Exercises" : this.state.color == "#5cb85c" ? "Bodyweight Exercises" : null}</p>
@@ -180,7 +123,7 @@ class Dashboard extends Component {
                         {this.state.showError && <div class="alert alert-danger">
                             <button type="button" class="close" data-dismiss="alert" onClick={this.closeErr}>&times;</button> <span>{this.state.msg}</span>
                         </div>}
-                        {this.state.exercise.length == 0 ? <ModalTabs id={this.props.id} date={date} msgUpdate={this.showErrorMsg} weightlogs={this.props.logs} cardiologs={this.props.cardiologs} bwlogs={this.props.bwlogs} vidslogs={this.props.vidslogs} color={color} /> : <ModalEditDel title={this.state.title} id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} closeModal={this.closeModal} />}
+                        {this.state.exercise.length == 0 ? <ModalTabs id={this.props.id} date={date} msgUpdate={this.showErrorMsg} weightlogs={this.props.logs} cardiologs={this.props.cardiologs} bwlogs={this.props.bwlogs} vidslogs={this.props.vidslogs} color={color} refreshUser={this.props.refreshUser}  /> : <ModalEditDel title={this.state.title} id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} closeModal={this.closeModal} refreshUser={this.props.refreshUser} />}
                     </ModalBody>
                 </Modal>
             </div>
