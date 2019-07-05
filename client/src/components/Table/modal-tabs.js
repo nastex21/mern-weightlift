@@ -174,7 +174,10 @@ class ModalTabs extends Component {
                     <TabPane tabId="4">
                         <ExVidsClassesAdd id={id} date={date} msgUpdate={msgUpdate} updateData={this.updateLogs} vidslogs={this.state.vidslogs} tabIndex={this.state.activeTab} refreshUser={this.props.refreshUser} />
                     </TabPane>
-                    {this.state.dataloaded && <GenerateTable id={this.props.id} date={this.props.date} msgUpdate={this.props.msgUpdate} logs={weightlogs} cardiologs={cardiologs} bwlogs={bwlogs} vidslogs={vidslogs} tabIndex={this.state.activeTab} />}
+                    {activeTab == 1 && this.state.dataloaded && weightlogs.length > 0 && <GenerateTable id={this.props.id} date={this.props.date} msgUpdate={this.props.msgUpdate} logs={weightlogs} cardiologs={cardiologs} bwlogs={bwlogs} vidslogs={vidslogs} tabIndex={this.state.activeTab} />}
+                    {activeTab == 2 && this.state.dataloaded && cardiologs.length > 0 && <GenerateTable id={this.props.id} date={this.props.date} msgUpdate={this.props.msgUpdate} logs={weightlogs} cardiologs={cardiologs} bwlogs={bwlogs} vidslogs={vidslogs} tabIndex={this.state.activeTab} />}
+                    {activeTab == 3 && this.state.dataloaded && bwlogs.length > 0 && <GenerateTable id={this.props.id} date={this.props.date} msgUpdate={this.props.msgUpdate} logs={weightlogs} cardiologs={cardiologs} bwlogs={bwlogs} vidslogs={vidslogs} tabIndex={this.state.activeTab} />}
+                    {activeTab == 4 && this.state.dataloaded && vidslogs.length > 0 && <GenerateTable id={this.props.id} date={this.props.date} msgUpdate={this.props.msgUpdate} logs={weightlogs} cardiologs={cardiologs} bwlogs={bwlogs} vidslogs={vidslogs} tabIndex={this.state.activeTab} />}
                 </TabContent>
             </React.Fragment>
         )
