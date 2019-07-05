@@ -3,7 +3,7 @@ import FullCalendar from '@fullcalendar/react';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import ModalTabs from './Table/modal-tabs';
 import ModalEditDel from './Table/modal-edit-del';
 import '@fullcalendar/core/main.css';
@@ -74,8 +74,16 @@ class Dashboard extends Component {
         });
 
         this.setState({
-            events: [...eventsArr],
+            events: [...eventsArr]
         })
+    }
+
+
+    closeModal = () => {
+        this.setState(prevState => ({
+            modal: !prevState.modal
+        })
+        )
     }
 
     showErrorMsg = (value, msgSent) => {
@@ -171,8 +179,8 @@ class Dashboard extends Component {
                     <ModalBody>
                         {this.state.showError && <div class="alert alert-danger">
                             <button type="button" class="close" data-dismiss="alert" onClick={this.closeErr}>&times;</button> <span>{this.state.msg}</span>
-                             </div>}
-                        {this.state.exercise.length == 0 ? <ModalTabs id={this.props.id} date={date} msgUpdate={this.showErrorMsg} weightlogs={this.props.logs} cardiologs={this.props.cardiologs} bwlogs={this.props.bwlogs} vidslogs={this.props.vidslogs} color={color} /> : <ModalEditDel title={this.state.title} id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} />}
+                        </div>}
+                        {this.state.exercise.length == 0 ? <ModalTabs id={this.props.id} date={date} msgUpdate={this.showErrorMsg} weightlogs={this.props.logs} cardiologs={this.props.cardiologs} bwlogs={this.props.bwlogs} vidslogs={this.props.vidslogs} color={color} /> : <ModalEditDel title={this.state.title} id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} closeModal={this.closeModal} />}
                     </ModalBody>
                 </Modal>
             </div>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import BootstrapTable from 'react-bootstrap-table-next';
 import { Button } from 'react-bootstrap';
+import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { checkName, checkMinutes, checkWeight, wholeNumValidation } from '../Validation/validate';
@@ -18,7 +19,8 @@ class ModalEditDel extends Component {
         rowData: '',
         selectAll: false,
         selected: [],
-        edit: false
+        edit: false,
+        modal: false
     }
 
     deleteItem = (value) => {
@@ -42,9 +44,24 @@ class ModalEditDel extends Component {
             .then(response => {
                 console.log(response);
             })
+            .then(() => {
+                this.setState(prevState => ({
+                    modal: !prevState.modal
+                }))
+            })
+            .then(() => {
+                this.props.closeModal();
+            })
             .catch(error => {
                 console.log(error);
             });
+    }
+
+    toggle = (info) => {
+
+        this.setState(prevState => ({
+            modal: !prevState.modal
+        }))
 
     }
 
@@ -328,7 +345,17 @@ class ModalEditDel extends Component {
         return (
             <div>
                 <BootstrapTable variant="dark" keyField='_id' bootstrap4={true} striped={true} data={collection} columns={columns} cellEdit={cellEdit} />
-                {this.state.edit ? <Button as="input" variant="secondary" type="button" value="SAVE CHANGES" size="sm" block onClick={this.saveChanges} /> : <Button as="input" type="button" style={style} value="EDIT" size="sm" block onClick={this.edit} />}
+                {this.state.edit ? <Button as="input" variant="secondary" type="button" value="SAVE CHANGES" size="sm" block onClick={this.toggle} /> : <Button as="input" type="button" style={style} value="EDIT" size="sm" block onClick={this.edit} />}
+                
+                <Modal isOpen={this.state.modal} toggle={this.toggle} color={this.state.color} onClosed={this.showErrorMsg} >
+                    <ModalHeader toggle={this.toggle}>
+                    </ModalHeader>
+                    <ModalBody>
+                        <p>Are you sure you want to save these changes?</p>
+                        <button onClick={this.saveChanges}>Accept</button>
+                        <button onClick={this.toggle}>Cancel</button>
+                    </ModalBody>
+                </Modal>
             </div>
         )
     }
