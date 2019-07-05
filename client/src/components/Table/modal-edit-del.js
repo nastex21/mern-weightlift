@@ -97,7 +97,9 @@ class ModalEditDel extends Component {
                 validator: (newValue, row, column) => {
                     return checkName(newValue)
                 },
-                footer: 'Total'
+                footer: (column, columnIndex) => {
+                        return "Total";
+                }
             }, {
                 dataField: 'reps',
                 text: 'Reps',
@@ -123,7 +125,8 @@ class ModalEditDel extends Component {
                     return wholeNumValidation(newValue)
                 },
                 footer: ''
-            }, {
+            },
+            {
                 dataField: 'weight',
                 text: "Weight",
                 headerAlign: 'center',
@@ -135,7 +138,9 @@ class ModalEditDel extends Component {
                 validator: (newValue, row, column) => {
                     return checkWeight(newValue);
                 },
-                footer: columnData => columnData.reduce((acc, item) => +acc + +item)
+                footer: (column, columnIndex) => {
+                        return column.reduce((acc, item) => +acc + +item)
+                }
             }];
 
             if (this.state.edit) {
@@ -144,7 +149,7 @@ class ModalEditDel extends Component {
         }
 
         if (color == "#0275d8") {
-            var getTime = function () {
+            var getTime = function (path) {
                 var arrHr = [];
                 var arrMin = [];
 
@@ -163,14 +168,16 @@ class ModalEditDel extends Component {
 
                 var min = arrMin.reduce((acc, item) => +acc + +item);
                 var hrs = arrHr.reduce((acc, item) => +acc + +item);
+                
+                hrs = +hrs * 60;
+                var total = +hrs + +min;
 
-                hrs = hrs * 60;
-                var total = hrs + min;
-
-                hrsColumn = Math.floor(total / 60);
-                minsColumn = total % 60;
+                if (path == 1){
+                    return hrsColumn = Math.floor(total / 60);
+                } else if (path == 2){
+                    return minsColumn = total % 60;
+                }
             };
-            getTime();
 
             columns = [{
                 dataField: 'exercise',
@@ -184,7 +191,9 @@ class ModalEditDel extends Component {
                 validator: (newValue, row, column) => {
                     return checkName(newValue)
                 },
-                footer: 'Total'
+                footer: (column, columnIndex) => {
+                        return "Total";
+                }
             }, {
                 dataField: 'distance',
                 text: 'Distance',
@@ -197,8 +206,9 @@ class ModalEditDel extends Component {
                 validator: (newValue, row, column) => {
                     return checkWeight(newValue);
                 },
-                footer: columnData => columnData.reduce((acc, item) => +acc + +item),
-
+                footer: (column, columnIndex) => {
+                        return column.reduce((acc, item) => +acc + +item);
+                }
             }, {
                 dataField: 'hours',
                 text: 'Hours',
@@ -211,7 +221,9 @@ class ModalEditDel extends Component {
                 validator: (newValue, row, column) => {
                     return wholeNumValidation(newValue)
                 },
-                footer: columnData => columnData.reduce((acc, item) => hrsColumn)
+                footer: (column, columnIndex) => {
+                        return getTime(1);                
+                }
             }, {
                 dataField: 'minutes',
                 text: "Minutes",
@@ -224,12 +236,15 @@ class ModalEditDel extends Component {
                 validator: (newValue, row, column) => {
                     return checkMinutes(newValue)
                 },
-                footer: columnData => columnData.reduce((acc, item) => minsColumn)
+                footer: (column, columnIndex) => {
+                        return getTime(2);
+                }
             }];
 
             if (this.state.edit) {
                 columns.push(dummy);
             }
+
         }
 
         if (color == "#f0ad4e") {
@@ -238,7 +253,6 @@ class ModalEditDel extends Component {
                 text: 'Exercise Name',
                 headerAlign: 'center',
                 align: 'center',
-                footerAlign: 'center',
                 editable: (cell, row, rowIndex, colIndex) => {
                     return edit ? true : false;
                 },
@@ -250,7 +264,6 @@ class ModalEditDel extends Component {
                 text: 'Hours',
                 headerAlign: 'center',
                 align: 'center',
-                footerAlign: 'center',
                 editable: (cell, row, rowIndex, colIndex) => {
                     return row.minutes ? true : false;
                 },
@@ -262,7 +275,6 @@ class ModalEditDel extends Component {
                 text: "Minutes",
                 headerAlign: 'center',
                 align: 'center',
-                footerAlign: 'center',
                 editable: (cell, row, rowIndex, colIndex) => {
                     return row.minutes ? true : false;
                 },
@@ -274,7 +286,6 @@ class ModalEditDel extends Component {
                 text: "Completed",
                 headerAlign: 'center',
                 align: 'center',
-                footerAlign: 'center',
                 editable: false,
                 formatter: (cellContent, row) => {
                     if (cellContent == "true") {
@@ -295,7 +306,6 @@ class ModalEditDel extends Component {
                 text: 'Exercise Name',
                 headerAlign: 'center',
                 align: 'center',
-                footerAlign: 'center',
                 editable: (cell, row, rowIndex, colIndex) => {
                     return edit ? true : false;
                 },
@@ -307,7 +317,6 @@ class ModalEditDel extends Component {
                 text: 'Reps',
                 headerAlign: 'center',
                 align: 'center',
-                footerAlign: 'center',
                 editable: (cell, row, rowIndex, colIndex) => {
                     return edit ? true : false;
                 },
@@ -319,7 +328,6 @@ class ModalEditDel extends Component {
                 text: 'Sets',
                 headerAlign: 'center',
                 align: 'center',
-                footerAlign: 'center',
                 editable: (cell, row, rowIndex, colIndex) => {
                     return edit ? true : false;
                 },
@@ -344,9 +352,9 @@ class ModalEditDel extends Component {
 
         return (
             <div>
-                <BootstrapTable variant="dark" keyField='_id' bootstrap4={true} striped={true} data={collection} columns={columns} cellEdit={cellEdit} />
-                {this.state.edit ? <Button as="input" variant="secondary" type="button" value="SAVE CHANGES" size="sm" block onClick={this.toggle} /> : <Button as="input" type="button" style={style} value="EDIT" size="sm" block onClick={this.edit} />}
-                
+                {this.state.collection.length > 0 ? <BootstrapTable variant="dark" keyField='_id' bootstrap4={true} striped={true} data={collection} columns={columns} cellEdit={cellEdit} /> : <p className="emptyWarning">It looks empty in here</p> }
+                {this.state.edit ? <Button as="input" variant="secondary" type="button" value="SAVE CHANGES" size="sm" block onClick={this.toggle} /> : <Button as="input" type="button" style={style} value="EDIT" size="sm" block onClick={this.edit} />} 
+
                 <Modal isOpen={this.state.modal} toggle={this.toggle} color={this.state.color} onClosed={this.showErrorMsg} >
                     <ModalHeader toggle={this.toggle}>
                     </ModalHeader>
