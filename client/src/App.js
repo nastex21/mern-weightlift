@@ -156,10 +156,13 @@ class App extends Component {
       backgroundPosition: 'center',
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat',
-
   }
+
+    const loggedinStyle = {
+
+    }
     return (
-      <div className='App bg-image' style={style}>
+      <div className='App' style={!loggedIn ? style :loggedinStyle}>
         {loggedIn ? <NavbarTrue updateUser={this.updateUser} loggedIn={loggedIn} /> : <NavbarFalse updateUser={this.updateUser} loggedIn={loggedIn} />}
         {this.state.loggedIn && <Route exact path="/api/dashboard" render={(props) => <Dashboard {...props}refreshUser={this.getUser} username={username} logs={exerciseLogs} cardiologs={cardioLogs} bwlogs={bwLogs} vidslogs={vidsLogs} id={id} getLogs={this.getLogs} events={this.state.events} />}  />}
         {!this.state.loggedIn && <Route exact path="/" render={(props) => <Home {...props} />} />}

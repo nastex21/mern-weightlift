@@ -4,8 +4,26 @@ body {
   overflow: hidden;
   }
 
+  #root {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+  }
+
+  .App {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+  #homeDiv {
+    width: 100%;
+    height: 100%;
+  }
+
 .bg-image {
-  background-image: url('http://p1.pichost.me/i/32/1548022.png');
+  background-image: url('../src/assets/images/dumbbell.jpg');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -51,7 +69,7 @@ body {
   font-family: 'Ubuntu', 'Lato', sans-serif;
   font-weight: 310;
   width: 350px;
-  height: 300px;
+  height: 250px;
   background-color: rgb(114, 113, 110, 0.25);
   position: absolute; /* center both horizontally and verticallly */
   top: 50%;
@@ -61,6 +79,7 @@ body {
 }
 
 .regLoginForm {
+  position: relative;
   width: 100%;
   height: 100%;
 }
@@ -69,7 +88,7 @@ body {
     text-transform: uppercase;
     width: 300px;
     position: relative;
-    margin: 60px auto 30px;
+    margin: 20px auto 10px;  
     padding: 10px;
     overflow: hidden;
 
@@ -193,7 +212,7 @@ body {
   top: 0;
 
   /* Styles */
-  background: linear-gradient(left, transparent, #444, #b6b6b8, #444, transparent);
+  background: linear-gradient(to right, transparent, #444, #b6b6b8, #444, transparent);
 }
 
 /* Small flash */
