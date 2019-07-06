@@ -109,11 +109,10 @@ class Signup extends Component {
             return <Redirect to={{ pathname: this.state.redirectTo }} />;
         } else {
             return (
-                <div className="registerForm">
-                    <Container className="RegisterBox">
-                        <h2>Register</h2>
+                <div className="registerForm regLogin">
+                    <Container className="RegisterBox regLoginForm">
                         {this.state.warning ? <Alert color="danger">{this.state.msg}</Alert> : null}
-                        <Form className="form" onSubmit={e => this.handleSubmit(e)}>
+                        <Form className="form2 regLogForm" onSubmit={e => this.handleSubmit(e)}>
                             <Col>
                                 <FormGroup>
                                     <Label for="formName"> Username</Label>
@@ -178,7 +177,7 @@ class Signup extends Component {
                                     <FormFeedback>Password mismatch</FormFeedback>
                                 </FormGroup>
                             </Col>
-                            <Button>Submit</Button>
+                            <Input type="submit" className="loginButton" color="dark">Login</Input>
                         </Form>
                     </Container>
                 </div>

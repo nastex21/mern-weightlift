@@ -65,12 +65,11 @@ class LoginForm extends Component {
             return <Redirect to={{ pathname: this.state.redirectTo }} />
         } else {
             return (
-                <div>
-                    <h4>Login</h4>
+                <div className="loginDiv regLogin">
                     {this.state.msg && !this.state.success ? <Alert color="danger">{this.state.msg}</Alert> : null}
                     {this.state.msg && this.state.success ? <Alert color="success">{this.state.msg}</Alert> : null}
-                    <Container className="loginForm">
-                        <Form onSubmit={e => this.handleSubmit(e)}>
+                    <Container className="loginForm regLoginForm">
+                        <Form className="form1 regLogForm" onSubmit={e => this.handleSubmit(e)}>
                             <Col>
                                 <FormGroup>
                                     <Label for="username"> Username </Label>
@@ -83,7 +82,7 @@ class LoginForm extends Component {
                                     <Input type="password" name="password" id="password" placeholder="Password" className="mb-3" value={password} onChange={this.handleChange} />
                                 </FormGroup>
                             </Col>
-                            <Button color="dark">Login</Button>
+                            <Input type="submit" className="loginButton" color="dark">Login</Input>
                         </Form>
                     </Container>
                 </div>

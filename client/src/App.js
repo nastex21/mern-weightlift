@@ -8,6 +8,7 @@ import NavbarTrue from './components/navbartrue';
 import NavbarFalse from './components/navbarfalse';
 import Home from './components/home';
 import Dashboard from './components/dashboard';
+import gymSplash from './assets/images/dumbbell.jpg';
 
 class App extends Component {
   state = {
@@ -150,8 +151,15 @@ class App extends Component {
 
   render() {
     const { id, loggedIn, username, exerciseLogs, cardioLogs, bwLogs, vidsLogs } = this.state;
+    const style = {
+      backgroundImage: `url(${gymSplash})`,
+      backgroundPosition: 'center',
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+
+  }
     return (
-      <div className="App">
+      <div className='App bg-image' style={style}>
         {loggedIn ? <NavbarTrue updateUser={this.updateUser} loggedIn={loggedIn} /> : <NavbarFalse updateUser={this.updateUser} loggedIn={loggedIn} />}
         {this.state.loggedIn && <Route exact path="/api/dashboard" render={(props) => <Dashboard {...props}refreshUser={this.getUser} username={username} logs={exerciseLogs} cardiologs={cardioLogs} bwlogs={bwLogs} vidslogs={vidsLogs} id={id} getLogs={this.getLogs} events={this.state.events} />}  />}
         {!this.state.loggedIn && <Route exact path="/" render={(props) => <Home {...props} />} />}
