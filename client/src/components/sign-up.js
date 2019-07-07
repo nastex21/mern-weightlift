@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Container, Col, Form, FormGroup, Label, Input, FormFeedback, Button, Alert } from "reactstrap";
+import { Container, Col, Form, FormGroup, Label, Input, FormFeedback, Alert } from "reactstrap";
 import { Redirect } from "react-router-dom";
 
 class Signup extends Component {

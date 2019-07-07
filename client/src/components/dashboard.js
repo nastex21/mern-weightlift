@@ -4,8 +4,9 @@ import bootstrapPlugin from '@fullcalendar/bootstrap';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
-import ModalTabs from './Table/modal-tabs';
-import ModalEditDel from './Table/modal-edit-del';
+import Legend from './Calendar/legend';
+import ModalTabs from './Modal/modal-tabs';
+import ModalEditDel from './Modal/modal-edit-del';
 import '@fullcalendar/core/main.css';
 import '@fullcalendar/daygrid/main.css';
 import '@fullcalendar/bootstrap/main.css';
@@ -20,6 +21,7 @@ class Dashboard extends Component {
         showError: false,
         color: "",
         msg: '',
+        oldDate: ""
     }
 
     closeModal = () => {
@@ -82,12 +84,16 @@ class Dashboard extends Component {
             date: dateVal.toLocaleString('en-US', options) == "Invalid Date" ? prevState.date : dateVal.toLocaleString('en-US', options),
             exercise: [...exerciseArr],
             total: sum,
-            color: color
+            color: color,
+            oldDate: prevState.date,
+            oldExercise: prevState.exercise
         }))
 
     }
 
     dateClickInfo = (info) => {
+        console.log("dateclickinfo");
+        console.log(info);
         let val = info.event;
         let dateVal = new Date(info.date);
         var exerciseArr = [];
@@ -111,9 +117,11 @@ class Dashboard extends Component {
     render() {
         const { exercise, modal, date, color } = this.state;
         console.log(this.props);
+
         return (
             <div className="calendar-body">
-                <FullCalendar defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={this.props.events} eventClick={this.toggle} />
+                <Legend date={this.state.oldDate} exercise={this.state.oldExercise} />
+                <FullCalendar className="fcDiv" defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={this.props.events} eventClick={this.toggle} />
                 <Modal isOpen={modal} toggle={this.toggle} size="lg" style={{ maxWidth: '1600px', width: '80%' }} color={this.state.color} onClosed={this.showErrorMsg} >
                     <ModalHeader toggle={this.toggle}>
                         <p className="exerciseTitle">{this.state.color == "#f0ad4e" ? "Exercise videos and/or classes" : this.state.color == "#d9534f" ? "Weightlifting Exercises" : this.state.color == "#0275d8" ? "Cardio Exercises" : this.state.color == "#5cb85c" ? "Bodyweight Exercises" : null}</p>

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import classnames from 'classnames';
-import WeightsAdd from './weight-components/table-body-add';
-import CardioAdd from './cardio-components/table-body-add-cardio';
-import BWAdd from './bodyweight-components/table-body-add-bw';
-import ExVidsClassesAdd from './exercisevidsclasses-component/table-body-add-vidsclasses';
-import GenerateTable from './generatetable';
+import WeightsAdd from '../Table/bodyweight-components/table-body-add-bw';
+import CardioAdd from '../Table/cardio-components/table-body-add-cardio';
+import BWAdd from '../Table/bodyweight-components/table-body-add-bw';
+import ExVidsClassesAdd from '../Table/exercisevidsclasses-component/table-body-add-vidsclasses';
+import GenerateTable from '../Table/generatetable';
 
 class ModalTabs extends Component {
 
