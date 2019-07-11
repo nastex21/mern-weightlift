@@ -32,8 +32,45 @@ body {
   height: 100vh;
 }
 
+/* Filter Div */
+
+.buttonFilter {
+  width: 100%;
+}
+
+.rowLegend {
+  display: inline-block;
+  width: 25%;
+}
+
+.boxIcon {
+  width: 100%;
+}
+
+.boxIcon > button {
+  width: 100%;
+}
+
+.red {
+  background-color: #d9534f
+}
+
+.orange {
+  background-color: #f0ad4e
+}
+
+.green {
+  background-color: #5cb85c;
+}
+
+.blue {
+  background-color: #0275d8;
+}
+
+/* end of filter div */
+
 .modal-title, .exerciseTitle, .dateTitle {
-  width: 100%
+  width: 100%;
 }
 
 .exerciseTitle, .dateTitle {
@@ -89,38 +126,12 @@ body {
   text-align: center;
 }
 
-.rightPane {
-}
-
-.iconsBox {
-}
 
 /*Icons that make up the legend*/
 #legendKey {
   text-align: center;
 }
 
-.boxIcon {
-  height: 100%;
-  width: 25%;
-  display: inline-block;
-}
-
-.red {
-background-color: #d9534f;
-}
-
-.blue {
-  background-color: #0275d8;
-  }
-
-.green {
-background-color: #5cb85c;
-}
-
-.orange {
-  background-color: #f0ad4e;
-}
 
 /*Calendar div */
 .fc {

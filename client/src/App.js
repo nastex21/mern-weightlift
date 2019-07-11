@@ -43,7 +43,7 @@ class App extends Component {
     this.state.exerciseLogs.map(function (item) {
       if (item.collections.length > 0) {
         eventsArr.push({
-          "title": "Entry Added",
+          "title": "Weights",
           "date": item.date,
           "color": "#d9534f",
           "collections": item.collections
@@ -53,7 +53,7 @@ class App extends Component {
     this.state.cardioLogs.map(function (item) {
       if (item.collections.length > 0) {
         eventsArr.push({
-          "title": "Entry Added",
+          "title": "Cardio",
           "date": item.date,
           'color': '#0275d8',
           "collections": item.collections
@@ -64,7 +64,7 @@ class App extends Component {
     this.state.bwLogs.map(function (item) {
       if (item.collections.length > 0) {
         eventsArr.push({
-          "title": "Entry Added",
+          "title": "Bodyweight",
           "date": item.date,
           'color': '#5cb85c',
           "collections": item.collections
@@ -75,7 +75,7 @@ class App extends Component {
     this.state.vidsLogs.map(function (item) {
       if (item.collections.length > 0) {
         eventsArr.push({
-          "title": "Entry Added",
+          "title": "Classes/Videos",
           "date": item.date,
           'color': '#f0ad4e',
           "collections": item.collections
@@ -157,6 +157,10 @@ class App extends Component {
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat',
   }
+
+  
+  console.log("events");
+  console.log(this.state.events)
 
     const loggedinStyle = {
 

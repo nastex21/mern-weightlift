@@ -46,24 +46,6 @@ class NavbarTrue extends Component {
                         <div className="linkDiv">
                             <a className="navbar-brand mb-0 h1 text-light" href="/api/dashboard/">Personal Trainer</a>
                         </div>
-                        {/* <a className="nav-link" href="#">Active</a> */}
-                        <div className="rowLegend collapse navbar-collapse">
-                            <div className='boxIcon red navbar-nav"'>
-                                <span className="nav-item">Weightlifting</span>
-                            </div>
-
-                            <div className='boxIcon blue'>
-                                <span className="nav-item">Cardio</span>
-                            </div>
-
-                            <div className='boxIcon green'>
-                                <span className="nav-item">Bodyweight</span>
-                            </div>
-
-                            <div className='boxIcon orange'>
-                                <span className="nav-item">Classes and Videos</span>
-                            </div>
-                        </div>
                         <div className="logoutDiv">
                         <a className="nav-link active" href="/api/login" onClick={this.logout}>Log Out<span className="sr-only">(current)</span></a>                        </div>
                 </nav>
