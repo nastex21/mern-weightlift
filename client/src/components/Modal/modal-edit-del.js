@@ -352,7 +352,7 @@ class ModalEditDel extends Component {
 
         return (
             <div>
-                {this.state.collection.length > 0 ? <BootstrapTable variant="dark" keyField='_id' bootstrap4={true} striped={true} data={collection} columns={columns} cellEdit={cellEdit} /> : <p className="emptyWarning">It looks empty in here</p> }
+                {this.state.collection.length > 0 ? <BootstrapTable keyField='_id' bootstrap4={true} striped={true} data={collection} columns={columns} cellEdit={cellEdit} /> : <p className="emptyWarning">It looks empty in here</p> }
                 {this.state.edit ? <Button as="input" variant="secondary" type="button" value="SAVE CHANGES" size="sm" block onClick={this.toggle} /> : <Button as="input" type="button" style={style} value="EDIT" size="sm" block onClick={this.edit} />} 
 
                 <Modal isOpen={this.state.modal} toggle={this.toggle} color={this.state.color} onClosed={this.showErrorMsg} >

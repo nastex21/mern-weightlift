@@ -4,7 +4,8 @@ import bootstrapPlugin from '@fullcalendar/bootstrap';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
-import Legend from './Calendar/legend';
+import LeftPane from './Calendar/leftpane';
+import RightPane from './Calendar/rightpane';
 import ModalTabs from './Modal/modal-tabs';
 import ModalEditDel from './Modal/modal-edit-del';
 import '@fullcalendar/core/main.css';
@@ -21,7 +22,12 @@ class Dashboard extends Component {
         showError: false,
         color: "",
         msg: '',
-        oldDate: ""
+        oldDate: "",
+        updatedInfo: ""
+    }
+
+    updateStateInfo = () => {
+
     }
 
     closeModal = () => {
@@ -86,7 +92,7 @@ class Dashboard extends Component {
             total: sum,
             color: color,
             oldDate: prevState.date,
-            oldExercise: prevState.exercise
+            oldExercise: prevState.exerciseArr
         }))
 
     }
@@ -120,7 +126,7 @@ class Dashboard extends Component {
 
         return (
             <div className="calendar-body">
-                <Legend date={this.state.oldDate} exercise={this.state.oldExercise} />
+                <LeftPane date={this.state.oldDate} exercise={this.state.updatedInfo} />
                 <FullCalendar className="fcDiv" defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={this.props.events} eventClick={this.toggle} />
                 <Modal isOpen={modal} toggle={this.toggle} size="lg" style={{ maxWidth: '1600px', width: '80%' }} color={this.state.color} onClosed={this.showErrorMsg} >
                     <ModalHeader toggle={this.toggle}>
@@ -131,7 +137,7 @@ class Dashboard extends Component {
                         {this.state.showError && <div class="alert alert-danger">
                             <button type="button" class="close" data-dismiss="alert" onClick={this.closeErr}>&times;</button> <span>{this.state.msg}</span>
                         </div>}
-                        {this.state.exercise.length == 0 ? <ModalTabs id={this.props.id} date={date} msgUpdate={this.showErrorMsg} weightlogs={this.props.logs} cardiologs={this.props.cardiologs} bwlogs={this.props.bwlogs} vidslogs={this.props.vidslogs} color={color} refreshUser={this.props.refreshUser}  /> : <ModalEditDel title={this.state.title} id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} closeModal={this.closeModal} refreshUser={this.props.refreshUser} />}
+                        {this.state.exercise.length == 0 ? <ModalTabs id={this.props.id} date={date} msgUpdate={this.showErrorMsg} weightlogs={this.props.logs} cardiologs={this.props.cardiologs} bwlogs={this.props.bwlogs} vidslogs={this.props.vidslogs} color={color} refreshUser={this.props.refreshUser} /> : <ModalEditDel title={this.state.title} id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} closeModal={this.closeModal} refreshUser={this.props.refreshUser} />}
                     </ModalBody>
                 </Modal>
             </div>

@@ -5,8 +5,7 @@ class NavbarFalse extends Component {
 
 
     render() {
-        const loggedIn = this.props.loggedIn;
-
+        console.log("logged in false");
         return (
             <div>
                 <nav className="navbar navbar-expand-lg navbar-dark bg-primary bg-transparent">

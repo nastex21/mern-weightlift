@@ -25,8 +25,8 @@ app.use(
 )
 
 // Passport
-app.use(passport.initialize())
-app.use(passport.session()) // calls the deserializeUser
+app.use(passport.initialize());
+app.use(passport.session()); // calls the deserializeUser
 
 // Routes
 app.use('/api/dashboard', require('./routes/api/dashboard'));

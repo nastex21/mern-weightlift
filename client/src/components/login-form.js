@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Col, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
+import { Container, Col, Form, FormGroup, Label, Input, Alert, UncontrolledAlert } from 'reactstrap';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
@@ -9,14 +9,28 @@ class LoginForm extends Component {
         password: '',
         msg: this.props.msg,
         redirectTo: null,
-        success: this.props.success
+        success: this.props.success,
+        visible: false
     }
 
-    updateMsg = () => {
+    onDismiss = () => {
+        this.setState({ 
+            visible: false 
+        });
+    }
+
+    updateMsg = (error) => {
+        if (error) {
+            return this.setState({
+                msg: "Incorrect username or password. Please try again.",
+            })
+        }
+
         this.setState({
             msg: "Sucessfully registered, please log in.",
             success: true
         })
+
     }
 
     handleChange = (event) => {
@@ -55,7 +69,9 @@ class LoginForm extends Component {
         }).catch(error => {
             console.log('login error: ')
             console.log(error);
-
+            this.setState({
+                visible: true
+            })
         })
     }
 
@@ -68,6 +84,9 @@ class LoginForm extends Component {
                 <div className="loginDiv regLogin">
                     {this.state.msg && !this.state.success ? <Alert color="danger">{this.state.msg}</Alert> : null}
                     {this.state.msg && this.state.success ? <Alert color="success">{this.state.msg}</Alert> : null}
+                    <Alert color="warning" isOpen={this.state.visible} toggle={this.onDismiss}>
+                       Incorrect name or password. Please try again.
+                    </Alert>
                     <Container className="loginForm regLoginForm">
                         <Form className="form1 regLogForm" onSubmit={e => this.handleSubmit(e)}>
                             <Col>
