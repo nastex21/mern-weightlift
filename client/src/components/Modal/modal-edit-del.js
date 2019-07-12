@@ -41,8 +41,8 @@ class ModalEditDel extends Component {
 
     saveChanges = () => {
         axios.post('/api/edit-items', { id: this.state.id, date: this.state.date, color: this.state.color, collection: this.state.collection })
-            .then(response => {
-                console.log(response);
+            .then(() => {
+                this.props.refreshUser()
             })
             .then(() => {
                 this.setState(prevState => ({
