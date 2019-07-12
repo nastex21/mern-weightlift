@@ -16,10 +16,7 @@ class LeftPane extends Component {
         var months = ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"];
 
-        console.log(months[m]);
-        console.log('exercise');
-        console.log(exercise);
-
+        
 
         return (
             <div className="bothPanes leftPane" >
@@ -28,25 +25,25 @@ class LeftPane extends Component {
                     <div className="buttonFilter">
                         <div className="rowLegend">
                             <div class='boxIcon'>
-                                <button className="green" type="button" >B</button>
+                                <button className="green" type="button" onClick={(num) => this.props.filterButton(3)} >B</button>
                             </div>
                         </div>
 
                         <div className="rowLegend">
                             <div class='boxIcon'>
-                                <button type="button" className="blue" >C</button>
+                                <button type="button" className="blue" onClick={(num) => this.props.filterButton(2)} >C</button>
                             </div>
                         </div>
 
                         <div className="rowLegend">
                             <div class='boxIcon'>
-                                <button type="button" className="orange">C/V</button>
+                                <button type="button" className="orange" onClick={(num) => this.props.filterButton(4)}>C/V</button>
                             </div>
                         </div>
 
                         <div className="rowLegend">
                             <div class='boxIcon'>
-                                <button type="button" className="red" >W</button>
+                                <button type="button" className="red"  onClick={(num) => this.props.filterButton(1)}>W</button>
                             </div>
                         </div>
                     </div>

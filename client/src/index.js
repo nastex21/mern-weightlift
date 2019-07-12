@@ -6,7 +6,13 @@ import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 
-Sentry.init({ dsn: 'https://0a85fbf874574032928118f63ab01625@sentry.io/1497576' }, { environment: 'development' });
+Sentry.init({
+	dsn: 'https://0a85fbf874574032928118f63ab01625@sentry.io/1497576',
+	integrations: integrations => {
+	  // integrations will be all default integrations
+	  return integrations.filter(integration => integration.name !== 'Breadcrumbs');
+	}
+  });
 
 if (process.env.NODE_ENV !== 'development') {
 	console.log = () => { }

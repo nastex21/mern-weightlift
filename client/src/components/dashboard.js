@@ -126,7 +126,7 @@ class Dashboard extends Component {
 
         return (
             <div className="calendar-body">
-                <LeftPane date={this.state.oldDate} exercise={this.state.updatedInfo} />
+                <LeftPane date={this.state.oldDate} exercise={this.state.updatedInfo} filterButton={this.props.filterButton}/>
                 <FullCalendar className="fcDiv" defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={this.props.events} eventClick={this.toggle} />
                 <Modal isOpen={modal} toggle={this.toggle} size="lg" style={{ maxWidth: '1600px', width: '80%' }} color={this.state.color} onClosed={this.showErrorMsg} >
                     <ModalHeader toggle={this.toggle}>

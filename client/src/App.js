@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Route} from 'react-router-dom';
+import { Route } from 'react-router-dom';
 // components
 import Signup from './components/sign-up';
 import LoginForm from './components/login-form';
@@ -20,12 +20,143 @@ class App extends Component {
     bwLogs: [],
     vidsLogs: [],
     events: [],
+    eventsFiltered: [],
     success: false,
-    msg: null
+    msg: null,
+    cardioFilterFlag: false,
+    weightFilterFlag: false,
+    bwFilterFlag: false,
+    vidsFilterFlag: false
   }
 
   componentDidMount() {
     this.getUser();
+  }
+
+  filteredEvents = (num) => {
+    console.log("filteredEvents");
+    console.log(num);
+    console.log(this.state.eventsFiltered);
+
+    if (num == 1) {
+      if (this.state.weightFilterFlag) {
+        var filtered = this.state.eventsFiltered.filter(function (item) {
+          return item.title !== "Weights"
+        })
+
+        console.log("filtered");
+        console.log(filtered);
+        this.setState({
+          eventsFiltered: [...filtered]
+        }, () => console.log(this.eventsFiltered))
+
+      } else {
+        var filtered = this.state.events.filter(function (item) {
+          return item.title == "Weights"
+        })
+
+        this.setState({
+          eventsFiltered: [...this.state.eventsFiltered, ...filtered]
+        })
+      }
+    }
+
+    if (num == 2) {
+      if (this.state.cardioFilterFlag) {
+        var filtered = this.state.eventsFiltered.filter(function (item) {
+          return item.title !== "Cardio"
+        })
+
+        console.log("filtered");
+        console.log(filtered);
+
+        this.setState({
+          eventsFiltered: [...filtered]
+        })
+
+      } else {
+        var filtered = this.state.events.filter(function (item) {
+          return item.title == "Cardio"
+        })
+
+        this.setState({
+          eventsFiltered: [...this.state.eventsFiltered, ...filtered]
+        })
+      }
+    }
+
+    if (num == 3) {
+      if (this.state.bwFilterFlag) {
+        var filtered = this.state.eventsFiltered.filter(function (item) {
+          return item.title !== "Bodyweight"
+        })
+
+        console.log("filtered");
+        console.log(filtered);
+        this.setState({
+          eventsFiltered: [...filtered]
+        })
+      } else {
+        var filtered = this.state.events.filter(function (item) {
+          return item.title == "Bodyweight"
+        })
+
+        this.setState({
+          eventsFiltered: [...this.state.eventsFiltered, ...filtered]
+        })
+      }
+    }
+
+    if (num == 4) {
+      if (this.state.vidsFilterFlag) {
+        var filtered = this.state.eventsFiltered.filter(function (item) {
+          return item.title !== "Classes/Videos"
+        })
+
+        console.log("filtered");
+        console.log(filtered);
+        this.setState({
+          eventsFiltered: [...filtered]
+        })
+      } else {
+        var filtered = this.state.events.filter(function (item) {
+          return item.title == "Classes/Videos"
+        })
+
+        this.setState({
+          eventsFiltered: [...this.state.eventsFiltered, ...filtered]
+        })
+      }
+    }
+  }
+
+  filterButton = (num) => {
+    console.log("num");
+    console.log(num);
+
+    if (num == 1) {
+      this.setState(prevState => ({
+        weightFilterFlag: !prevState.weightFilterFlag
+      }), () => this.filteredEvents(num))
+    }
+
+    if (num == 2) {
+      this.setState(prevState => ({
+        cardioFilterFlag: !prevState.cardioFilterFlag
+      }), () => this.filteredEvents(num))
+    }
+
+    if (num == 3) {
+      this.setState(prevState => ({
+        bwFilterFlag: !prevState.bwFilterFlag
+      }), () => this.filteredEvents(num))
+    }
+
+    if (num == 4) {
+      this.setState(prevState => ({
+        vidsFilterFlag: !prevState.vidsFilterFlag
+      }), () => this.filteredEvents(num))
+    }
   }
 
   updateSuccess = () => {
@@ -84,26 +215,27 @@ class App extends Component {
     });
 
     this.setState({
-      events: [...eventsArr]
+      events: [...eventsArr],
+      eventsFiltered: [...eventsArr]
     })
   }
 
- createDate = (date) => {
+  createDate = (date) => {
     let newDate = new Date(date);
     var y = newDate.getFullYear();
     var m = newDate.getMonth() + 1;
     var d = newDate.getDate();
     if (Number(d) < 10 && Number(d) > 0) {
-        d = "0" + d;
+      d = "0" + d;
     }
 
     if (Number(m) < 10 && Number(m) > 0) {
-        m = "0" + m;
+      m = "0" + m;
     }
     const nowDate = y + "-" + m + "-" + d;
 
     return nowDate;
-}
+  }
 
   updateUser = (userObject) => {
     console.log("triggered updateuser")
@@ -156,19 +288,18 @@ class App extends Component {
       backgroundPosition: 'center',
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat',
-  }
+    }
 
-  
-  console.log("events");
-  console.log(this.state.events)
+    console.log("events");
+    console.log(this.state.events)
 
     const loggedinStyle = {
 
     }
     return (
-      <div className='App' style={!loggedIn ? style :loggedinStyle}>
+      <div className='App' style={!loggedIn ? style : loggedinStyle}>
         {loggedIn ? <NavbarTrue updateUser={this.updateUser} loggedIn={loggedIn} /> : <NavbarFalse updateUser={this.updateUser} loggedIn={loggedIn} />}
-        {this.state.loggedIn && <Route exact path="/api/dashboard" render={(props) => <Dashboard {...props}refreshUser={this.getUser} username={username} logs={exerciseLogs} cardiologs={cardioLogs} bwlogs={bwLogs} vidslogs={vidsLogs} id={id} getLogs={this.getLogs} events={this.state.events} />}  />}
+        {this.state.loggedIn && <Route exact path="/api/dashboard" render={(props) => <Dashboard {...props} refreshUser={this.getUser} username={username} logs={exerciseLogs} cardiologs={cardioLogs} bwlogs={bwLogs} vidslogs={vidsLogs} id={id} getLogs={this.getLogs} filterButton={(num) => this.filterButton(num)} events={this.state.weightFilterFlag == true || this.state.cardioFilterFlag == true || this.state.bwFilterFlag == true || this.state.vidsFilterFlag == true ? this.state.eventsFiltered : this.state.events} />} />}
         {!this.state.loggedIn && <Route exact path="/" render={(props) => <Home {...props} />} />}
         {/* Routes to different components */}
         <Route path="/api/login"
