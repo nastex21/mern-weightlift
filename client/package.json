@@ -11,7 +11,7 @@
     "@fullcalendar/daygrid": "^4.2.0",
     "@fullcalendar/interaction": "^4.2.0",
     "@fullcalendar/react": "^4.2.0",
-    "@sentry/browser": "^5.4.3",
+    "@sentry/browser": "^5.5.0",
     "axios": "^0.19.0",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "bootstrap": "^4.3.1",
@@ -20,9 +20,11 @@
     "react-bootstrap-table-next": "^3.1.5",
     "react-bootstrap-table2-editor": "^1.2.4",
     "react-dom": "^16.8.6",
+    "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "^3.0.1",
-    "reactstrap": "^8.0.0"
+    "reactstrap": "^8.0.1",
+    "redux": "^4.0.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -41,6 +43,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "snyk": "^1.174.1"
+    "snyk": "^1.193.1"
   }
 }
