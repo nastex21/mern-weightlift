@@ -34,9 +34,6 @@ class App extends Component {
   }
 
   filteredEvents = (num) => {
-    console.log("filteredEvents");
-    console.log(num);
-    console.log(this.state.eventsFiltered);
 
     if (num == 1) {
       if (this.state.weightFilterFlag) {
@@ -44,11 +41,10 @@ class App extends Component {
           return item.title !== "Weights"
         })
 
-        console.log("filtered");
-        console.log(filtered);
+
         this.setState({
           eventsFiltered: [...filtered]
-        }, () => console.log(this.eventsFiltered))
+        })
 
       } else {
         var filtered = this.state.events.filter(function (item) {
@@ -66,9 +62,6 @@ class App extends Component {
         var filtered = this.state.eventsFiltered.filter(function (item) {
           return item.title !== "Cardio"
         })
-
-        console.log("filtered");
-        console.log(filtered);
 
         this.setState({
           eventsFiltered: [...filtered]
@@ -91,8 +84,6 @@ class App extends Component {
           return item.title !== "Bodyweight"
         })
 
-        console.log("filtered");
-        console.log(filtered);
         this.setState({
           eventsFiltered: [...filtered]
         })
@@ -113,8 +104,6 @@ class App extends Component {
           return item.title !== "Classes/Videos"
         })
 
-        console.log("filtered");
-        console.log(filtered);
         this.setState({
           eventsFiltered: [...filtered]
         })
@@ -131,8 +120,6 @@ class App extends Component {
   }
 
   filterButton = (num) => {
-    console.log("num");
-    console.log(num);
 
     if (num == 1) {
       this.setState(prevState => ({
@@ -160,7 +147,6 @@ class App extends Component {
   }
 
   updateSuccess = () => {
-    console.log("updateSuccess");
     this.setState({
       sucess: true,
       msg: "Sucessfully registered! Please login."
@@ -169,8 +155,6 @@ class App extends Component {
 
   updateEventCalendar = () => {
     let eventsArr = [];
-    console.log("this.state.exerciselogs");
-    console.log(this.state.exerciseLogs);
     this.state.exerciseLogs.map(function (item) {
       if (item.collections.length > 0) {
         eventsArr.push({
@@ -238,7 +222,6 @@ class App extends Component {
   }
 
   updateUser = (userObject) => {
-    console.log("triggered updateuser")
     this.setState({
       id: userObject.id,
       loggedIn: userObject.loggedIn,
@@ -253,11 +236,9 @@ class App extends Component {
 
   //keeps you logged in if you were to refresh
   getUser = () => {
-    console.log("GETUSER")
     axios.get('/api/dashboard/').then(response => {
 
       if (response.data.user) {
-        console.log('Get User: There is a user saved in the server session: ')
         this.setState({
           loggedIn: true,
           id: response.data.user._id,
@@ -268,7 +249,6 @@ class App extends Component {
           vidsLogs: [...response.data.user.vidslogs]
         }, this.updateEventCalendar)
       } else {
-        console.log('Get user: no user');
         this.setState({
           loggedIn: false,
           username: null,
@@ -289,9 +269,6 @@ class App extends Component {
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat',
     }
-
-    console.log("events");
-    console.log(this.state.events)
 
     const loggedinStyle = {
 

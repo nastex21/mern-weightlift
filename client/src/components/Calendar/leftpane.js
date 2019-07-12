@@ -5,11 +5,7 @@ class LeftPane extends Component {
 
     render() {
         const { date, exercise } = this.props;
-        console.log("legend");
-        console.log(date);
         var newDate = new Date(date);
-        console.log("newDate");
-        console.log(newDate);
 
         var m = newDate.getMonth();
         var d = newDate.getDate();
