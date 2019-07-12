@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import ModalReducer from './modal';
+import modalToggle from './modalToggle';
+import dataReducer from './dataReducer';
 
-const rootReducer = combineReducers({
-    modal: ModalReducer
+export default combineReducers({
+    modal: modalToggle,
+    data: dataReducer
 });
-
-export default rootReducer;

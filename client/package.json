@@ -44,6 +44,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "redux-devtools-extension": "^2.13.8",
     "snyk": "^1.193.1"
   }
 }

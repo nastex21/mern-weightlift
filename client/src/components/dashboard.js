@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as Actions from '../actions';
+/*Components*/
 import FullCalendar from '@fullcalendar/react';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -8,8 +11,6 @@ import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import LeftPane from './Calendar/leftpane';
 import ModalTabs from './Modal/modal-tabs';
 import ModalEditDel from './Modal/modal-edit-del';
-import { bindActionCreators } from 'redux';
-import * as Actions from '../actions';
 import '@fullcalendar/core/main.css';
 import '@fullcalendar/daygrid/main.css';
 import '@fullcalendar/bootstrap/main.css';
@@ -125,7 +126,7 @@ class Dashboard extends Component {
     render() {
         const { exercise, date, color } = this.state;
         console.log("this.props.modalisOpen");
-        console.log(this.props.modalIsOpen);
+        console.log(this.props);
 
         return (
             <div className="calendar-body">
@@ -150,9 +151,10 @@ class Dashboard extends Component {
 }
 
 function mapStateToProps(state) {
+   console.log(state);
     return {
-      modalIsOpen: state.modal.modalIsOpen
-    };
+        modalIsOpen: state.modal.modalIsOpen
+    }
   }
   
   function mapDispatchToProps(dispatch) {

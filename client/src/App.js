@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
 import { Route } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import * as Actions from './actions';
 // components
 import Signup from './components/sign-up';
 import LoginForm from './components/login-form';
@@ -30,7 +33,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.getUser();
+    this.props.actions.fetchAllData();
   }
 
   filteredEvents = (num) => {
@@ -262,6 +265,8 @@ class App extends Component {
   }
 
   render() {
+    console.log("this.props");
+    console.log(this.props);
     const { id, loggedIn, username, exerciseLogs, cardioLogs, bwLogs, vidsLogs } = this.state;
     const style = {
       backgroundImage: `url(${gymSplash})`,
@@ -292,4 +297,17 @@ class App extends Component {
   }
 }
 
-export default App;
+function mapStateToProps(state) {
+  console.log('state');
+  console.log(state);
+  return {
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(Actions, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
