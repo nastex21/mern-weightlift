@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import { Navbar,  NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import axios from 'axios';
 
 class NavbarTrue extends Component {
@@ -42,13 +42,14 @@ class NavbarTrue extends Component {
             return <Redirect to={{ pathname: this.state.redirectTo }} />
         } else {
             return (
-                <nav className="navbar navbar-expand-sm bg-primary text-white">
-                        <div className="linkDiv">
-                            <a className="navbar-brand mb-0 h1 text-light" href="/api/dashboard/">Personal Trainer</a>
-                        </div>
-                        <div className="logoutDiv">
-                        <a className="nav-link active" href="/api/login" onClick={this.logout}>Log Out<span className="sr-only">(current)</span></a>                        </div>
-                </nav>
+                <Navbar color="secondary" dark expand="md">
+                    <NavbarBrand href="/api/dashboard/">Personal Trainer</NavbarBrand>
+                    <Nav className="ml-auto" navbar>
+                        <NavItem>
+                            <NavLink href="/api/login" onClick={this.logout}>Log Out</NavLink>
+                        </NavItem>
+                    </Nav>
+                </Navbar>
             )
         }
     }
