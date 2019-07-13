@@ -11,7 +11,6 @@ class LoginForm extends Component {
         username: '',
         password: '',
         msg: this.props.msg,
-        redirectTo: null,
         success: this.props.success,
         visible: false,
         loggedIn: this.props.loggedIn

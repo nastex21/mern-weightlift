@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import { Navbar,  NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import axios from 'axios';
 
 class NavbarTrue extends Component {
     state = {
-        loggedIn: '',
+        loggedIn: this.props.loggedIn,
         redirectTo: ''
     }
 
@@ -55,4 +57,12 @@ class NavbarTrue extends Component {
     }
 };
 
-export default NavbarTrue;
+function mapStateToProps(state) {
+    console.log(state);
+    const { loggedIn } = state.authenticate;
+    return {
+        loggedIn
+    };
+}
+
+export default connect(mapStateToProps)(NavbarTrue);

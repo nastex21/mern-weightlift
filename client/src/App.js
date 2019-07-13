@@ -15,7 +15,7 @@ import gymSplash from './assets/images/dumbbell.jpg';
 class App extends Component {
   state = {
     id: null,
-    loggedIn: null,
+    loggedIn: this.props.loggedIn,
     username: null,
     exerciseLogs: [],
     cardioLogs: [],
@@ -299,7 +299,9 @@ class App extends Component {
 function mapStateToProps(state) {
   console.log('state');
   console.log(state);
+  const { loggedIn } = state.authenticate;
   return {
+    loggedIn
   };
 }
 
