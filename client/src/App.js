@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import * as Actions from './actions';
 import { history } from './helpers/history';
 import { alertActions } from './actions/alert';
+import { userActions } from './actions/user_actions';
 // components
 import Signup from './components/sign-up';
 import LoginForm from './components/login-form';
@@ -41,6 +42,10 @@ class App extends Component {
       // clear alert on location change
       dispatch(alertActions.clear());
     }); 
+  }
+
+  componentDidMount(){
+      this.props.dispatch(userActions.getAll());
   }
 
 

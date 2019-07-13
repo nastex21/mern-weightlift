@@ -4,9 +4,9 @@ import { authHeader } from '../helpers/auth-header';
 export const userService = {
     login,
     logout,
-    register
-    /*getAll,
-    getById,
+    register,
+    getAll
+    /*getById,
     update,
     delete: _delete */
 };
@@ -43,13 +43,20 @@ export const userService = {
     })
 }) */
 
+function getAll() {
+    const requestOptions = {
+        headers: authHeader()
+    };
+
+    return axios.get('/api/dashboard/').then(handleResponse);
+}
+
 function login(username, password) {
 
     return axios.post('/api/login', { username: username, password: password })
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('user', JSON.stringify(user));
-
             return user;
         });
 }

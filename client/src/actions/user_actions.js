@@ -1,33 +1,30 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE } from './types';
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE, GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS } from './types';
 import { userService } from '../services/user.services';
 import { history } from '../helpers/history';
 
 export const userActions = {
   login,
   logout,
-  register
-  // getAll,
+  register,
+  getAll
   // delete: _delete
 };
 
-/* export const fetchData = (data) => {
-    return {
-      type: FETCH_DATA,
-      data
-    }
+function getAll() {
+  return dispatch => {
+    dispatch(request());
+
+    userService.getAll()
+      .then(
+        users => dispatch(success(users)),
+        error => dispatch(failure(error.toString()))
+      );
   };
-  
-  export const fetchAllData = () => {
-    return (dispatch) => {
-      return axios.get('/api/dashboard/')
-        .then(response => {
-          dispatch(fetchData(response.data.user))
-        })
-        .catch(error => {
-          throw(error);
-        });
-    };
-  }; */
+
+  function request() { return { type: GETALL_REQUEST } }
+  function success(users) { return { type: GETALL_SUCCESS, users } }
+  function failure(error) { return { type: GETALL_FAILURE, error } }
+}
 
 function login(username, password) {
   return dispatch => {
@@ -67,9 +64,9 @@ function register(user) {
         dispatch(success(user));
         history.push('/api/login');
       })
-      .catch(error => { 
+      .catch(error => {
         console.log("error register")
-        dispatch(failure(error.toString())) 
+        dispatch(failure(error.toString()))
       })
   }
     ;

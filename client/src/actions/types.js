@@ -1,13 +1,17 @@
+/* GET related */
+export const GETALL_REQUEST = 'USERS_GETALL_REQUEST';
+export const GETALL_SUCCESS = 'USERS_GETALL_SUCCESS';
+export const GETALL_FAILURE = 'USERS_GETALL_FAILURE';
 /* Register related */
-export const REGISTER_REQUEST =  'USERS_REGISTER_REQUEST';
-export const REGISTER_SUCCESS =  'USERS_REGISTER_SUCCESS';
-export const REGISTER_FAILURE =  'USERS_REGISTER_FAILURE';
+export const REGISTER_REQUEST = 'USERS_REGISTER_REQUEST';
+export const REGISTER_SUCCESS = 'USERS_REGISTER_SUCCESS';
+export const REGISTER_FAILURE = 'USERS_REGISTER_FAILURE';
 /* Login related */
-export const LOGIN_REQUEST =  'USERS_LOGIN_REQUEST';
-export const LOGIN_SUCCESS =  'USERS_LOGIN_SUCCESS';
-export const LOGIN_FAILURE =  'USERS_LOGIN_FAILURE';
+export const LOGIN_REQUEST = 'USERS_LOGIN_REQUEST';
+export const LOGIN_SUCCESS = 'USERS_LOGIN_SUCCESS';
+export const LOGIN_FAILURE = 'USERS_LOGIN_FAILURE';
 /* Logout related */
-export const LOGOUT =  'USERS_LOGOUT';
+export const LOGOUT = 'USERS_LOGOUT';
 /* Modal related */
 export const OPEN_MODAL = 'OPEN_MODAL';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
