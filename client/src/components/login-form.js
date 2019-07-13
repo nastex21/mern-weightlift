@@ -12,16 +12,15 @@ class LoginForm extends Component {
         password: '',
         msg: this.props.msg,
         success: this.props.success,
-        visible: false,
-        loggedIn: this.props.loggedIn
-    }
+        visible: false
+        }
 
-    onDismiss = () => {
+     onDismiss = () => {
         this.setState({
             visible: false
         });
     }
-
+ 
     updateMsg = (error) => {
         if (error) {
             return this.setState({
@@ -45,12 +44,11 @@ class LoginForm extends Component {
         if (username && password) {
             dispatch(userActions.login(username, password));
         }
-
     }
 
     render() {
         const { username, password } = this.state;
-        if (this.state.loggedIn) {
+        if (this.props.loggedIn) {
             return <Redirect to={{ pathname: "/api/dashboard" }} />
         } else {
             return (

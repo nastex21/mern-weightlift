@@ -31,10 +31,6 @@ class App extends Component {
     vidsFilterFlag: false
   }
 
-  componentDidMount() {
-    this.props.actions.fetchAllData();
-  }
-
   filteredEvents = (num) => {
 
     if (num == 1) {
@@ -238,35 +234,36 @@ class App extends Component {
 
   //keeps you logged in if you were to refresh
   getUser = () => {
- /*    axios.get('/api/dashboard/').then(response => {
-
-      if (response.data.user) {
-        this.setState({
-          loggedIn: true,
-          id: response.data.user._id,
-          username: response.data.user.username,
-          exerciseLogs: [...response.data.user.logs],
-          cardioLogs: [...response.data.user.cardiologs],
-          bwLogs: [...response.data.user.bwlogs],
-          vidsLogs: [...response.data.user.vidslogs]
-        }, this.updateEventCalendar)
-      } else {
-        this.setState({
-          loggedIn: false,
-          username: null,
-          exerciseLogs: [],
-          cardioLogs: [],
-          bwLogs: [],
-          vidsLogs: []
-        })
-      }
-    }) */
+    /*    axios.get('/api/dashboard/').then(response => {
+   
+         if (response.data.user) {
+           this.setState({
+             loggedIn: true,
+             id: response.data.user._id,
+             username: response.data.user.username,
+             exerciseLogs: [...response.data.user.logs],
+             cardioLogs: [...response.data.user.cardiologs],
+             bwLogs: [...response.data.user.bwlogs],
+             vidsLogs: [...response.data.user.vidslogs]
+           }, this.updateEventCalendar)
+         } else {
+           this.setState({
+             loggedIn: false,
+             username: null,
+             exerciseLogs: [],
+             cardioLogs: [],
+             bwLogs: [],
+             vidsLogs: []
+           })
+         }
+       }) */
   }
 
   render() {
     console.log("this.props");
     console.log(this.props);
-    const { id, loggedIn, username, exerciseLogs, cardioLogs, bwLogs, vidsLogs } = this.state;
+    const { id, username, exerciseLogs, cardioLogs, bwLogs, vidsLogs } = this.state;
+    const { loggedIn } = this.props;
     const style = {
       backgroundImage: `url(${gymSplash})`,
       backgroundPosition: 'center',
@@ -279,10 +276,9 @@ class App extends Component {
     }
     return (
       <div className='App' style={!loggedIn ? style : loggedinStyle}>
-        {loggedIn ? <NavbarTrue updateUser={this.updateUser} loggedIn={loggedIn} /> : <NavbarFalse updateUser={this.updateUser} loggedIn={loggedIn} />}
-        {this.state.loggedIn ? <Dashboard refreshUser={this.getUser} username={username} logs={exerciseLogs} cardiologs={cardioLogs} bwlogs={bwLogs} vidslogs={vidsLogs} id={id} getLogs={this.getLogs} filterButton={(num) => this.filterButton(num)} events={this.state.weightFilterFlag == true || this.state.cardioFilterFlag == true || this.state.bwFilterFlag == true || this.state.vidsFilterFlag == true ? this.state.eventsFiltered :this.state.events} /> : null } 
-        {!this.state.loggedIn && <Route exact path="/" render={(props) => <Home {...props} />} />}
-        {/* Routes to different components */}
+        {loggedIn ? <NavbarTrue updateUser={this.updateUser} /> : <NavbarFalse />}
+        {loggedIn ? <Route exact path="/api/dashboard" render={(props) => <Dashboard refreshUser={this.getUser} username={username} logs={exerciseLogs} cardiologs={cardioLogs} bwlogs={bwLogs} vidslogs={vidsLogs} id={id} getLogs={this.getLogs} filterButton={(num) => this.filterButton(num)} events={this.state.weightFilterFlag == true || this.state.cardioFilterFlag == true || this.state.bwFilterFlag == true || this.state.vidsFilterFlag == true ? this.state.eventsFiltered : this.state.events} />} /> : null}
+        <Route exact path="/" render={(props) => <Home {...props} />} />
         <Route path="/api/login"
           render={() =>
             <LoginForm updateUser={this.updateUser} success={this.state.success} msg={this.state.msg} />}
