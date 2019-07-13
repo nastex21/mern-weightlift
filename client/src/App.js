@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import { Route } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import * as Actions from './actions';
@@ -239,7 +238,7 @@ class App extends Component {
 
   //keeps you logged in if you were to refresh
   getUser = () => {
-    axios.get('/api/dashboard/').then(response => {
+ /*    axios.get('/api/dashboard/').then(response => {
 
       if (response.data.user) {
         this.setState({
@@ -261,7 +260,7 @@ class App extends Component {
           vidsLogs: []
         })
       }
-    })
+    }) */
   }
 
   render() {

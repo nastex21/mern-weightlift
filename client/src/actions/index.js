@@ -1,4 +1,4 @@
-import { OPEN_MODAL, CLOSE_MODAL, FETCH_DATA, ADD_ITEM, DELETE_ITEM } from './types';
+import { OPEN_MODAL, CLOSE_MODAL, FETCH_DATA, ADD_ITEM, DELETE_ITEM, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from './types';
 import axios from 'axios';
 
 export function openModal() {
