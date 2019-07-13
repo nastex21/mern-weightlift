@@ -19,14 +19,13 @@ router.post('/', (req, res) => {
                 password: password,
                 logs: logs
             })
-            newUser.save((err, savedUser) => {
-                if (err) return res.json(err)
-                res.json(savedUser)
-            })
+            newUser
+                .save()
+                .then(user => res.json(user))
+                .catch(err => console.log(err));
         }
     })
-})
-
+});
 
 router.get('/', (req, res, next) => {
     console.log('===== user triggered!!======')

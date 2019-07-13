@@ -3,9 +3,9 @@ import { authHeader } from '../helpers/auth-header';
 
 export const userService = {
     login,
-    logout
-    /*register,
-    getAll,
+    logout,
+    register
+    /*getAll,
     getById,
     update,
     delete: _delete */
@@ -57,4 +57,33 @@ function login(username, password) {
 function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('user');
+}
+
+function register(user){
+    console.log("user services");
+    console.log(user);
+    return axios.post("/api/dashboard/", { username: user.username, password: user.password}).then(response => {
+        if (response.data.user){
+            return response.data.user;
+        } else {
+            console.log(response.data)
+        }
+    })
+}
+
+function handleResponse(response) {
+    return response.text().then(text => {
+        const data = text && JSON.parse(text);
+        if (!response.ok) {
+            if (response.status === 401) {
+                // auto logout if 401 response returned from api
+                logout();
+            }
+
+            const error = (data && data.message) || response.statusText;
+            return Promise.reject(error);
+        }
+
+        return data;
+    });
 }

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route } from 'react-router-dom';
+import { Route, Router } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import * as Actions from './actions';
+import { history } from './helpers/history';
+import { alertActions } from './actions/alert';
 // components
 import Signup from './components/sign-up';
 import LoginForm from './components/login-form';
@@ -13,23 +15,34 @@ import Dashboard from './components/dashboard';
 import gymSplash from './assets/images/dumbbell.jpg';
 
 class App extends Component {
-  state = {
-    id: null,
-    loggedIn: this.props.loggedIn,
-    username: null,
-    exerciseLogs: [],
-    cardioLogs: [],
-    bwLogs: [],
-    vidsLogs: [],
-    events: [],
-    eventsFiltered: [],
-    success: false,
-    msg: null,
-    cardioFilterFlag: false,
-    weightFilterFlag: false,
-    bwFilterFlag: false,
-    vidsFilterFlag: false
+
+  constructor(props){
+    super(props);
+    this.state = {
+      id: null,
+      loggedIn: this.props.loggedIn,
+      username: null,
+      exerciseLogs: [],
+      cardioLogs: [],
+      bwLogs: [],
+      vidsLogs: [],
+      events: [],
+      eventsFiltered: [],
+      success: false,
+      msg: null,
+      cardioFilterFlag: false,
+      weightFilterFlag: false,
+      bwFilterFlag: false,
+      vidsFilterFlag: false
+    }
+
+    const { dispatch } = this.props;
+    history.listen((location, action) => {
+      // clear alert on location change
+      dispatch(alertActions.clear());
+    }); 
   }
+
 
   filteredEvents = (num) => {
 
@@ -275,19 +288,21 @@ class App extends Component {
 
     }
     return (
-      <div className='App' style={!loggedIn ? style : loggedinStyle}>
-        {loggedIn ? <NavbarTrue updateUser={this.updateUser} /> : <NavbarFalse />}
-        {loggedIn ? <Route exact path="/api/dashboard" render={(props) => <Dashboard refreshUser={this.getUser} username={username} logs={exerciseLogs} cardiologs={cardioLogs} bwlogs={bwLogs} vidslogs={vidsLogs} id={id} getLogs={this.getLogs} filterButton={(num) => this.filterButton(num)} events={this.state.weightFilterFlag == true || this.state.cardioFilterFlag == true || this.state.bwFilterFlag == true || this.state.vidsFilterFlag == true ? this.state.eventsFiltered : this.state.events} />} /> : null}
-        <Route exact path="/" render={(props) => <Home {...props} />} />
-        <Route path="/api/login"
-          render={() =>
-            <LoginForm updateUser={this.updateUser} success={this.state.success} msg={this.state.msg} />}
-        />
-        <Route path="/api/signup"
-          render={() =>
-            <Signup updateSuccess={this.updateSuccess} />}
-        />
-      </div>
+      <Router history={history}>
+        <div className='App' style={!loggedIn ? style : loggedinStyle}>
+          {loggedIn ? <NavbarTrue updateUser={this.updateUser} /> : <NavbarFalse />}
+          {loggedIn ? <Route exact path="/api/dashboard" render={(props) => <Dashboard refreshUser={this.getUser} username={username} logs={exerciseLogs} cardiologs={cardioLogs} bwlogs={bwLogs} vidslogs={vidsLogs} id={id} getLogs={this.getLogs} filterButton={(num) => this.filterButton(num)} events={this.state.weightFilterFlag == true || this.state.cardioFilterFlag == true || this.state.bwFilterFlag == true || this.state.vidsFilterFlag == true ? this.state.eventsFiltered : this.state.events} />} /> : null}
+          <Route exact path="/" render={(props) => <Home {...props} />} />
+          <Route path="/api/login"
+            render={() =>
+              <LoginForm updateUser={this.updateUser} success={this.state.success} msg={this.state.msg} />}
+          />
+          <Route path="/api/signup"
+            render={() =>
+              <Signup updateSuccess={this.updateSuccess} />}
+          />
+        </div>
+      </Router>
     );
   }
 }
@@ -296,15 +311,11 @@ function mapStateToProps(state) {
   console.log('state');
   console.log(state);
   const { loggedIn } = state.authenticate;
+  const { alert } = state;
   return {
-    loggedIn
+    loggedIn,
+    alert
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(Actions, dispatch)
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);
