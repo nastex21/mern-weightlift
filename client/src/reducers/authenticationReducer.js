@@ -1,6 +1,8 @@
 import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT } from '../actions/types';
 
 let user = JSON.parse(localStorage.getItem('user'));
+console.log("authen reducer");
+console.log(user);
 const initialState = user ? { loggedIn: true, user } : {};
 
 export default function authentication(state = initialState, action) {

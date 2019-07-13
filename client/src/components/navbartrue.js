@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-
+import { userActions } from '../actions/user_actions';
+/* Components */
 import { Navbar,  NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
-import axios from 'axios';
 
 class NavbarTrue extends Component {
     state = {
@@ -12,8 +12,8 @@ class NavbarTrue extends Component {
     }
 
 
-    logout = (event) => {
-        console.log('logging out')
+    logout = () => {
+        /* console.log('logging out')
         axios.post('/api/logout').then(response => {
             if (response.status === 200) {
 
@@ -31,8 +31,7 @@ class NavbarTrue extends Component {
             }
         }).catch(error => {
             console.log('Logout error')
-        })
-
+        }) */
     }
 
     render() {
@@ -48,7 +47,7 @@ class NavbarTrue extends Component {
                     <NavbarBrand href="/api/dashboard/">Personal Trainer</NavbarBrand>
                     <Nav className="ml-auto" navbar>
                         <NavItem>
-                            <NavLink href="/api/login" onClick={this.logout}>Log Out</NavLink>
+                            <NavLink href="/api/login" onClick={this.props.dispatch(userActions.logout)}>Log Out</NavLink>
                         </NavItem>
                     </Nav>
                 </Navbar>

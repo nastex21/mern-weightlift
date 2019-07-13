@@ -280,7 +280,7 @@ class App extends Component {
     return (
       <div className='App' style={!loggedIn ? style : loggedinStyle}>
         {loggedIn ? <NavbarTrue updateUser={this.updateUser} loggedIn={loggedIn} /> : <NavbarFalse updateUser={this.updateUser} loggedIn={loggedIn} />}
-        {this.state.loggedIn && <Route exact path="/api/dashboard" render={(props) => <Dashboard {...props} refreshUser={this.getUser} username={username} logs={exerciseLogs} cardiologs={cardioLogs} bwlogs={bwLogs} vidslogs={vidsLogs} id={id} getLogs={this.getLogs} filterButton={(num) => this.filterButton(num)} events={this.state.weightFilterFlag == true || this.state.cardioFilterFlag == true || this.state.bwFilterFlag == true || this.state.vidsFilterFlag == true ? this.state.eventsFiltered :this.state.events} />} />}
+        {this.state.loggedIn ? <Dashboard refreshUser={this.getUser} username={username} logs={exerciseLogs} cardiologs={cardioLogs} bwlogs={bwLogs} vidslogs={vidsLogs} id={id} getLogs={this.getLogs} filterButton={(num) => this.filterButton(num)} events={this.state.weightFilterFlag == true || this.state.cardioFilterFlag == true || this.state.bwFilterFlag == true || this.state.vidsFilterFlag == true ? this.state.eventsFiltered :this.state.events} /> : null } 
         {!this.state.loggedIn && <Route exact path="/" render={(props) => <Home {...props} />} />}
         {/* Routes to different components */}
         <Route path="/api/login"
