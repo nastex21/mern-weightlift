@@ -36,6 +36,7 @@ class App extends Component {
       bwFilterFlag: false,
       vidsFilterFlag: false
     }
+    
 
     const { dispatch } = this.props;
     history.listen((location, action) => {
@@ -45,7 +46,7 @@ class App extends Component {
   }
 
   componentDidMount(){
-      this.props.dispatch(userActions.getAll());
+      //this.props.dispatch(userActions.getAll());
   }
 
 

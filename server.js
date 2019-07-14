@@ -1,10 +1,12 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const morgan = require('morgan');
 const session = require('express-session');
 const dbConnection = require('./database') 
 const MongoStore = require('connect-mongo')(session);
-const passport = require('./passport');
+//const passport = require('./passport/passport');
+const jwt = require('./helpers/jwt');
 const app = express();
 
 //MIDDLEWARE
@@ -13,6 +15,10 @@ app.use(morgan('dev'));
 // Bodyparser
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors());
+
+// use JWT auth to secure the api
+app.use(jwt());
 
 // Sessions
 app.use(
@@ -25,9 +31,9 @@ app.use(
 )
 
 // Passport
-app.use(passport.initialize());
+/* app.use(passport.initialize());
 app.use(passport.session()); // calls the deserializeUser
-
+ */
 // Routes
 app.use('/api/dashboard', require('./routes/api/dashboard'));
 app.use('/api/login', require('./routes/api/login'));

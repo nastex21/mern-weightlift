@@ -48,7 +48,9 @@ function getAll() {
         headers: authHeader()
     };
 
-    return axios.get('/api/dashboard/').then(handleResponse);
+    return axios.get('/api/dashboard/').then((response) => {
+        return response;
+    });
 }
 
 function login(username, password) {
