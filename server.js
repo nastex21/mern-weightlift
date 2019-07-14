@@ -5,8 +5,7 @@ const morgan = require('morgan');
 const session = require('express-session');
 const dbConnection = require('./database') 
 const MongoStore = require('connect-mongo')(session);
-//const passport = require('./passport/passport');
-const jwt = require('./helpers/jwt');
+const passport = require('passport');
 const app = express();
 
 //MIDDLEWARE
@@ -16,9 +15,6 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
-
-// use JWT auth to secure the api
-app.use(jwt());
 
 // Sessions
 app.use(
@@ -31,13 +27,13 @@ app.use(
 )
 
 // Passport
-/* app.use(passport.initialize());
-app.use(passport.session()); // calls the deserializeUser
- */
+app.use(passport.initialize());
+ 
 // Routes
 app.use('/api/dashboard', require('./routes/api/dashboard'));
 app.use('/api/login', require('./routes/api/login'));
 app.use('/api/logout', require('./routes/api/logout'));
+app.use('/api/signup', require('./routes/api/signup'))
 app.use('/api/add-items', require('./routes/api/addItem'));
 app.use('/api/edit-items', require('./routes/api/editItem'));
 app.use('/api/del-items', require('./routes/api/delItem'));

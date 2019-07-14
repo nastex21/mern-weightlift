@@ -71,7 +71,7 @@ function logout() {
 function register(user){
     console.log("user services");
     console.log(user);
-    return axios.post("/api/dashboard/", { username: user.username, password: user.password}).then(response => {
+    return axios.post("/api/signup/", { username: user.username, password: user.password}).then(response => {
         if (response.data.user){
             return response.data.user;
         } else {

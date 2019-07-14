@@ -4,7 +4,6 @@ const CardioLogs = require('./CardioLogs');
 const WeightLogs = require('./WeightLogs');
 const BodyWeightLogs = require('./BodyWeightLogs');
 const ClassVidsLogs = require('./ClassVidsLogs');
-const bcrypt = require('bcryptjs');
 mongoose.promise = Promise;
 
 // Define userSchema
@@ -17,30 +16,6 @@ var userSchema = new Schema({
 	cardiologs: [CardioLogs.schema],
 	bwlogs: [BodyWeightLogs.schema],
 	vidslogs: [ClassVidsLogs.schema]
-})
-
-// Define schema methods
-userSchema.methods = {
-	checkPassword: function (inputPassword) {
-		console.log("triggered")
-		return bcrypt.compareSync(inputPassword, this.password)
-	},
-	hashPassword: plainTextPassword => {
-		return bcrypt.hashSync(plainTextPassword, 10)
-	}
-}
-
-// Define hooks for pre-saving
-userSchema.pre('save', function (next) {
-	if (!this.password) {
-		console.log('models/user.js =======NO PASSWORD PROVIDED=======')
-		next()
-	} else {
-		console.log('models/user.js hashPassword in pre save');
-
-		this.password = this.hashPassword(this.password)
-		next()
-	}
 })
 
 const User = mongoose.model('User', userSchema)

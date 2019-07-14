@@ -10,19 +10,24 @@ router.post("/", (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
   // Find user by username
-    User.findOne({ username: req.body.username }).then(user => {
+    User.findOne({ username: username }).then(user => {
       // Check if user exists
       if (!user) {
         return res.status(404).json({ usernamenotfound: "username not found" });
       }
   // Check password
+      console.log("******found user!!!********");
+      console.log("user");
+      console.log(user);
+      console.log(user.id);
       bcrypt.compare(password, user.password).then(isMatch => {
         if (isMatch) {
           // User matched
           // Create JWT Payload
+       
           const payload = {
-            id: user.id,
-            name: user.name
+            id: user._id,
+            name: user.username
           };
   // Sign token
           jwt.sign(
