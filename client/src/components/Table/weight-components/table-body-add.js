@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, FormGroup, Label, Row, Col, Input, Button, Alert } from 'reactstrap';
-import axios from 'axios';
+import { itemsConst } from '../../../actions/items_actions';
+import { connect } from 'react-redux';
 
 class WeightsAdd extends Component {
     state = {
@@ -78,6 +79,10 @@ class WeightsAdd extends Component {
 
     submit = (e) => {
         e.preventDefault();
+        console.log("table-body-add");
+        const { dispatch } = this.props;
+        dispatch(itemsConst.addItem(this.state.id, this.state.collection, this.state.date, 1));
+        /* e.preventDefault();
 
         axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, weightFlag: 1 })
             .then((response) => {
@@ -131,7 +136,7 @@ class WeightsAdd extends Component {
 
 
             });
-
+ */
     }
 
     render() {
@@ -185,4 +190,12 @@ class WeightsAdd extends Component {
     }
 }
 
-export default WeightsAdd;
+function mapStateToProps(state) {
+    console.log(state);
+    const { loggedIn } = state.authenticate;
+    return {
+        loggedIn
+    };
+}
+
+export default connect(mapStateToProps)(WeightsAdd);

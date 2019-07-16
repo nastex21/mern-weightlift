@@ -1,12 +1,14 @@
 import { combineReducers } from 'redux';
 import modalToggle from './modalToggle';
-import dataReducer from './dataReducer';
 import authentication from './authenticationReducer';
 import registration from './registrationReducer';
+import dataModifier from './dataReducer';
+import users from './user.reducers';
 
 export default combineReducers({
     modal: modalToggle,
-    data: dataReducer,
     authenticate: authentication,
-    register: registration
+    register: registration,
+    dataModifier: dataModifier,
+    users: users
 });

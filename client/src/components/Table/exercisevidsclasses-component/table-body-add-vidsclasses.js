@@ -92,7 +92,7 @@ class ExVidsClassesAdd extends Component {
     submit = (e) => {
         e.preventDefault();
 
-        
+        console.log('table-body-vidsclasses');
         axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, completed: this.state.completed, vidsFlag: 1 })
             .then(response => {
                 console.log(response);

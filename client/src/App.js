@@ -38,7 +38,7 @@ class App extends Component {
     }
     
 
-    const { dispatch } = this.props;
+  const { dispatch } = this.props;
     history.listen((location, action) => {
       // clear alert on location change
       dispatch(alertActions.clear());
@@ -46,7 +46,9 @@ class App extends Component {
   }
 
   componentDidMount(){
-      //this.props.dispatch(userActions.getAll());
+    console.log("App componentDidMount");
+    console.log(localStorage.getItem('user'));
+      this.props.dispatch(userActions.getAll());
   }
 
 
