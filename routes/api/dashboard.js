@@ -1,16 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../../database/models/user');
-const bcrypt = require('bcryptjs');
 
+//Displays information tailored according to the logged in user
 router.get('/', (req, res, next) => {
-    console.log('===== user triggered!!======')
-    if (req.isAuthenticated()) {
-        res.json({ user: req.user })
-    } else {
-        res.json({ user: null })
-    }
-
+  console.log('secret route');
+  //We'll just send back the user details and the token
+  res.json({
+    message : 'You made it to the secure route',
+    user : req.user,
+    token : req.query.secret_token
+  })
 });
 
 module.exports = router;

@@ -1,6 +1,8 @@
 import { GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS } from '../actions/types';
 
 export default function users(state = {}, action) {
+  console.log("user.reducers");
+  console.log(action);
   switch (action.type) {
     case GETALL_REQUEST:
       return {
@@ -8,7 +10,7 @@ export default function users(state = {}, action) {
       };
     case GETALL_SUCCESS:
       return {
-        items: action.users
+        state: action.users ? [...action.users] : null
       };
     case GETALL_FAILURE:
       return { 

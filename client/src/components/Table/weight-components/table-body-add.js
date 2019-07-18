@@ -81,6 +81,9 @@ class WeightsAdd extends Component {
         e.preventDefault();
         console.log("table-body-add");
         const { dispatch } = this.props;
+        console.log(this.props);
+        console.log("addItem: ");
+        console.log(this.state.id);
         dispatch(itemsConst.addItem(this.state.id, this.state.collection, this.state.date, 1));
         /* e.preventDefault();
 

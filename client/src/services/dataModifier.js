@@ -6,7 +6,8 @@ export const itemService = {
     editItem
 };
 
-function addItem () {
+function addItem (item) {
+    console.log(item);
     axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, bwFlag: 1 })
     .then(response => {
         console.log(response);

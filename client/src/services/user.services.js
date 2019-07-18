@@ -32,6 +32,7 @@ function login(username, password) {
 
 function logout() {
     // remove user from local storage to log user out
+    console.log("logout 35");
     localStorage.removeItem('user');
 }
 

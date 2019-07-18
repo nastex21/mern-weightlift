@@ -45,11 +45,10 @@ class App extends Component {
     }); 
   }
 
-  componentDidMount(){
+  /* componentDidMount(){
     console.log("App componentDidMount");
-    console.log(localStorage.getItem('user'));
-      this.props.dispatch(userActions.getAll());
-  }
+    this.props.dispatch(userActions.getAll());
+  } */
 
 
   filteredEvents = (num) => {
@@ -281,6 +280,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(localStorage.getItem('user'));
     console.log("this.props");
     console.log(this.props);
     const { id, username, exerciseLogs, cardioLogs, bwLogs, vidsLogs } = this.state;
