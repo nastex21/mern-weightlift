@@ -22,7 +22,7 @@ const checkToken = (req, res, next) => {
   }
 }
 
-router.post('/', checkToken, (req, res, next) => {
+router.get('/', checkToken, (req, res, next) => {
   //verify the JWT token generated for the user
   console.log('1')
   jwt.verify(req.token, process.env.SECRET, (err, authorizedData) => {

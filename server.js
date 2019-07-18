@@ -28,7 +28,7 @@ app.use(
 );
  
 // Routes
-app.use('/api/dashboard', passport.authenticate('jwt', { session : false }), require('./routes/api/dashboard') );
+app.use('/api/dashboard', require('./routes/api/dashboard') );
 app.use('/api/login', require('./routes/api/login'));
 app.use('/api/logout', require('./routes/api/logout'));
 app.use('/api/signup', require('./routes/api/signup'));
