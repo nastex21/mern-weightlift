@@ -56,12 +56,14 @@ passport.use('login', new localStrategy({
 }));
 
 //This verifies that the token sent by the user is valid
-passport.use(new JWTstrategy({
+passport.use('jwt', new JWTstrategy({
   //secret we used to sign our JWT
   secretOrKey: process.env.SECRET,
   //we expect the user to send the token as a query paramater with the name 'secret_token'
   jwtFromRequest: ExtractJWT.fromUrlQueryParameter('secret_token')
 }, async (token, done) => {
+  console.log('token');
+  console.log(token);
   try {
     //Pass the user details to the next middleware
     return done(null, token.user);
