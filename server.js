@@ -5,7 +5,6 @@ const morgan = require('morgan');
 const dbConnection = require('./database');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
-const passport = require('passport');
 const app = express();
 
 // Bodyparser
@@ -15,8 +14,6 @@ app.use(cors());
 
 //MIDDLEWARE
 app.use(morgan('dev'));
-
-require('./auth/auth');
 
 app.use(
 	session({

@@ -3,7 +3,27 @@ const router = express.Router();
 const User = require("../../database/models/user");
 const Validate = require("../../validation/validateadd");
 
-router.post('/', Validate, async (req, res) => {
+//Check to make sure header is not undefined, if so, return Forbidden (403)
+const checkToken = (req, res, next) => {
+    console.log('headers');
+    console.log(req.headers);
+    const header = req.headers['authorization'];
+  
+    if (typeof header !== 'undefined') {
+      const bearer = header.split(' ');
+      const token = bearer[1];
+  
+      req.token = token;
+      console.log("req.token");
+      console.log(req.token);
+      next();
+    } else {
+      //If header is undefined return Forbidden (403)
+      res.sendStatus(403)
+    }
+  }
+
+router.post('/', checkToken, Validate, async (req, res) => {
 console.log("additem init")
     const updateWeights = (id, updateObj) => {
         var update = {

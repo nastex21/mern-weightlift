@@ -22,11 +22,13 @@ function getAll() {
 }
 
 function login(username, password) {
-
+    console.log("user.services");
+    console.log(username);
     return axios.post('/api/login', { username: username, password: password })
         .then(user => {
-           
-            return user;
+
+        localStorage.setItem('user', JSON.stringify(user));
+        return user;
         });
 }
 

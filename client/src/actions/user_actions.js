@@ -41,6 +41,8 @@ function login(username, password) {
 
     userService.login(username, password)
       .then(user => {
+        console.log("login dispatch");
+        console.log(user);
         dispatch(success(user));
         history.push('/api/dashboard');
       },

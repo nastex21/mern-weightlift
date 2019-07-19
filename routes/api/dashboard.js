@@ -24,13 +24,12 @@ const checkToken = (req, res, next) => {
 
 router.get('/', checkToken, (req, res, next) => {
   //verify the JWT token generated for the user
-  console.log('1')
   jwt.verify(req.token, process.env.SECRET, (err, authorizedData) => {
     if (err) {
       //If error send Forbidden (403)
       console.log('ERROR: Could not connect to the protected route');
       res.sendStatus(403);
-    } else {
+    } else { 
       //If token is successfully verified, we can send the autorized data 
       console.log('authorizedData');
       console.log(authorizedData);

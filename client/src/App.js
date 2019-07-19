@@ -45,12 +45,6 @@ class App extends Component {
     }); 
   }
 
-  /* componentDidMount(){
-    console.log("App componentDidMount");
-    this.props.dispatch(userActions.getAll());
-  } */
-
-
   filteredEvents = (num) => {
 
     if (num == 1) {
@@ -299,7 +293,7 @@ class App extends Component {
       <Router history={history}>
         <div className='App' style={!loggedIn ? style : loggedinStyle}>
           {loggedIn ? <NavbarTrue updateUser={this.updateUser} /> : <NavbarFalse />}
-          {loggedIn ? <Route exact path="/api/dashboard" render={(props) => <Dashboard refreshUser={this.getUser} username={username} logs={exerciseLogs} cardiologs={cardioLogs} bwlogs={bwLogs} vidslogs={vidsLogs} id={id} getLogs={this.getLogs} filterButton={(num) => this.filterButton(num)} events={this.state.weightFilterFlag == true || this.state.cardioFilterFlag == true || this.state.bwFilterFlag == true || this.state.vidsFilterFlag == true ? this.state.eventsFiltered : this.state.events} />} /> : null}
+          {loggedIn ? <Route exact path="/api/dashboard" render={(props) => <Dashboard refreshUser={this.getUser} username={username} id={id} getLogs={this.getLogs} filterButton={(num) => this.filterButton(num)} events={this.state.weightFilterFlag == true || this.state.cardioFilterFlag == true || this.state.bwFilterFlag == true || this.state.vidsFilterFlag == true ? this.state.eventsFiltered : this.state.events} />} /> : null}
           <Route exact path="/" render={(props) => <Home {...props} />} />
           <Route path="/api/login"
             render={() =>

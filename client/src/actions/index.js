@@ -1,5 +1,4 @@
-import { OPEN_MODAL, CLOSE_MODAL, FETCH_DATA } from './types';
-import axios from 'axios';
+import { OPEN_MODAL, CLOSE_MODAL } from './types';
 
 export function openModal() {
   return {
@@ -11,23 +10,4 @@ export function closeModal() {
   return {
     type: CLOSE_MODAL
   }
-};
-
-export const fetchData = (data) => {
-  return {
-    type: FETCH_DATA,
-    data
-  }
-};
-
-export const fetchAllData = () => {
-  return (dispatch) => {
-    return axios.get('/api/dashboard/')
-      .then(response => {
-        dispatch(fetchData(response.data.user))
-      })
-      .catch(error => {
-        throw(error);
-      });
-  };
 };

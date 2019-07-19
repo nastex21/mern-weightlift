@@ -28,6 +28,11 @@ class Dashboard extends Component {
         updatedInfo: ""
     }
 
+    componentDidMount() {
+        var data = JSON.parse(localStorage.getItem('user'));
+        console.log(data.data.dataObj);
+    }
+
     updateStateInfo = () => {
 
     }
@@ -87,14 +92,14 @@ class Dashboard extends Component {
 
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-      /*   this.setState(prevState => ({
-            date: dateVal.toLocaleString('en-US', options) == "Invalid Date" ? prevState.date : dateVal.toLocaleString('en-US', options),
-            exercise: [...exerciseArr],
-            total: sum,
-            color: color,
-            oldDate: prevState.date,
-            oldExercise: prevState.exerciseArr
-        })) */
+        /*   this.setState(prevState => ({
+              date: dateVal.toLocaleString('en-US', options) == "Invalid Date" ? prevState.date : dateVal.toLocaleString('en-US', options),
+              exercise: [...exerciseArr],
+              total: sum,
+              color: color,
+              oldDate: prevState.date,
+              oldExercise: prevState.exerciseArr
+          })) */
 
         this.props.actions.closeModal();
 
@@ -109,10 +114,10 @@ class Dashboard extends Component {
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
         this.props.actions.openModal();
-       /*  this.setState(prevState => ({
-            exercise: [...exerciseArr],
-            date: dateVal.toLocaleString('en-US', options),
-        })) */
+        /*  this.setState(prevState => ({
+             exercise: [...exerciseArr],
+             date: dateVal.toLocaleString('en-US', options),
+         })) */
 
     }
 
@@ -130,10 +135,10 @@ class Dashboard extends Component {
 
         return (
             <div className="calendar-body">
-                <LeftPane date={this.state.oldDate} exercise={this.state.updatedInfo} filterButton={this.props.filterButton}/>
+                <LeftPane date={this.state.oldDate} exercise={this.state.updatedInfo} filterButton={this.props.filterButton} />
                 <FullCalendar className="fcDiv bg-dark text-white" defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={this.props.events} eventClick={this.toggle} />
                 <Modal isOpen={this.props.modalIsOpen} toggle={this.toggle} size="lg" style={{ maxWidth: '1600px', width: '80%' }} color={this.state.color} onClosed={this.showErrorMsg}>
-                    <ModalHeader toggle={this.toggle}> 
+                    <ModalHeader toggle={this.toggle}>
                         <p className="exerciseTitle">{this.state.color == "#f0ad4e" ? "Exercise videos and/or classes" : this.state.color == "#d9534f" ? "Weightlifting Exercises" : this.state.color == "#0275d8" ? "Cardio Exercises" : this.state.color == "#5cb85c" ? "Bodyweight Exercises" : null}</p>
                         <p className="dateTitle">{date}</p>
                     </ModalHeader>
@@ -151,16 +156,16 @@ class Dashboard extends Component {
 }
 
 function mapStateToProps(state) {
-   console.log(state);
+    console.log(state);
     return {
         modalIsOpen: state.modal.modalIsOpen
     }
-  }
-  
-  function mapDispatchToProps(dispatch) {
+}
+
+function mapDispatchToProps(dispatch) {
     return {
-      actions: bindActionCreators(Actions, dispatch)
+        actions: bindActionCreators(Actions, dispatch)
     };
-  }
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
