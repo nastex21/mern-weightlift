@@ -20,25 +20,25 @@ class LeftPane extends Component {
                     <h3>Filter</h3>
                     <div className="buttonFilter">
                         <div className="rowLegend">
-                            <div class='boxIcon'>
+                            <div className='boxIcon'>
                                 <button className="green" type="button" onClick={(num) => this.props.filterButton(3)} >B</button>
                             </div>
                         </div>
 
                         <div className="rowLegend">
-                            <div class='boxIcon'>
+                            <div className='boxIcon'>
                                 <button type="button" className="blue" onClick={(num) => this.props.filterButton(2)} >C</button>
                             </div>
                         </div>
 
                         <div className="rowLegend">
-                            <div class='boxIcon'>
+                            <div className='boxIcon'>
                                 <button type="button" className="orange" onClick={(num) => this.props.filterButton(4)}>C/V</button>
                             </div>
                         </div>
 
                         <div className="rowLegend">
-                            <div class='boxIcon'>
+                            <div className='boxIcon'>
                                 <button type="button" className="red"  onClick={(num) => this.props.filterButton(1)}>W</button>
                             </div>
                         </div>

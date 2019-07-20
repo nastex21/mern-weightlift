@@ -1,14 +1,19 @@
 import { GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS, ADDITEM_REQUEST, ADDITEM_FAILURE, ADDITEM_SUCCESS, DELETEITEM_FAILURE, DELETEITEM_REQUEST, DELETEITEM_SUCCESS, EDITITEM_FAILURE, EDITITEM_REQUEST, EDITITEM_SUCCESS, UPDATESTATE } from '../actions/types';
 
-const initialState = {
+var initialState = {
     data: '',
+    id: '',
+    username: '',
+    weightLogs: '',
+    cardioLogs: '',
+    bwLogs: '',
+    vidsLogs: '',
     msg: ''
 };
 
 export default function dataReducer(state = initialState, action) {
     console.log("action");
     console.log(action);
-    console.log(action.data);
 
     switch (action.type) {
         case GETALL_REQUEST:
@@ -36,7 +41,7 @@ export default function dataReducer(state = initialState, action) {
         case EDITITEM_FAILURE:
             return initialState.msg = "Did not edit";
         case UPDATESTATE: 
-            return initialState.data = action.data.dataObj;
+            return initialState = { msg: 'Success', id: action.data._id, username: action.data.username, weightLogs: action.data.logs, cardioLogs: action.data.cardiologs, bwLogs: action.data.bwlogs, vidsLogs: action.data.vidslogs };
         default:
             return state;
     }

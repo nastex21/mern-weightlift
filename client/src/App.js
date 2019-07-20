@@ -313,10 +313,11 @@ function mapStateToProps(state) {
   console.log('state');
   console.log(state);
   const { loggedIn } = state.authenticate;
-  const { alert } = state;
+  const { alert, data } = state;
   return {
     loggedIn,
-    alert
+    alert,
+    data
   };
 }
 

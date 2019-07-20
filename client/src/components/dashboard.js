@@ -32,8 +32,7 @@ class Dashboard extends Component {
 
     componentDidMount() {
         var data = JSON.parse(localStorage.getItem('user'));
-
-
+        
         this.props.dispatch(itemsConst.updateState(data));
     }
 

@@ -46,6 +46,7 @@ function addItem(id, collection, date, flag) {
 
   /*UPDATE ITEM STATE */
   function updateState(data) {
+
     return {
       type: UPDATESTATE,
       data

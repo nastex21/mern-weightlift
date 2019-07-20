@@ -14,10 +14,8 @@ function getAll() {
     };
 
     return axios.get('/api/dashboard/', requestOptions).then((response) => {
-         // store user details and jwt token in local storage to keep user logged in between page refreshes
-         console.log("axios get");
-         console.log(response);
-         return localStorage.setItem('user', JSON.stringify(response));
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        return response;
     });
 }
 
@@ -26,9 +24,8 @@ function login(username, password) {
     console.log(username);
     return axios.post('/api/login', { username: username, password: password })
         .then(user => {
-
-        localStorage.setItem('user', JSON.stringify(user));
-        return user;
+            console.log(user.data.dataObj);
+            return localStorage.setItem('user', JSON.stringify(user.data.dataObj));
         });
 }
 
@@ -38,11 +35,11 @@ function logout() {
     localStorage.removeItem('user');
 }
 
-function register(user){
+function register(user) {
     console.log("user services");
     console.log(user);
-    return axios.post("/api/signup/", { username: user.username, password: user.password}).then(response => {
-        if (response.data.user){
+    return axios.post("/api/signup/", { username: user.username, password: user.password }).then(response => {
+        if (response.data.user) {
             return response.data.user;
         } else {
             console.log(response.data)
