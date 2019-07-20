@@ -1,10 +1,11 @@
-import { ADDITEM_FAILURE, ADDITEM_REQUEST, ADDITEM_SUCCESS, EDITITEM_FAILURE, EDITITEM_REQUEST, EDITITEM_SUCCESS, DELETEITEM_REQUEST, DELETEITEM_SUCCESS, DELETEITEM_FAILURE} from './types';
+import { ADDITEM_FAILURE, ADDITEM_REQUEST, ADDITEM_SUCCESS, EDITITEM_FAILURE, EDITITEM_REQUEST, EDITITEM_SUCCESS, DELETEITEM_REQUEST, DELETEITEM_SUCCESS, DELETEITEM_FAILURE, UPDATESTATE} from './types';
 import { itemService } from '../services/dataModifier';
 
 export const itemsConst = {
     addItem,
     delItem,
-    editItem
+    editItem,
+    updateState
 }
 
 /* ADD ITEM(S) DISPATCH */
@@ -41,4 +42,12 @@ function addItem(id, collection, date, flag) {
   /* DELETE ITEM(S) DISPATCH */
   function delItem() {
   
+  }
+
+  /*UPDATE ITEM STATE */
+  function updateState(data) {
+    return {
+      type: UPDATESTATE,
+      data
+    }
   }

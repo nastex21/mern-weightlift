@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions';
+import { itemsConst } from '../actions/items_actions';
+import store from '../store/configureStore';
 /*Components*/
 import FullCalendar from '@fullcalendar/react';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
@@ -30,11 +32,9 @@ class Dashboard extends Component {
 
     componentDidMount() {
         var data = JSON.parse(localStorage.getItem('user'));
-        console.log(data.data.dataObj);
-    }
 
-    updateStateInfo = () => {
 
+        this.props.dispatch(itemsConst.updateState(data));
     }
 
     closeModal = () => {
@@ -164,7 +164,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(Actions, dispatch)
+        dispatch,
+    ...bindActionCreators(Actions , dispatch)
     };
 }
 

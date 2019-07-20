@@ -1,4 +1,4 @@
-import { GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS, ADDITEM_REQUEST, ADDITEM_FAILURE, ADDITEM_SUCCESS, DELETEITEM_FAILURE, DELETEITEM_REQUEST, DELETEITEM_SUCCESS, EDITITEM_FAILURE, EDITITEM_REQUEST, EDITITEM_SUCCESS, UPDATESTATE_REQUEST, UPDATESTATE_SUCCESS, UPDATESTATE_FAILURE } from '../actions/types';
+import { GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS, ADDITEM_REQUEST, ADDITEM_FAILURE, ADDITEM_SUCCESS, DELETEITEM_FAILURE, DELETEITEM_REQUEST, DELETEITEM_SUCCESS, EDITITEM_FAILURE, EDITITEM_REQUEST, EDITITEM_SUCCESS, UPDATESTATE } from '../actions/types';
 
 const initialState = {
     data: '',
@@ -8,6 +8,7 @@ const initialState = {
 export default function dataReducer(state = initialState, action) {
     console.log("action");
     console.log(action);
+    console.log(action.data);
 
     switch (action.type) {
         case GETALL_REQUEST:
@@ -34,12 +35,8 @@ export default function dataReducer(state = initialState, action) {
             return initialState;
         case EDITITEM_FAILURE:
             return initialState.msg = "Did not edit";
-        case UPDATESTATE_REQUEST:
-            return initialState.msg = "updating...";
-        case UPDATESTATE_SUCCESS: 
-            return initialState.data = action.payload;
-        case UPDATESTATE_FAILURE:
-            return initialState.msg ="Did not update";
+        case UPDATESTATE: 
+            return initialState.data = action.data.dataObj;
         default:
             return state;
     }
