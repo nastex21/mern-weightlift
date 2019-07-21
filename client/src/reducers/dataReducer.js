@@ -1,7 +1,9 @@
-import { GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS, ADDITEM_REQUEST, ADDITEM_FAILURE, ADDITEM_SUCCESS, DELETEITEM_FAILURE, DELETEITEM_REQUEST, DELETEITEM_SUCCESS, EDITITEM_FAILURE, EDITITEM_REQUEST, EDITITEM_SUCCESS, UPDATESTATE } from '../actions/types';
+import { GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS, ADDITEM_REQUEST, ADDITEM_FAILURE, ADDITEM_SUCCESS, DELETEITEM_FAILURE, DELETEITEM_REQUEST, DELETEITEM_SUCCESS, EDITITEM_FAILURE, EDITITEM_REQUEST, EDITITEM_SUCCESS, UPDATESTATE, UPDATEEVENT } from '../actions/types';
 
 var initialState = {
     data: '',
+    events: [],
+    eventsFiltered: [],
     id: '',
     username: '',
     weightLogs: '',
@@ -29,7 +31,7 @@ export default function dataReducer(state = initialState, action) {
         case ADDITEM_FAILURE:
             return initialState.msg = 'Item addition failed';
         case DELETEITEM_REQUEST:
-            return initialState.msg = "deleting...";
+            return initialState.msg = "deleting...";                              
         case DELETEITEM_SUCCESS:
             return initialState.data.filter(item => item._id !== action.payload.id);
         case DELETEITEM_FAILURE:
@@ -42,6 +44,8 @@ export default function dataReducer(state = initialState, action) {
             return initialState.msg = "Did not edit";
         case UPDATESTATE: 
             return initialState = { msg: 'Success', id: action.data._id, username: action.data.username, weightLogs: action.data.logs, cardioLogs: action.data.cardiologs, bwLogs: action.data.bwlogs, vidsLogs: action.data.vidslogs };
+        case UPDATEEVENT:
+            return initialState.events = action.data.map((item) => item);
         default:
             return state;
     }

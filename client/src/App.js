@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route, Router } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
-import * as Actions from './actions';
 import { history } from './helpers/history';
 import { alertActions } from './actions/alert';
-import { userActions } from './actions/user_actions';
+import { updateEvent } from './actions/items_actions';
 // components
 import Signup from './components/sign-up';
 import LoginForm from './components/login-form';
@@ -20,15 +18,6 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      id: null,
-      loggedIn: this.props.loggedIn,
-      username: null,
-      exerciseLogs: [],
-      cardioLogs: [],
-      bwLogs: [],
-      vidsLogs: [],
-      events: [],
-      eventsFiltered: [],
       success: false,
       msg: null,
       cardioFilterFlag: false,
@@ -166,8 +155,9 @@ class App extends Component {
   }
 
   updateEventCalendar = () => {
+    console.log(this.props);
     let eventsArr = [];
-    this.state.exerciseLogs.map(function (item) {
+    this.props.dataModifier.weightLogs.map(function (item) {
       if (item.collections.length > 0) {
         eventsArr.push({
           "title": "Weights",
@@ -177,7 +167,7 @@ class App extends Component {
         })
       }
     })
-    this.state.cardioLogs.map(function (item) {
+    this.props.dataModifier.cardioLogs.map(function (item) {
       if (item.collections.length > 0) {
         eventsArr.push({
           "title": "Cardio",
@@ -188,7 +178,8 @@ class App extends Component {
       }
     });
 
-    this.state.bwLogs.map(function (item) {
+    this.props.dataModifier.bwLogs.map(function (item) {
+      console.log(item);
       if (item.collections.length > 0) {
         eventsArr.push({
           "title": "Bodyweight",
@@ -199,7 +190,7 @@ class App extends Component {
       }
     });
 
-    this.state.vidsLogs.map(function (item) {
+    this.props.dataModifier.vidsLogs.map(function (item) {
       if (item.collections.length > 0) {
         eventsArr.push({
           "title": "Classes/Videos",
@@ -210,10 +201,11 @@ class App extends Component {
       }
     });
 
-    this.setState({
+    /* this.setState({
       events: [...eventsArr],
       eventsFiltered: [...eventsArr]
-    })
+    }) */
+    this.props.dispatch(updateEvent(eventsArr))
   }
 
   createDate = (date) => {
@@ -277,8 +269,8 @@ class App extends Component {
     console.log(localStorage.getItem('user'));
     console.log("this.props");
     console.log(this.props);
-    const { id, username, exerciseLogs, cardioLogs, bwLogs, vidsLogs } = this.state;
-    const { loggedIn } = this.props;
+    console.log(this.props.events);
+    const { id, username} = this.state;
     const style = {
       backgroundImage: `url(${gymSplash})`,
       backgroundPosition: 'center',
@@ -287,13 +279,13 @@ class App extends Component {
     }
 
     const loggedinStyle = {
-
+/* events={this.state.weightFilterFlag == true || this.state.cardioFilterFlag == true || this.state.bwFilterFlag == true || this.state.vidsFilterFlag == true ? this.state.eventsFiltered : this.state.events} />} */ 
     }
     return (
       <Router history={history}>
-        <div className='App' style={!loggedIn ? style : loggedinStyle}>
-          {loggedIn ? <NavbarTrue updateUser={this.updateUser} /> : <NavbarFalse />}
-          {loggedIn ? <Route exact path="/api/dashboard" render={(props) => <Dashboard refreshUser={this.getUser} username={username} id={id} getLogs={this.getLogs} filterButton={(num) => this.filterButton(num)} events={this.state.weightFilterFlag == true || this.state.cardioFilterFlag == true || this.state.bwFilterFlag == true || this.state.vidsFilterFlag == true ? this.state.eventsFiltered : this.state.events} />} /> : null}
+        <div className='App' style={!this.props.loggedIn ? style : loggedinStyle}>
+          {this.props.loggedIn ? <NavbarTrue updateUser={this.updateUser} /> : <NavbarFalse />}
+    {this.props.loggedIn ? <Route exact path="/api/dashboard" render={(props) => <Dashboard refreshUser={this.getUser} username={username} id={id} getLogs={this.getLogs} filterButton={(num) => this.filterButton(num)} events={this.props.dataModifier}  updateEventCalendar={this.updateEventCalendar} /> } />: null}
           <Route exact path="/" render={(props) => <Home {...props} />} />
           <Route path="/api/login"
             render={() =>
@@ -313,11 +305,11 @@ function mapStateToProps(state) {
   console.log('state');
   console.log(state);
   const { loggedIn } = state.authenticate;
-  const { alert, data } = state;
+  const { alert, dataModifier } = state;
   return {
     loggedIn,
     alert,
-    data
+    dataModifier
   };
 }
 

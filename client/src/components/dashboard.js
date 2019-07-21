@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions';
-import { itemsConst } from '../actions/items_actions';
-import store from '../store/configureStore';
+import { updateState } from '../actions/items_actions';
 /*Components*/
 import FullCalendar from '@fullcalendar/react';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
@@ -33,14 +32,13 @@ class Dashboard extends Component {
     componentDidMount() {
         var data = JSON.parse(localStorage.getItem('user'));
         
-        this.props.dispatch(itemsConst.updateState(data));
+        this.props.dispatch(updateState(data)).then(()=>{
+            this.props.updateEventCalendar();
+         })
     }
 
     closeModal = () => {
-        this.setState(prevState => ({
-            modal: !prevState.modal
-        })
-        )
+        this.props.closeModal();
     }
 
     showErrorMsg = (value, msgSent) => {
@@ -91,6 +89,8 @@ class Dashboard extends Component {
 
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
+        this.props.closeModal();
+
         /*   this.setState(prevState => ({
               date: dateVal.toLocaleString('en-US', options) == "Invalid Date" ? prevState.date : dateVal.toLocaleString('en-US', options),
               exercise: [...exerciseArr],
@@ -100,7 +100,6 @@ class Dashboard extends Component {
               oldExercise: prevState.exerciseArr
           })) */
 
-        this.props.actions.closeModal();
 
     }
 
@@ -112,7 +111,7 @@ class Dashboard extends Component {
         var exerciseArr = [];
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-        this.props.actions.openModal();
+        this.props.openModal();
         /*  this.setState(prevState => ({
              exercise: [...exerciseArr],
              date: dateVal.toLocaleString('en-US', options),

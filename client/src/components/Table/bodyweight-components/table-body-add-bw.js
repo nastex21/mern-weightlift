@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Form, FormGroup, Alert, Label, Row, Col, Input, Button } from 'reactstrap';
 
 class BWAdd extends Component {
@@ -60,7 +61,7 @@ class BWAdd extends Component {
                   {this.state.msg ? (
                     <Alert color='danger'>{this.state.msg}</Alert>
                 ) : null}
-                {collection.map((val, idx) => {
+              {collection.map((val, idx) => {
                     let exId = `ex-${idx}`, setId = `sets-${idx}`, repId = `reps-${idx}`;
                     return (
                         <div key={id + idx}>
@@ -86,7 +87,7 @@ class BWAdd extends Component {
                             </Row>
                         </div>
                     )
-                }
+                } 
                 )}
                 <Button onClick={this.submit} block>Add Exercise</Button>
             </Form>
@@ -94,4 +95,10 @@ class BWAdd extends Component {
     }
 }
 
-export default BWAdd;
+function mapStateToProps(state) {
+    console.log('state');
+    console.log(state);
+ ;
+  }
+  
+export default connect(mapStateToProps)(BWAdd);
