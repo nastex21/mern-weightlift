@@ -285,7 +285,7 @@ class App extends Component {
       <Router history={history}>
         <div className='App' style={!this.props.loggedIn ? style : loggedinStyle}>
           {this.props.loggedIn ? <NavbarTrue updateUser={this.updateUser} /> : <NavbarFalse />}
-    {this.props.loggedIn ? <Route exact path="/api/dashboard" render={(props) => <Dashboard refreshUser={this.getUser} username={username} id={id} getLogs={this.getLogs} filterButton={(num) => this.filterButton(num)} events={this.props.dataModifier}  updateEventCalendar={this.updateEventCalendar} /> } />: null}
+    {this.props.loggedIn ? <Route exact path="/api/dashboard" render={(props) => <Dashboard refreshUser={this.getUser} username={username} id={id} getLogs={this.getLogs} filterButton={(num) => this.filterButton(num)} events={this.props.eventReducer}  updateEventCalendar={this.updateEventCalendar} /> } />: null}
           <Route exact path="/" render={(props) => <Home {...props} />} />
           <Route path="/api/login"
             render={() =>
@@ -293,7 +293,7 @@ class App extends Component {
           />
           <Route path="/api/signup"
             render={() =>
-              <Signup updateSuccess={this.updateSuccess} />}
+              <Signup updateSuccess={this.updateSuccess} />} 
           />
         </div>
       </Router>
@@ -305,11 +305,12 @@ function mapStateToProps(state) {
   console.log('state');
   console.log(state);
   const { loggedIn } = state.authenticate;
-  const { alert, dataModifier } = state;
+  const { alert, dataModifier, eventReducer } = state;
   return {
     loggedIn,
     alert,
-    dataModifier
+    dataModifier,
+    eventReducer
   };
 }
 

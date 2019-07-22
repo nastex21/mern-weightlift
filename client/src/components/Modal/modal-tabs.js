@@ -20,14 +20,11 @@ class ModalTabs extends Component {
     };
 
      componentDidMount() {
-
-        console.log("component mounted")
         const { weightlogs } = this.props;
-        console.log(weightlogs);
         const newDate = this.createDate(this.props.date)
         var newArr = [];
         var exercise;
-        exercise = this.props.dataModifier.filter((item) => item.title == "Weights");
+        exercise = this.props.eventReducer.filter((item) => item.title == "Weights");
         exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj)})});
         console.log(newArr);
         this.setState({
@@ -101,7 +98,7 @@ class ModalTabs extends Component {
 
         }
         if (tab == 2) {
-            exercise = this.props.dataModifier.filter((item) => item.title == "Cardio");
+            exercise = this.props.eventReducer.filter((item) => item.title == "Cardio");
             exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj)}) });
             this.setState({
                 cardiologs: newArr
@@ -110,7 +107,7 @@ class ModalTabs extends Component {
             }));
         } 
         if (tab == 3) {
-            exercise = this.props.dataModifier.filter((item) => {
+            exercise = this.props.eventReducer.filter((item) => {
                 return item.title == "Bodyweight"
             });
             exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj)}) });
@@ -121,7 +118,7 @@ class ModalTabs extends Component {
             }));
         }
         if (tab == 4) {
-            exercise = this.props.dataModifier.filter((item) => item.title == "Classes/Videos");
+            exercise = this.props.eventReducer.filter((item) => item.title == "Classes/Videos");
             exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj)}) });
             this.setState({
                 vidslogs: newArr
@@ -197,9 +194,9 @@ class ModalTabs extends Component {
 function mapStateToProps(state) {
     console.log('state');
     console.log(state);
-    const { dataModifier } = state;
+    const { eventReducer } = state;
     return {
-      dataModifier
+      eventReducer
     };
   }
   

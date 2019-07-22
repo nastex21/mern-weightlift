@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions';
-import { updateState } from '../actions/items_actions';
+import { updateState, setDate } from '../actions/items_actions';
 /*Components*/
 import FullCalendar from '@fullcalendar/react';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
@@ -31,7 +31,7 @@ class Dashboard extends Component {
 
     componentDidMount() {
         var data = JSON.parse(localStorage.getItem('user'));
-        
+        console.log(this.props);
         this.props.dispatch(updateState(data)).then(()=>{
             this.props.updateEventCalendar();
          })
@@ -111,7 +111,9 @@ class Dashboard extends Component {
         var exerciseArr = [];
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
+        console.log(this.props);
         this.props.openModal();
+        //this.props.dispatch(setDate(info));
         /*  this.setState(prevState => ({
              exercise: [...exerciseArr],
              date: dateVal.toLocaleString('en-US', options),
@@ -144,7 +146,7 @@ class Dashboard extends Component {
                         {this.state.showError && <div class="alert alert-danger">
                             <button type="button" class="close" data-dismiss="alert" onClick={this.closeErr}>&times;</button> <span>{this.state.msg}</span>
                         </div>}
-                        {this.state.exercise.length == 0 ? <ModalTabs id={this.props.id} date={date} msgUpdate={this.showErrorMsg} weightlogs={this.props.logs} cardiologs={this.props.cardiologs} bwlogs={this.props.bwlogs} vidslogs={this.props.vidslogs} color={color} refreshUser={this.props.refreshUser} /> : <ModalEditDel title={this.state.title} id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} refreshUser={this.props.refreshUser} />}
+                        {this.state.exercise.length == 0 ? <ModalTabs id={this.props.id} date={date} msgUpdate={this.showErrorMsg}  color={color} refreshUser={this.props.refreshUser} /> : <ModalEditDel title={this.state.title} id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} refreshUser={this.props.refreshUser} />}
                     </ModalBody>
                 </Modal>
             </div>

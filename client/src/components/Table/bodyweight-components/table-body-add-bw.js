@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, FormGroup, Alert, Label, Row, Col, Input, Button } from 'reactstrap';
+import { itemsConst } from '../../../actions/items_actions';
 
 class BWAdd extends Component {
     state = {
-        id: this.props.id,
         date: this.props.date,
         collection: [{
             exercise: "",
@@ -47,10 +47,13 @@ class BWAdd extends Component {
 
     submit = (e) => {
         e.preventDefault();
-
-        console.log("post is triggered")
-      
-
+        
+        var dataObj= {};
+        dataObj.id = this.props.dataModifier.id;
+        dataObj.collection = this.state.collection;
+        //dataObj.date = ;
+        dataObj.bwFlag = 1;
+        this.props.dispatch(itemsConst.addItem(this.props.dataModifier.id, ))
     }
 
 
@@ -98,7 +101,11 @@ class BWAdd extends Component {
 function mapStateToProps(state) {
     console.log('state');
     console.log(state);
- ;
+    const { dataModifier, eventReducer } = state;
+    return {
+      dataModifier,
+      eventReducer
+    };
   }
-  
+    
 export default connect(mapStateToProps)(BWAdd);

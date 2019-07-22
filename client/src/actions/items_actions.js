@@ -1,4 +1,4 @@
-import { ADDITEM_FAILURE, ADDITEM_REQUEST, ADDITEM_SUCCESS, EDITITEM_FAILURE, EDITITEM_REQUEST, EDITITEM_SUCCESS, DELETEITEM_REQUEST, DELETEITEM_SUCCESS, DELETEITEM_FAILURE, UPDATESTATE, UPDATEEVENT} from './types';
+import { ADDITEM_FAILURE, ADDITEM_REQUEST, ADDITEM_SUCCESS, EDITITEM_FAILURE, EDITITEM_REQUEST, EDITITEM_SUCCESS, DELETEITEM_REQUEST, DELETEITEM_SUCCESS, DELETEITEM_FAILURE, UPDATESTATE, UPDATEEVENT, SETDATE} from './types';
 import { itemService } from '../services/dataModifier';
 
 export const itemsConst = {
@@ -21,7 +21,7 @@ function addItem(id, collection, date, flag) {
         collection: collection,
         date: date,
         flag: flag
-      }
+      };
       itemService.addItem(item)
         .then(
           data => dispatch(success(item)),
@@ -62,4 +62,13 @@ function addItem(id, collection, date, flag) {
       data
     })
     return Promise.resolve();
+  }
+
+  /*SET DATE */
+  
+  export const setDate = (date) => dispatch =>  {
+    dispatch({
+      type: SETDATE,
+      date
+    })
   }
