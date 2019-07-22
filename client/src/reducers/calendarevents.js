@@ -12,7 +12,8 @@ export default function eventsReducer(state = initialState, action) {
         case UPDATEEVENT:
             return initialState.events = action.data.map((item) => item);
         case SETDATE:
-            return initialState.date = action.date;
+            initialState.date = action.date;
+            return initialState
         default:
             return state;
     }
