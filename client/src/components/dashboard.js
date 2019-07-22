@@ -113,7 +113,7 @@ class Dashboard extends Component {
 
         console.log(this.props);
         this.props.openModal();
-        //this.props.dispatch(setDate(info));
+        this.props.dispatch(setDate(info.dateStr));
         /*  this.setState(prevState => ({
              exercise: [...exerciseArr],
              date: dateVal.toLocaleString('en-US', options),
