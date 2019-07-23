@@ -20,7 +20,7 @@ import '@fullcalendar/bootstrap/main.css';
 class Dashboard extends Component {
     state = {
         date: "",
-        exercise: [],
+        exercise: this.props.events.events,
         total: [],
         showError: false,
         color: "",
@@ -30,11 +30,11 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
-        var data = JSON.parse(localStorage.getItem('user'));
+        //var data = JSON.parse(localStorage.getItem('user'));
         console.log(this.props);
-        this.props.dispatch(updateState(data)).then(()=>{
+        /* this.props.dispatch(updateState(data)).then(() => {
             this.props.updateEventCalendar();
-         })
+        }) */
     }
 
     closeModal = () => {
@@ -89,18 +89,13 @@ class Dashboard extends Component {
 
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-        this.props.closeModal();
-
-        /*   this.setState(prevState => ({
-              date: dateVal.toLocaleString('en-US', options) == "Invalid Date" ? prevState.date : dateVal.toLocaleString('en-US', options),
-              exercise: [...exerciseArr],
-              total: sum,
-              color: color,
-              oldDate: prevState.date,
-              oldExercise: prevState.exerciseArr
-          })) */
-
-
+        this.setState(prevState => ({
+            date: dateVal.toLocaleString('en-US', options) == "Invalid Date" ? prevState.date : dateVal.toLocaleString('en-US', options),
+            total: sum,
+            color: color,
+            oldDate: prevState.date,
+        }), this.props.closeModal
+        )
     }
 
     dateClickInfo = (info) => {
@@ -136,7 +131,7 @@ class Dashboard extends Component {
         return (
             <div className="calendar-body">
                 <LeftPane date={this.state.oldDate} exercise={this.state.updatedInfo} filterButton={this.props.filterButton} />
-                <FullCalendar className="fcDiv bg-dark text-white" defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={this.props.events} eventClick={this.toggle} />
+                <FullCalendar className="fcDiv bg-dark text-white" defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={this.state.exercise == undefined ? null : this.state.exercise} eventClick={this.toggle} />
                 <Modal isOpen={this.props.modalIsOpen} toggle={this.toggle} size="lg" style={{ maxWidth: '1600px', width: '80%' }} color={this.state.color} onClosed={this.showErrorMsg}>
                     <ModalHeader toggle={this.toggle}>
                         <p className="exerciseTitle">{this.state.color == "#f0ad4e" ? "Exercise videos and/or classes" : this.state.color == "#d9534f" ? "Weightlifting Exercises" : this.state.color == "#0275d8" ? "Cardio Exercises" : this.state.color == "#5cb85c" ? "Bodyweight Exercises" : null}</p>
@@ -146,7 +141,7 @@ class Dashboard extends Component {
                         {this.state.showError && <div class="alert alert-danger">
                             <button type="button" class="close" data-dismiss="alert" onClick={this.closeErr}>&times;</button> <span>{this.state.msg}</span>
                         </div>}
-                        {this.state.exercise.length == 0 ? <ModalTabs id={this.props.id} date={date} msgUpdate={this.showErrorMsg}  color={color} refreshUser={this.props.refreshUser} /> : <ModalEditDel title={this.state.title} id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} refreshUser={this.props.refreshUser} />}
+                        {this.state.exercise.length == 0 ? <ModalTabs id={this.props.id} date={date} msgUpdate={this.showErrorMsg} color={color} refreshUser={this.props.refreshUser} /> : <ModalEditDel title={this.state.title} id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} refreshUser={this.props.refreshUser} />}
                     </ModalBody>
                 </Modal>
             </div>
@@ -156,16 +151,24 @@ class Dashboard extends Component {
 }
 
 function mapStateToProps(state) {
+    console.log('state');
     console.log(state);
+    const { loggedIn, user } = state.authenticate;
+    const { alert, dataModifier, eventReducer } = state;
     return {
-        modalIsOpen: state.modal.modalIsOpen
-    }
+        modalIsOpen: state.modal.modalIsOpen,
+        loggedIn,
+        user,
+        alert,
+        dataModifier,
+        eventReducer
+    };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         dispatch,
-    ...bindActionCreators(Actions , dispatch)
+        ...bindActionCreators(Actions, dispatch)
     };
 }
 

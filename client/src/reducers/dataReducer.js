@@ -16,12 +16,16 @@ var initialState = {
 export default function dataReducer(state = initialState, action) {
     console.log("action");
     console.log(action);
-
+    const { data, events, eventsFiltered, id, username, weightLogs, cardioLogs, bwLogs, vidsLogs, msg} = initialState;
     switch (action.type) {
         case GETALL_REQUEST:
             return initialState.msg = 'loading';
         case GETALL_SUCCESS:
-            return initialState.data = action.users;
+            //return initialState.data = action.users;
+            username = action.user.username;
+            id = action.user._id;
+            events = [...action.user.events];
+            return initialState;
         case GETALL_FAILURE:
             return initialState.msg = "Failed to get";
         case ADDITEM_REQUEST:

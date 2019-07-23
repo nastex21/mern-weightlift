@@ -24,7 +24,7 @@ class ModalTabs extends Component {
         const newDate = this.createDate(this.props.date)
         var newArr = [];
         var exercise;
-        exercise = this.props.eventReducer.filter((item) => item.title == "Weights");
+        exercise = this.props.eventReducer.events.filter((item) => item.title == "Weights");
         exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj)})});
         console.log(newArr);
         this.setState({
@@ -98,7 +98,7 @@ class ModalTabs extends Component {
 
         }
         if (tab == 2) {
-            exercise = this.props.eventReducer.filter((item) => item.title == "Cardio");
+            exercise = this.props.eventReducer.events.filter((item) => item.title == "Cardio");
             exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj)}) });
             this.setState({
                 cardiologs: newArr
@@ -107,7 +107,7 @@ class ModalTabs extends Component {
             }));
         } 
         if (tab == 3) {
-            exercise = this.props.eventReducer.filter((item) => {
+            exercise = this.props.eventReducer.events.filter((item) => {
                 return item.title == "Bodyweight"
             });
             exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj)}) });
@@ -118,7 +118,7 @@ class ModalTabs extends Component {
             }));
         }
         if (tab == 4) {
-            exercise = this.props.eventReducer.filter((item) => item.title == "Classes/Videos");
+            exercise = this.props.eventReducer.events.filter((item) => item.title == "Classes/Videos");
             exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj)}) });
             this.setState({
                 vidslogs: newArr
@@ -142,7 +142,6 @@ class ModalTabs extends Component {
     };
 
     render() {
-        const { id, date, msgUpdate } = this.props;
         const { activeTab, weightlogs, cardiologs, bwlogs, vidslogs } = this.state;
         console.log(activeTab);
         return (
@@ -181,10 +180,10 @@ class ModalTabs extends Component {
                     <TabPane tabId="4">
                         <ExVidsClassesAdd tabIndex={this.state.activeTab} />
                     </TabPane>
-                    {activeTab == 1 && this.state.dataloaded && weightlogs.length > 0 && <GenerateTable id={this.props.id} date={this.props.date} msgUpdate={this.props.msgUpdate} logs={weightlogs} tabIndex={this.state.activeTab} />}
-                    {activeTab == 2 && this.state.dataloaded && cardiologs.length > 0 && <GenerateTable id={this.props.id} date={this.props.date} msgUpdate={this.props.msgUpdate} cardiologs={cardiologs} tabIndex={this.state.activeTab} />}
-                    {activeTab == 3 && this.state.dataloaded && bwlogs.length > 0 && <GenerateTable id={this.props.id} date={this.props.date} msgUpdate={this.props.msgUpdate} bwlogs={bwlogs} tabIndex={this.state.activeTab} />}
-                    {activeTab == 4 && this.state.dataloaded && vidslogs.length > 0 && <GenerateTable id={this.props.id} date={this.props.date} msgUpdate={this.props.msgUpdate} vidslogs={vidslogs} tabIndex={this.state.activeTab} />}
+                    {activeTab == 1 && this.state.dataloaded && weightlogs.length > 0 && <GenerateTable msgUpdate={this.props.msgUpdate} logs={weightlogs} tabIndex={this.state.activeTab} />}
+                    {activeTab == 2 && this.state.dataloaded && cardiologs.length > 0 && <GenerateTable msgUpdate={this.props.msgUpdate} cardiologs={cardiologs} tabIndex={this.state.activeTab} />}
+                    {activeTab == 3 && this.state.dataloaded && bwlogs.length > 0 && <GenerateTable msgUpdate={this.props.msgUpdate} bwlogs={bwlogs} tabIndex={this.state.activeTab} />}
+                    {activeTab == 4 && this.state.dataloaded && vidslogs.length > 0 && <GenerateTable msgUpdate={this.props.msgUpdate} vidslogs={vidslogs} tabIndex={this.state.activeTab} />}
                 </TabContent>
             </React.Fragment>
         )

@@ -10,10 +10,11 @@ var initialState = {
 export default function eventsReducer(state = initialState, action) {
     switch (action.type) {
         case UPDATEEVENT:
-            return initialState.events = action.data.map((item) => item);
+            initialState.events = action.data.map((item) => item);
+            return initialState;
         case SETDATE:
             initialState.date = action.date;
-            return initialState
+            return initialState;
         default:
             return state;
     }

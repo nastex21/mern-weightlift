@@ -4,8 +4,6 @@ import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 
 class GenerateTable extends Component {
     state = {
-        id: this.props.id,
-        date: this.props.date,
         tabIndex: this.props.tabIndex,
         msgUpdate: this.props.msgUpdate,
         rowData: '',
@@ -44,8 +42,7 @@ class GenerateTable extends Component {
         console.log(this.props)
         var collection;
         var columns;
-        const { id,  logs, cardiologs, bwlogs, vidslogs, tabIndex } = this.props;
-        console.log(id);
+        const { logs, cardiologs, bwlogs, vidslogs, tabIndex } = this.props;
         console.log(logs);
         console.log(tabIndex);
         if (tabIndex == 1) {
