@@ -43,7 +43,7 @@ function login(username, password) {
       .then(user => {
         console.log("login dispatch");
         console.log(user);
-        dispatch(success(user);
+        dispatch(success(user));
         history.push('/api/dashboard');
       },
         error => {
