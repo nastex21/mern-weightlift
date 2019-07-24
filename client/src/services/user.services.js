@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { authHeader } from '../helpers/auth-header';
+import { updateEvent } from '../actions/items_actions';
 
 export const userService = {
     login,
@@ -73,7 +74,12 @@ function login(username, password) {
             newObj.events = eventsArr;
             newObj._id = user.data.dataObj._id;
             newObj.username = user.data.dataObj.username;
-            localStorage.setItem('user', JSON.stringify(newObj));
+            newObj.logs = user.data.dataObj.logs;
+            newObj.cardiologs = user.data.dataObj.cardiologs;
+            newObj.bwlogs = user.data.dataObj.bwlogs;
+            newObj.vidslogs = user.data.dataObj.vidslogs;
+            localStorage.setItem('user', newObj);
+            updateEvent(newObj);
             return newObj;
         });
 }

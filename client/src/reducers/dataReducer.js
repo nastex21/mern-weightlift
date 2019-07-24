@@ -2,7 +2,7 @@ import { GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS, ADDITEM_REQUEST, ADDITE
 
 var initialState = {
     data: '',
-    events: [],
+    events: '',
     eventsFiltered: [],
     id: '',
     username: '',
@@ -15,16 +15,15 @@ var initialState = {
 
 export default function dataReducer(state = initialState, action) {
     console.log("action");
-    console.log(action);
-    const { data, events, eventsFiltered, id, username, weightLogs, cardioLogs, bwLogs, vidsLogs, msg} = initialState;
+    console.log(action.data);
     switch (action.type) {
         case GETALL_REQUEST:
             return initialState.msg = 'loading';
         case GETALL_SUCCESS:
             //return initialState.data = action.users;
-            username = action.user.username;
-            id = action.user._id;
-            events = [...action.user.events];
+            initialState.username = action.user.username;
+            initialState.id = action.user._id;
+            initialState.events = [...action.user.events];
             return initialState;
         case GETALL_FAILURE:
             return initialState.msg = "Failed to get";
@@ -47,7 +46,14 @@ export default function dataReducer(state = initialState, action) {
         case EDITITEM_FAILURE:
             return initialState.msg = "Did not edit";
         case UPDATESTATE: 
-            return initialState = { msg: 'Success', id: action.data._id, username: action.data.username, weightLogs: action.data.logs, cardioLogs: action.data.cardiologs, bwLogs: action.data.bwlogs, vidsLogs: action.data.vidslogs };
+            return initialState = { msg: 'Success', 
+            id: action.data._id, 
+            username: action.data.username, 
+            weightLogs: action.data.logs, 
+            cardioLogs: action.data.cardiologs, 
+            bwLogs: action.data.bwlogs, 
+            vidsLogs: action.data.vidslogs,
+            events: action.data.events};
         default:
             return state;
     }

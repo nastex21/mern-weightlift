@@ -56,7 +56,8 @@ function addItem(id, collection, date, flag) {
   /* UPDATE EVENT STATE */
 
   export const updateEvent = (data) => dispatch => {
-    
+    console.log("data");
+    console.log(data);
     dispatch({
       type: UPDATEEVENT, 
       data

@@ -30,11 +30,9 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
-        //var data = JSON.parse(localStorage.getItem('user'));
-        console.log(this.props);
-        /* this.props.dispatch(updateState(data)).then(() => {
-            this.props.updateEventCalendar();
-        }) */
+        console.log(this.props.user);
+        var data = this.props.user;
+        this.props.dispatch(updateState(data));
     }
 
     closeModal = () => {
