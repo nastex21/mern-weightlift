@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import BootstrapTable from 'react-bootstrap-table-next';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 
@@ -131,4 +132,18 @@ class GenerateTable extends Component {
         )
     }
 };
-export default GenerateTable;
+
+function mapStateToProps(state) {
+    console.log('state');
+    console.log(state);
+    const { loggedIn } = state.authenticate;
+    const { alert, dataModifier, eventReducer } = state;
+    return {
+      loggedIn,
+      alert,
+      dataModifier,
+      eventReducer
+    };
+  }
+  
+export default connect(mapStateToProps)(GenerateTable);

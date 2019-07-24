@@ -29,6 +29,10 @@ class Dashboard extends Component {
         updatedInfo: ""
     }
 
+    componentDidMount(){
+        this.props.dispatch(updateState(this.props.user))
+    }
+
     closeModal = () => {
         this.props.closeModal();
     }

@@ -238,39 +238,10 @@ class App extends Component {
     )
   }
 
-  //keeps you logged in if you were to refresh
-  getUser = () => {
-    /*    axios.get('/api/dashboard/').then(response => {
-   
-         if (response.data.user) {
-           this.setState({
-             loggedIn: true,
-             id: response.data.user._id,
-             username: response.data.user.username,
-             exerciseLogs: [...response.data.user.logs],
-             cardioLogs: [...response.data.user.cardiologs],
-             bwLogs: [...response.data.user.bwlogs],
-             vidsLogs: [...response.data.user.vidslogs]
-           }, this.updateEventCalendar)
-         } else {
-           this.setState({
-             loggedIn: false,
-             username: null,
-             exerciseLogs: [],
-             cardioLogs: [],
-             bwLogs: [],
-             vidsLogs: []
-           })
-         }
-       }) */
-  }
-
   render() {
     console.log(localStorage.getItem('user'));
     console.log("this.props");
     console.log(this.props);
-    console.log(this.props.events);
-    const { id, username} = this.state;
     const style = {
       backgroundImage: `url(${gymSplash})`,
       backgroundPosition: 'center',
@@ -279,13 +250,12 @@ class App extends Component {
     }
 
     const loggedinStyle = {
-/* events={this.state.weightFilterFlag == true || this.state.cardioFilterFlag == true || this.state.bwFilterFlag == true || this.state.vidsFilterFlag == true ? this.state.eventsFiltered : this.state.events} />} */ 
     }
     return (
       <Router history={history}>
         <div className='App' style={!this.props.loggedIn ? style : loggedinStyle}>
           {this.props.loggedIn ? <NavbarTrue updateUser={this.updateUser} /> : <NavbarFalse />}
-    {this.props.loggedIn ? <Route exact path="/api/dashboard" render={(props) => <Dashboard refreshUser={this.getUser} username={username} id={id} getLogs={this.getLogs} filterButton={(num) => this.filterButton(num)} events={this.props.eventReducer}  updateEventCalendar={this.updateEventCalendar} /> } />: null}
+    {this.props.loggedIn ? <Route exact path="/api/dashboard" render={(props) => <Dashboard filterButton={(num) => this.filterButton(num)} events={this.props.eventReducer}  updateEventCalendar={this.updateEventCalendar} /> } />: null}
           <Route exact path="/" render={(props) => <Home {...props} />} />
           <Route path="/api/login"
             render={() =>
