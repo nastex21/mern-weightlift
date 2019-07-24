@@ -67,11 +67,11 @@ function addItem(id, collection, date, flag) {
 
   /*SET DATE */
   
-  export const setDate = (date) => dispatch => {
+  export const setDate = (date, dateShort) => dispatch => {
     console.log('date');
     console.log(date);
     dispatch({
       type: SETDATE,
-      date
+      date, dateShort
     })
   }

@@ -84,6 +84,9 @@ class Dashboard extends Component {
         console.log(exerciseArr);
 
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        console.log(dateVal.toLocaleString('en-US', options));
+
+        //this.props.dispatch(setDate(date));
 
         this.setState(prevState => ({
             date: dateVal.toLocaleString('en-US', options) == "Invalid Date" ? prevState.date : dateVal.toLocaleString('en-US', options),
@@ -95,19 +98,12 @@ class Dashboard extends Component {
     }
 
     dateClickInfo = (info) => {
-        console.log("dateclickinfo");
-        console.log(info);
-        let val = info.event;
         let dateVal = new Date(info.date);
-        var exerciseArr = [];
-        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-        console.log(this.props);
+        this.props.dispatch(setDate(dateVal, info.dateStr));
         this.props.openModal();
-        this.props.dispatch(setDate(info.dateStr));
         /*  this.setState(prevState => ({
              exercise: [...exerciseArr],
-             date: dateVal.toLocaleString('en-US', options),
          })) */
 
     }
@@ -131,13 +127,13 @@ class Dashboard extends Component {
                 <Modal isOpen={this.props.modalIsOpen} toggle={this.toggle} size="lg" style={{ maxWidth: '1600px', width: '80%' }} color={this.state.color} onClosed={this.showErrorMsg}>
                     <ModalHeader toggle={this.toggle}>
                         <p className="exerciseTitle">{this.state.color == "#f0ad4e" ? "Exercise videos and/or classes" : this.state.color == "#d9534f" ? "Weightlifting Exercises" : this.state.color == "#0275d8" ? "Cardio Exercises" : this.state.color == "#5cb85c" ? "Bodyweight Exercises" : null}</p>
-                        <p className="dateTitle">{date}</p>
+                        <p className="dateTitle">{this.props.eventReducer.dateText}</p>
                     </ModalHeader>
                     <ModalBody >
                         {this.state.showError && <div class="alert alert-danger">
                             <button type="button" class="close" data-dismiss="alert" onClick={this.closeErr}>&times;</button> <span>{this.state.msg}</span>
                         </div>}
-                        {this.state.exercise.length == 0 ? <ModalTabs id={this.props.id} date={date} msgUpdate={this.showErrorMsg} color={color} refreshUser={this.props.refreshUser} /> : <ModalEditDel title={this.state.title} id={this.props.id} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} refreshUser={this.props.refreshUser} />}
+                        {this.state.exercise.length == 0 ? <ModalTabs date={date} msgUpdate={this.showErrorMsg} color={color} refreshUser={this.props.refreshUser} /> : <ModalEditDel title={this.state.title} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} refreshUser={this.props.refreshUser} />}
                     </ModalBody>
                 </Modal>
             </div>
