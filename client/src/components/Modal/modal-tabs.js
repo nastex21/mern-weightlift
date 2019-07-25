@@ -89,14 +89,7 @@ class ModalTabs extends Component {
         var newArr = [];
 
         var exercise;
-
-        this.setState({
-            weightlogs: newArr
-        }, this.setState({
-            dataloaded: true
-        })
-        )
-
+        
         if (tab == 2) {
             exercise = this.props.dataModifier.cardioLogs;
             exercise = exercise.filter((item) => item.date == dateFilter);
