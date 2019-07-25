@@ -20,13 +20,11 @@ class ModalTabs extends Component {
     };
 
      componentDidMount() {
-        const { weightlogs } = this.props;
-        const newDate = this.createDate(this.props.date)
         var newArr = [];
         var exercise;
-        exercise = this.props.eventReducer.events.filter((item) => item.title == "Weights");
+        exercise = this.props.dataModifier.weightLogs;
+        exercise = exercise.filter((item) => item.date == this.props.eventReducer.dateShortened);
         exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj)})});
-        console.log(newArr);
         this.setState({
             weightlogs: newArr
         }, this.setState({
@@ -87,18 +85,21 @@ class ModalTabs extends Component {
     }
 
     getLogs = (tab) => {
-        console.log(this.props);
-        const { weightlogs, cardiologs, bwlogs, vidslogs } = this.state;
-        console.log(weightlogs);
-        const newDate = this.createDate(this.props.date)
+        var dateFilter = this.props.eventReducer.dateShortened;
         var newArr = [];
-        var exercise;
-        if (tab == 1) {
-            console.log(weightlogs);
 
-        }
+        var exercise;
+
+        this.setState({
+            weightlogs: newArr
+        }, this.setState({
+            dataloaded: true
+        })
+        )
+
         if (tab == 2) {
-            exercise = this.props.eventReducer.events.filter((item) => item.title == "Cardio");
+            exercise = this.props.dataModifier.cardioLogs;
+            exercise = exercise.filter((item) => item.date == dateFilter);
             exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj)}) });
             this.setState({
                 cardiologs: newArr
@@ -107,9 +108,8 @@ class ModalTabs extends Component {
             }));
         } 
         if (tab == 3) {
-            exercise = this.props.eventReducer.events.filter((item) => {
-                return item.title == "Bodyweight"
-            });
+            exercise = this.props.dataModifier.bwLogs;
+            exercise = exercise.filter((item) => item.date == dateFilter);
             exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj)}) });
             this.setState({
                 bwlogs: newArr
@@ -118,7 +118,8 @@ class ModalTabs extends Component {
             }));
         }
         if (tab == 4) {
-            exercise = this.props.eventReducer.events.filter((item) => item.title == "Classes/Videos");
+            exercise = this.props.dataModifier.vidsLogs;
+            exercise = exercise.filter((item) => item.date == dateFilter);
             exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj)}) });
             this.setState({
                 vidslogs: newArr
@@ -126,8 +127,6 @@ class ModalTabs extends Component {
                 dataloaded: true
             }));
         }
-        console.log(newArr);
-
     }
 
     toggle = (tab) => {
@@ -193,9 +192,10 @@ class ModalTabs extends Component {
 function mapStateToProps(state) {
     console.log('state');
     console.log(state);
-    const { eventReducer } = state;
+    const { eventReducer, dataModifier } = state;
     return {
-      eventReducer
+      eventReducer,
+      dataModifier
     };
   }
   

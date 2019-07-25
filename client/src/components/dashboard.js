@@ -30,7 +30,7 @@ class Dashboard extends Component {
     }
 
     componentDidMount(){
-        this.props.dispatch(updateState(this.props.user))
+        this.props.dispatch(updateState(this.props.user));
     }
 
     closeModal = () => {
@@ -75,8 +75,6 @@ class Dashboard extends Component {
             console.log(info.event.extendedProps.collections);
 
             dataExObj.forEach(function (item) {
-                var total = Number(item.sets) * Number(item.reps) * Number(item.weight);
-                totalWeight.push(total);
                 exerciseArr.push(item);
             })
 
@@ -98,14 +96,11 @@ class Dashboard extends Component {
     }
 
     dateClickInfo = (info) => {
+
         let dateVal = new Date(info.date);
 
         this.props.dispatch(setDate(dateVal, info.dateStr));
         this.props.openModal();
-        /*  this.setState(prevState => ({
-             exercise: [...exerciseArr],
-         })) */
-
     }
 
     closeErr = () => {
