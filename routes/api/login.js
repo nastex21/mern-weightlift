@@ -35,7 +35,7 @@ router.post('/', async (req, res, next) => {
           bwlogs: user.bwlogs,
           vidslogs: user.vidslogs
         }
-
+        console.log(token);
         res.json({
           token: token,
           dataObj: dataObj

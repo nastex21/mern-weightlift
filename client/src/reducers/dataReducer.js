@@ -30,7 +30,8 @@ export default function dataReducer(state = initialState, action) {
         case ADDITEM_REQUEST:
             return initialState.msg = "loading";
         case ADDITEM_SUCCESS:
-            return [...initialState.data, action.payload];
+            initialState.data = [...initialState.data, action.payload];
+            return initialState;
         case ADDITEM_FAILURE:
             return initialState.msg = 'Item addition failed';
         case DELETEITEM_REQUEST:

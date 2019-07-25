@@ -24,7 +24,8 @@ const checkToken = (req, res, next) => {
   }
 
 router.post('/', checkToken, Validate, async (req, res) => {
-console.log("additem init")
+console.log("additem init");
+console.log(req.body.weightFlag);
     const updateWeights = (id, updateObj) => {
         var update = {
             $addToSet: {

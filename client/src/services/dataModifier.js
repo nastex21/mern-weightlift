@@ -8,11 +8,17 @@ export const itemService = {
 
 function addItem (item) {
     console.log(item);
-    axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, bwFlag: 1 })
-    .then(response => {
-        console.log(response);
+    axios.post("/api/add-items", { id: item.id, collection: item.collection, date: item.date, weightFlag: 1 })
+    .then(data => {
+        console.log(data);
+        return data;
         //this.props.updateData(3,this.state.collection); 
     })
+    .catch(error => {
+        return error.response.data;
+    })
+}
+    
     /* .then(() => { this.props.refreshUser(); })
     .then(() => {
         console.log("form reset in submit button promise")
@@ -48,7 +54,7 @@ function addItem (item) {
             })
         }
  */
-}
+
 
 function deleteItem() {
 

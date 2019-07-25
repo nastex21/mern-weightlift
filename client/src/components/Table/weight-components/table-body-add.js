@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 
 class WeightsAdd extends Component {
     state = {
-        id: this.props.id,
+        id: this.props.dataModifier.id,
         tabIndex: this.props.tabIndex,
-        date: this.props.date,
+        date: this.props.eventReducer.dateShortened,
         collection: [{
             exercise: "",
             sets: "",
@@ -85,8 +85,7 @@ class WeightsAdd extends Component {
         console.log("addItem: ");
         console.log(this.state.id);
         dispatch(itemsConst.addItem(this.state.id, this.state.collection, this.state.date, 1));
-        /* e.preventDefault();
-
+        /* 
         axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, weightFlag: 1 })
             .then((response) => {
                 console.log("submit then")
@@ -196,8 +195,11 @@ class WeightsAdd extends Component {
 function mapStateToProps(state) {
     console.log(state);
     const { loggedIn } = state.authenticate;
+    const { eventReducer, dataModifier } = state;
     return {
-        loggedIn
+        loggedIn,
+        eventReducer,
+        dataModifier
     };
 }
 

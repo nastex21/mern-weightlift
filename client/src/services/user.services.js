@@ -30,6 +30,8 @@ function login(username, password) {
     }
   })
     .then(user => {
+      console.log("user");
+      console.log(user);
       console.log(user.data.dataObj);
       var newObj = {};
       let eventsArr = [];
@@ -83,6 +85,7 @@ function login(username, password) {
       newObj.cardiologs = user.data.dataObj.cardiologs;
       newObj.bwlogs = user.data.dataObj.bwlogs;
       newObj.vidslogs = user.data.dataObj.vidslogs;
+      newObj.token = user.data.token;
       localStorage.setItem('user', JSON.stringify(newObj));
       updateEvent(newObj);
       return newObj;

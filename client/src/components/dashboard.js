@@ -128,7 +128,7 @@ class Dashboard extends Component {
                         {this.state.showError && <div class="alert alert-danger">
                             <button type="button" class="close" data-dismiss="alert" onClick={this.closeErr}>&times;</button> <span>{this.state.msg}</span>
                         </div>}
-                        {this.state.exercise.length == 0 ? <ModalTabs date={date} msgUpdate={this.showErrorMsg} color={color} refreshUser={this.props.refreshUser} /> : <ModalEditDel title={this.state.title} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} refreshUser={this.props.refreshUser} />}
+                        {this.state.exercise.length == 0 ? <ModalTabs msgUpdate={this.showErrorMsg} color={color} refreshUser={this.props.refreshUser} /> : <ModalEditDel title={this.state.title} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} refreshUser={this.props.refreshUser} />}
                     </ModalBody>
                 </Modal>
             </div>
