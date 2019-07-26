@@ -24,8 +24,7 @@ function addItem(id, collection, date, flag) {
     var config = {
       headers: { 'Authorization': "bearer " + storedData.token }
     };
-    console.log("additem action");
-    console.log(storedData);
+
     return axios.post("/api/add-items", { id: item.id, collection: item.collection, date: item.date, weightFlag: 1 }, config)
       .then(data => {
         dispatch(success(data))

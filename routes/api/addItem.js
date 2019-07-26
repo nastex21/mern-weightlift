@@ -5,8 +5,6 @@ const Validate = require("../../validation/validateadd");
 
 //Check to make sure header is not undefined, if so, return Forbidden (403)
 const checkToken = (req, res, next) => {
-    console.log('headers');
-    console.log(req.headers);
     const header = req.headers['authorization'];
   
     if (typeof header !== 'undefined') {
@@ -14,8 +12,6 @@ const checkToken = (req, res, next) => {
       const token = bearer[1];
   
       req.token = token;
-      console.log("req.token");
-      console.log(req.token);
       next();
     } else {
       //If header is undefined return Forbidden (403)
@@ -310,30 +306,13 @@ console.log(req.body.weightFlag);
         }
     };
 
-    const createDate = (date) => {
-        let newDate = new Date(date);
-        var y = newDate.getFullYear();
-        var m = newDate.getMonth() + 1;
-        var d = newDate.getDate();
-        if (Number(d) < 10 && Number(d) > 0) {
-            d = "0" + d;
-        }
-
-        if (Number(m) < 10 && Number(m) > 0) {
-            m = "0" + m;
-        }
-        const nowDate = y + "-" + m + "-" + d;
-
-        return nowDate;
-    }
 
     const createObj = (data) => {
         const exObj = [];
-        var nowDate = createDate(req.body.date);
         data.forEach(item => exObj.push(item));
 
         var updateObj = {
-            date: nowDate,
+            date: req.body.date,
             collections: [...exObj]
         }
 
@@ -346,6 +325,9 @@ console.log(req.body.weightFlag);
         var pushThis = {
             logs: updateObj
         }
+        console.log('weightFlag');
+        console.log(req.body.id);
+        console.log(pushThis);
 
         updateWeights(req.body.id, pushThis);
     }
