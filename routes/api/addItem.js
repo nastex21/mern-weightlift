@@ -39,6 +39,7 @@ console.log(req.body.weightFlag);
         }
 
         var filter = {
+            new: true,
             arrayFilters: [
                 {
                     'i.date': updateObj.logs.date
@@ -70,7 +71,7 @@ console.log(req.body.weightFlag);
                     counter = 1;
                     console.log("200");
                     console.log(data);
-                    return res.status(200).end();
+                    return res.status(200).send(data);
                 })
 
             })
@@ -88,7 +89,7 @@ console.log(req.body.weightFlag);
                 counter = 1;
                 console.log("200");
                 console.log(data);
-                return res.status(200).end();
+                return res.status(200).send(data);
             });
         }
     };
@@ -110,6 +111,7 @@ console.log(req.body.weightFlag);
         }
 
         var filter = {
+            new: true,
             arrayFilters: [
                 {
                     'i.date': updateObj.cardiologs.date
@@ -181,6 +183,7 @@ console.log(req.body.weightFlag);
         }
 
         var filter = {
+            new: true,
             arrayFilters: [
                 {
                     'i.date': updateObj.bwlogs.date
@@ -252,6 +255,7 @@ console.log(req.body.weightFlag);
         }
 
         var filter = {
+            new: true,
             arrayFilters: [
                 {
                     'i.date': updateObj.vidslogs.date

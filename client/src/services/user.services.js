@@ -11,6 +11,8 @@ export const userService = {
 
 function getAll() {
   const requestOptions = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
     headers: authHeader()
   };
 

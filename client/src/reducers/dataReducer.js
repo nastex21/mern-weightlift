@@ -2,11 +2,11 @@ import { GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS, ADDITEM_REQUEST, ADDITE
 
 var initialState = {
     data: '',
-    events: '',
+    events: [],
     eventsFiltered: [],
     id: '',
     username: '',
-    weightLogs: '',
+    weightLogs: [],
     cardioLogs: '',
     bwLogs: '',
     vidsLogs: '',
@@ -15,7 +15,7 @@ var initialState = {
 
 export default function dataReducer(state = initialState, action) {
     console.log("action");
-    console.log(action.data);
+    console.log(action);
     switch (action.type) {
         case GETALL_REQUEST:
             return initialState.msg = 'loading';
@@ -30,7 +30,11 @@ export default function dataReducer(state = initialState, action) {
         case ADDITEM_REQUEST:
             return initialState.msg = "loading";
         case ADDITEM_SUCCESS:
-            initialState.data = [...initialState.data, action.payload];
+            initialState.weightLogs = {...action.users.logs}
+            initialState.cardioLogs = action.users.cardiologs;
+            initialState.bwLogs = action.users.bwlogs;
+            initialState.vidsLogs = action.users.vidslogs;
+            initialState.events = {...action.users.events}
             return initialState;
         case ADDITEM_FAILURE:
             return initialState.msg = 'Item addition failed';

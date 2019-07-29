@@ -1,6 +1,6 @@
 import { ADDITEM_FAILURE, ADDITEM_REQUEST, ADDITEM_SUCCESS, EDITITEM_FAILURE, EDITITEM_REQUEST, EDITITEM_SUCCESS, DELETEITEM_REQUEST, DELETEITEM_SUCCESS, DELETEITEM_FAILURE, UPDATESTATE, UPDATEEVENT, SETDATE } from './types';
-import { itemService } from '../services/dataModifier';
 import axios from 'axios';
+import { authHeader } from '../helpers/auth-header';
 
 export const itemsConst = {
   addItem,
@@ -25,9 +25,61 @@ function addItem(id, collection, date, flag) {
       headers: { 'Authorization': "bearer " + storedData.token }
     };
 
-    return axios.post("/api/add-items", { id: item.id, collection: item.collection, date: item.date, weightFlag: 1 }, config)
+    axios.post("/api/add-items", { id: item.id, collection: item.collection, date: item.date, weightFlag: 1 }, config)
       .then(data => {
-        dispatch(success(data))
+        console.log("data");
+        console.log(data);
+        var newObj = {};
+        let eventsArr = [];
+        data.data.logs.map(function (item) {
+          if (item.collections.length > 0) {
+            eventsArr.push({
+              "title": "Weights",
+              "date": item.date,
+              "color": "#d9534f",
+              "collections": item.collections
+            })
+          }
+        })
+        data.data.cardiologs.map(function (item) {
+          if (item.collections.length > 0) {
+            eventsArr.push({
+              "title": "Cardio",
+              "date": item.date,
+              'color': '#0275d8',
+              "collections": item.collections
+            })
+          }
+        });
+
+        data.data.bwlogs.map(function (item) {
+          console.log(item);
+          if (item.collections.length > 0) {
+            eventsArr.push({
+              "title": "Bodyweight",
+              "date": item.date,
+              'color': '#5cb85c',
+              "collections": item.collections
+            })
+          }
+        });
+
+        data.data.vidslogs.map(function (item) {
+          if (item.collections.length > 0) {
+            eventsArr.push({
+              "title": "Classes/Videos",
+              "date": item.date,
+              'color': '#f0ad4e',
+              "collections": item.collections
+            })
+          }
+        });
+        newObj.events = eventsArr;
+        newObj.logs = data.data.logs;
+        newObj.cardiologs = data.data.cardiologs;
+        newObj.bwlogs = data.data.bwlogs;
+        newObj.vidslogs = data.data.vidslogs;
+        dispatch(success(newObj))
       })
       .catch(error => {
         dispatch(failure(error.toString()))
@@ -48,9 +100,12 @@ function delItem() {
 
 }
 
+
+
 /*UPDATE ITEM STATE */
 export const updateState = (data) => dispatch => {
-
+  console.log('updateState');
+  console.log(data);
   dispatch({
     type: UPDATESTATE,
     data
