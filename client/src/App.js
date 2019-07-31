@@ -239,7 +239,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(localStorage.getItem('user'));
     console.log("this.props");
     console.log(this.props);
     const style = {

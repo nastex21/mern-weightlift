@@ -14,13 +14,15 @@ export default function eventsReducer(state = initialState, action) {
     var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     switch (action.type) {
         case UPDATEEVENT:
-            initialState.events = action.data.map((item) => item);
-            return initialState;
+            return {...state,
+                events: action.data.map((item) => item)
+            }
         case SETDATE:
-            initialState.date = action.date;
-            initialState.dateShortened = action.dateShort;
-            initialState.dateText = initialState.date !== undefined ? initialState.date.toLocaleString('en-US', options) : null;
-            return initialState;
+            return {...state,
+                date: action.date,
+                dateShortened: action.dateShort,
+                dateText: state.date !== undefined ? state.date.toLocaleString('en-US', options) : null
+            }
         default:
             return state;
     }

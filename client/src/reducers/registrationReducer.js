@@ -5,12 +5,12 @@ export default function registration(state = {}, action) {
     console.log(action);
   switch (action.type) {
     case REGISTER_REQUEST:
-        return {
+        return {...state,
           registering: true,
           user: action.user
       };
     case REGISTER_SUCCESS:
-      return { 
+      return { ...state,
         success: true
     };
     case REGISTER_FAILURE:

@@ -10,12 +10,12 @@ export default function authentication(state = initialState, action) {
     console.log(action);
     switch (action.type) {
         case LOGIN_REQUEST:
-            return {
+            return {...state,
                 loggingIn: true,
                 user: action.user
             };
         case LOGIN_SUCCESS:
-            return {
+            return {...state,
                 loggedIn: true,
                 user: action.user
             };

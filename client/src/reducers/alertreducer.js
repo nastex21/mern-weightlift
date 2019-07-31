@@ -5,12 +5,12 @@ export function alert(state = {}, action) {
     console.log(action);
   switch (action.type) {
     case SUCCESS:
-      return {
+      return {...state,
         type: 'alert-success',
         message: action.message
       };
     case ERROR:
-      return {
+      return {...state,
         type: 'alert-danger',
         message: action.message
       };
