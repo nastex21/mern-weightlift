@@ -6,29 +6,28 @@ const Validate = require("../../validation/validateadd");
 //Check to make sure header is not undefined, if so, return Forbidden (403)
 const checkToken = (req, res, next) => {
     const header = req.headers['authorization'];
-  
+
     if (typeof header !== 'undefined') {
-      const bearer = header.split(' ');
-      const token = bearer[1];
-  
-      req.token = token;
-      next();
+        const bearer = header.split(' ');
+        const token = bearer[1];
+
+        req.token = token;
+        next();
     } else {
-      //If header is undefined return Forbidden (403)
-      res.sendStatus(403)
+        //If header is undefined return Forbidden (403)
+        res.sendStatus(403)
     }
-  }
+}
 
 router.post('/', checkToken, Validate, async (req, res) => {
-console.log("additem init");
-console.log(req.body.weightFlag);
+    console.log("additem init");
+    console.log(req.body.weightFlag);
     const updateWeights = (id, updateObj) => {
         var update = {
             $addToSet: {
                 'logs.$[i].collections': updateObj.logs.collections
             }
         };
-console.log("yes")
         var updateSet = {
             $push: {
                 'logs': {
@@ -47,53 +46,60 @@ console.log("yes")
             ]
         };
 
-        var counter = 0;
-        console.log("counter: " + counter)
-        if (counter == 0) {
-            User.findOne({ "_id": id, 'logs': { $not: { $elemMatch: { 'date': updateObj.logs.date } } } }, (err, data) => {
-                if (err) {
-                    return console.log("500");
-                }
-                if (!data) {
-                    return console.log("404");
-                }
-                console.log("200");
-
-                User.findByIdAndUpdate({ "_id": id }, updateSet, {new: true} , (err, data) => {
-                    console.log("second findOneAndUpdate");
+        User.findOne({ "_id": id, 'logs': { $not: { $elemMatch: { 'date': updateObj.logs.date } } } }, (err, data) => {
+            if (err) {
+                console.log("")
+                return console.log("500");
+            }
+            if (!data) {
+                User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
+                    console.log("first findOneAndUpdate");
                     if (err) {
-                        console.log("500");
-                        return res.status(500).end();
+                        return console.log("500");
                     }
                     if (!data) {
-                        console.log("404");
-                        return res.status(404).end();
+                        return console.log("404");
                     }
-                    counter = 1;
                     console.log("200");
                     console.log(data);
                     return res.status(200).json(data);
-                })
+                });
+            }
+            console.log("200");
 
-            })
-        };
-
-   /*      if (counter == 0) {
-            console.log("counter: " + counter)
-            User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
-                console.log("first findOneAndUpdate");
+            User.findByIdAndUpdate({ "_id": id }, updateSet, { new: true }, (err, data) => {
+                console.log("second findOneAndUpdate");
                 if (err) {
-                    return console.log("500");
+                    console.log("500");
+                    return res.status(500).end();
                 }
                 if (!data) {
-                    return console.log("404");
+                    console.log("404");
+                    return res.status(404).end();
                 }
-                counter = 1;
                 console.log("200");
                 console.log(data);
                 return res.status(200).json(data);
-            });
-        } */
+            })
+
+        })
+        /* 
+                 if (counter == 0) {
+                    console.log("counter: " + counter)
+                    User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
+                        console.log("first findOneAndUpdate");
+                        if (err) {
+                            return console.log("500");
+                        }
+                        if (!data) {
+                            return console.log("404");
+                        }
+                        counter = 1;
+                        console.log("200");
+                        console.log(data);
+                        return res.status(200).json(data);
+                    });
+                }  */
     };
 
     const updateCardio = (id, updateObj) => {
