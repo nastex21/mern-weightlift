@@ -59,7 +59,7 @@ console.log("yes")
                 }
                 console.log("200");
 
-                User.findByIdAndUpdate({ "_id": id }, updateSet, (err, data) => {
+                User.findByIdAndUpdate({ "_id": id }, updateSet, {new: true} , (err, data) => {
                     console.log("second findOneAndUpdate");
                     if (err) {
                         console.log("500");
