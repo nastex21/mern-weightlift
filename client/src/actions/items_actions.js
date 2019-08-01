@@ -79,6 +79,8 @@ function addItem(id, collection, date, flag) {
         newObj.cardiologs = data.data.cardiologs;
         newObj.bwlogs = data.data.bwlogs;
         newObj.vidslogs = data.data.vidslogs;
+        console.log("newObj");
+        console.log(newObj);
         dispatch(success(newObj))
       })
       .catch(error => {

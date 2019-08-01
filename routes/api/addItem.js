@@ -28,7 +28,7 @@ console.log(req.body.weightFlag);
                 'logs.$[i].collections': updateObj.logs.collections
             }
         };
-
+console.log("yes")
         var updateSet = {
             $push: {
                 'logs': {
@@ -48,6 +48,7 @@ console.log(req.body.weightFlag);
         };
 
         var counter = 0;
+        console.log("counter: " + counter)
         if (counter == 0) {
             User.findOne({ "_id": id, 'logs': { $not: { $elemMatch: { 'date': updateObj.logs.date } } } }, (err, data) => {
                 if (err) {
@@ -71,13 +72,14 @@ console.log(req.body.weightFlag);
                     counter = 1;
                     console.log("200");
                     console.log(data);
-                    return res.status(200).send(data);
+                    return res.status(200).json(data);
                 })
 
             })
         };
 
-        if (counter == 0) {
+   /*      if (counter == 0) {
+            console.log("counter: " + counter)
             User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
                 console.log("first findOneAndUpdate");
                 if (err) {
@@ -89,9 +91,9 @@ console.log(req.body.weightFlag);
                 counter = 1;
                 console.log("200");
                 console.log(data);
-                return res.status(200).send(data);
+                return res.status(200).json(data);
             });
-        }
+        } */
     };
 
     const updateCardio = (id, updateObj) => {

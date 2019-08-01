@@ -21,7 +21,7 @@ export default function eventsReducer(state = initialState, action) {
             return {...state,
                 date: action.date,
                 dateShortened: action.dateShort,
-                dateText: state.date !== undefined ? state.date.toLocaleString('en-US', options) : null
+                dateText: action.date.toLocaleString('en-US', options)
             }
         default:
             return state;

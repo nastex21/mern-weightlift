@@ -18,29 +18,31 @@ export default function dataReducer(state = initialState, action) {
     console.log(action);
     switch (action.type) {
         case GETALL_REQUEST:
-            return { ...state, msg: 'loading'}
-        case GETALL_SUCCESS:   
-            return { ...state, 
+            return { ...state, msg: 'loading' }
+        case GETALL_SUCCESS:
+            return {
+                ...state,
                 username: action.user.username,
                 id: action.user._id,
-                events: [...action.user.events] 
+                events: [...action.user.events]
             }
         case GETALL_FAILURE:
-            return state.msg = "Failed to get";
+            return { ...state, msg: "Failed to get" };
         case ADDITEM_REQUEST:
-            return state.msg = "loading";
+            return { ...state, msg: "loading" };
         case ADDITEM_SUCCESS:
-        return {...state,
-            weightLogs: [...action.users.logs],
-            cardioLogs: [...action.users.cardiologs],
-            bwLogs: [...action.users.bwlogs],
-            vidsLogs: [...action.users.vidslogs],
-            events: [...action.users.events]
-        }
+            return {
+                ...state,
+                weightLogs: [...action.users.logs],
+                cardioLogs: [...action.users.cardiologs],
+                bwLogs: [...action.users.bwlogs],
+                vidsLogs: [...action.users.vidslogs],
+                events: [...action.users.events]
+            }
         case ADDITEM_FAILURE:
             return state.msg = 'Item addition failed';
         case DELETEITEM_REQUEST:
-            return state.msg = "deleting...";                              
+            return state.msg = "deleting...";
         case DELETEITEM_SUCCESS:
             return state.data.filter(item => item._id !== action.payload.id);
         case DELETEITEM_FAILURE:
@@ -51,18 +53,18 @@ export default function dataReducer(state = initialState, action) {
             return state;
         case EDITITEM_FAILURE:
             return state.msg = "Did not edit";
-        case UPDATESTATE: 
-            return { 
-            ...state,
-            msg: 'Success', 
-            id: action.data._id, 
-            username: action.data.username, 
-            weightLogs: [...action.data.logs], 
-            cardioLogs: [...action.data.cardiologs], 
-            bwLogs:[...action.data.bwlogs], 
-            vidsLogs: [...action.data.vidslogs],
-            events: [...action.data.events]
-        };
+        case UPDATESTATE:
+            return {
+                ...state,
+                msg: 'Success',
+                id: action.data._id,
+                username: action.data.username,
+                weightLogs: [...action.data.logs],
+                cardioLogs: [...action.data.cardiologs],
+                bwLogs: [...action.data.bwlogs],
+                vidsLogs: [...action.data.vidslogs],
+                events: [...action.data.events]
+            };
         default:
             return state;
     }
