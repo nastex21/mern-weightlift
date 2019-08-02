@@ -24,21 +24,8 @@ router.post('/', async (req, res, next) => {
       //if user log in success, generate a JWT token for the user with a secret key
       jwt.sign({ user }, process.env.SECRET, { expiresIn: '1h' }, (err, token) => {
         if (err) { console.log(err) }
-        console.log('user');
-        console.log(token);
-        console.log(user);
-        var dataObj = {
-          _id: user._id,
-          username: user.username,
-          logs: user.logs,
-          cardiologs: user.cardiologs,
-          bwlogs: user.bwlogs,
-          vidslogs: user.vidslogs
-        }
-        console.log(token);
         res.json({
           token: token,
-          dataObj: dataObj
         });
       });
     }

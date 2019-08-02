@@ -52,7 +52,7 @@ router.post('/', checkToken, Validate, async (req, res) => {
                 return console.log("500");
             }
             if (!data) {
-                let dataID = id; 
+                let dataID = id;
                 return pushData(dataID);
             }
             console.log("200");
@@ -74,19 +74,19 @@ router.post('/', checkToken, Validate, async (req, res) => {
 
         })
         const pushData = (id) => {
-        User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
-            console.log("first findOneAndUpdate");
-            if (err) {
-                return console.log("500");
-            }
-            if (!data) {
-                return console.log("404");
-            }
-            console.log("200");
-            console.log(data);
-            return res.status(200).json(data);
-        });
-    }
+            User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
+                console.log("first findOneAndUpdate");
+                if (err) {
+                    return console.log("500");
+                }
+                if (!data) {
+                    return console.log("404");
+                }
+                console.log("200");
+                console.log(data);
+                return res.status(200).json(data);
+            });
+        }
     };
 
     const updateCardio = (id, updateObj) => {
@@ -114,37 +114,34 @@ router.post('/', checkToken, Validate, async (req, res) => {
             ]
         };
 
-        var counter = 0;
-        if (counter == 0) {
-            User.findOne({ "_id": id, 'cardiologs': { $not: { $elemMatch: { 'date': updateObj.cardiologs.date } } } }, (err, data) => {
+        User.findOne({ "_id": id, 'cardiologs': { $not: { $elemMatch: { 'date': updateObj.cardiologs.date } } } }, (err, data) => {
+            if (err) {
+                return console.log("500");
+            }
+            if (!data) {
+                let dataID = id;
+                return pushData(dataID);
+            }
+            console.log("200");
+
+            User.findByIdAndUpdate({ "_id": id }, updateSet, (err, data) => {
+                console.log("second findOneAndUpdate");
                 if (err) {
-                    return console.log("500");
+                    console.log("500");
+                    return res.status(500).end();
                 }
                 if (!data) {
-                    return console.log("404");
+                    console.log("404");
+                    return res.status(404).end();
                 }
                 console.log("200");
-
-                User.findByIdAndUpdate({ "_id": id }, updateSet, (err, data) => {
-                    console.log("second findOneAndUpdate");
-                    if (err) {
-                        console.log("500");
-                        return res.status(500).end();
-                    }
-                    if (!data) {
-                        console.log("404");
-                        return res.status(404).end();
-                    }
-                    counter = 1;
-                    console.log("200");
-                    console.log(data);
-                    return res.status(200).end();
-                })
-
+                console.log(data);
+                return res.status(200).end();
             })
-        };
 
-        if (counter == 0) {
+        })
+
+        const pushData = (id) => {
             User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
                 console.log("first findOneAndUpdate");
                 if (err) {
@@ -153,12 +150,11 @@ router.post('/', checkToken, Validate, async (req, res) => {
                 if (!data) {
                     return console.log("404");
                 }
-                counter = 1;
                 console.log("200");
                 console.log(data);
                 return res.status(200).end();
             });
-        }
+        };
     };
 
     const updateBW = (id, updateObj) => {
@@ -186,37 +182,34 @@ router.post('/', checkToken, Validate, async (req, res) => {
             ]
         };
 
-        var counter = 0;
-        if (counter == 0) {
-            User.findOne({ "_id": id, 'bwlogs': { $not: { $elemMatch: { 'date': updateObj.bwlogs.date } } } }, (err, data) => {
+        User.findOne({ "_id": id, 'bwlogs': { $not: { $elemMatch: { 'date': updateObj.bwlogs.date } } } }, (err, data) => {
+            if (err) {
+                return console.log("500");
+            }
+            if (!data) {
+                let dataID = id;
+                return pushData(dataID);
+            }
+            console.log("200");
+
+            User.findByIdAndUpdate({ "_id": id }, updateSet, (err, data) => {
+                console.log("second findOneAndUpdate");
                 if (err) {
-                    return console.log("500");
+                    console.log("500");
+                    return res.status(500).end();
                 }
                 if (!data) {
-                    return console.log("404");
+                    console.log("404");
+                    return res.status(404).end();
                 }
                 console.log("200");
-
-                User.findByIdAndUpdate({ "_id": id }, updateSet, (err, data) => {
-                    console.log("second findOneAndUpdate");
-                    if (err) {
-                        console.log("500");
-                        return res.status(500).end();
-                    }
-                    if (!data) {
-                        console.log("404");
-                        return res.status(404).end();
-                    }
-                    counter = 1;
-                    console.log("200");
-                    console.log(data);
-                    return res.status(200).end();
-                })
-
+                console.log(data);
+                return res.status(200).end();
             })
-        };
 
-        if (counter == 0) {
+        })
+
+        const pushData = (id) => {
             User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
                 console.log("first findOneAndUpdate");
                 if (err) {
@@ -225,12 +218,11 @@ router.post('/', checkToken, Validate, async (req, res) => {
                 if (!data) {
                     return console.log("404");
                 }
-                counter = 1;
                 console.log("200");
                 console.log(data);
                 return res.status(200).end();
             });
-        }
+        };
     };
 
     const updateVids = (id, updateObj) => {
@@ -258,37 +250,34 @@ router.post('/', checkToken, Validate, async (req, res) => {
             ]
         };
 
-        var counter = 0;
-        if (counter == 0) {
-            User.findOne({ "_id": id, 'vidslogs': { $not: { $elemMatch: { 'date': updateObj.vidslogs.date } } } }, (err, data) => {
+        User.findOne({ "_id": id, 'vidslogs': { $not: { $elemMatch: { 'date': updateObj.vidslogs.date } } } }, (err, data) => {
+            if (err) {
+                return console.log("500");
+            }
+            if (!data) {
+                let dataID = id;
+                return pushData(dataID);
+            }
+            console.log("200");
+
+            User.findByIdAndUpdate({ "_id": id }, updateSet, (err, data) => {
+                console.log("second findOneAndUpdate");
                 if (err) {
-                    return console.log("500");
+                    console.log("500");
+                    return res.status(500).end();
                 }
                 if (!data) {
-                    return console.log("404");
+                    console.log("404");
+                    return res.status(404).end();
                 }
                 console.log("200");
-
-                User.findByIdAndUpdate({ "_id": id }, updateSet, (err, data) => {
-                    console.log("second findOneAndUpdate");
-                    if (err) {
-                        console.log("500");
-                        return res.status(500).end();
-                    }
-                    if (!data) {
-                        console.log("404");
-                        return res.status(404).end();
-                    }
-                    counter = 1;
-                    console.log("200");
-                    console.log(data);
-                    return res.status(200).end();
-                })
-
+                console.log(data);
+                return res.status(200).end();
             })
-        };
 
-        if (counter == 0) {
+        })
+
+        const pushData = (id) => {
             User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
                 console.log("first findOneAndUpdate");
                 if (err) {
@@ -297,7 +286,6 @@ router.post('/', checkToken, Validate, async (req, res) => {
                 if (!data) {
                     return console.log("404");
                 }
-                counter = 1;
                 console.log("200");
                 console.log(data);
                 return res.status(200).end();

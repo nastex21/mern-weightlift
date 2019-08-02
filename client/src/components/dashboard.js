@@ -29,13 +29,13 @@ class Dashboard extends Component {
         updatedInfo: ""
         }
 
-    componentDidMount() {
+/*     componentDidMount() {
         console.log("this.state.loaded: " + this.state.loaded);
         if (this.props.dataModifier.events.length == 0) {
             console.log("yes zero");
             this.props.dispatch(updateState(this.props.user));
         }
-    }
+    } */
 
     closeModal = () => {
         this.props.closeModal();
