@@ -10,7 +10,8 @@ var initialState = {
     cardioLogs: [],
     bwLogs: [],
     vidsLogs: [],
-    msg: ''
+    msg: '',
+    loaded: 'false'
 };
 
 export default function dataReducer(state = initialState, action) {
@@ -28,7 +29,8 @@ export default function dataReducer(state = initialState, action) {
                 cardioLogs: [...action.users.cardiologs],
                 bwLogs: [...action.users.bwlogs],
                 vidsLogs: [...action.users.vidslogs],
-                events: [...action.users.events]
+                events: [...action.users.events],
+                loaded: 'false'
             }
         case GETALL_FAILURE:
             return { ...state, msg: "Failed to get" };
@@ -41,7 +43,8 @@ export default function dataReducer(state = initialState, action) {
                 cardioLogs: [...action.users.cardiologs],
                 bwLogs: [...action.users.bwlogs],
                 vidsLogs: [...action.users.vidslogs],
-                events: [...action.users.events]
+                events: [...action.users.events],
+                loaded: 'true'
             }
         case ADDITEM_FAILURE:
             return state.msg = 'Item addition failed';

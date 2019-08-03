@@ -1,6 +1,5 @@
 import { ADDITEM_FAILURE, ADDITEM_REQUEST, ADDITEM_SUCCESS, EDITITEM_FAILURE, EDITITEM_REQUEST, EDITITEM_SUCCESS, DELETEITEM_REQUEST, DELETEITEM_SUCCESS, DELETEITEM_FAILURE, UPDATESTATE, UPDATEEVENT, SETDATE } from './types';
 import axios from 'axios';
-import { authHeader } from '../helpers/auth-header';
 
 export const itemsConst = {
   addItem,
@@ -97,12 +96,11 @@ function addItem(id, collection, date, flag) {
 function editItem() {
 
 }
+
 /* DELETE ITEM(S) DISPATCH */
 function delItem() {
 
 }
-
-
 
 /*UPDATE ITEM STATE */
 export const updateState = (data) => dispatch => {

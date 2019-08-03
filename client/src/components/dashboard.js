@@ -31,6 +31,7 @@ class Dashboard extends Component {
         }
 
     componentDidMount() {
+        console.log('mounter');
         this.props.dispatch(userActions.getAll());
     } 
 

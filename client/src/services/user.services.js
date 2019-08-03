@@ -16,6 +16,8 @@ function getAll() {
     headers: authHeader()
   };
 
+  console.log(requestOptions);
+
   return axios.get('/api/dashboard/', requestOptions).then((response) => {
     console.log("getAll");
     console.log(response);

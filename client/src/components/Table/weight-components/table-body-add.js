@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, FormGroup, Label, Row, Col, Input, Button, Alert } from 'reactstrap';
 import { itemsConst } from '../../../actions/items_actions';
+import { userActions } from '../../../actions/user_actions';
 import { connect } from 'react-redux';
 
 class WeightsAdd extends Component {
@@ -18,9 +19,15 @@ class WeightsAdd extends Component {
         invalidSets: false,
         invalidReps: false,
         invalidWeight: false,
-        msg: ''
+        msg: '',
+        loaded: this.props.dataModifier.loaded
     }
 
+    componentDidUpdate(){
+        if (this.state.loaded){
+            this.props.dispatch(userActions.getAll());
+        }
+    }
 
     //changes when keys are pressed
     handleChange = (e) => {

@@ -13,6 +13,7 @@ const checkToken = (req, res, next) => {
     const token = bearer[1];
 
     req.token = token;
+    console.log(req.token == token);
     console.log("req.token");
     console.log(req.token);
     next();
