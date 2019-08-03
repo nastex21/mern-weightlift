@@ -66,6 +66,7 @@ function logout() {
 
 /*GRAB DATA DISPATCH */
 function getAll() {
+  console.log("it's running")
   return dispatch => {
     dispatch(request());
 

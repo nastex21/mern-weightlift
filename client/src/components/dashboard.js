@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions';
 import { updateState, setDate } from '../actions/items_actions';
+import { userActions } from '../actions/user_actions';
 /*Components*/
 import FullCalendar from '@fullcalendar/react';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
@@ -29,13 +30,9 @@ class Dashboard extends Component {
         updatedInfo: ""
         }
 
-/*     componentDidMount() {
-        console.log("this.state.loaded: " + this.state.loaded);
-        if (this.props.dataModifier.events.length == 0) {
-            console.log("yes zero");
-            this.props.dispatch(updateState(this.props.user));
-        }
-    } */
+    componentDidMount() {
+        this.props.dispatch(userActions.getAll());
+    } 
 
     closeModal = () => {
         this.props.closeModal();

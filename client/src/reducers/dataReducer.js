@@ -22,9 +22,13 @@ export default function dataReducer(state = initialState, action) {
         case GETALL_SUCCESS:
             return {
                 ...state,
-                username: action.user.username,
-                id: action.user._id,
-                events: [...action.user.events]
+                username: action.users.username,
+                id: action.users.id,
+                weightLogs: [...action.users.logs],
+                cardioLogs: [...action.users.cardiologs],
+                bwLogs: [...action.users.bwlogs],
+                vidsLogs: [...action.users.vidslogs],
+                events: [...action.users.events]
             }
         case GETALL_FAILURE:
             return { ...state, msg: "Failed to get" };
