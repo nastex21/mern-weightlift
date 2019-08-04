@@ -8,8 +8,9 @@ export const userService = {
   getAll
 };
 
-function getAll() {
+function getAll(userID) {
   console.log("user.services is running");
+  console.log(userID);
   const requestOptions = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
@@ -90,7 +91,8 @@ function login(username, password) {
     .then(user => {
       console.log("user login: ");
       console.log(user)
-      return localStorage.setItem('user', JSON.stringify(user.data));
+      localStorage.setItem('user', JSON.stringify(user));
+      return user.data.id;
     });
 }
 

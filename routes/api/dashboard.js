@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const User = require("../../database/models/user");
 const jwt = require('jsonwebtoken');
 
 //Check to make sure header is not undefined, if so, return Forbidden (403)
@@ -15,10 +16,6 @@ const checkToken = (req, res, next) => {
     const token = bearer[1];
 
     req.token = token;
-    console.log("req.token");
-    console.log(req.token);
-    console.log("token");
-    console.log(token);
     next();
   } else {
     //If header is undefined return Forbidden (403)
@@ -28,21 +25,32 @@ const checkToken = (req, res, next) => {
 
 router.get('/', checkToken, (req, res) => {
   //verify the JWT token generated for the user
-  console.log('req.token 2')
-  console.log(req.token);
+  //console.log(req.body);
+  console.log("req.user");
+  console.log(req.user); 
+
   jwt.verify(req.token, process.env.SECRET, (err, authorizedData) => {
     if (err) {
       //If error send Forbidden (403)
       console.log('ERROR: Could not connect to the protected route');
       res.sendStatus(403);
     } else { 
-      //If token is successfully verified, we can send the autorized data 
-      console.log('authorizedData');
-      console.log(authorizedData);
+
+      /* User.findById({ id: username }).then(user => {
+        if (!user) {
+          console.log('not found');
+          return res.status(404).json({ usernamenotfound: "username not found" });
+        }
+
+        if (result) {
+          //if user log in success, generate a JWT token for the user with a secret key
+
+        }
+    
+      }) 
       res.json({
-        message: 'Successful log in',
         authorizedData
-      });
+      }); */
       console.log('SUCCESS: Connected to protected route');
     }
   })

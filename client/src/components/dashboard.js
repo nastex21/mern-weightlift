@@ -21,6 +21,7 @@ import '@fullcalendar/bootstrap/main.css';
 class Dashboard extends Component {
     state = {
         date: "",
+        id: this.props.id,
         exercise: this.props.events.events,
         total: [],
         showError: false,
@@ -30,10 +31,11 @@ class Dashboard extends Component {
         updatedInfo: ""
         }
 
-    componentDidMount() {
+     componentDidMount() {
         console.log('mounter');
-        this.props.dispatch(userActions.getAll());
-    } 
+        console.log(this.props.id);
+        this.props.dispatch(userActions.getAll("1234567"));
+    }  
 
     closeModal = () => {
         this.props.closeModal();
@@ -142,7 +144,7 @@ class Dashboard extends Component {
 function mapStateToProps(state) {
     console.log('state');
     console.log(state);
-    const { loggedIn, user } = state.authenticate;
+    const { loggedIn, user, id } = state.authenticate;
     const { alert, dataModifier, eventReducer } = state;
     return {
         modalIsOpen: state.modal.modalIsOpen,
@@ -150,7 +152,8 @@ function mapStateToProps(state) {
         user,
         alert,
         dataModifier,
-        eventReducer
+        eventReducer,
+        id
     };
 }
 
