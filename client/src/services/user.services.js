@@ -88,10 +88,9 @@ function login(username, password) {
     }
   })
     .then(user => {
-      let newObj = {};
-      newObj.token = user.data.token;
-      localStorage.setItem('user', JSON.stringify(newObj));
-      return newObj;
+      console.log("user login: ");
+      console.log(user)
+      return localStorage.setItem('user', JSON.stringify(user.data));
     });
 }
 

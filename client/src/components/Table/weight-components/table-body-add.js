@@ -23,12 +23,6 @@ class WeightsAdd extends Component {
         loaded: this.props.dataModifier.loaded
     }
 
-    componentDidUpdate(){
-        if (this.state.loaded){
-            this.props.dispatch(userActions.getAll());
-        }
-    }
-
     //changes when keys are pressed
     handleChange = (e) => {
         console.log(e.target.value)

@@ -8,14 +8,17 @@ const checkToken = (req, res, next) => {
   console.log(req.headers);
   const header = req.headers['authorization'];
 
+  console.log(header);
+  
   if (typeof header !== 'undefined') {
     const bearer = header.split(' ');
     const token = bearer[1];
 
     req.token = token;
-    console.log(req.token == token);
     console.log("req.token");
     console.log(req.token);
+    console.log("token");
+    console.log(token);
     next();
   } else {
     //If header is undefined return Forbidden (403)
@@ -23,8 +26,10 @@ const checkToken = (req, res, next) => {
   }
 }
 
-router.get('/', checkToken, (req, res, next) => {
+router.get('/', checkToken, (req, res) => {
   //verify the JWT token generated for the user
+  console.log('req.token 2')
+  console.log(req.token);
   jwt.verify(req.token, process.env.SECRET, (err, authorizedData) => {
     if (err) {
       //If error send Forbidden (403)

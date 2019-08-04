@@ -24,9 +24,7 @@ router.post('/', async (req, res, next) => {
       //if user log in success, generate a JWT token for the user with a secret key
       jwt.sign({ user }, process.env.SECRET, { expiresIn: '1h' }, (err, token) => {
         if (err) { console.log(err) }
-        res.json({
-          token: token,
-        });
+        res.send(token)
       });
     }
 
