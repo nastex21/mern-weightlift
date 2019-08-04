@@ -3,7 +3,7 @@ import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT } from '../actions/
 let user = JSON.parse(localStorage.getItem('user'));
 console.log("authen reducer");
 console.log(user);
-const initialState = user ? { loggedIn: true, id: user.data.id, user } : {};
+const initialState = user ? { loggedIn: true, id: '', user } : {};
 
 export default function authentication(state = initialState, action) {
     console.log('action');
@@ -17,6 +17,7 @@ export default function authentication(state = initialState, action) {
             };
         case LOGIN_SUCCESS:
             return {...state,
+                id: action.user,
                 loggedIn: true,
             };
         case LOGIN_FAILURE:
