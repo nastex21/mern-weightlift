@@ -12,14 +12,18 @@ function getAll(userID) {
   console.log("user.services is running");
   console.log(userID);
   const requestOptions = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
     headers: authHeader()
   };
 
   console.log(requestOptions);
 
-  return axios.get('/api/dashboard/', requestOptions).then((response) => {
+  return axios.get(
+    '/api/dashboard/',
+    {
+      params: { id: userID },
+      headers: authHeader()
+    }
+  ).then((response) => {
     console.log("getAll");
     console.log(response);
     var newObj = {};

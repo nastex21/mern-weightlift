@@ -65,12 +65,13 @@ function logout() {
 }
 
 /*GRAB DATA DISPATCH */
-function getAll() {
+function getAll(data) {
   console.log("it's running")
   return dispatch => {
     dispatch(request());
-
-    userService.getAll()
+    console.log("getAll data")
+    console.log(data);
+    userService.getAll(data)
       .then(
         users => dispatch(success(users)),
         error => dispatch(failure(error.toString()))
