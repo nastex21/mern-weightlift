@@ -45,8 +45,7 @@ router.get('/', checkToken, (req, res) => {
 
         if (user) {
           //if user log in success, generate a JWT token for the user with a secret key
-          console.log(user);
-          res.send(user);
+          res.json(user);
         }
 
       })
