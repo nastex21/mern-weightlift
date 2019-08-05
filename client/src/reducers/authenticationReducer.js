@@ -7,8 +7,7 @@ const initialState = user ? { loggedIn: true, id: '', user } : {};
 
 export default function authentication(state = initialState, action) {
     console.log('action');
-    console.log(user.data.id);
-  
+    console.log(action);
     switch (action.type) {
         case LOGIN_REQUEST:
             return {...state,
@@ -17,7 +16,7 @@ export default function authentication(state = initialState, action) {
             };
         case LOGIN_SUCCESS:
             return {...state,
-                id: user.data.id,
+                id: action.user,
                 loggedIn: true,
             };
         case LOGIN_FAILURE:
