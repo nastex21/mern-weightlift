@@ -34,7 +34,12 @@ class Dashboard extends Component {
      componentDidMount() {
         console.log('mounter');
         console.log(this.props.id);
-        this.props.dispatch(userActions.getAll(this.state.id));
+        var user = JSON.parse(localStorage.getItem('user'));
+        var newId; 
+        if (user.data){
+            newId = user.data.id;
+        }
+        this.props.dispatch(userActions.getAll(newId ? newId : this.state.id));
     }  
 
     closeModal = () => {
