@@ -10,44 +10,46 @@ class GenerateTable extends Component {
         rowData: '',
         selectAll: false,
         selected: [],
-        edit: false
+        edit: false,
+        collection: ''
     }
 
     componentDidMount() {
-        if (this.props.tabIndex == 1) {
+        if (this.state.tabIndex == 1) {
             this.setState({
                 collection: this.props.logs
             })
         }
 
-        if (this.props.tabIndex == 2) {
+        if (this.state.tabIndex == 2) {
             this.setState({
-                collection: this.props.cardiologs
+                collection: this.props.dataModifier.cardioLogs
             })
         }
 
-        if (this.props.tabIndex == 3) {
+        if (this.state.tabIndex == 3) {
             this.setState({
-                collection: this.props.bwlogs
+                collection: this.props.dataModifier.bwLogs
             })
         }
 
-        if (this.props.tabIndex == 4) {
+        if (this.state.tabIndex == 4) {
             this.setState({
-                collection: this.props.vidslogs
+                collection: this.props.dataModifier.vidsLogs
             })
         }
     }
+
 
     render() {
         console.log(this.props)
         var collection;
         var columns;
-        const { logs, cardiologs, bwlogs, vidslogs, tabIndex } = this.props;
-        console.log(logs);
+        const { tabIndex } = this.state;
+        const { weightLogs, cardioLogs, bwLogs, vidsLogs } = this.props.dataModifier;
         console.log(tabIndex);
         if (tabIndex == 1) {
-            collection = logs;
+            collection = this.props.logs;
             columns = [{
                 dataField: 'exercise',
                 text: 'Exercise Name',
@@ -67,7 +69,7 @@ class GenerateTable extends Component {
             }];
         }
         if (tabIndex == 2) {
-            collection = cardiologs;
+            collection = cardioLogs;
             console.log('tabindex 2')
             columns = [{
                 dataField: 'exercise',
@@ -89,7 +91,7 @@ class GenerateTable extends Component {
         }
 
         if (tabIndex == 3) {
-            collection = bwlogs;
+            collection = bwLogs;
             columns = [{
                 dataField: 'exercise',
                 text: 'Exercise Name',
@@ -106,8 +108,7 @@ class GenerateTable extends Component {
         }
 
         if (tabIndex == 4) {
-            console.log(vidslogs);
-            collection = vidslogs;
+            collection = vidsLogs;
             columns = [{
                 dataField: 'exercise',
                 text: 'Exercise Name',
