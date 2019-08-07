@@ -85,9 +85,9 @@ class ModalTabs extends Component {
     }
 
     getLogs = (tab) => {
+        console.log("getLogs tab: " + tab);
         var dateFilter = this.props.eventReducer.dateShortened;
         var newArr = [];
-
         var exercise;
         
         if (tab == 2) {
@@ -123,6 +123,8 @@ class ModalTabs extends Component {
     }
 
     toggle = (tab) => {
+        console.log("tab");
+        console.log(tab);
         if (this.state.activeTab !== tab) {
             this.setState({
                 activeTab: tab
