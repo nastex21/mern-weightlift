@@ -12,10 +12,10 @@ class ModalTabs extends Component {
 
     state = {
         activeTab: '1',
-        weightlogs: '',
-        cardiologs: '',
-        bwlogs: '',
-        vidslogs: '',
+        weightlogs: [],
+        cardiologs: [],
+        bwlogs: [],
+        vidslogs: [],
         dataloaded: false
     };
 
@@ -26,7 +26,7 @@ class ModalTabs extends Component {
         exercise = exercise.filter((item) => item.date == this.props.eventReducer.dateShortened);
         exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj)})});
         this.setState({
-            weightlogs: newArr
+            weightlogs: [...newArr]
         }, this.setState({
             dataloaded: true
         })
@@ -91,31 +91,34 @@ class ModalTabs extends Component {
         var exercise;
         
         if (tab == 2) {
+            console.log("tab2 is running");
             exercise = this.props.dataModifier.cardioLogs;
             exercise = exercise.filter((item) => item.date == dateFilter);
             exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj)}) });
             this.setState({
-                cardiologs: newArr
+                cardiologs: [...newArr]
             }, this.setState({
                 dataloaded: true
             }));
         } 
         if (tab == 3) {
+            console.log("tab3 is running");
             exercise = this.props.dataModifier.bwLogs;
             exercise = exercise.filter((item) => item.date == dateFilter);
             exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj)}) });
             this.setState({
-                bwlogs: newArr
+                bwlogs: [...newArr]
             }, this.setState({
                 dataloaded: true
             }));
         }
         if (tab == 4) {
+            console.log("tab4 is running");
             exercise = this.props.dataModifier.vidsLogs;
             exercise = exercise.filter((item) => item.date == dateFilter);
             exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj)}) });
             this.setState({
-                vidslogs: newArr
+                vidslogs: [...newArr]
             }, this.setState({
                 dataloaded: true
             }));

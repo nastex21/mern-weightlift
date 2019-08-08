@@ -23,19 +23,19 @@ class GenerateTable extends Component {
 
         if (this.state.tabIndex == 2) {
             this.setState({
-                collection: this.props.dataModifier.cardioLogs
+                collection: this.props.cardiologs
             })
         }
 
         if (this.state.tabIndex == 3) {
             this.setState({
-                collection: this.props.dataModifier.bwLogs
+                collection: this.props.bwlogs
             })
         }
 
         if (this.state.tabIndex == 4) {
             this.setState({
-                collection: this.props.dataModifier.vidsLogs
+                collection: this.props.vidslogs
             })
         }
     }
@@ -46,10 +46,10 @@ class GenerateTable extends Component {
         var collection;
         var columns;
         const { tabIndex } = this.state;
-        const { weightLogs, cardioLogs, bwLogs, vidsLogs } = this.props.dataModifier;
+        const { logs, cardioLogs, bwLogs, vidsLogs } = this.props;
         console.log(tabIndex);
         if (tabIndex == 1) {
-            collection = this.props.logs;
+            collection = this.state.collection;
             columns = [{
                 dataField: 'exercise',
                 text: 'Exercise Name',
@@ -69,7 +69,7 @@ class GenerateTable extends Component {
             }];
         }
         if (tabIndex == 2) {
-            collection = cardioLogs;
+            collection = this.state.collection;
             console.log('tabindex 2')
             columns = [{
                 dataField: 'exercise',
@@ -91,7 +91,7 @@ class GenerateTable extends Component {
         }
 
         if (tabIndex == 3) {
-            collection = bwLogs;
+            collection = this.state.collection;
             columns = [{
                 dataField: 'exercise',
                 text: 'Exercise Name',
@@ -108,7 +108,7 @@ class GenerateTable extends Component {
         }
 
         if (tabIndex == 4) {
-            collection = vidsLogs;
+            collection = this.state.collection;
             columns = [{
                 dataField: 'exercise',
                 text: 'Exercise Name',
