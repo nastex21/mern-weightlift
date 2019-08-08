@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { Form, FormGroup, Label, Row, Col, Input, Button, Alert } from 'reactstrap';
 import { itemsConst } from '../../../actions/items_actions';
-import { userActions } from '../../../actions/user_actions';
 import { connect } from 'react-redux';
 
 class WeightsAdd extends Component {
     state = {
-        id: this.props.dataModifier.id,
         tabIndex: this.props.tabIndex,
-        date: this.props.eventReducer.dateShortened,
         collection: [{
             exercise: "",
             sets: "",
@@ -85,7 +82,8 @@ class WeightsAdd extends Component {
         console.log(this.props);
         console.log("addItem: ");
         console.log(this.state.id);
-        dispatch(itemsConst.addItem(this.state.id, this.state.collection, this.state.date, 1));
+        var options = { id: this.props.dataModifier.id, collection: this.state.collection, date: this.props.eventReducer.dateShortened, flag: 1 };
+        dispatch(itemsConst.addItem(options));
         /* 
         axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, weightFlag: 1 })
             .then((response) => {

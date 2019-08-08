@@ -5,7 +5,6 @@ import { itemsConst } from '../../../actions/items_actions';
 
 class BWAdd extends Component {
     state = {
-        date: this.props.date,
         collection: [{
             exercise: "",
             sets: "",
@@ -48,12 +47,10 @@ class BWAdd extends Component {
     submit = (e) => {
         e.preventDefault();
         
-        var dataObj= {};
-        dataObj.id = this.props.dataModifier.id;
-        dataObj.collection = this.state.collection;
-        //dataObj.date = ;
-        dataObj.bwFlag = 1;
-        this.props.dispatch(itemsConst.addItem(this.props.dataModifier.id, ))
+        const { dispatch } = this.props;
+        var options = { id: this.props.dataModifier.id, collection: this.state.collection, date: this.props.eventReducer.dateShortened, flag: 3 };
+
+        dispatch(itemsConst.addItem(options));
     }
 
 
@@ -101,10 +98,12 @@ class BWAdd extends Component {
 function mapStateToProps(state) {
     console.log('state');
     console.log(state);
-    const { dataModifier, eventReducer } = state;
+    const { loggedIn } = state.authenticate;
+    const { eventReducer, dataModifier } = state;
     return {
-      dataModifier,
-      eventReducer
+        loggedIn,
+        eventReducer,
+        dataModifier
     };
   }
     

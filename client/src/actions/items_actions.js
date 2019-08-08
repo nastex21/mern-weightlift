@@ -8,14 +8,16 @@ export const itemsConst = {
 }
 
 /* ADD ITEM(S) DISPATCH */
-function addItem(id, collection, date, flag) {
+function addItem(options) {
   return dispatch => {
     dispatch(request());
+    console.log("options");
+    console.log(options);
     var item = {
-      id: id,
-      collection: collection,
-      date: date,
-      flag: flag
+      id: options.id,
+      collection: options.collection,
+      date: options.date,
+      flag: options.flag
     };
 
     const storedData = JSON.parse(localStorage.getItem('user'));
@@ -24,7 +26,7 @@ function addItem(id, collection, date, flag) {
       headers: { 'Authorization': "bearer " + storedData.token }
     };
 
-    axios.post("/api/add-items", { id: item.id, collection: item.collection, date: item.date, weightFlag: 1 }, config)
+    axios.post("/api/add-items", { id: item.id, collection: item.collection, date: item.date, flag: item.flag }, config)
       .then(data => {
         console.log("data");
         console.log(data);

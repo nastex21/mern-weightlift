@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Form, FormGroup, Label, Row, Col, Input, Button, Alert } from 'reactstrap';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { itemsConst } from '../../../actions/items_actions';
 
 class ExVidsClassesAdd extends Component {
     state = {
-        id: this.props.id,
-        date: this.props.date,
         collection: [{
             exercise: '',
             hours: '',
@@ -93,7 +92,11 @@ class ExVidsClassesAdd extends Component {
         e.preventDefault();
 
         console.log('table-body-vidsclasses');
-        axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, completed: this.state.completed, vidsFlag: 1 })
+        const { dispatch } = this.props;
+        var options = { id: this.props.dataModifier.id, collection: this.state.collection, date: this.props.eventReducer.dateShortened, flag: 4 };
+
+        dispatch(itemsConst.addItem(options));
+  /*       axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, completed: this.state.completed, vidsFlag: 1 })
             .then(response => {
                 console.log(response);
                 this.props.updateData(4,this.state.collection); 
@@ -133,7 +136,7 @@ class ExVidsClassesAdd extends Component {
                         msg: error.response.data.msg
                     })
                 } 
-            });
+            }); */
     }
 
 
@@ -196,4 +199,16 @@ class ExVidsClassesAdd extends Component {
     }
 }
 
-export default ExVidsClassesAdd;
+function mapStateToProps(state) {
+    console.log('state');
+    console.log(state);
+    const { loggedIn } = state.authenticate;
+    const { eventReducer, dataModifier } = state;
+    return {
+        loggedIn,
+        eventReducer,
+        dataModifier
+    };
+  }
+    
+export default connect(mapStateToProps)(ExVidsClassesAdd);

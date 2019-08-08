@@ -21,7 +21,6 @@ const checkToken = (req, res, next) => {
 
 router.post('/', checkToken, Validate, async (req, res) => {
     console.log("additem init");
-    console.log(req.body.weightFlag);
     const updateWeights = (id, updateObj) => {
         var update = {
             $addToSet: {
@@ -124,7 +123,7 @@ router.post('/', checkToken, Validate, async (req, res) => {
             }
             console.log("200");
 
-            User.findByIdAndUpdate({ "_id": id }, updateSet, (err, data) => {
+            User.findByIdAndUpdate({ "_id": id }, updateSet, { new: true }, (err, data) => {
                 console.log("second findOneAndUpdate");
                 if (err) {
                     console.log("500");
@@ -136,7 +135,7 @@ router.post('/', checkToken, Validate, async (req, res) => {
                 }
                 console.log("200");
                 console.log(data);
-                return res.status(200).end();
+                return res.status(200).json(data);
             })
 
         })
@@ -152,7 +151,7 @@ router.post('/', checkToken, Validate, async (req, res) => {
                 }
                 console.log("200");
                 console.log(data);
-                return res.status(200).end();
+                return res.status(200).json(data);
             });
         };
     };
@@ -192,7 +191,7 @@ router.post('/', checkToken, Validate, async (req, res) => {
             }
             console.log("200");
 
-            User.findByIdAndUpdate({ "_id": id }, updateSet, (err, data) => {
+            User.findByIdAndUpdate({ "_id": id }, updateSet,  { new: true }, (err, data) => {
                 console.log("second findOneAndUpdate");
                 if (err) {
                     console.log("500");
@@ -204,7 +203,7 @@ router.post('/', checkToken, Validate, async (req, res) => {
                 }
                 console.log("200");
                 console.log(data);
-                return res.status(200).end();
+                return res.status(200).json(data);
             })
 
         })
@@ -220,7 +219,7 @@ router.post('/', checkToken, Validate, async (req, res) => {
                 }
                 console.log("200");
                 console.log(data);
-                return res.status(200).end();
+                return res.status(200).json(data);
             });
         };
     };
@@ -260,7 +259,7 @@ router.post('/', checkToken, Validate, async (req, res) => {
             }
             console.log("200");
 
-            User.findByIdAndUpdate({ "_id": id }, updateSet, (err, data) => {
+            User.findByIdAndUpdate({ "_id": id }, updateSet, {new: true}, (err, data) => {
                 console.log("second findOneAndUpdate");
                 if (err) {
                     console.log("500");
@@ -272,7 +271,7 @@ router.post('/', checkToken, Validate, async (req, res) => {
                 }
                 console.log("200");
                 console.log(data);
-                return res.status(200).end();
+                return res.status(200).json(data);
             })
 
         })
@@ -288,7 +287,7 @@ router.post('/', checkToken, Validate, async (req, res) => {
                 }
                 console.log("200");
                 console.log(data);
-                return res.status(200).end();
+                return res.status(200).json(data);
             });
         }
     };
@@ -305,8 +304,9 @@ router.post('/', checkToken, Validate, async (req, res) => {
 
         return updateObj;
     }
-
-    if (req.body.weightFlag == 1) {
+    console.log('req.body');
+    console.log(req.body);
+    if (req.body.flag == 1) {
         var updateObj = createObj(req.body.collection);
 
         var pushThis = {
@@ -319,7 +319,7 @@ router.post('/', checkToken, Validate, async (req, res) => {
         updateWeights(req.body.id, pushThis);
     }
 
-    if (req.body.cardioFlag == 1) {
+    if (req.body.flag == 2) {
         var updateObj = createObj(req.body.collection);
 
         var pushThis = {
@@ -329,7 +329,7 @@ router.post('/', checkToken, Validate, async (req, res) => {
         updateCardio(req.body.id, pushThis);
     }
 
-    if (req.body.bwFlag == 1) {
+    if (req.body.flag == 3) {
         var updateObj = createObj(req.body.collection);
 
         var pushThis = {
@@ -340,7 +340,7 @@ router.post('/', checkToken, Validate, async (req, res) => {
 
     }
 
-    if (req.body.vidsFlag == 1) {
+    if (req.body.flag == 4) {
         var updateObj = createObj(req.body.collection);
 
         var pushThis = {
