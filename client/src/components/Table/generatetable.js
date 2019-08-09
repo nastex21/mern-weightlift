@@ -14,42 +14,21 @@ class GenerateTable extends Component {
         collection: ''
     }
 
-    componentDidMount() {
-        if (this.state.tabIndex == 1) {
-            this.setState({
-                collection: this.props.logs
-            })
-        }
-
-        if (this.state.tabIndex == 2) {
-            this.setState({
-                collection: this.props.cardiologs
-            })
-        }
-
-        if (this.state.tabIndex == 3) {
-            this.setState({
-                collection: this.props.bwlogs
-            })
-        }
-
-        if (this.state.tabIndex == 4) {
-            this.setState({
-                collection: this.props.vidslogs
-            })
-        }
-    }
-
 
     render() {
         console.log(this.props)
+        var newArr = [];
+        var exercise;
+
         var collection;
         var columns;
         const { tabIndex } = this.state;
-        const { logs, cardioLogs, bwLogs, vidsLogs } = this.props;
-        console.log(tabIndex);
+
         if (tabIndex == 1) {
-            collection = this.state.collection;
+            exercise = this.props.dataModifier.weightLogs;
+            exercise = exercise.filter((item) => item.date == this.props.eventReducer.dateShortened);
+            exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj) }) });
+            collection = newArr;
             columns = [{
                 dataField: 'exercise',
                 text: 'Exercise Name',
@@ -69,8 +48,10 @@ class GenerateTable extends Component {
             }];
         }
         if (tabIndex == 2) {
-            collection = this.state.collection;
-            console.log('tabindex 2')
+            exercise = this.props.dataModifier.cardioLogs;
+            exercise = exercise.filter((item) => item.date == this.props.eventReducer.dateShortened);
+            exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj) }) });
+            collection = newArr;
             columns = [{
                 dataField: 'exercise',
                 text: 'Exercise Name',
@@ -91,12 +72,15 @@ class GenerateTable extends Component {
         }
 
         if (tabIndex == 3) {
-            collection = this.state.collection;
+            exercise = this.props.dataModifier.bwLogs;
+            exercise = exercise.filter((item) => item.date == this.props.eventReducer.dateShortened);
+            exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj) }) });
+            collection = newArr;
             columns = [{
                 dataField: 'exercise',
                 text: 'Exercise Name',
                 editable: false
-            },{
+            }, {
                 dataField: 'sets',
                 text: 'Sets',
                 editable: false
@@ -108,7 +92,10 @@ class GenerateTable extends Component {
         }
 
         if (tabIndex == 4) {
-            collection = this.state.collection;
+            exercise = this.props.dataModifier.vidsLogs;
+            exercise = exercise.filter((item) => item.date == this.props.eventReducer.dateShortened);
+            exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj) }) });
+            collection = newArr;
             columns = [{
                 dataField: 'exercise',
                 text: 'Exercise Name',
@@ -140,11 +127,11 @@ function mapStateToProps(state) {
     const { loggedIn } = state.authenticate;
     const { alert, dataModifier, eventReducer } = state;
     return {
-      loggedIn,
-      alert,
-      dataModifier,
-      eventReducer
+        loggedIn,
+        alert,
+        dataModifier,
+        eventReducer
     };
-  }
-  
+}
+
 export default connect(mapStateToProps)(GenerateTable);
