@@ -18,13 +18,20 @@ router.post('/', async (req, res, next) => {
       return res.status(404).json({ usernamenotfound: "username not found" });
     }
 
+    console.log('user');
+    console.log(user);
     var result = bcrypt.compareSync(password, user.password);
+
+    var dataObj = {};
+    dataObj.logs = user.logs;
+    dataObj.cardiologs = user.cardiologs;
+    dataObj.bwlogs = user.bwlogs;
+    dataObj.vidslogs = user.vidslogs;
 
     if (result) {
       //if user log in success, generate a JWT token for the user with a secret key
       jwt.sign({ user }, process.env.SECRET, { expiresIn: '1h' }, (err, token) => {
         if (err) { console.log(err) }
-        var dataObj = {};
         dataObj.token = token;
         dataObj.id = user._id;
         res.send(dataObj);

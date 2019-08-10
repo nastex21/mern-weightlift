@@ -1,7 +1,10 @@
-import { GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS, ADDITEM_REQUEST, ADDITEM_FAILURE, ADDITEM_SUCCESS, DELETEITEM_FAILURE, DELETEITEM_REQUEST, DELETEITEM_SUCCESS, EDITITEM_FAILURE, EDITITEM_REQUEST, EDITITEM_SUCCESS, UPDATESTATE } from '../actions/types';
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS, ADDITEM_REQUEST, ADDITEM_FAILURE, ADDITEM_SUCCESS, DELETEITEM_FAILURE, DELETEITEM_REQUEST, DELETEITEM_SUCCESS, EDITITEM_FAILURE, EDITITEM_REQUEST, EDITITEM_SUCCESS, UPDATESTATE } from '../actions/types';
 
-var initialState = {
-    data: '',
+var user = JSON.parse(localStorage.getItem('user'));
+
+const initialState = user ? {
+    loggingIn: '',
+    loggedIn: true,
     events: [],
     eventsFiltered: [],
     id: '',
@@ -12,49 +15,105 @@ var initialState = {
     vidsLogs: [],
     msg: '',
     loaded: 'false'
-};
+} : {};
 
 export default function dataReducer(state = initialState, action) {
     console.log("action");
     console.log(action);
     switch (action.type) {
-        case GETALL_REQUEST:
-            return { ...state, msg: 'loading' }
-        case GETALL_SUCCESS:
-            let eventsArr = [];
-            action.users.data.logs.map(function (item) {
+        case LOGIN_REQUEST:
+            return {
+                ...state,
+                loggingIn: true,
+                user: action.user
+            };
+        case LOGIN_SUCCESS:
+                var eventsArr = [];
+                action.user.data.logs.map(function (item) {
                     eventsArr.push({
                         "title": "Weights",
                         "date": item.date,
                         "color": "#d9534f",
                         "collections": item.collections
                     })
-            })
-            action.users.data.cardiologs.map(function (item) {
+                })
+                action.user.data.cardiologs.map(function (item) {
                     eventsArr.push({
                         "title": "Cardio",
                         "date": item.date,
                         'color': '#0275d8',
                         "collections": item.collections
                     })
-            });
-
-            action.users.data.bwlogs.map(function (item) {
+                });
+    
+                action.user.data.bwlogs.map(function (item) {
                     eventsArr.push({
                         "title": "Bodyweight",
                         "date": item.date,
                         'color': '#5cb85c',
                         "collections": item.collections
                     })
-            });
-
-            action.users.data.vidslogs.map(function (item) {
+                });
+    
+                action.user.data.vidslogs.map(function (item) {
                     eventsArr.push({
                         "title": "Classes/Videos",
                         "date": item.date,
                         'color': '#f0ad4e',
                         "collections": item.collections
                     })
+                });
+            return {
+                ...state,
+                id: action.user.data.id,
+                weightLogs: [...action.user.data.logs],
+                cardioLogs: [...action.user.data.cardiologs],
+                bwLogs: [...action.user.data.bwlogs],
+                vidsLogs: [...action.user.data.vidslogs],
+                events: [...eventsArr],
+                loggedIn: true,
+            };
+        case LOGIN_FAILURE:
+            return {};
+        case LOGOUT:
+            return {};
+        case GETALL_REQUEST:
+            return { ...state, msg: 'loading' }
+        case GETALL_SUCCESS:
+            var eventsArr = [];
+            action.users.data.logs.map(function (item) {
+                eventsArr.push({
+                    "title": "Weights",
+                    "date": item.date,
+                    "color": "#d9534f",
+                    "collections": item.collections
+                })
+            })
+            action.users.data.cardiologs.map(function (item) {
+                eventsArr.push({
+                    "title": "Cardio",
+                    "date": item.date,
+                    'color': '#0275d8',
+                    "collections": item.collections
+                })
+            });
+
+            action.users.data.bwlogs.map(function (item) {
+                eventsArr.push({
+                    "title": "Bodyweight",
+                    "date": item.date,
+                    'color': '#5cb85c',
+                    "collections": item.collections
+                })
+            });
+
+            action.users.data.vidslogs.map(function (item) {
+                eventsArr.push({
+                    "title": "Classes/Videos",
+                    "date": item.date,
+                    'color': '#f0ad4e',
+                    "collections": item.collections
+                })
             });
             return {
                 ...state,

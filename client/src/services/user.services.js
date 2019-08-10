@@ -21,7 +21,11 @@ function getAll(userID) {
     console.log("getAll");
     console.log(response);
     return response;
-  });
+  })
+  .error((error) => {
+    console.log('error');
+    console.log(error)
+  })
 }
 
 function login(username, password) {
@@ -37,7 +41,7 @@ function login(username, password) {
       console.log("user login: ");
       console.log(user)
       localStorage.setItem('user', JSON.stringify(user));
-      return user.data.id;
+      return user;
     });
 }
 

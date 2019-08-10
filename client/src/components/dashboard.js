@@ -36,11 +36,13 @@ class Dashboard extends Component {
         console.log(this.props.id);
         var user = JSON.parse(localStorage.getItem('user'));
         var newId; 
-        if (user.data){
+        if (user.data && !this.props.dataModifier.events.length){
             newId = user.data.id;
+            console.log("dashboard componentdidmount")
+            console.log(newId);
+            this.props.dispatch(userActions.getAll(newId ? newId : this.state.id));
         }
-        this.props.dispatch(userActions.getAll(newId ? newId : this.state.id));
-    }  
+    }   
 
     closeModal = () => {
         this.props.closeModal();
@@ -149,16 +151,12 @@ class Dashboard extends Component {
 function mapStateToProps(state) {
     console.log('state');
     console.log(state);
-    const { loggedIn, user, id } = state.authenticate;
     const { alert, dataModifier, eventReducer } = state;
     return {
         modalIsOpen: state.modal.modalIsOpen,
-        loggedIn,
-        user,
         alert,
         dataModifier,
         eventReducer,
-        id
     };
 }
 
