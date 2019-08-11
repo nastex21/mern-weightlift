@@ -124,10 +124,8 @@ class GenerateTable extends Component {
 function mapStateToProps(state) {
     console.log('state');
     console.log(state);
-    const { loggedIn } = state.authenticate;
     const { alert, dataModifier, eventReducer } = state;
     return {
-        loggedIn,
         alert,
         dataModifier,
         eventReducer

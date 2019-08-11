@@ -124,7 +124,8 @@ export default function dataReducer(state = initialState, action) {
                 bwLogs: [...action.users.data.bwlogs],
                 vidsLogs: [...action.users.data.vidslogs],
                 events: [...eventsArr],
-                loaded: 'false'
+                loaded: 'false',
+                loggedIn: true
             }
         case GETALL_FAILURE:
             return { ...state, msg: "Failed to get" };

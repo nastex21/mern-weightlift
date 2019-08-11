@@ -22,10 +22,6 @@ function getAll(userID) {
     console.log(response);
     return response;
   })
-  .error((error) => {
-    console.log('error');
-    console.log(error)
-  })
 }
 
 function login(username, password) {

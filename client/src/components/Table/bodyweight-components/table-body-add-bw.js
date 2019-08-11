@@ -98,10 +98,8 @@ class BWAdd extends Component {
 function mapStateToProps(state) {
     console.log('state');
     console.log(state);
-    const { loggedIn } = state.authenticate;
     const { eventReducer, dataModifier } = state;
     return {
-        loggedIn,
         eventReducer,
         dataModifier
     };
