@@ -12,7 +12,9 @@ function getAll(userID) {
   console.log("user.services is running");
   console.log(userID);
   var config = {
-    params: userID,
+    params: {
+      id: userID
+    },
     headers: authHeader()
   }
   return axios.get('/api/dashboard', config).then((response) => {

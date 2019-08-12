@@ -29,7 +29,7 @@ export default function dataReducer(state = initialState, action) {
             };
         case LOGIN_SUCCESS:
                 var eventsArr = [];
-                action.user.data.logs.map(function (item) {
+                action.user.data.data.logs.map(function (item) {
                     eventsArr.push({
                         "title": "Weights",
                         "date": item.date,
@@ -37,7 +37,7 @@ export default function dataReducer(state = initialState, action) {
                         "collections": item.collections
                     })
                 })
-                action.user.data.cardiologs.map(function (item) {
+                action.user.data.data.cardiologs.map(function (item) {
                     eventsArr.push({
                         "title": "Cardio",
                         "date": item.date,
@@ -46,7 +46,7 @@ export default function dataReducer(state = initialState, action) {
                     })
                 });
     
-                action.user.data.bwlogs.map(function (item) {
+                action.user.data.data.bwlogs.map(function (item) {
                     eventsArr.push({
                         "title": "Bodyweight",
                         "date": item.date,
@@ -55,7 +55,7 @@ export default function dataReducer(state = initialState, action) {
                     })
                 });
     
-                action.user.data.vidslogs.map(function (item) {
+                action.user.data.data.vidslogs.map(function (item) {
                     eventsArr.push({
                         "title": "Classes/Videos",
                         "date": item.date,
@@ -65,11 +65,11 @@ export default function dataReducer(state = initialState, action) {
                 });
             return {
                 ...state,
-                id: action.user.data.id,
-                weightLogs: [...action.user.data.logs],
-                cardioLogs: [...action.user.data.cardiologs],
-                bwLogs: [...action.user.data.bwlogs],
-                vidsLogs: [...action.user.data.vidslogs],
+                id: action.user.data.data.id,
+                weightLogs: [...action.user.data.data.logs],
+                cardioLogs: [...action.user.data.data.cardiologs],
+                bwLogs: [...action.user.data.data.bwlogs],
+                vidsLogs: [...action.user.data.data.vidslogs],
                 events: [...eventsArr],
                 loggedIn: true,
             };

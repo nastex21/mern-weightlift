@@ -33,23 +33,11 @@ class Dashboard extends Component {
 
      componentDidMount() {
         var user = JSON.parse(localStorage.getItem('user'));
-        var dataObj = {
-            id: '',
-            token: ''
-        }
         var newId;
-        console.log('mounter');
-        console.log(this.props.id);
-        console.log(user.data);
-        console.log(this.props.dataModifier.events.length);
         if (user.data && !this.props.dataModifier.events.length){
-            newId = user.data.id;
-            console.log("dashboard componentdidmount")
-            console.log(newId);
-            dataObj.id = newId;
-            dataObj.token = user.data.token;
-            this.props.dispatch(userActions.getAll(newId ? dataObj : this.state.id));
-        }
+            newId = user.data.data._id;
+            this.props.dispatch(userActions.getAll(newId ? newId : this.state.id));
+        } 
     }   
 
     closeModal = () => {
