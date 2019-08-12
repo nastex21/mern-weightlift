@@ -9,6 +9,7 @@ const checkToken = (req, res, next) => {
   console.log(req.query);
   console.log("headers");
   console.log(req.headers);
+  console.log('headers')
   const header = req.headers['authorization'];
 
   if (typeof header !== 'undefined') {
@@ -16,7 +17,6 @@ const checkToken = (req, res, next) => {
     const token = bearer[1];
 
     req.token = token;
-
     next();
   } else {
     //If header is undefined return Forbidden (403)
@@ -45,6 +45,7 @@ router.get('/', checkToken, (req, res) => {
 
         if (user) {
           //if user log in success, generate a JWT token for the user with a secret key
+          console.log(user);
           res.json(user);
         }
 

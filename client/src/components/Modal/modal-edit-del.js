@@ -8,6 +8,7 @@ import { faTrashAlt, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { checkName, checkMinutes, checkWeight, wholeNumValidation } from '../Validation/validate';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
 class ModalEditDel extends Component {
     state = {
@@ -368,4 +369,15 @@ class ModalEditDel extends Component {
         )
     }
 };
-export default ModalEditDel;
+
+function mapStateToProps(state) {
+    console.log('state');
+    console.log(state);
+    const { eventReducer, dataModifier } = state;
+    return {
+      eventReducer,
+      dataModifier
+    };
+  }
+  
+  export default connect(mapStateToProps)(ModalEditDel);

@@ -10,14 +10,12 @@ export const userService = {
 
 function getAll(userID) {
   console.log("user.services is running");
-
-  return axios.get(
-    '/api/dashboard/',
-    {
-      params: { id: userID },
-      headers: authHeader()
-    }
-  ).then((response) => {
+  console.log(userID);
+  var config = {
+    params: userID,
+    headers: authHeader()
+  }
+  return axios.get('/api/dashboard', config).then((response) => {
     console.log("getAll");
     console.log(response);
     return response;

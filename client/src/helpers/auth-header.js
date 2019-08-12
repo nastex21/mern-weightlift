@@ -4,11 +4,12 @@ export function authHeader() {
     console.log(user);
     if (user) {
         return {
-            'Authorization': 'Bearer ' + user.data.token,
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + user.data.token
         } 
     } else {
+        console.log("auth-header else is running")
         return {};
     }
 };
