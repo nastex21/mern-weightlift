@@ -22,13 +22,14 @@ class Dashboard extends Component {
     state = {
         date: "",
         id: this.props.id,
-        exercise: this.props.events.events,
+        exercise: this.props.dataModifier.events,
         total: [],
         showError: false,
         color: "",
         msg: '',
         oldDate: "",
-        updatedInfo: ""
+        updatedInfo: "",
+        modalVer: ''
         }
 
      componentDidMount() {
@@ -91,23 +92,25 @@ class Dashboard extends Component {
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         console.log(dateVal.toLocaleString('en-US', options));
 
-        //this.props.dispatch(setDate(date));
-
         this.setState(prevState => ({
             date: dateVal.toLocaleString('en-US', options) == "Invalid Date" ? prevState.date : dateVal.toLocaleString('en-US', options),
             total: sum,
             color: color,
             oldDate: prevState.date,
+            modalVer: 'add'
         }), this.props.closeModal
         )
     }
 
     dateClickInfo = (info) => {
-
+        console.log("dateClickInfo")
         let dateVal = new Date(info.date);
+        this.setState({
+            modalVer: 'edit'
+        }, () => this.props.dispatch(setDate(dateVal, info.dateStr)),
+        this.props.openModal()
+        )
 
-        this.props.dispatch(setDate(dateVal, info.dateStr));
-        this.props.openModal();
     }
 
     closeErr = () => {
@@ -135,7 +138,8 @@ class Dashboard extends Component {
                         {this.state.showError && <div class="alert alert-danger">
                             <button type="button" class="close" data-dismiss="alert" onClick={this.closeErr}>&times;</button> <span>{this.state.msg}</span>
                         </div>}
-                        {this.state.exercise.length == 0 ? <ModalTabs msgUpdate={this.showErrorMsg} color={color} refreshUser={this.props.refreshUser} /> : <ModalEditDel title={this.state.title} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} refreshUser={this.props.refreshUser} />}
+                        {this.state.modalVer == "add" ? <ModalTabs msgUpdate={this.showErrorMsg} color={color} /> : null}
+                        {this.state.modalVer == "edit" ? <ModalEditDel title={this.state.title} date={date} msgUpdate={this.showErrorMsg} exerciseArr={exercise} color={color} /> : null}
                     </ModalBody>
                 </Modal>
             </div>
