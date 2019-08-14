@@ -28,7 +28,6 @@ router.get('/', checkToken, (req, res) => {
       console.log('ERROR: Could not connect to the protected route');
       res.sendStatus(403);
     } else {
-
       User.findById(req.query.id ).then(user => {
         if (!user) {
           console.log('not found');
