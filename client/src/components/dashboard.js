@@ -98,6 +98,7 @@ class Dashboard extends Component {
             total: sum,
             color: color,
             oldDate: prevState.date,
+            modalVer: 'add',
             modal: !prevState.modal
         })
         )
@@ -107,6 +108,7 @@ class Dashboard extends Component {
         console.log("dateClickInfo")
         let dateVal = new Date(info.date);
         this.setState(prevState => ({
+            modalVer: 'edit',
             modal: !prevState.modal
         }), () => this.props.dispatch(setDate(dateVal, info.dateStr)))
 

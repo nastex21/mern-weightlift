@@ -7,7 +7,7 @@ export function authHeader() {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             'Authorization': 'Bearer ' + user.data.token
-        } 
+        }
     } else {
         console.log("auth-header else is running")
         return {};
