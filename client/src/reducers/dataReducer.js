@@ -1,10 +1,14 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS, ADDITEM_REQUEST, ADDITEM_FAILURE, ADDITEM_SUCCESS, DELETEITEM_FAILURE, DELETEITEM_REQUEST, DELETEITEM_SUCCESS, EDITITEM_FAILURE, EDITITEM_REQUEST, EDITITEM_SUCCESS, UPDATESTATE } from '../actions/types';
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS, ADDITEM_REQUEST, ADDITEM_FAILURE, ADDITEM_SUCCESS, DELETEITEM_FAILURE, DELETEITEM_REQUEST, DELETEITEM_SUCCESS, EDITITEM_FAILURE, EDITITEM_REQUEST, EDITITEM_SUCCESS, UPDATESTATE, SETDATE, UPDATEEVENT } from '../actions/types';
 
 var user = JSON.parse(localStorage.getItem('user'));
+var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
 const initialState = user ? {
     loggingIn: '',
     loggedIn: true,
+    date: '',
+    dateShortened: '',
+    dateText: '',
     events: [],
     eventsFiltered: [],
     id: '',
@@ -28,41 +32,41 @@ export default function dataReducer(state = initialState, action) {
                 user: action.user
             };
         case LOGIN_SUCCESS:
-                var eventsArr = [];
-                action.user.data.data.logs.map(function (item) {
-                    eventsArr.push({
-                        "title": "Weights",
-                        "date": item.date,
-                        "color": "#d9534f",
-                        "collections": item.collections
-                    })
+            var eventsArr = [];
+            action.user.data.data.logs.map(function (item) {
+                eventsArr.push({
+                    "title": "Weights",
+                    "date": item.date,
+                    "color": "#d9534f",
+                    "collections": item.collections
                 })
-                action.user.data.data.cardiologs.map(function (item) {
-                    eventsArr.push({
-                        "title": "Cardio",
-                        "date": item.date,
-                        'color': '#0275d8',
-                        "collections": item.collections
-                    })
-                });
-    
-                action.user.data.data.bwlogs.map(function (item) {
-                    eventsArr.push({
-                        "title": "Bodyweight",
-                        "date": item.date,
-                        'color': '#5cb85c',
-                        "collections": item.collections
-                    })
-                });
-    
-                action.user.data.data.vidslogs.map(function (item) {
-                    eventsArr.push({
-                        "title": "Classes/Videos",
-                        "date": item.date,
-                        'color': '#f0ad4e',
-                        "collections": item.collections
-                    })
-                });
+            })
+            action.user.data.data.cardiologs.map(function (item) {
+                eventsArr.push({
+                    "title": "Cardio",
+                    "date": item.date,
+                    'color': '#0275d8',
+                    "collections": item.collections
+                })
+            });
+
+            action.user.data.data.bwlogs.map(function (item) {
+                eventsArr.push({
+                    "title": "Bodyweight",
+                    "date": item.date,
+                    'color': '#5cb85c',
+                    "collections": item.collections
+                })
+            });
+
+            action.user.data.data.vidslogs.map(function (item) {
+                eventsArr.push({
+                    "title": "Classes/Videos",
+                    "date": item.date,
+                    'color': '#f0ad4e',
+                    "collections": item.collections
+                })
+            });
             return {
                 ...state,
                 id: action.user.data.data.id,
@@ -167,6 +171,18 @@ export default function dataReducer(state = initialState, action) {
                 vidsLogs: [...action.data.vidslogs],
                 events: [...action.data.events]
             };
+        case SETDATE:
+            return {
+                ...state,
+                date: action.date,
+                dateShortened: action.dateShort,
+                dateText: action.date.toLocaleString('en-US', options)
+            };
+        case UPDATEEVENT:
+            return {
+                ...state,
+                events: action.data.map((item) => item)
+            }
         default:
             return state;
     }

@@ -71,44 +71,26 @@ class Dashboard extends Component {
 
         var exerciseArr = [];
 
-        let totalWeight = [];
-
-        let sum = "";
-
         if (val) {
             dateVal = val.start;
-
             color = val.backgroundColor;
 
-            const dataExObj = info.event.extendedProps.collections;
-            console.log(info.event.extendedProps.collections);
-
-            dataExObj.forEach(function (item) {
-                exerciseArr.push(item);
-            })
-
         }
-        console.log(exerciseArr);
 
-        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        console.log(dateVal.toLocaleString('en-US', options));
+        this.props.dispatch(setDate(dateVal, info.dateStr));
 
         this.setState(prevState => ({
-            date: dateVal.toLocaleString('en-US', options) == "Invalid Date" ? prevState.date : dateVal.toLocaleString('en-US', options),
-            total: sum,
             color: color,
-            oldDate: prevState.date,
-            modalVer: 'add',
+            modalVer: 'edit',
             modal: !prevState.modal
-        })
-        )
+        }))
     }
 
     dateClickInfo = (info) => {
         console.log("dateClickInfo")
         let dateVal = new Date(info.date);
         this.setState(prevState => ({
-            modalVer: 'edit',
+            modalVer: 'add',
             modal: !prevState.modal
         }), () => this.props.dispatch(setDate(dateVal, info.dateStr)))
 
@@ -133,7 +115,7 @@ class Dashboard extends Component {
                 <Modal isOpen={this.state.modal} toggle={this.toggle} size="lg" style={{ maxWidth: '1600px', width: '80%' }} color={this.state.color} onClosed={this.showErrorMsg}>
                     <ModalHeader toggle={this.toggle}>
                         <p className="exerciseTitle">{this.state.color == "#f0ad4e" ? "Exercise videos and/or classes" : this.state.color == "#d9534f" ? "Weightlifting Exercises" : this.state.color == "#0275d8" ? "Cardio Exercises" : this.state.color == "#5cb85c" ? "Bodyweight Exercises" : null}</p>
-                        <p className="dateTitle">{this.props.eventReducer.dateText}</p>
+                        <p className="dateTitle">{this.props.dataModifier.dateText}</p>
                     </ModalHeader>
                     <ModalBody >
                         {this.state.showError && <div class="alert alert-danger">
@@ -152,12 +134,11 @@ class Dashboard extends Component {
 function mapStateToProps(state) {
     console.log('state');
     console.log(state);
-    const { alert, dataModifier, eventReducer } = state;
+    const { alert, dataModifier } = state;
     return {
         alert,
-        dataModifier,
-        eventReducer,
-    };
+        dataModifier
+        };
 }
 
 function mapDispatchToProps(dispatch) {

@@ -26,7 +26,7 @@ class GenerateTable extends Component {
 
         if (tabIndex == 1) {
             exercise = this.props.dataModifier.weightLogs;
-            exercise = exercise.filter((item) => item.date == this.props.eventReducer.dateShortened);
+            exercise = exercise.filter((item) => item.date == this.props.dataModifier.dateShortened);
             exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj) }) });
             collection = newArr;
             columns = [{
@@ -49,7 +49,7 @@ class GenerateTable extends Component {
         }
         if (tabIndex == 2) {
             exercise = this.props.dataModifier.cardioLogs;
-            exercise = exercise.filter((item) => item.date == this.props.eventReducer.dateShortened);
+            exercise = exercise.filter((item) => item.date == this.props.dataModifier.dateShortened);
             exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj) }) });
             collection = newArr;
             columns = [{
@@ -73,7 +73,7 @@ class GenerateTable extends Component {
 
         if (tabIndex == 3) {
             exercise = this.props.dataModifier.bwLogs;
-            exercise = exercise.filter((item) => item.date == this.props.eventReducer.dateShortened);
+            exercise = exercise.filter((item) => item.date == this.props.dataModifier.dateShortened);
             exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj) }) });
             collection = newArr;
             columns = [{
@@ -93,7 +93,7 @@ class GenerateTable extends Component {
 
         if (tabIndex == 4) {
             exercise = this.props.dataModifier.vidsLogs;
-            exercise = exercise.filter((item) => item.date == this.props.eventReducer.dateShortened);
+            exercise = exercise.filter((item) => item.date == this.props.dataModifier.dateShortened);
             exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj) }) });
             collection = newArr;
             columns = [{
@@ -124,12 +124,11 @@ class GenerateTable extends Component {
 function mapStateToProps(state) {
     console.log('state');
     console.log(state);
-    const { alert, dataModifier, eventReducer } = state;
+    const { alert, dataModifier } = state;
     return {
         alert,
-        dataModifier,
-        eventReducer
-    };
+        dataModifier
+        };
 }
 
 export default connect(mapStateToProps)(GenerateTable);
