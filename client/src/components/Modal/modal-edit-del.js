@@ -13,9 +13,9 @@ import { connect } from 'react-redux';
 class ModalEditDel extends Component {
     state = {
         id: this.props.id,
-        date: this.props.date,
-        color: this.props.color,
-        collection: this.props.exerciseArr,
+        date: this.props.dataModifier.dateText,
+        color: this.props.dataModifier.color,
+        collection: this.props.dataModifier.eventsFiltered,
         msgUpdate: this.props.msgUpdate,
         rowData: '',
         selectAll: false,
@@ -68,6 +68,7 @@ class ModalEditDel extends Component {
 
     render() {
         const { color, edit, collection } = this.state;
+        console.log(collection);
         var columns, minsColumn, hrsColumn;
         var dummy = {
             dataField: 'df2',

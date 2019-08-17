@@ -72,13 +72,18 @@ class Dashboard extends Component {
         if (val) {
             dateVal = val.start;
             color = val.backgroundColor;
-
         }
 
-        this.props.dispatch(filterEvent(dateVal, color));
+        var now = new Date(dateVal);
+        var y = now.getFullYear();
+        var m = now.getMonth() + 1;
+        var d = now.getDate();
+        var hyphenDate = '' + y + "-" + (m < 10 ? '0' : '') + m + "-" + (d < 10 ? '0' : '') + d;
 
-        this.props.dispatch(setDate(dateVal, info.dateStr));
-        
+        if (dateVal !== '') {
+            this.props.dispatch(filterEvent(hyphenDate, dateVal, color))
+        }
+
         this.setState(prevState => ({
             color: color,
             modalVer: 'edit',
@@ -138,7 +143,7 @@ function mapStateToProps(state) {
     return {
         alert,
         dataModifier
-        };
+    };
 }
 
 function mapDispatchToProps(dispatch) {

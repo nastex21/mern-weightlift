@@ -134,10 +134,9 @@ export const setDate = (date, dateShort) => dispatch => {
 
 /*FILTER EVENTS */
 
-export const filterEvent = (date, color) => dispatch => {
-  console.log(date, color);
+export const filterEvent = (hyphenDate, dateVal, color) => dispatch => {
   dispatch({
     type: FILTEREVENTS,
-    date, color
+    hyphenDate, dateVal, color
   })
 }

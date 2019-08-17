@@ -1,11 +1,14 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS, 
+import {
+    LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS,
     ADDITEM_REQUEST, ADDITEM_FAILURE, ADDITEM_SUCCESS, DELETEITEM_FAILURE, DELETEITEM_REQUEST, DELETEITEM_SUCCESS,
-     EDITITEM_FAILURE, EDITITEM_REQUEST, EDITITEM_SUCCESS, UPDATESTATE, SETDATE, UPDATEEVENT, FILTEREVENTS } from '../actions/types';
+    EDITITEM_FAILURE, EDITITEM_REQUEST, EDITITEM_SUCCESS, UPDATESTATE, SETDATE, UPDATEEVENT, FILTEREVENTS
+} from '../actions/types';
 
 var user = JSON.parse(localStorage.getItem('user'));
 var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
 const initialState = user ? {
+    color: '',
     loggingIn: '',
     loggedIn: true,
     date: '',
@@ -185,11 +188,38 @@ export default function dataReducer(state = initialState, action) {
                 ...state,
                 events: action.data.map((item) => item)
             }
-        case FILTEREVENTS: 
-        
-        return {
-            ...state,
-        }
+        case FILTEREVENTS:
+            var newCollection;
+            //weights
+            if (action.color == "#d9534f") {
+               newCollection = state.weightLogs.filter(item => {
+                  return item.date === action.hyphenDate
+                })
+            }
+            //cardio 
+            if (action.color == '#0275d8') {
+                newCollection = state.cardioLogs.filter(item => {
+                    return item.date === action.hyphenDate
+                  })
+            }
+            //bodyweight
+            if (action.color == '#5cb85c') {
+                newCollection = state.bwLogs.filter(item => {
+                    return item.date === action.hyphenDate
+                  })
+            }
+            //videos -or- classes
+            if (action.color == '#f0ad4e') {
+                newCollection = state.vidsLogs.filter(item => {
+                    return item.date === action.hyphenDate
+                  })
+            }
+            return {
+                ...state,
+                dateText: action.dateVal.toLocaleString('en-US', options),
+                color: action.color,
+                eventsFiltered: [...newCollection[0].collections]
+            }
         default:
             return state;
     }
