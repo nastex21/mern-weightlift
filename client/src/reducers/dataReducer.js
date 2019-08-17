@@ -1,4 +1,6 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS, ADDITEM_REQUEST, ADDITEM_FAILURE, ADDITEM_SUCCESS, DELETEITEM_FAILURE, DELETEITEM_REQUEST, DELETEITEM_SUCCESS, EDITITEM_FAILURE, EDITITEM_REQUEST, EDITITEM_SUCCESS, UPDATESTATE, SETDATE, UPDATEEVENT } from '../actions/types';
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS, 
+    ADDITEM_REQUEST, ADDITEM_FAILURE, ADDITEM_SUCCESS, DELETEITEM_FAILURE, DELETEITEM_REQUEST, DELETEITEM_SUCCESS,
+     EDITITEM_FAILURE, EDITITEM_REQUEST, EDITITEM_SUCCESS, UPDATESTATE, SETDATE, UPDATEEVENT, FILTEREVENTS } from '../actions/types';
 
 var user = JSON.parse(localStorage.getItem('user'));
 var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -183,6 +185,11 @@ export default function dataReducer(state = initialState, action) {
                 ...state,
                 events: action.data.map((item) => item)
             }
+        case FILTEREVENTS: 
+        
+        return {
+            ...state,
+        }
         default:
             return state;
     }

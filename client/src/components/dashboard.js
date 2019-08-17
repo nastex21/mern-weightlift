@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions';
-import { updateState, setDate } from '../actions/items_actions';
+import { setDate, filterEvent } from '../actions/items_actions';
 import { userActions } from '../actions/user_actions';
 /*Components*/
 import FullCalendar from '@fullcalendar/react';
@@ -69,16 +69,16 @@ class Dashboard extends Component {
 
         let color = "";
 
-        var exerciseArr = [];
-
         if (val) {
             dateVal = val.start;
             color = val.backgroundColor;
 
         }
 
-        this.props.dispatch(setDate(dateVal, info.dateStr));
+        this.props.dispatch(filterEvent(dateVal, color));
 
+        this.props.dispatch(setDate(dateVal, info.dateStr));
+        
         this.setState(prevState => ({
             color: color,
             modalVer: 'edit',

@@ -1,4 +1,4 @@
-import { ADDITEM_FAILURE, ADDITEM_REQUEST, ADDITEM_SUCCESS, EDITITEM_FAILURE, EDITITEM_REQUEST, EDITITEM_SUCCESS, DELETEITEM_REQUEST, DELETEITEM_SUCCESS, DELETEITEM_FAILURE, UPDATESTATE, UPDATEEVENT, SETDATE } from './types';
+import { ADDITEM_FAILURE, ADDITEM_REQUEST, ADDITEM_SUCCESS, EDITITEM_FAILURE, EDITITEM_REQUEST, EDITITEM_SUCCESS, DELETEITEM_REQUEST, DELETEITEM_SUCCESS, DELETEITEM_FAILURE, UPDATESTATE, UPDATEEVENT, SETDATE, FILTEREVENTS } from './types';
 import axios from 'axios';
 
 export const itemsConst = {
@@ -106,8 +106,6 @@ function delItem() {
 
 /*UPDATE ITEM STATE */
 export const updateState = (data) => dispatch => {
-  console.log('updateState');
-  console.log(data);
   dispatch({
     type: UPDATESTATE,
     data
@@ -118,8 +116,6 @@ export const updateState = (data) => dispatch => {
 /* UPDATE EVENT STATE */
 
 export const updateEvent = (data) => dispatch => {
-  console.log("data");
-  console.log(data);
   dispatch({
     type: UPDATEEVENT,
     data
@@ -130,10 +126,18 @@ export const updateEvent = (data) => dispatch => {
 /*SET DATE */
 
 export const setDate = (date, dateShort) => dispatch => {
-  console.log('date');
-  console.log(date);
   dispatch({
     type: SETDATE,
     date, dateShort
+  })
+}
+
+/*FILTER EVENTS */
+
+export const filterEvent = (date, color) => dispatch => {
+  console.log(date, color);
+  dispatch({
+    type: FILTEREVENTS,
+    date, color
   })
 }
