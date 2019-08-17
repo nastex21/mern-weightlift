@@ -65,7 +65,7 @@ class CardioAdd extends Component {
         console.log("post is triggered")
         console.log(this.props.id);
         const { dispatch } = this.props;
-        var options = { id: this.props.dataModifier.id, collection: this.state.collection, date: this.props.eventReducer.dateShortened, flag: 2 };
+        var options = { id: this.props.dataModifier.id, collection: this.state.collection, date: this.props.dataModifier.dateShortened, flag: 2 };
 
         dispatch(itemsConst.addItem(options));
         /* axios.post("/api/add-items", { id: this.props.dataModifier.id, collection: this.state.collection, date: this.state.date, cardioFlag: 1 })

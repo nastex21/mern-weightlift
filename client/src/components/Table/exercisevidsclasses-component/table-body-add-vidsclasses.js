@@ -93,8 +93,7 @@ class ExVidsClassesAdd extends Component {
 
         console.log('table-body-vidsclasses');
         const { dispatch } = this.props;
-        var options = { id: this.props.dataModifier.id, collection: this.state.collection, date: this.props.eventReducer.dateShortened, flag: 4 };
-
+        var options = { id: this.props.dataModifier.id, collection: this.state.collection, date: this.props.dataModifier.dateShortened, flag: 4 };
         dispatch(itemsConst.addItem(options));
   /*       axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, completed: this.state.completed, vidsFlag: 1 })
             .then(response => {

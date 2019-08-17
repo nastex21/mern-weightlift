@@ -1,7 +1,7 @@
 import {
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS,
-    ADDITEM_REQUEST, ADDITEM_FAILURE, ADDITEM_SUCCESS, DELETEITEM_FAILURE, DELETEITEM_REQUEST, DELETEITEM_SUCCESS,
-    EDITITEM_FAILURE, EDITITEM_REQUEST, EDITITEM_SUCCESS, UPDATESTATE, SETDATE, UPDATEEVENT, FILTEREVENTS
+    ADDITEM_REQUEST, ADDITEM_FAILURE, ADDITEM_SUCCESS, SAVECHANGES_FAILURE, SAVECHANGES_REQUEST, SAVECHANGES_SUCCESS,
+    UPDATESTATE, SETDATE, UPDATEEVENT, FILTEREVENTS
 } from '../actions/types';
 
 var user = JSON.parse(localStorage.getItem('user'));
@@ -152,18 +152,14 @@ export default function dataReducer(state = initialState, action) {
             }
         case ADDITEM_FAILURE:
             return state.msg = 'Item addition failed';
-        case DELETEITEM_REQUEST:
-            return state.msg = "deleting...";
-        case DELETEITEM_SUCCESS:
-            return state.data.filter(item => item._id !== action.payload.id);
-        case DELETEITEM_FAILURE:
-            return state.msg = 'Did not delete';
-        case EDITITEM_REQUEST:
-            return state.msg = 'Editing...';
-        case EDITITEM_SUCCESS:
-            return state;
-        case EDITITEM_FAILURE:
-            return state.msg = "Did not edit";
+        case SAVECHANGES_REQUEST:
+            return { ...state, msg: "loading" };
+        case SAVECHANGES_SUCCESS:
+            return {
+                ...state,
+            }
+        case SAVECHANGES_FAILURE:
+            return state.msg = "Did not save";
         case UPDATESTATE:
             return {
                 ...state,
@@ -192,27 +188,27 @@ export default function dataReducer(state = initialState, action) {
             var newCollection;
             //weights
             if (action.color == "#d9534f") {
-               newCollection = state.weightLogs.filter(item => {
-                  return item.date === action.hyphenDate
+                newCollection = state.weightLogs.filter(item => {
+                    return item.date === action.hyphenDate
                 })
             }
             //cardio 
             if (action.color == '#0275d8') {
                 newCollection = state.cardioLogs.filter(item => {
                     return item.date === action.hyphenDate
-                  })
+                })
             }
             //bodyweight
             if (action.color == '#5cb85c') {
                 newCollection = state.bwLogs.filter(item => {
                     return item.date === action.hyphenDate
-                  })
+                })
             }
             //videos -or- classes
             if (action.color == '#f0ad4e') {
                 newCollection = state.vidsLogs.filter(item => {
                     return item.date === action.hyphenDate
-                  })
+                })
             }
             return {
                 ...state,

@@ -31,7 +31,6 @@ app.use('/api/logout', require('./routes/api/logout'));
 app.use('/api/signup', require('./routes/api/signup'));
 app.use('/api/add-items', require('./routes/api/addItem'));
 app.use('/api/edit-items', require('./routes/api/editItem'));
-app.use('/api/del-items', require('./routes/api/delItem'));
 
 //Handle errors
 app.use(function(err, req, res, next) {

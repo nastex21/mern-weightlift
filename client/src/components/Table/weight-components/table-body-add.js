@@ -82,7 +82,8 @@ class WeightsAdd extends Component {
         console.log(this.props);
         console.log("addItem: ");
         console.log(this.state.id);
-        var options = { id: this.props.dataModifier.id, collection: this.state.collection, date: this.props.eventReducer.dateShortened, flag: 1 };
+        var options = { id: this.props.dataModifier.id, collection: this.state.collection, 
+            date: this.props.dataModifier.dateShortened, flag: 1 };
         dispatch(itemsConst.addItem(options));
         /* 
         axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, weightFlag: 1 })

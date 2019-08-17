@@ -1,108 +1,43 @@
-import { ADDITEM_FAILURE, ADDITEM_REQUEST, ADDITEM_SUCCESS, EDITITEM_FAILURE, EDITITEM_REQUEST, EDITITEM_SUCCESS, DELETEITEM_REQUEST, DELETEITEM_SUCCESS, DELETEITEM_FAILURE, UPDATESTATE, UPDATEEVENT, SETDATE, FILTEREVENTS } from './types';
-import axios from 'axios';
+import {
+  ADDITEM_FAILURE, ADDITEM_REQUEST, ADDITEM_SUCCESS,
+  SAVECHANGES_FAILURE, SAVECHANGES_REQUEST, SAVECHANGES_SUCCESS,
+  UPDATESTATE, UPDATEEVENT, SETDATE, FILTEREVENTS
+} from './types';
+import { userService } from '../services/user.services';
+
 
 export const itemsConst = {
   addItem,
-  delItem,
-  editItem
+  saveChanges
 }
 
 /* ADD ITEM(S) DISPATCH */
 function addItem(options) {
+  console.log("it's running")
   return dispatch => {
     dispatch(request());
-    console.log("options");
+    console.log("add data")
     console.log(options);
-    var item = {
-      id: options.id,
-      collection: options.collection,
-      date: options.date,
-      flag: options.flag
-    };
+    userService.addItem(options)
+      .then(
+        users => dispatch(success(users)),
+        error => dispatch(failure(error.toString()))
+      );
 
-    const storedData = JSON.parse(localStorage.getItem('user'));
-
-    var config = {
-      headers: { 'Authorization': "bearer " + storedData.token }
-    };
-
-    axios.post("/api/add-items", { id: item.id, collection: item.collection, date: item.date, flag: item.flag }, config)
-      .then(data => {
-        console.log("data");
-        console.log(data);
-        var newObj = {};
-        let eventsArr = [];
-        data.data.logs.map(function (item) {
-          if (item.collections.length > 0) {
-            eventsArr.push({
-              "title": "Weights",
-              "date": item.date,
-              "color": "#d9534f",
-              "collections": item.collections
-            })
-          }
-        })
-        data.data.cardiologs.map(function (item) {
-          if (item.collections.length > 0) {
-            eventsArr.push({
-              "title": "Cardio",
-              "date": item.date,
-              'color': '#0275d8',
-              "collections": item.collections
-            })
-          }
-        });
-
-        data.data.bwlogs.map(function (item) {
-          console.log(item);
-          if (item.collections.length > 0) {
-            eventsArr.push({
-              "title": "Bodyweight",
-              "date": item.date,
-              'color': '#5cb85c',
-              "collections": item.collections
-            })
-          }
-        });
-
-        data.data.vidslogs.map(function (item) {
-          if (item.collections.length > 0) {
-            eventsArr.push({
-              "title": "Classes/Videos",
-              "date": item.date,
-              'color': '#f0ad4e',
-              "collections": item.collections
-            })
-          }
-        });
-        newObj.events = eventsArr;
-        newObj.logs = data.data.logs;
-        newObj.cardiologs = data.data.cardiologs;
-        newObj.bwlogs = data.data.bwlogs;
-        newObj.vidslogs = data.data.vidslogs;
-        console.log("newObj");
-        console.log(newObj);
-        dispatch(success(newObj))
-      })
-      .catch(error => {
-        dispatch(failure(error.toString()))
-      })
+    function request() { return { type: ADDITEM_REQUEST } }
+    function success(users) { return { type: ADDITEM_SUCCESS, users } }
+    function failure(error) { return { type: ADDITEM_FAILURE, error } }
   }
-
-  function request() { return { type: ADDITEM_REQUEST } };
-  function success(users) { return { type: ADDITEM_SUCCESS, users } };
-  function failure(error) { return { type: ADDITEM_FAILURE, error } };
 }
 
 /* EDIT ITEM(S) DISPATCH */
-function editItem() {
+function saveChanges(data) {
 
+  function request() { return { type: SAVECHANGES_REQUEST } };
+  function success(users) { return { type: SAVECHANGES_SUCCESS, users } };
+  function failure(error) { return { type: SAVECHANGES_FAILURE, error } };
 }
 
-/* DELETE ITEM(S) DISPATCH */
-function delItem() {
-
-}
 
 /*UPDATE ITEM STATE */
 export const updateState = (data) => dispatch => {

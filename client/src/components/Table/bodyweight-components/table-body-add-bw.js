@@ -48,7 +48,7 @@ class BWAdd extends Component {
         e.preventDefault();
         
         const { dispatch } = this.props;
-        var options = { id: this.props.dataModifier.id, collection: this.state.collection, date: this.props.eventReducer.dateShortened, flag: 3 };
+        var options = { id: this.props.dataModifier.id, collection: this.state.collection, date: this.props.dataModifier.dateShortened, flag: 3 };
 
         dispatch(itemsConst.addItem(options));
     }
