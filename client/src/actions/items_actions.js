@@ -32,10 +32,20 @@ function addItem(options) {
 
 /* EDIT ITEM(S) DISPATCH */
 function saveChanges(data) {
+  console.log("save changes is running item_actions");
+  return dispatch => {
+    dispatch(request());
+    console.log("after request")
+    userService.saveChanges(data)
+      .then(
+        users => dispatch(success(users)),
+        error => dispatch(failure(error.toString()))
+      );
 
-  function request() { return { type: SAVECHANGES_REQUEST } };
-  function success(users) { return { type: SAVECHANGES_SUCCESS, users } };
-  function failure(error) { return { type: SAVECHANGES_FAILURE, error } };
+    function request() { return { type: SAVECHANGES_REQUEST } };
+    function success(users) { return { type: SAVECHANGES_SUCCESS, users } };
+    function failure(error) { return { type: SAVECHANGES_FAILURE, error } };
+  }
 }
 
 

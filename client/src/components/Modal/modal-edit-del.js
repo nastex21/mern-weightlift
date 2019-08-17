@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { checkName, checkMinutes, checkWeight, wholeNumValidation } from '../Validation/validate';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import { userService } from '../../services/user.services';
+import { itemsConst } from '../../actions/items_actions';
 import { connect } from 'react-redux';
 
 class ModalEditDel extends Component {
@@ -43,7 +43,13 @@ class ModalEditDel extends Component {
     }
 
     saveChanges = () => {
-        this.props.dispatch(userService.saveChanges(this.state.id, this.state.date, this.state.color, this.state.collection));
+        var dataObj = {};
+        dataObj.id = this.state.id;
+        dataObj.date = this.state.date;
+        dataObj.color = this.state.color;
+        dataObj.collection = this.state.collection;
+
+        this.props.dispatch(itemsConst.saveChanges(dataObj));
     }
 
     toggle = (info) => {

@@ -96,10 +96,11 @@ function addItem(options) {
 
 }
 
-function saveChanges(id, date, color, collection) {
+function saveChanges(dataObj) {
   console.log("saveChanges");
-  console.log(id)
-  return axios.post('/api/edit-items', { id, date, color, collection }, { headers: header })
+  console.log(dataObj);
+
+  return axios.post('/api/edit-items', dataObj)
     .then((response) => {
       console.log(response);
       return response

@@ -4,7 +4,7 @@ const User = require("../../database/models/user");
 const Validate = require('../../validation/validate');
 
 //Check to make sure header is not undefined, if so, return Forbidden (403)
-const checkToken = (req, res, next) => {
+/* const checkToken = (req, res, next) => {
     console.log('headers');
     console.log(req.headers);
     const header = req.headers['authorization'];
@@ -21,11 +21,15 @@ const checkToken = (req, res, next) => {
       //If header is undefined return Forbidden (403)
       res.sendStatus(403)
     }
-  }
+  } */
 
-router.post('/', checkToken, Validate, (req, res) => {
+router.post('/', Validate, (req, res) => {
 
     const { id, date, color, collection } = req.body;
+    console.log(id);
+    console.log(date);
+    console.log(color);
+    console.log(collection);
     var query, update, filter;
 
     const createDate = (date) => {
