@@ -5,34 +5,41 @@ export const userService = {
   login,
   logout,
   register,
-  getAll
+  getAll,
+  saveChanges
 };
 
 let user = JSON.parse(localStorage.getItem('user'));
 
 var header;
 if (user) {
-       header = 'Bearer ' + user.data.token
-  }
+  header = 'Bearer ' + user.data.token
+}
 
-//axios.defaults.headers.common['Authorization'] = header;
+function saveChanges(id, date, color, collection) {
+  console.log("saveChanges");
+  console.log(id)
+  return axios.post('/api/edit-items', { id, date, color, collection })
+    .then((response) => {
+      console.log(response);
+      return response
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
 
 function getAll(userID) {
-  console.log("user.services is running");
-  console.log(userID);
-  console.log(authHeader());
-  
+
   return axios({
     method: 'get',
     url: '/api/dashboard',
     params: {
       id: userID,
     }
-    }).then( response => {
-    console.log("getAll");
-    console.log(response);
+  }).then(response => {
     return response;
-  }).catch(error =>{ 
+  }).catch(error => {
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
@@ -55,8 +62,6 @@ function getAll(userID) {
 
 
 function login(username, password) {
-  console.log("user.services");
-  console.log(username);
   return axios.post('/api/login', { username: username, password: password }, {
     headers: {
       'Content-Type': 'application/json',
@@ -64,8 +69,6 @@ function login(username, password) {
     }
   })
     .then(user => {
-      console.log("user login: ");
-      console.log(user)
       localStorage.setItem('user', JSON.stringify(user));
       return user;
     });
@@ -73,13 +76,10 @@ function login(username, password) {
 
 function logout() {
   // remove user from local storage to log user out
-  console.log("logout 35");
   localStorage.removeItem('user');
 }
 
 function register(user) {
-  console.log("user services");
-  console.log(user);
   return axios.post("/api/signup/", { username: user.username, password: user.password }).then(response => {
     if (response.data.user) {
       return response.data.user;

@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import BootstrapTable from 'react-bootstrap-table-next';
+import { bindActionCreators } from 'redux';
+import * as Actions from '../../actions';
 import { Button } from 'react-bootstrap';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { checkName, checkMinutes, checkWeight, wholeNumValidation } from '../Validation/validate';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import axios from 'axios';
+import { userService } from '../../services/user.services';
 import { connect } from 'react-redux';
 
 class ModalEditDel extends Component {
     state = {
-        id: this.props.id,
+        id: this.props.dataModifier.id,
         date: this.props.dataModifier.dateText,
         color: this.props.dataModifier.color,
         collection: this.props.dataModifier.eventsFiltered,
@@ -41,21 +43,7 @@ class ModalEditDel extends Component {
     }
 
     saveChanges = () => {
-        axios.post('/api/edit-items', { id: this.state.id, date: this.state.date, color: this.state.color, collection: this.state.collection })
-            .then(() => {
-                this.props.refreshUser()
-            })
-            .then(() => {
-                this.setState(prevState => ({
-                    modal: !prevState.modal
-                }))
-            })
-            .then(() => {
-                this.props.closeModal();
-            })
-            .catch(error => {
-                console.log(error);
-            });
+        this.props.dispatch(userService.saveChanges(this.state.id, this.state.date, this.state.color, this.state.collection));
     }
 
     toggle = (info) => {
@@ -100,7 +88,7 @@ class ModalEditDel extends Component {
                     return checkName(newValue)
                 },
                 footer: (column, columnIndex) => {
-                        return "Total";
+                    return "Total";
                 }
             }, {
                 dataField: 'reps',
@@ -141,7 +129,7 @@ class ModalEditDel extends Component {
                     return checkWeight(newValue);
                 },
                 footer: (column, columnIndex) => {
-                        return column.reduce((acc, item) => +acc + +item)
+                    return column.reduce((acc, item) => +acc + +item)
                 }
             }];
 
@@ -170,13 +158,13 @@ class ModalEditDel extends Component {
 
                 var min = arrMin.reduce((acc, item) => +acc + +item);
                 var hrs = arrHr.reduce((acc, item) => +acc + +item);
-                
+
                 hrs = +hrs * 60;
                 var total = +hrs + +min;
 
-                if (path == 1){
+                if (path == 1) {
                     return hrsColumn = Math.floor(total / 60);
-                } else if (path == 2){
+                } else if (path == 2) {
                     return minsColumn = total % 60;
                 }
             };
@@ -194,7 +182,7 @@ class ModalEditDel extends Component {
                     return checkName(newValue)
                 },
                 footer: (column, columnIndex) => {
-                        return "Total";
+                    return "Total";
                 }
             }, {
                 dataField: 'distance',
@@ -209,7 +197,7 @@ class ModalEditDel extends Component {
                     return checkWeight(newValue);
                 },
                 footer: (column, columnIndex) => {
-                        return column.reduce((acc, item) => +acc + +item);
+                    return column.reduce((acc, item) => +acc + +item);
                 }
             }, {
                 dataField: 'hours',
@@ -224,7 +212,7 @@ class ModalEditDel extends Component {
                     return wholeNumValidation(newValue)
                 },
                 footer: (column, columnIndex) => {
-                        return getTime(1);                
+                    return getTime(1);
                 }
             }, {
                 dataField: 'minutes',
@@ -239,7 +227,7 @@ class ModalEditDel extends Component {
                     return checkMinutes(newValue)
                 },
                 footer: (column, columnIndex) => {
-                        return getTime(2);
+                    return getTime(2);
                 }
             }];
 
@@ -354,8 +342,8 @@ class ModalEditDel extends Component {
 
         return (
             <div>
-                {this.state.collection.length > 0 ? <BootstrapTable keyField='_id' bootstrap4={true} striped={true} data={collection} columns={columns} cellEdit={cellEdit} /> : <p className="emptyWarning">It looks empty in here</p> }
-                {this.state.edit ? <Button as="input" variant="secondary" type="button" value="SAVE CHANGES" size="sm" block onClick={this.toggle} /> : <Button as="input" type="button" style={style} value="EDIT" size="sm" block onClick={this.edit} />} 
+                {this.state.collection.length > 0 ? <BootstrapTable keyField='_id' bootstrap4={true} striped={true} data={collection} columns={columns} cellEdit={cellEdit} /> : <p className="emptyWarning">It looks empty in here</p>}
+                {this.state.edit ? <Button as="input" variant="secondary" type="button" value="SAVE CHANGES" size="sm" block onClick={this.toggle} /> : <Button as="input" type="button" style={style} value="EDIT" size="sm" block onClick={this.edit} />}
 
                 <Modal isOpen={this.state.modal} toggle={this.toggle} color={this.state.color} onClosed={this.showErrorMsg} >
                     <ModalHeader toggle={this.toggle}>
@@ -376,9 +364,16 @@ function mapStateToProps(state) {
     console.log(state);
     const { eventReducer, dataModifier } = state;
     return {
-      eventReducer,
-      dataModifier
+        eventReducer,
+        dataModifier
     };
-  }
-  
-  export default connect(mapStateToProps)(ModalEditDel);
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        dispatch,
+        ...bindActionCreators(Actions, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ModalEditDel);
