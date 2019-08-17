@@ -155,8 +155,54 @@ export default function dataReducer(state = initialState, action) {
         case SAVECHANGES_REQUEST:
             return { ...state, msg: "loading" };
         case SAVECHANGES_SUCCESS:
+                var eventsArr = [];
+                action.users.data.logs.map(function (item) {
+                    eventsArr.push({
+                        "title": "Weights",
+                        "date": item.date,
+                        "color": "#d9534f",
+                        "collections": item.collections
+                    })
+                })
+                action.users.data.cardiologs.map(function (item) {
+                    eventsArr.push({
+                        "title": "Cardio",
+                        "date": item.date,
+                        'color': '#0275d8',
+                        "collections": item.collections
+                    })
+                });
+    
+                action.users.data.bwlogs.map(function (item) {
+                    eventsArr.push({
+                        "title": "Bodyweight",
+                        "date": item.date,
+                        'color': '#5cb85c',
+                        "collections": item.collections
+                    })
+                });
+    
+                action.users.data.vidslogs.map(function (item) {
+                    eventsArr.push({
+                        "title": "Classes/Videos",
+                        "date": item.date,
+                        'color': '#f0ad4e',
+                        "collections": item.collections
+                    })
+                });
             return {
                 ...state,
+                msg: 'Success',
+                id: action.users.data._id,
+                username: action.users.data.username,
+                weightLogs: [...action.users.data.logs],
+                cardioLogs: [...action.users.data.cardiologs],
+                bwLogs: [...action.users.data.bwlogs],
+                vidsLogs: [...action.users.data.vidslogs],
+                events: [...eventsArr],
+                loaded: 'false',
+                loggedIn: true
+
             }
         case SAVECHANGES_FAILURE:
             return state.msg = "Did not save";

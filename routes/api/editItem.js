@@ -26,10 +26,7 @@ const Validate = require('../../validation/validate');
 router.post('/', Validate, (req, res) => {
 
     const { id, date, color, collection } = req.body;
-    console.log(id);
-    console.log(date);
-    console.log(color);
-    console.log(collection);
+
     var query, update, filter;
 
     const createDate = (date) => {
@@ -67,7 +64,7 @@ router.post('/', Validate, (req, res) => {
                 }
             }
 
-            User.update(query, update, (err, data) => {
+            User.findOneAndUpdate(query, update, {new: true}, (err, data) => {
                 if (err) {
                     
                     return res.status(500).end();
@@ -75,7 +72,8 @@ router.post('/', Validate, (req, res) => {
                 if (!data) {
                     return res.status(404).end();
                 }
-                return res.status(200).end();
+                console.log(data);
+                return res.json(data);
             });
         }
 
@@ -88,6 +86,7 @@ router.post('/', Validate, (req, res) => {
                 };
 
                 var filter = {
+                    new: true,
                     arrayFilters: [
                         {
                             'i.collections._id': collection[i]._id
@@ -103,7 +102,8 @@ router.post('/', Validate, (req, res) => {
                     if (!data) {
                         return res.status(404).end();
                     }
-                    return res.status(200).end();
+                    console.log(data);
+                    return res.json(data);
                 })
             }
         }
@@ -124,7 +124,7 @@ router.post('/', Validate, (req, res) => {
                 }
             }
 
-            User.update(query, update, (err, data) => {
+            User.findOneAndUpdate(query, update, {new: true}, (err, data) => {
                 if (err) {
                     
                     return res.status(500).end();
@@ -132,7 +132,7 @@ router.post('/', Validate, (req, res) => {
                 if (!data) {
                     return res.status(404).end();
                 }
-                return res.status(200).end();
+                return res.json(data);
                 
             });
         }
@@ -146,6 +146,7 @@ router.post('/', Validate, (req, res) => {
                 };
 
                 var filter = {
+                    new: true,
                     arrayFilters: [
                         {
                             'i.collections._id': collection[i]._id
@@ -160,7 +161,7 @@ router.post('/', Validate, (req, res) => {
                     if (!data) {
                         return res.status(404).end();
                     }
-                    return res.status(200).end();
+                    return res.json(data);
                 })
             }
         }
@@ -182,7 +183,7 @@ router.post('/', Validate, (req, res) => {
                 }
             }
 
-            User.update(query, update, (err, data) => {
+            User.findOneAndUpdate(query, update, {new: true}, (err, data) => {
                 if (err) {
                     
                     return res.status(500).end();
@@ -190,7 +191,7 @@ router.post('/', Validate, (req, res) => {
                 if (!data) {
                     return res.status(404).end();
                 }
-                return res.status(200).end();
+                return res.json(data);
                 
             });
         }
@@ -204,6 +205,7 @@ router.post('/', Validate, (req, res) => {
                 };
 
                 var filter = {
+                    new: true,
                     arrayFilters: [
                         {
                             'i.collections._id': collection[i]._id
@@ -218,7 +220,7 @@ router.post('/', Validate, (req, res) => {
                     if (!data) {
                         return res.status(404).end();
                     }
-                    return res.status(200).end();
+                    return res.json(data);
                 })
             }
         }
@@ -240,7 +242,7 @@ router.post('/', Validate, (req, res) => {
                 }
             }
 
-            User.update(query, update, (err, data) => {
+            User.findOneAndUpdate(query, update, {new: true}, (err, data) => {
                 if (err) {
                     
                     return res.status(500).end();
@@ -248,7 +250,7 @@ router.post('/', Validate, (req, res) => {
                 if (!data) {
                     return res.status(404).end();
                 }
-                return res.status(200).end();
+                return res.json(data);
                 
             });
         }
@@ -262,6 +264,7 @@ router.post('/', Validate, (req, res) => {
                 };
 
                 var filter = {
+                    new: true,
                     arrayFilters: [
                         {
                             'i.collections._id': collection[i]._id
@@ -276,7 +279,7 @@ router.post('/', Validate, (req, res) => {
                     if (!data) {
                         return res.status(404).end();
                     }
-                 return res.status(200).end();
+                 return res.json(data);
                 })
             }
         }
