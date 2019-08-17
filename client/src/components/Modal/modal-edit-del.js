@@ -9,7 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { checkName, checkMinutes, checkWeight, wholeNumValidation } from '../Validation/validate';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import { itemsConst } from '../../actions/items_actions';
+import { itemsConst, setMSG } from '../../actions/items_actions';
+import { closeModal } from '../../actions';
 import { connect } from 'react-redux';
 
 class ModalEditDel extends Component {
@@ -53,7 +54,9 @@ class ModalEditDel extends Component {
     }
 
     toggle = (info) => {
-
+        console.log("toggle initiated");
+        this.props.dispatch(setMSG());
+        this.props.dispatch(closeModal());
         this.setState(prevState => ({
             modal: !prevState.modal
         }))
@@ -355,9 +358,12 @@ class ModalEditDel extends Component {
                     <ModalHeader toggle={this.toggle}>
                     </ModalHeader>
                     <ModalBody>
-                        <p>Are you sure you want to save these changes?</p>
-                        <button onClick={this.saveChanges}>Accept</button>
-                        <button onClick={this.toggle}>Cancel</button>
+                        {this.props.dataModifier.successMsg == '' ? <div>
+                            <p>Are you sure you want to save these changes?</p>  
+                            <button onClick={this.saveChanges}>Accept</button>
+                        <button onClick={this.toggle}>Cancel</button> 
+                        </div> : this.props.dataModifier.successMsg == 'true' ? <p>Successfully changed.</p> : <p>Sorry, there was an error. Please try again later.</p>}
+
                     </ModalBody>
                 </Modal>
             </div>
