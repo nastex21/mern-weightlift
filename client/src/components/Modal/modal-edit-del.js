@@ -10,6 +10,7 @@ import { faTrashAlt, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { checkName, checkMinutes, checkWeight, wholeNumValidation } from '../Validation/validate';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import { itemsConst } from '../../actions/items_actions';
+import { setMsg } from '../../actions/user_actions';
 import { connect } from 'react-redux';
 
 class ModalEditDel extends Component {
@@ -19,6 +20,7 @@ class ModalEditDel extends Component {
         color: this.props.dataModifier.color,
         collection: this.props.dataModifier.eventsFiltered,
         msgUpdate: this.props.msgUpdate,
+        successMsg: false,
         rowData: '',
         selectAll: false,
         selected: [],
@@ -53,11 +55,11 @@ class ModalEditDel extends Component {
     }
 
     toggle = (info) => {
-
+        console.log("toggle modal-edit-del");
         this.setState(prevState => ({
             modal: !prevState.modal
-        }))
-
+                })
+        )
     }
 
     render() {
@@ -355,9 +357,17 @@ class ModalEditDel extends Component {
                     <ModalHeader toggle={this.toggle}>
                     </ModalHeader>
                     <ModalBody>
-                        <p>Are you sure you want to save these changes?</p>
+                       {/*  <p>Are you sure you want to save these changes?</p>
                         <button onClick={this.saveChanges}>Accept</button>
-                        <button onClick={this.toggle}>Cancel</button>
+                        <button onClick={this.toggle}>Cancel</button> */}
+                        <div>
+                        { this.props.dataModifier.successMsg == 'true' ? <p>Successfully changed.</p> : this.props.dataModifier.successMsg == 'false' ? <p>Sorry, there was an error. Please try again later.</p> :
+                        <>
+                        <p>Are you sure you want to save these changes?</p>  
+                        <button onClick={this.saveChanges}>Accept</button>
+                        <button onClick={this.toggle}>Cancel</button> 
+                        </>}
+                        </div>
                     </ModalBody>
                 </Modal>
             </div>

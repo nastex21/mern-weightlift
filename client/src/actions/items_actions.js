@@ -30,7 +30,7 @@ function addItem(options) {
   }
 }
 
-/* EDIT ITEM(S) DISPATCH */
+/* SAVE CHANEGS DISPATCH */
 function saveChanges(data) {
   console.log("save changes is running item_actions");
   return dispatch => {

@@ -1,7 +1,7 @@
 import {
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS,
     ADDITEM_REQUEST, ADDITEM_FAILURE, ADDITEM_SUCCESS, SAVECHANGES_FAILURE, SAVECHANGES_REQUEST, SAVECHANGES_SUCCESS,
-    UPDATESTATE, SETDATE, UPDATEEVENT, FILTEREVENTS
+    UPDATESTATE, SETDATE, UPDATEEVENT, FILTEREVENTS, SETSUCCESSMSG
 } from '../actions/types';
 
 var user = JSON.parse(localStorage.getItem('user'));
@@ -23,7 +23,8 @@ const initialState = user ? {
     bwLogs: [],
     vidsLogs: [],
     msg: '',
-    loaded: 'false'
+    loaded: 'false',
+    successMsg: ''
 } : {};
 
 export default function dataReducer(state = initialState, action) {
@@ -34,7 +35,8 @@ export default function dataReducer(state = initialState, action) {
             return {
                 ...state,
                 loggingIn: true,
-                user: action.user
+                user: action.user,
+                successMsg: ''
             };
         case LOGIN_SUCCESS:
             var eventsArr = [];
@@ -81,6 +83,7 @@ export default function dataReducer(state = initialState, action) {
                 vidsLogs: [...action.user.data.data.vidslogs],
                 events: [...eventsArr],
                 loggedIn: true,
+                successMsg: ''
             };
         case LOGIN_FAILURE:
             return {};
@@ -134,7 +137,8 @@ export default function dataReducer(state = initialState, action) {
                 vidsLogs: [...action.users.data.vidslogs],
                 events: [...eventsArr],
                 loaded: 'false',
-                loggedIn: true
+                loggedIn: true,
+                successMsg: ''
             }
         case GETALL_FAILURE:
             return { ...state, msg: "Failed to get" };
@@ -148,12 +152,13 @@ export default function dataReducer(state = initialState, action) {
                 bwLogs: [...action.users.bwlogs],
                 vidsLogs: [...action.users.vidslogs],
                 events: [...action.users.events],
-                loaded: 'true'
+                loaded: 'true',
+                successMsg: ''
             }
         case ADDITEM_FAILURE:
             return state.msg = 'Item addition failed';
         case SAVECHANGES_REQUEST:
-            return { ...state, msg: "loading" };
+            return { ...state, msg: "loading", successMsg: '' };
         case SAVECHANGES_SUCCESS:
                 var eventsArr = [];
                 action.users.data.logs.map(function (item) {
@@ -201,11 +206,12 @@ export default function dataReducer(state = initialState, action) {
                 vidsLogs: [...action.users.data.vidslogs],
                 events: [...eventsArr],
                 loaded: 'false',
+                successMsg: 'true',
                 loggedIn: true
 
             }
         case SAVECHANGES_FAILURE:
-            return state.msg = "Did not save";
+            return state.successMsg = 'false';
         case UPDATESTATE:
             return {
                 ...state,
@@ -216,19 +222,22 @@ export default function dataReducer(state = initialState, action) {
                 cardioLogs: [...action.data.cardiologs],
                 bwLogs: [...action.data.bwlogs],
                 vidsLogs: [...action.data.vidslogs],
-                events: [...action.data.events]
+                events: [...action.data.events],
+                successMsg: ''
             };
         case SETDATE:
             return {
                 ...state,
                 date: action.date,
                 dateShortened: action.dateShort,
-                dateText: action.date.toLocaleString('en-US', options)
+                dateText: action.date.toLocaleString('en-US', options),
+                successMsg: ''
             };
         case UPDATEEVENT:
             return {
                 ...state,
-                events: action.data.map((item) => item)
+                events: action.data.map((item) => item),
+                successMsg: ''
             }
         case FILTEREVENTS:
             var newCollection;
@@ -260,8 +269,14 @@ export default function dataReducer(state = initialState, action) {
                 ...state,
                 dateText: action.dateVal.toLocaleString('en-US', options),
                 color: action.color,
-                eventsFiltered: [...newCollection[0].collections]
+                eventsFiltered: [...newCollection[0].collections],
+                successMsg: ''
             }
+            case SETSUCCESSMSG:
+                return {
+                    ...state,
+                    successMsg: action.msg
+                }
         default:
             return state;
     }

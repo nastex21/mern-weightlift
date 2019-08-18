@@ -1,4 +1,4 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE, GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS } from './types';
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE, GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS, SETSUCCESSMSG } from './types';
 import { userService } from '../services/user.services';
 import { history } from '../helpers/history';
 
@@ -81,4 +81,13 @@ function getAll(data) {
   function request() { return { type: GETALL_REQUEST } }
   function success(users) { return { type: GETALL_SUCCESS, users } }
   function failure(error) { return { type: GETALL_FAILURE, error } }
+}
+
+/*FILTER EVENTS */
+
+export const setMsg = (msg) => dispatch => {
+  dispatch({
+    type: SETSUCCESSMSG,
+    msg: msg
+  })
 }
