@@ -35,11 +35,11 @@ class GenerateTable extends Component {
                 editable: false
             }, {
                 dataField: 'sets',
-                text: 'Reps',
+                text: 'Sets',
                 editable: false
             }, {
                 dataField: 'reps',
-                text: 'Sets',
+                text: 'Reps',
                 editable: false
             }, {
                 dataField: 'weight',

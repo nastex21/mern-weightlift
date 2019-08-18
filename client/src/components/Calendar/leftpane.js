@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 class LeftPane extends Component {
 
 
     render() {
-        const { date, exercise } = this.props;
-        var newDate = new Date(date);
+        var newDate = new Date(this.props.dataModifier.date);
 
         var m = newDate.getMonth();
         var d = newDate.getDate();
         var months = ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"];
-
-        
 
         return (
             <div className="bothPanes leftPane" >
@@ -56,4 +54,14 @@ class LeftPane extends Component {
     }
 }
 
-export default LeftPane;
+function mapStateToProps(state) {
+    console.log('state');
+    console.log(state);
+    const { alert, dataModifier } = state;
+    return {
+        alert,
+        dataModifier
+        };
+}
+
+export default connect(mapStateToProps)(LeftPane);
