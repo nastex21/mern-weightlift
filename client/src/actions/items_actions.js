@@ -1,7 +1,7 @@
 import {
   ADDITEM_FAILURE, ADDITEM_REQUEST, ADDITEM_SUCCESS,
   SAVECHANGES_FAILURE, SAVECHANGES_REQUEST, SAVECHANGES_SUCCESS,
-  UPDATESTATE, UPDATEEVENT, SETDATE, FILTEREVENTS, SETMSG
+  UPDATESTATE, UPDATEEVENT, SETDATE, FILTEREVENTS
 } from './types';
 import { userService } from '../services/user.services';
 
@@ -74,13 +74,6 @@ export const setDate = (date, dateShort) => dispatch => {
   dispatch({
     type: SETDATE,
     date, dateShort
-  })
-}
-
-/* RESET SUCCESSMSG */
-export const setMSG = () => dispatch => {
-  dispatch({
-    type: SETMSG
   })
 }
 

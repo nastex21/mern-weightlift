@@ -1,7 +1,7 @@
 import {
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS,
     ADDITEM_REQUEST, ADDITEM_FAILURE, ADDITEM_SUCCESS, SAVECHANGES_FAILURE, SAVECHANGES_REQUEST, SAVECHANGES_SUCCESS,
-    UPDATESTATE, SETDATE, UPDATEEVENT, FILTEREVENTS, SETMSG
+    UPDATESTATE, SETDATE, UPDATEEVENT, FILTEREVENTS
 } from '../actions/types';
 
 var user = JSON.parse(localStorage.getItem('user'));
@@ -23,7 +23,6 @@ const initialState = user ? {
     bwLogs: [],
     vidsLogs: [],
     msg: '',
-    successMsg: '',
     loaded: 'false'
 } : {};
 
@@ -193,7 +192,7 @@ export default function dataReducer(state = initialState, action) {
                 });
             return {
                 ...state,
-                successMsg: 'true',
+                msg: 'Success',
                 id: action.users.data._id,
                 username: action.users.data.username,
                 weightLogs: [...action.users.data.logs],
@@ -206,7 +205,7 @@ export default function dataReducer(state = initialState, action) {
 
             }
         case SAVECHANGES_FAILURE:
-            return state.successMsg = 'false'
+            return state.msg = "Did not save";
         case UPDATESTATE:
             return {
                 ...state,
@@ -262,11 +261,6 @@ export default function dataReducer(state = initialState, action) {
                 dateText: action.dateVal.toLocaleString('en-US', options),
                 color: action.color,
                 eventsFiltered: [...newCollection[0].collections]
-            }
-        case SETMSG:
-            return {
-                ...state,
-                successMsg: ''
             }
         default:
             return state;
