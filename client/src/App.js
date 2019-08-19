@@ -20,10 +20,6 @@ class App extends Component {
     this.state = {
       success: false,
       msg: null,
-      cardioFilterFlag: false,
-      weightFilterFlag: false,
-      bwFilterFlag: false,
-      vidsFilterFlag: false
     }
     
 
@@ -32,119 +28,6 @@ class App extends Component {
       // clear alert on location change
       dispatch(alertActions.clear());
     }); 
-  }
-
-  filteredEvents = (num) => {
-
-    if (num == 1) {
-      if (this.state.weightFilterFlag) {
-        var filtered = this.state.eventsFiltered.filter(function (item) {
-          return item.title !== "Weights"
-        })
-
-
-        this.setState({
-          eventsFiltered: [...filtered]
-        })
-
-      } else {
-        var filtered = this.state.events.filter(function (item) {
-          return item.title == "Weights"
-        })
-
-        this.setState({
-          eventsFiltered: [...this.state.eventsFiltered, ...filtered]
-        })
-      }
-    }
-
-    if (num == 2) {
-      if (this.state.cardioFilterFlag) {
-        var filtered = this.state.eventsFiltered.filter(function (item) {
-          return item.title !== "Cardio"
-        })
-
-        this.setState({
-          eventsFiltered: [...filtered]
-        })
-
-      } else {
-        var filtered = this.state.events.filter(function (item) {
-          return item.title == "Cardio"
-        })
-
-        this.setState({
-          eventsFiltered: [...this.state.eventsFiltered, ...filtered]
-        })
-      }
-    }
-
-    if (num == 3) {
-      if (this.state.bwFilterFlag) {
-        var filtered = this.state.eventsFiltered.filter(function (item) {
-          return item.title !== "Bodyweight"
-        })
-
-        this.setState({
-          eventsFiltered: [...filtered]
-        })
-      } else {
-        var filtered = this.state.events.filter(function (item) {
-          return item.title == "Bodyweight"
-        })
-
-        this.setState({
-          eventsFiltered: [...this.state.eventsFiltered, ...filtered]
-        })
-      }
-    }
-
-    if (num == 4) {
-      if (this.state.vidsFilterFlag) {
-        var filtered = this.state.eventsFiltered.filter(function (item) {
-          return item.title !== "Classes/Videos"
-        })
-
-        this.setState({
-          eventsFiltered: [...filtered]
-        })
-      } else {
-        var filtered = this.state.events.filter(function (item) {
-          return item.title == "Classes/Videos"
-        })
-
-        this.setState({
-          eventsFiltered: [...this.state.eventsFiltered, ...filtered]
-        })
-      }
-    }
-  }
-
-  filterButton = (num) => {
-
-    if (num == 1) {
-      this.setState(prevState => ({
-        weightFilterFlag: !prevState.weightFilterFlag
-      }), () => this.filteredEvents(num))
-    }
-
-    if (num == 2) {
-      this.setState(prevState => ({
-        cardioFilterFlag: !prevState.cardioFilterFlag
-      }), () => this.filteredEvents(num))
-    }
-
-    if (num == 3) {
-      this.setState(prevState => ({
-        bwFilterFlag: !prevState.bwFilterFlag
-      }), () => this.filteredEvents(num))
-    }
-
-    if (num == 4) {
-      this.setState(prevState => ({
-        vidsFilterFlag: !prevState.vidsFilterFlag
-      }), () => this.filteredEvents(num))
-    }
   }
 
   updateSuccess = () => {
@@ -201,10 +84,6 @@ class App extends Component {
       }
     });
 
-    /* this.setState({
-      events: [...eventsArr],
-      eventsFiltered: [...eventsArr]
-    }) */
     this.props.dispatch(updateEvent(eventsArr))
   }
 
@@ -225,19 +104,6 @@ class App extends Component {
     return nowDate;
   }
 
-  updateUser = (userObject) => {
-    this.setState({
-      id: userObject.id,
-      loggedIn: userObject.loggedIn,
-      username: userObject.username,
-      exerciseLogs: [...this.state.exerciseLogs, ...userObject.exerciseLogs],
-      cardioLogs: [...this.state.cardioLogs, ...userObject.cardioLogs],
-      bwLogs: [...this.state.bwLogs, ...userObject.bwLogs],
-      vidsLogs: [...this.state.vidsLogs, ...userObject.vidsLogs]
-    }
-    )
-  }
-
   render() {
     console.log("this.props");
     console.log(this.props);
@@ -253,12 +119,12 @@ class App extends Component {
     return (
       <Router history={history}>
         <div className='App' style={!this.props.dataModifier.loggedIn ? style : loggedinStyle}>
-          {this.props.dataModifier.loggedIn ? <NavbarTrue updateUser={this.updateUser} /> : <NavbarFalse />}
-    {this.props.dataModifier.loggedIn ? <Route exact path="/api/dashboard" render={(props) => <Dashboard filterButton={(num) => this.filterButton(num)} events={this.props.eventReducer}  updateEventCalendar={this.updateEventCalendar} /> } />: null}
+          {this.props.dataModifier.loggedIn ? <NavbarTrue /> : <NavbarFalse />}
+    {this.props.dataModifier.loggedIn ? <Route exact path="/api/dashboard" render={(props) => <Dashboard  /> } />: null}
           <Route exact path="/" render={(props) => <Home {...props} />} />
           <Route path="/api/login"
             render={() =>
-              <LoginForm updateUser={this.updateUser} success={this.state.success} msg={this.state.msg} />}
+              <LoginForm  success={this.state.success} msg={this.state.msg} />}
           />
           <Route path="/api/signup"
             render={() =>

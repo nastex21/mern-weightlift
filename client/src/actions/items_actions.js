@@ -1,7 +1,7 @@
 import {
   ADDITEM_FAILURE, ADDITEM_REQUEST, ADDITEM_SUCCESS,
   SAVECHANGES_FAILURE, SAVECHANGES_REQUEST, SAVECHANGES_SUCCESS,
-  UPDATESTATE, UPDATEEVENT, SETDATE, FILTEREVENTS
+  UPDATESTATE, UPDATEEVENT, SETDATE, FILTEREVENTS, FILTERBUTTON
 } from './types';
 import { userService } from '../services/user.services';
 
@@ -83,5 +83,14 @@ export const filterEvent = (hyphenDate, dateVal, color) => dispatch => {
   dispatch({
     type: FILTEREVENTS,
     hyphenDate, dateVal, color
+  })
+}
+
+/*FILTER BUTTON */
+
+export const filterButton = (filterFlag) => dispatch => {
+  dispatch({
+    type: FILTERBUTTON,
+    filterFlag: filterFlag
   })
 }

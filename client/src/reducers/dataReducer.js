@@ -1,7 +1,7 @@
 import {
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS,
     ADDITEM_REQUEST, ADDITEM_FAILURE, ADDITEM_SUCCESS, SAVECHANGES_FAILURE, SAVECHANGES_REQUEST, SAVECHANGES_SUCCESS,
-    UPDATESTATE, SETDATE, UPDATEEVENT, FILTEREVENTS, SETSUCCESSMSG
+    UPDATESTATE, SETDATE, UPDATEEVENT, FILTEREVENTS, SETSUCCESSMSG, FILTERBUTTON
 } from '../actions/types';
 
 var user = JSON.parse(localStorage.getItem('user'));
@@ -24,7 +24,11 @@ const initialState = user ? {
     vidsLogs: [],
     msg: '',
     loaded: 'false',
-    successMsg: ''
+    successMsg: '',
+    weightFilterFlag: false,
+    cardioFilterFlag: false,
+    bwFilterFlag: false,
+    vidsFilterFlag: false
 } : {};
 
 export default function dataReducer(state = initialState, action) {
@@ -82,6 +86,7 @@ export default function dataReducer(state = initialState, action) {
                 bwLogs: [...action.user.data.data.bwlogs],
                 vidsLogs: [...action.user.data.data.vidslogs],
                 events: [...eventsArr],
+                eventsFiltered: [...eventsArr],
                 loggedIn: true,
                 successMsg: ''
             };
@@ -136,6 +141,7 @@ export default function dataReducer(state = initialState, action) {
                 bwLogs: [...action.users.data.bwlogs],
                 vidsLogs: [...action.users.data.vidslogs],
                 events: [...eventsArr],
+                eventsFiltered: [...eventsArr],
                 loaded: 'false',
                 loggedIn: true,
                 successMsg: ''
@@ -152,6 +158,7 @@ export default function dataReducer(state = initialState, action) {
                 bwLogs: [...action.users.bwlogs],
                 vidsLogs: [...action.users.vidslogs],
                 events: [...action.users.events],
+                eventsFiltered: [...action.users.events],
                 loaded: 'true',
                 successMsg: ''
             }
@@ -205,6 +212,7 @@ export default function dataReducer(state = initialState, action) {
                 bwLogs: [...action.users.data.bwlogs],
                 vidsLogs: [...action.users.data.vidslogs],
                 events: [...eventsArr],
+                eventsFiltered: [...eventsArr],
                 loaded: 'false',
                 successMsg: 'true',
                 loggedIn: true
@@ -237,6 +245,7 @@ export default function dataReducer(state = initialState, action) {
             return {
                 ...state,
                 events: action.data.map((item) => item),
+                eventsFiltered: action.data.map((item) => item),
                 successMsg: ''
             }
         case FILTEREVENTS:
@@ -276,6 +285,13 @@ export default function dataReducer(state = initialState, action) {
                 return {
                     ...state,
                     successMsg: action.msg
+                }
+            case FILTERBUTTON:
+                if (action.filterFlag == 'false'){
+
+                }
+                return {
+                    loggedIn: true
                 }
         default:
             return state;
