@@ -12,11 +12,6 @@ class ModalTabs extends Component {
 
     state = {
         activeTab: '1',
-        weightlogs: [],
-        cardiologs: [],
-        bwlogs: [],
-        vidslogs: [],
-        dataloaded: false
     };
 
 
@@ -71,7 +66,7 @@ class ModalTabs extends Component {
                         <ExVidsClassesAdd tabIndex={this.state.activeTab} />
                     </TabPane>
                     {activeTab == 1 && <GenerateTable msgUpdate={this.props.msgUpdate} tabIndex={this.state.activeTab} />}
-                    {activeTab == 2  && <GenerateTable msgUpdate={this.props.msgUpdate} tabIndex={this.state.activeTab} />}
+                    {activeTab == 2 && <GenerateTable msgUpdate={this.props.msgUpdate} tabIndex={this.state.activeTab} />}
                     {activeTab == 3 && <GenerateTable msgUpdate={this.props.msgUpdate} tabIndex={this.state.activeTab} />}
                     {activeTab == 4 && <GenerateTable msgUpdate={this.props.msgUpdate} tabIndex={this.state.activeTab} />}
                 </TabContent>
@@ -85,9 +80,9 @@ function mapStateToProps(state) {
     console.log(state);
     const { eventReducer, dataModifier } = state;
     return {
-      eventReducer,
-      dataModifier
+        eventReducer,
+        dataModifier
     };
-  }
-  
-  export default connect(mapStateToProps)(ModalTabs);
+}
+
+export default connect(mapStateToProps)(ModalTabs);

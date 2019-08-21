@@ -357,9 +357,6 @@ class ModalEditDel extends Component {
                     <ModalHeader toggle={this.toggle}>
                     </ModalHeader>
                     <ModalBody>
-                       {/*  <p>Are you sure you want to save these changes?</p>
-                        <button onClick={this.saveChanges}>Accept</button>
-                        <button onClick={this.toggle}>Cancel</button> */}
                         <div>
                         { this.props.dataModifier.successMsg == 'true' ? <p>Successfully changed.</p> : this.props.dataModifier.successMsg == 'false' ? <p>Sorry, there was an error. Please try again later.</p> :
                         <>
