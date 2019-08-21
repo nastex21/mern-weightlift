@@ -13,81 +13,80 @@ class LeftPane extends Component {
 
     filteredEvents = (num) => {
        // this.props.dispatch(itemsConst.saveChanges(dataObj));
-        var dataObj = {};
+        var filtered = []
         if (num == 1) {
             if (this.state.weightFilterFlag) {
-                var filtered = this.props.dataModifier.events.filter(function (item) {
+                filtered = this.props.dataModifier.eventsFiltered.filter(function (item) {
                     return item.title !== "Weights"
                 })
-
-                dataObj.filter = filtered;
-                dataObj.weightFilterFlag = true;
-                this.props.dispatch(filterButton(dataObj));
+                
+                this.props.dispatch(filterButton(filtered));
 
             } else {
-                dataObj.weightFilterFlag = false;
-                this.props.dispatch(filterButton(dataObj));
+                filtered = this.props.dataModifier.events.filter(function (item) {
+                    return item.title == "Weights"
+                })
+
+                filtered = [...filtered, ...this.props.dataModifier.eventsFiltered];
+
+                this.props.dispatch(filterButton(filtered));
             }
         }
 
         if (num == 2) {
             if (this.state.cardioFilterFlag) {
-                var filtered = this.state.eventsFiltered.filter(function (item) {
+                filtered = this.props.dataModifier.eventsFiltered.filter(function (item) {
                     return item.title !== "Cardio"
                 })
 
-                this.setState({
-                    eventsFiltered: [...filtered]
-                })
+                this.props.dispatch(filterButton(filtered));
 
             } else {
-                var filtered = this.state.events.filter(function (item) {
+                filtered = this.props.dataModifier.events.filter(function (item) {
                     return item.title == "Cardio"
                 })
 
-                this.setState({
-                    eventsFiltered: [...this.state.eventsFiltered, ...filtered]
-                })
+                filtered = [...filtered, ...this.props.dataModifier.eventsFiltered];
+
+                this.props.dispatch(filterButton(filtered));
             }
         }
 
         if (num == 3) {
             if (this.state.bwFilterFlag) {
-                var filtered = this.state.eventsFiltered.filter(function (item) {
+                filtered = this.props.dataModifier.eventsFiltered.filter(function (item) {
                     return item.title !== "Bodyweight"
                 })
 
-                this.setState({
-                    eventsFiltered: [...filtered]
-                })
+                this.props.dispatch(filterButton(filtered));
+
             } else {
-                var filtered = this.state.events.filter(function (item) {
+                filtered = this.props.dataModifier.events.filter(function (item) {
                     return item.title == "Bodyweight"
                 })
 
-                this.setState({
-                    eventsFiltered: [...this.state.eventsFiltered, ...filtered]
-                })
+                filtered = [...filtered, ...this.props.dataModifier.eventsFiltered];
+
+                this.props.dispatch(filterButton(filtered));
             }
         }
 
         if (num == 4) {
             if (this.state.vidsFilterFlag) {
-                var filtered = this.state.eventsFiltered.filter(function (item) {
+                filtered = this.props.dataModifier.eventsFiltered.filter(function (item) {
                     return item.title !== "Classes/Videos"
                 })
 
-                this.setState({
-                    eventsFiltered: [...filtered]
-                })
+                this.props.dispatch(filterButton(filtered));
+
             } else {
-                var filtered = this.state.events.filter(function (item) {
+                filtered = this.props.dataModifier.events.filter(function (item) {
                     return item.title == "Classes/Videos"
                 })
 
-                this.setState({
-                    eventsFiltered: [...this.state.eventsFiltered, ...filtered]
-                })
+                filtered = [...filtered, ...this.props.dataModifier.eventsFiltered];
+
+                this.props.dispatch(filterButton(filtered));
             }
         }
     }

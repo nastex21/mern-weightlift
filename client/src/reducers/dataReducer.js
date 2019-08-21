@@ -287,10 +287,12 @@ export default function dataReducer(state = initialState, action) {
                     successMsg: action.msg
                 }
             case FILTERBUTTON:
-                if (action.filterFlag == 'false'){
-
-                }
+                var newCollection;
+                //weights
+                console.log('filterButton');
                 return {
+                    ...state,
+                    eventsFiltered: [...action.filterEvents],
                     loggedIn: true
                 }
         default:
