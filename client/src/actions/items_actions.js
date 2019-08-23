@@ -71,6 +71,9 @@ export const updateEvent = (data) => dispatch => {
 /*SET DATE */
 
 export const setDate = (date, dateShort) => dispatch => {
+  console.log('setDate');
+  console.log(date);
+  console.log(dateShort);
   dispatch({
     type: SETDATE,
     date, dateShort
@@ -80,6 +83,10 @@ export const setDate = (date, dateShort) => dispatch => {
 /*FILTER EVENTS */
 
 export const filterEvent = (hyphenDate, dateVal, color) => dispatch => {
+  console.log("filterEvent");
+  console.log(hyphenDate);
+  console.log(dateVal);
+  console.log(color);
   dispatch({
     type: FILTEREVENTS,
     hyphenDate, dateVal, color

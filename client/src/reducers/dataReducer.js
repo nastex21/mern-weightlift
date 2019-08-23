@@ -249,6 +249,7 @@ export default function dataReducer(state = initialState, action) {
                 successMsg: ''
             }
         case FILTEREVENTS:
+            console.log("FILTEREVENTS");
             var newCollection;
             //weights
             if (action.color == "#d9534f") {

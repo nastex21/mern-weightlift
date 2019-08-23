@@ -79,24 +79,28 @@ class Dashboard extends Component {
         var d = now.getDate();
         var hyphenDate = '' + y + "-" + (m < 10 ? '0' : '') + m + "-" + (d < 10 ? '0' : '') + d;
 
-        if (dateVal !== '') {
-            this.props.dispatch(filterEvent(hyphenDate, dateVal, color))
-        }
-
+        /* if (dateVal !== '') {
+           
+       } 
+*/
         this.setState(prevState => ({
             color: color,
-            //modalVer: 'edit',
+            modalVer: 'false',
             modal: !prevState.modal
-        }))
+        }), () => this.state.modal == true ? this.props.dispatch(filterEvent(hyphenDate, dateVal, color)) : null
+        )
     }
 
+
     dateClickInfo = (info) => {
-        console.log("dateClickInfo")
+        console.log("dateClickInfo");
         let dateVal = new Date(info.date);
         this.setState(prevState => ({
-            //modalVer: 'add',
+            modalVer: 'true',
             modal: !prevState.modal
-        }), () => this.props.dispatch(setDate(dateVal, info.dateStr)))
+        })
+            , () => this.props.dispatch(setDate(dateVal, info.dateStr))
+        )
 
     }
 
@@ -115,7 +119,7 @@ class Dashboard extends Component {
         return (
             <div className="calendar-body">
                 <LeftPane date={this.state.oldDate} exercise={this.state.updatedInfo} />
-                <FullCalendar className="fcDiv bg-dark text-white" defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={this.props.dataModifier.eventsFiltered } eventClick={this.toggle} />
+                <FullCalendar className="fcDiv bg-dark text-white" defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={this.props.dataModifier.events} eventClick={this.toggle} />
                 <Modal isOpen={this.state.modal} toggle={this.toggle} size="lg" style={{ maxWidth: '1600px', width: '80%' }} color={color} onClosed={this.showErrorMsg}>
                     <ModalHeader toggle={this.toggle}>
                         <p className="exerciseTitle">{color == "#f0ad4e" ? "Exercise classes and/or videos" : color == "#d9534f" ? "Weightlifting Exercises" : color == "#0275d8" ? "Cardio Exercises" : color == "#5cb85c" ? "Bodyweight Exercises" : null}</p>
@@ -125,8 +129,8 @@ class Dashboard extends Component {
                         {this.state.showError && <div class="alert alert-danger">
                             <button type="button" class="close" data-dismiss="alert" onClick={this.closeErr}>&times;</button> <span>{this.state.msg}</span>
                         </div>}
-                        {this.state.modalVer == "add" ? <ModalTabs msgUpdate={this.showErrorMsg} color={color} /> : null}
-                        {this.state.modalVer == "edit" ? <ModalEditDel title={this.state.title} msgUpdate={this.showErrorMsg} /> : null}
+                        {this.state.modalVer == "true" ? <ModalTabs msgUpdate={this.showErrorMsg} color={color} /> : null}
+                        {this.state.modalVer == "false" && this.state.modal ? <ModalEditDel title={this.state.title} msgUpdate={this.showErrorMsg} /> : null}
                     </ModalBody>
                 </Modal>
             </div>

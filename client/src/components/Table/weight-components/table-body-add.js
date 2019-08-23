@@ -92,7 +92,6 @@ class WeightsAdd extends Component {
                 console.log(this.props);
                this.props.updateData(1,this.state.collection); 
             })
-            .then(() => { this.props.refreshUser(); })
             .then(() => {
                 console.log("form reset in submit button promise")
                 this.setState({
@@ -144,7 +143,6 @@ class WeightsAdd extends Component {
     render() {
         const { id, collection } = this.state;
         console.log("this.props");
-        console.log(this.props.refreshUser);
         return (
             <div>
                 {this.state.msg ? (
