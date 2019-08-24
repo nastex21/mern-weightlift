@@ -97,6 +97,8 @@ export default function dataReducer(state = initialState, action) {
         case GETALL_REQUEST:
             return { ...state, msg: 'loading' }
         case GETALL_SUCCESS:
+            console.log("GETALL_SUCCESS");
+            console.log(action);
             var eventsArr = [];
             action.users.data.logs.map(function (item) {
                 eventsArr.push({
@@ -167,41 +169,41 @@ export default function dataReducer(state = initialState, action) {
         case SAVECHANGES_REQUEST:
             return { ...state, msg: "loading", successMsg: '' };
         case SAVECHANGES_SUCCESS:
-                var eventsArr = [];
-                action.users.data.logs.map(function (item) {
-                    eventsArr.push({
-                        "title": "Weights",
-                        "date": item.date,
-                        "color": "#d9534f",
-                        "collections": item.collections
-                    })
+            var eventsArr = [];
+            action.users.data.logs.map(function (item) {
+                eventsArr.push({
+                    "title": "Weights",
+                    "date": item.date,
+                    "color": "#d9534f",
+                    "collections": item.collections
                 })
-                action.users.data.cardiologs.map(function (item) {
-                    eventsArr.push({
-                        "title": "Cardio",
-                        "date": item.date,
-                        'color': '#0275d8',
-                        "collections": item.collections
-                    })
-                });
-    
-                action.users.data.bwlogs.map(function (item) {
-                    eventsArr.push({
-                        "title": "Bodyweight",
-                        "date": item.date,
-                        'color': '#5cb85c',
-                        "collections": item.collections
-                    })
-                });
-    
-                action.users.data.vidslogs.map(function (item) {
-                    eventsArr.push({
-                        "title": "Classes/Videos",
-                        "date": item.date,
-                        'color': '#f0ad4e',
-                        "collections": item.collections
-                    })
-                });
+            })
+            action.users.data.cardiologs.map(function (item) {
+                eventsArr.push({
+                    "title": "Cardio",
+                    "date": item.date,
+                    'color': '#0275d8',
+                    "collections": item.collections
+                })
+            });
+
+            action.users.data.bwlogs.map(function (item) {
+                eventsArr.push({
+                    "title": "Bodyweight",
+                    "date": item.date,
+                    'color': '#5cb85c',
+                    "collections": item.collections
+                })
+            });
+
+            action.users.data.vidslogs.map(function (item) {
+                eventsArr.push({
+                    "title": "Classes/Videos",
+                    "date": item.date,
+                    'color': '#f0ad4e',
+                    "collections": item.collections
+                })
+            });
             return {
                 ...state,
                 msg: 'Success',
@@ -282,20 +284,24 @@ export default function dataReducer(state = initialState, action) {
                 eventsFiltered: [...newCollection[0].collections],
                 successMsg: ''
             }
-            case SETSUCCESSMSG:
-                return {
-                    ...state,
-                    successMsg: action.msg
-                }
-            case FILTERBUTTON:
-                var newCollection;
-                //weights
-                console.log('filterButton');
-                return {
-                    ...state,
-                    eventsFiltered: [...action.filterEvents],
-                    loggedIn: true
-                }
+        case SETSUCCESSMSG:
+            return {
+                ...state,
+                successMsg: action.msg
+            }
+        case FILTERBUTTON:
+            var newCollection;
+            console.log("FILTERBUTTOn");
+            console.log(action);
+            return {
+                ...state,
+                eventsFiltered: [...action.filterEvents],
+                weightFilterFlag: action.flag.weightFlag !== undefined ?  action.flag.weightFlag : state.weightFilterFlag,
+                cardioFilterFlag: action.flag.cardioFlag !== undefined ? action.flag.cardioFlag : state.cardioFilterFlag,
+                vidsFilterFlag: action.flag.vidsFlag !== undefined ? action.flag.vidsFlag : state.vidsFilterFlag,
+                bwFilterFlag: action.flag.bwFlag !== undefined ? action.flag.bwFlag : state.bwFilterFlag,
+                loggedIn: true
+            }
         default:
             return state;
     }

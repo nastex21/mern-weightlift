@@ -115,11 +115,12 @@ class Dashboard extends Component {
         const { color } = this.state;
         console.log("this.props.modalisOpen");
         console.log(this.props.dataModifier);
+        const { weightFilterFlag, cardioFilterFlag, bwFilterFlag, vidsFilterFlag } = this.props.dataModifier;
 
         return (
             <div className="calendar-body">
                 <LeftPane date={this.state.oldDate} exercise={this.state.updatedInfo} />
-                <FullCalendar className="fcDiv bg-dark text-white" defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={this.props.dataModifier.events} eventClick={this.toggle} />
+                <FullCalendar className="fcDiv bg-dark text-white" defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={weightFilterFlag || cardioFilterFlag || bwFilterFlag || vidsFilterFlag ? this.props.dataModifier.eventsFiltered : this.props.dataModifier.events} eventClick={this.toggle} />
                 <Modal isOpen={this.state.modal} toggle={this.toggle} size="lg" style={{ maxWidth: '1600px', width: '80%' }} color={color} onClosed={this.showErrorMsg}>
                     <ModalHeader toggle={this.toggle}>
                         <p className="exerciseTitle">{color == "#f0ad4e" ? "Exercise classes and/or videos" : color == "#d9534f" ? "Weightlifting Exercises" : color == "#0275d8" ? "Cardio Exercises" : color == "#5cb85c" ? "Bodyweight Exercises" : null}</p>

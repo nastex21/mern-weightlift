@@ -15,12 +15,17 @@ class LeftPane extends Component {
        // this.props.dispatch(itemsConst.saveChanges(dataObj));
         var filtered = []
         if (num == 1) {
+
+            var weightFlag = {
+                weightFlag: this.state.weightFilterFlag
+            }
+
             if (this.state.weightFilterFlag) {
                 filtered = this.props.dataModifier.eventsFiltered.filter(function (item) {
                     return item.title !== "Weights"
-                })
+                });
                 
-                this.props.dispatch(filterButton(filtered));
+                this.props.dispatch(filterButton(filtered, weightFlag));
 
             } else {
                 filtered = this.props.dataModifier.events.filter(function (item) {
@@ -29,17 +34,22 @@ class LeftPane extends Component {
 
                 filtered = [...filtered, ...this.props.dataModifier.eventsFiltered];
 
-                this.props.dispatch(filterButton(filtered));
+                this.props.dispatch(filterButton(filtered, weightFlag));
             }
         }
 
         if (num == 2) {
+
+            var cardioFlag = {
+                cardioFlag: this.state.cardioFilterFlag
+            }
+
             if (this.state.cardioFilterFlag) {
                 filtered = this.props.dataModifier.eventsFiltered.filter(function (item) {
                     return item.title !== "Cardio"
                 })
 
-                this.props.dispatch(filterButton(filtered));
+                this.props.dispatch(filterButton(filtered, cardioFlag));
 
             } else {
                 filtered = this.props.dataModifier.events.filter(function (item) {
@@ -48,17 +58,22 @@ class LeftPane extends Component {
 
                 filtered = [...filtered, ...this.props.dataModifier.eventsFiltered];
 
-                this.props.dispatch(filterButton(filtered));
+                this.props.dispatch(filterButton(filtered, cardioFlag ));
             }
         }
 
         if (num == 3) {
+
+            var bwFlag = {
+                bwFlag: this.state.bwFilterFlag
+            }
+
             if (this.state.bwFilterFlag) {
                 filtered = this.props.dataModifier.eventsFiltered.filter(function (item) {
                     return item.title !== "Bodyweight"
                 })
 
-                this.props.dispatch(filterButton(filtered));
+                this.props.dispatch(filterButton(filtered, bwFlag ));
 
             } else {
                 filtered = this.props.dataModifier.events.filter(function (item) {
@@ -67,17 +82,22 @@ class LeftPane extends Component {
 
                 filtered = [...filtered, ...this.props.dataModifier.eventsFiltered];
 
-                this.props.dispatch(filterButton(filtered));
+                this.props.dispatch(filterButton(filtered, bwFlag ));
             }
         }
 
         if (num == 4) {
+
+            var vidsFlag = {
+                vidsFlag: this.state.vidsFilterFlag
+            };
+
             if (this.state.vidsFilterFlag) {
                 filtered = this.props.dataModifier.eventsFiltered.filter(function (item) {
                     return item.title !== "Classes/Videos"
                 })
 
-                this.props.dispatch(filterButton(filtered));
+                this.props.dispatch(filterButton(filtered, vidsFlag));
 
             } else {
                 filtered = this.props.dataModifier.events.filter(function (item) {
@@ -86,7 +106,7 @@ class LeftPane extends Component {
 
                 filtered = [...filtered, ...this.props.dataModifier.eventsFiltered];
 
-                this.props.dispatch(filterButton(filtered));
+                this.props.dispatch(filterButton(filtered, vidsFlag ));
             }
         }
     }

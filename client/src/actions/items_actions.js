@@ -95,9 +95,9 @@ export const filterEvent = (hyphenDate, dateVal, color) => dispatch => {
 
 /*FILTER BUTTON */
 
-export const filterButton = (filterEvents) => dispatch => {
+export const filterButton = (filterEvents, flag) => dispatch => {
   dispatch({
     type: FILTERBUTTON,
-    filterEvents
+    filterEvents, flag
   })
 }
