@@ -1,55 +1,34 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import BootstrapTable from 'react-bootstrap-table-next';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 
 class GenerateTable extends Component {
     state = {
-        id: this.props.id,
-        date: this.props.date,
         tabIndex: this.props.tabIndex,
         msgUpdate: this.props.msgUpdate,
         rowData: '',
         selectAll: false,
         selected: [],
-        edit: false
+        edit: false,
+        collection: ''
     }
 
-    componentDidMount() {
-        if (this.props.tabIndex == 1) {
-            this.setState({
-                collection: this.props.logs
-            })
-        }
-
-        if (this.props.tabIndex == 2) {
-            this.setState({
-                collection: this.props.cardiologs
-            })
-        }
-
-        if (this.props.tabIndex == 3) {
-            this.setState({
-                collection: this.props.bwlogs
-            })
-        }
-
-        if (this.props.tabIndex == 4) {
-            this.setState({
-                collection: this.props.vidslogs
-            })
-        }
-    }
 
     render() {
         console.log(this.props)
+        var newArr = [];
+        var exercise;
+
         var collection;
         var columns;
-        const { id,  logs, cardiologs, bwlogs, vidslogs, tabIndex } = this.props;
-        console.log(id);
-        console.log(logs);
-        console.log(tabIndex);
+        const { tabIndex } = this.state;
+
         if (tabIndex == 1) {
-            collection = logs;
+            exercise = this.props.dataModifier.weightLogs;
+            exercise = exercise.filter((item) => item.date == this.props.dataModifier.dateShortened);
+            exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj) }) });
+            collection = newArr;
             columns = [{
                 dataField: 'exercise',
                 text: 'Exercise Name',
@@ -69,8 +48,10 @@ class GenerateTable extends Component {
             }];
         }
         if (tabIndex == 2) {
-            collection = cardiologs;
-            console.log('tabindex 2')
+            exercise = this.props.dataModifier.cardioLogs;
+            exercise = exercise.filter((item) => item.date == this.props.dataModifier.dateShortened);
+            exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj) }) });
+            collection = newArr;
             columns = [{
                 dataField: 'exercise',
                 text: 'Exercise Name',
@@ -91,12 +72,15 @@ class GenerateTable extends Component {
         }
 
         if (tabIndex == 3) {
-            collection = bwlogs;
+            exercise = this.props.dataModifier.bwLogs;
+            exercise = exercise.filter((item) => item.date == this.props.dataModifier.dateShortened);
+            exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj) }) });
+            collection = newArr;
             columns = [{
                 dataField: 'exercise',
                 text: 'Exercise Name',
                 editable: false
-            },{
+            }, {
                 dataField: 'sets',
                 text: 'Sets',
                 editable: false
@@ -108,8 +92,10 @@ class GenerateTable extends Component {
         }
 
         if (tabIndex == 4) {
-            console.log(vidslogs);
-            collection = vidslogs;
+            exercise = this.props.dataModifier.vidsLogs;
+            exercise = exercise.filter((item) => item.date == this.props.dataModifier.dateShortened);
+            exercise.forEach((data) => { data.collections.map((obj) => { newArr.push(obj) }) });
+            collection = newArr;
             columns = [{
                 dataField: 'exercise',
                 text: 'Exercise Name',
@@ -134,4 +120,15 @@ class GenerateTable extends Component {
         )
     }
 };
-export default GenerateTable;
+
+function mapStateToProps(state) {
+    console.log('state');
+    console.log(state);
+    const { alert, dataModifier } = state;
+    return {
+        alert,
+        dataModifier
+        };
+}
+
+export default connect(mapStateToProps)(GenerateTable);

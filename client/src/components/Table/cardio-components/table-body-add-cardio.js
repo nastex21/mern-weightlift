@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Form, FormGroup,  Label, Row, Col, Input, Button, Alert } from 'reactstrap';
-import axios from 'axios';
+import { Form, FormGroup, Label, Row, Col, Input, Button, Alert } from 'reactstrap';
+import { itemsConst } from '../../../actions/items_actions';
+import { connect } from 'react-redux';
 
 class CardioAdd extends Component {
     state = {
-        id: this.props.id,
-        date: this.props.date,
         collection: [{
             exercise: "",
             distance: "",
@@ -65,7 +64,11 @@ class CardioAdd extends Component {
 
         console.log("post is triggered")
         console.log(this.props.id);
-        axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, cardioFlag: 1 })
+        const { dispatch } = this.props;
+        var options = { id: this.props.dataModifier.id, collection: this.state.collection, date: this.props.dataModifier.dateShortened, flag: 2 };
+
+        dispatch(itemsConst.addItem(options));
+        /* axios.post("/api/add-items", { id: this.props.dataModifier.id, collection: this.state.collection, date: this.state.date, cardioFlag: 1 })
             .then(response => {
                 console.log(response);
                 this.props.updateData(2,this.state.collection); 
@@ -112,7 +115,7 @@ class CardioAdd extends Component {
                         msg: err.msg
                     })
                 }
-            });
+            }); */
 
     }
 
@@ -122,7 +125,7 @@ class CardioAdd extends Component {
 
         return (
             <Form onSubmit={this.submit} onChange={this.handleChange}>
-                  {this.state.msg ? (
+                {this.state.msg ? (
                     <Alert color='danger'>{this.state.msg}</Alert>
                 ) : null}
                 {collection.map((val, idx) => {
@@ -168,4 +171,13 @@ class CardioAdd extends Component {
     }
 }
 
-export default CardioAdd;
+function mapStateToProps(state) {
+    console.log(state);
+    const { eventReducer, dataModifier } = state;
+    return {
+        eventReducer,
+        dataModifier
+    };
+}
+
+export default connect(mapStateToProps)(CardioAdd);

@@ -3,9 +3,30 @@ const router = express.Router();
 const User = require("../../database/models/user");
 const Validate = require('../../validation/validate');
 
+//Check to make sure header is not undefined, if so, return Forbidden (403)
+/* const checkToken = (req, res, next) => {
+    console.log('headers');
+    console.log(req.headers);
+    const header = req.headers['authorization'];
+  
+    if (typeof header !== 'undefined') {
+      const bearer = header.split(' ');
+      const token = bearer[1];
+  
+      req.token = token;
+      console.log("req.token");
+      console.log(req.token);
+      next();
+    } else {
+      //If header is undefined return Forbidden (403)
+      res.sendStatus(403)
+    }
+  } */
+
 router.post('/', Validate, (req, res) => {
 
     const { id, date, color, collection } = req.body;
+
     var query, update, filter;
 
     const createDate = (date) => {
@@ -43,7 +64,7 @@ router.post('/', Validate, (req, res) => {
                 }
             }
 
-            User.update(query, update, (err, data) => {
+            User.findOneAndUpdate(query, update, {new: true}, (err, data) => {
                 if (err) {
                     
                     return res.status(500).end();
@@ -51,7 +72,8 @@ router.post('/', Validate, (req, res) => {
                 if (!data) {
                     return res.status(404).end();
                 }
-                return res.status(200).end();
+                console.log(data);
+                return res.json(data);
             });
         }
 
@@ -64,6 +86,7 @@ router.post('/', Validate, (req, res) => {
                 };
 
                 var filter = {
+                    new: true,
                     arrayFilters: [
                         {
                             'i.collections._id': collection[i]._id
@@ -79,7 +102,8 @@ router.post('/', Validate, (req, res) => {
                     if (!data) {
                         return res.status(404).end();
                     }
-                    return res.status(200).end();
+                    console.log(data);
+                    return res.json(data);
                 })
             }
         }
@@ -100,7 +124,7 @@ router.post('/', Validate, (req, res) => {
                 }
             }
 
-            User.update(query, update, (err, data) => {
+            User.findOneAndUpdate(query, update, {new: true}, (err, data) => {
                 if (err) {
                     
                     return res.status(500).end();
@@ -108,7 +132,7 @@ router.post('/', Validate, (req, res) => {
                 if (!data) {
                     return res.status(404).end();
                 }
-                return res.status(200).end();
+                return res.json(data);
                 
             });
         }
@@ -122,6 +146,7 @@ router.post('/', Validate, (req, res) => {
                 };
 
                 var filter = {
+                    new: true,
                     arrayFilters: [
                         {
                             'i.collections._id': collection[i]._id
@@ -136,7 +161,7 @@ router.post('/', Validate, (req, res) => {
                     if (!data) {
                         return res.status(404).end();
                     }
-                    return res.status(200).end();
+                    return res.json(data);
                 })
             }
         }
@@ -158,7 +183,7 @@ router.post('/', Validate, (req, res) => {
                 }
             }
 
-            User.update(query, update, (err, data) => {
+            User.findOneAndUpdate(query, update, {new: true}, (err, data) => {
                 if (err) {
                     
                     return res.status(500).end();
@@ -166,7 +191,7 @@ router.post('/', Validate, (req, res) => {
                 if (!data) {
                     return res.status(404).end();
                 }
-                return res.status(200).end();
+                return res.json(data);
                 
             });
         }
@@ -180,6 +205,7 @@ router.post('/', Validate, (req, res) => {
                 };
 
                 var filter = {
+                    new: true,
                     arrayFilters: [
                         {
                             'i.collections._id': collection[i]._id
@@ -194,7 +220,7 @@ router.post('/', Validate, (req, res) => {
                     if (!data) {
                         return res.status(404).end();
                     }
-                    return res.status(200).end();
+                    return res.json(data);
                 })
             }
         }
@@ -216,7 +242,7 @@ router.post('/', Validate, (req, res) => {
                 }
             }
 
-            User.update(query, update, (err, data) => {
+            User.findOneAndUpdate(query, update, {new: true}, (err, data) => {
                 if (err) {
                     
                     return res.status(500).end();
@@ -224,7 +250,7 @@ router.post('/', Validate, (req, res) => {
                 if (!data) {
                     return res.status(404).end();
                 }
-                return res.status(200).end();
+                return res.json(data);
                 
             });
         }
@@ -238,6 +264,7 @@ router.post('/', Validate, (req, res) => {
                 };
 
                 var filter = {
+                    new: true,
                     arrayFilters: [
                         {
                             'i.collections._id': collection[i]._id
@@ -252,7 +279,7 @@ router.post('/', Validate, (req, res) => {
                     if (!data) {
                         return res.status(404).end();
                     }
-                 return res.status(200).end();
+                 return res.json(data);
                 })
             }
         }

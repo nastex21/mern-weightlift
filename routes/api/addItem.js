@@ -3,15 +3,31 @@ const router = express.Router();
 const User = require("../../database/models/user");
 const Validate = require("../../validation/validateadd");
 
-router.post('/', Validate, async (req, res) => {
-console.log("additem init")
+//Check to make sure header is not undefined, if so, return Forbidden (403)
+const checkToken = (req, res, next) => {
+    const header = req.headers['authorization'];
+
+    if (typeof header !== 'undefined') {
+        const bearer = header.split(' ');
+        const token = bearer[1];
+
+        req.token = token;
+        next();
+    } else {
+        //If header is undefined return Forbidden (403)
+        res.sendStatus(403)
+    }
+}
+
+router.post('/', checkToken, Validate, async (req, res) => {
+    console.log("additem init");
     const updateWeights = (id, updateObj) => {
         var update = {
             $addToSet: {
                 'logs.$[i].collections': updateObj.logs.collections
             }
         };
-
+        console.log("yes")
         var updateSet = {
             $push: {
                 'logs': {
@@ -22,6 +38,7 @@ console.log("additem init")
         }
 
         var filter = {
+            new: true,
             arrayFilters: [
                 {
                     'i.date': updateObj.logs.date
@@ -29,37 +46,33 @@ console.log("additem init")
             ]
         };
 
-        var counter = 0;
-        if (counter == 0) {
-            User.findOne({ "_id": id, 'logs': { $not: { $elemMatch: { 'date': updateObj.logs.date } } } }, (err, data) => {
+        User.findOne({ "_id": id, 'logs': { $not: { $elemMatch: { 'date': updateObj.logs.date } } } }, (err, data) => {
+            if (err) {
+                return console.log("500");
+            }
+            if (!data) {
+                let dataID = id;
+                return pushData(dataID);
+            }
+            console.log("200");
+
+            User.findByIdAndUpdate({ "_id": id }, updateSet, { new: true }, (err, data) => {
+                console.log("second findOneAndUpdate");
                 if (err) {
-                    return console.log("500");
+                    console.log("500");
+                    return res.status(500).end();
                 }
                 if (!data) {
-                    return console.log("404");
+                    console.log("404");
+                    return res.status(404).end();
                 }
                 console.log("200");
-
-                User.findByIdAndUpdate({ "_id": id }, updateSet, (err, data) => {
-                    console.log("second findOneAndUpdate");
-                    if (err) {
-                        console.log("500");
-                        return res.status(500).end();
-                    }
-                    if (!data) {
-                        console.log("404");
-                        return res.status(404).end();
-                    }
-                    counter = 1;
-                    console.log("200");
-                    console.log(data);
-                    return res.status(200).end();
-                })
-
+                console.log(data);
+                return res.status(200).json(data);
             })
-        };
 
-        if (counter == 0) {
+        })
+        const pushData = (id) => {
             User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
                 console.log("first findOneAndUpdate");
                 if (err) {
@@ -68,10 +81,9 @@ console.log("additem init")
                 if (!data) {
                     return console.log("404");
                 }
-                counter = 1;
                 console.log("200");
                 console.log(data);
-                return res.status(200).end();
+                return res.status(200).json(data);
             });
         }
     };
@@ -93,6 +105,7 @@ console.log("additem init")
         }
 
         var filter = {
+            new: true,
             arrayFilters: [
                 {
                     'i.date': updateObj.cardiologs.date
@@ -100,37 +113,34 @@ console.log("additem init")
             ]
         };
 
-        var counter = 0;
-        if (counter == 0) {
-            User.findOne({ "_id": id, 'cardiologs': { $not: { $elemMatch: { 'date': updateObj.cardiologs.date } } } }, (err, data) => {
+        User.findOne({ "_id": id, 'cardiologs': { $not: { $elemMatch: { 'date': updateObj.cardiologs.date } } } }, (err, data) => {
+            if (err) {
+                return console.log("500");
+            }
+            if (!data) {
+                let dataID = id;
+                return pushData(dataID);
+            }
+            console.log("200");
+
+            User.findByIdAndUpdate({ "_id": id }, updateSet, { new: true }, (err, data) => {
+                console.log("second findOneAndUpdate");
                 if (err) {
-                    return console.log("500");
+                    console.log("500");
+                    return res.status(500).end();
                 }
                 if (!data) {
-                    return console.log("404");
+                    console.log("404");
+                    return res.status(404).end();
                 }
                 console.log("200");
-
-                User.findByIdAndUpdate({ "_id": id }, updateSet, (err, data) => {
-                    console.log("second findOneAndUpdate");
-                    if (err) {
-                        console.log("500");
-                        return res.status(500).end();
-                    }
-                    if (!data) {
-                        console.log("404");
-                        return res.status(404).end();
-                    }
-                    counter = 1;
-                    console.log("200");
-                    console.log(data);
-                    return res.status(200).end();
-                })
-
+                console.log(data);
+                return res.status(200).json(data);
             })
-        };
 
-        if (counter == 0) {
+        })
+
+        const pushData = (id) => {
             User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
                 console.log("first findOneAndUpdate");
                 if (err) {
@@ -139,12 +149,11 @@ console.log("additem init")
                 if (!data) {
                     return console.log("404");
                 }
-                counter = 1;
                 console.log("200");
                 console.log(data);
-                return res.status(200).end();
+                return res.status(200).json(data);
             });
-        }
+        };
     };
 
     const updateBW = (id, updateObj) => {
@@ -164,6 +173,7 @@ console.log("additem init")
         }
 
         var filter = {
+            new: true,
             arrayFilters: [
                 {
                     'i.date': updateObj.bwlogs.date
@@ -171,37 +181,34 @@ console.log("additem init")
             ]
         };
 
-        var counter = 0;
-        if (counter == 0) {
-            User.findOne({ "_id": id, 'bwlogs': { $not: { $elemMatch: { 'date': updateObj.bwlogs.date } } } }, (err, data) => {
+        User.findOne({ "_id": id, 'bwlogs': { $not: { $elemMatch: { 'date': updateObj.bwlogs.date } } } }, (err, data) => {
+            if (err) {
+                return console.log("500");
+            }
+            if (!data) {
+                let dataID = id;
+                return pushData(dataID);
+            }
+            console.log("200");
+
+            User.findByIdAndUpdate({ "_id": id }, updateSet,  { new: true }, (err, data) => {
+                console.log("second findOneAndUpdate");
                 if (err) {
-                    return console.log("500");
+                    console.log("500");
+                    return res.status(500).end();
                 }
                 if (!data) {
-                    return console.log("404");
+                    console.log("404");
+                    return res.status(404).end();
                 }
                 console.log("200");
-
-                User.findByIdAndUpdate({ "_id": id }, updateSet, (err, data) => {
-                    console.log("second findOneAndUpdate");
-                    if (err) {
-                        console.log("500");
-                        return res.status(500).end();
-                    }
-                    if (!data) {
-                        console.log("404");
-                        return res.status(404).end();
-                    }
-                    counter = 1;
-                    console.log("200");
-                    console.log(data);
-                    return res.status(200).end();
-                })
-
+                console.log(data);
+                return res.status(200).json(data);
             })
-        };
 
-        if (counter == 0) {
+        })
+
+        const pushData = (id) => {
             User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
                 console.log("first findOneAndUpdate");
                 if (err) {
@@ -210,12 +217,11 @@ console.log("additem init")
                 if (!data) {
                     return console.log("404");
                 }
-                counter = 1;
                 console.log("200");
                 console.log(data);
-                return res.status(200).end();
+                return res.status(200).json(data);
             });
-        }
+        };
     };
 
     const updateVids = (id, updateObj) => {
@@ -235,6 +241,7 @@ console.log("additem init")
         }
 
         var filter = {
+            new: true,
             arrayFilters: [
                 {
                     'i.date': updateObj.vidslogs.date
@@ -242,37 +249,34 @@ console.log("additem init")
             ]
         };
 
-        var counter = 0;
-        if (counter == 0) {
-            User.findOne({ "_id": id, 'vidslogs': { $not: { $elemMatch: { 'date': updateObj.vidslogs.date } } } }, (err, data) => {
+        User.findOne({ "_id": id, 'vidslogs': { $not: { $elemMatch: { 'date': updateObj.vidslogs.date } } } }, (err, data) => {
+            if (err) {
+                return console.log("500");
+            }
+            if (!data) {
+                let dataID = id;
+                return pushData(dataID);
+            }
+            console.log("200");
+
+            User.findByIdAndUpdate({ "_id": id }, updateSet, {new: true}, (err, data) => {
+                console.log("second findOneAndUpdate");
                 if (err) {
-                    return console.log("500");
+                    console.log("500");
+                    return res.status(500).end();
                 }
                 if (!data) {
-                    return console.log("404");
+                    console.log("404");
+                    return res.status(404).end();
                 }
                 console.log("200");
-
-                User.findByIdAndUpdate({ "_id": id }, updateSet, (err, data) => {
-                    console.log("second findOneAndUpdate");
-                    if (err) {
-                        console.log("500");
-                        return res.status(500).end();
-                    }
-                    if (!data) {
-                        console.log("404");
-                        return res.status(404).end();
-                    }
-                    counter = 1;
-                    console.log("200");
-                    console.log(data);
-                    return res.status(200).end();
-                })
-
+                console.log(data);
+                return res.status(200).json(data);
             })
-        };
 
-        if (counter == 0) {
+        })
+
+        const pushData = (id) => {
             User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
                 console.log("first findOneAndUpdate");
                 if (err) {
@@ -281,55 +285,41 @@ console.log("additem init")
                 if (!data) {
                     return console.log("404");
                 }
-                counter = 1;
                 console.log("200");
                 console.log(data);
-                return res.status(200).end();
+                return res.status(200).json(data);
             });
         }
     };
 
-    const createDate = (date) => {
-        let newDate = new Date(date);
-        var y = newDate.getFullYear();
-        var m = newDate.getMonth() + 1;
-        var d = newDate.getDate();
-        if (Number(d) < 10 && Number(d) > 0) {
-            d = "0" + d;
-        }
-
-        if (Number(m) < 10 && Number(m) > 0) {
-            m = "0" + m;
-        }
-        const nowDate = y + "-" + m + "-" + d;
-
-        return nowDate;
-    }
 
     const createObj = (data) => {
         const exObj = [];
-        var nowDate = createDate(req.body.date);
         data.forEach(item => exObj.push(item));
 
         var updateObj = {
-            date: nowDate,
+            date: req.body.date,
             collections: [...exObj]
         }
 
         return updateObj;
     }
-
-    if (req.body.weightFlag == 1) {
+    console.log('req.body');
+    console.log(req.body);
+    if (req.body.flag == 1) {
         var updateObj = createObj(req.body.collection);
 
         var pushThis = {
             logs: updateObj
         }
+        console.log('weightFlag');
+        console.log(req.body.id);
+        console.log(pushThis);
 
         updateWeights(req.body.id, pushThis);
     }
 
-    if (req.body.cardioFlag == 1) {
+    if (req.body.flag == 2) {
         var updateObj = createObj(req.body.collection);
 
         var pushThis = {
@@ -339,7 +329,7 @@ console.log("additem init")
         updateCardio(req.body.id, pushThis);
     }
 
-    if (req.body.bwFlag == 1) {
+    if (req.body.flag == 3) {
         var updateObj = createObj(req.body.collection);
 
         var pushThis = {
@@ -350,7 +340,7 @@ console.log("additem init")
 
     }
 
-    if (req.body.vidsFlag == 1) {
+    if (req.body.flag == 4) {
         var updateObj = createObj(req.body.collection);
 
         var pushThis = {

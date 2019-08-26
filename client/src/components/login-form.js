@@ -1,36 +1,32 @@
 import React, { Component } from 'react';
-import { Container, Col, Form, FormGroup, Label, Input, Alert, UncontrolledAlert } from 'reactstrap';
+import { connect } from 'react-redux';
+import { userActions } from '../actions/user_actions';
 import { Redirect } from 'react-router-dom';
-import axios from 'axios';
+/* Form components */
+import { Container, Col, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
+
 
 class LoginForm extends Component {
     state = {
         username: '',
         password: '',
         msg: this.props.msg,
-        redirectTo: null,
         success: this.props.success,
         visible: false
-    }
+        }
 
-    onDismiss = () => {
-        this.setState({ 
-            visible: false 
+     onDismiss = () => {
+        this.setState({
+            visible: false
         });
     }
-
+ 
     updateMsg = (error) => {
         if (error) {
             return this.setState({
                 msg: "Incorrect username or password. Please try again.",
             })
         }
-
-        this.setState({
-            msg: "Sucessfully registered, please log in.",
-            success: true
-        })
-
     }
 
     handleChange = (event) => {
@@ -41,51 +37,26 @@ class LoginForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault()
-        console.log('handleSubmit')
+        console.log('handleSubmit this.props');
+        const { dispatch } = this.props;
 
-        axios.post('/api/login', {
-            username: this.state.username,
-            password: this.state.password
-        }).then(response => {
-            console.log('login response: ')
-            if (response.status === 200) {
-
-                // update App.js state
-                this.props.updateUser({
-                    id: response.data._id,
-                    loggedIn: true,
-                    username: response.data.username,
-                    exerciseLogs: response.data.logs,
-                    cardioLogs: response.data.cardiologs,
-                    bwLogs: response.data.bwlogs,
-                    vidsLogs: response.data.vidslogs
-                })
-
-                // update the state to redirect to home
-                this.setState({
-                    redirectTo: '/api/dashboard',
-                })
-            }
-        }).catch(error => {
-            console.log('login error: ')
-            console.log(error);
-            this.setState({
-                visible: true
-            })
-        })
+        const { username, password } = this.state;
+        if (username && password) {
+            dispatch(userActions.login(username, password));
+        }
     }
 
     render() {
         const { username, password } = this.state;
-        if (this.state.redirectTo) {
-            return <Redirect to={{ pathname: this.state.redirectTo }} />
+        if (this.props.loggedIn) {
+            return <Redirect to={{ pathname: "/api/dashboard" }} />
         } else {
             return (
                 <div className="loginDiv regLogin">
                     {this.state.msg && !this.state.success ? <Alert color="danger">{this.state.msg}</Alert> : null}
                     {this.state.msg && this.state.success ? <Alert color="success">{this.state.msg}</Alert> : null}
                     <Alert color="warning" isOpen={this.state.visible} toggle={this.onDismiss}>
-                       Incorrect name or password. Please try again.
+                        Incorrect name or password. Please try again.
                     </Alert>
                     <Container className="loginForm regLoginForm">
                         <Form className="form1 regLogForm" onSubmit={e => this.handleSubmit(e)}>
@@ -110,5 +81,12 @@ class LoginForm extends Component {
     }
 }
 
+function mapStateToProps(state) {
+    console.log(state);
+    /* const { loggedIn } = state.authenticate;
+    return {
+        loggedIn
+    }; */
+}
 
-export default LoginForm
+export default connect(mapStateToProps)(LoginForm);

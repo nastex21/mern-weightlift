@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import axios from "axios";
-import { Container, Col, Form, FormGroup, Label, Input, FormFeedback, Alert } from "reactstrap";
 import { Redirect } from "react-router-dom";
+import { userActions } from '../actions/user_actions';
+import { connect } from 'react-redux';
+import { Container, Col, Form, FormGroup, Label, Input, FormFeedback, Alert } from "reactstrap";
 
 class Signup extends Component {
     state = {
@@ -62,6 +63,8 @@ class Signup extends Component {
         console.log("sign-up handleSubmit, username: ");
         event.preventDefault();
 
+        const { dispatch } = this.props;
+
         const { validate } = this.state;
         if (this.state.username === "") {
             validate.nameState = "has-danger";
@@ -77,29 +80,17 @@ class Signup extends Component {
 
         this.setState({ validate });
 
+
         if (
             this.state.validate.nameState !== "has-danger" ||
             this.state.validate.passwordState !== "has-danger" ||
             this.state.validate.password2State !== "has-danger"
         ) {
-            axios.post("/api/dashboard/", { username: this.state.username, password: this.state.password })
-                .then(response => {
-                    if (!response.data.error) {
-                        this.setState({
-                            //redirect to login page
-                            redirectTo: "/api/login"
-                        }, this.props.updateSuccess());
-                    } else {
-                        this.setState({
-                            warning: true,
-                            msg: response.data.error
-                        })
-                    }
-                })
-                .catch(error => {
-                    console.log("signup error: ");
-                    console.log(error);
-                })
+            var user = {
+                username: this.state.username,
+                password: this.state.password
+            }
+            dispatch(userActions.register(user));
         }
     }
 
@@ -186,4 +177,12 @@ class Signup extends Component {
     }
 }
 
-export default Signup;
+function mapStateToProps(state) {
+    console.log(state);
+    const { registering } = state.register;
+    return {
+        registering
+    }; 
+}
+
+export default connect(mapStateToProps)(Signup);

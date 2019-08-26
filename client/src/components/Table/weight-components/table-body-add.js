@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { Form, FormGroup, Label, Row, Col, Input, Button, Alert } from 'reactstrap';
-import axios from 'axios';
+import { itemsConst } from '../../../actions/items_actions';
+import { connect } from 'react-redux';
 
 class WeightsAdd extends Component {
     state = {
-        id: this.props.id,
         tabIndex: this.props.tabIndex,
-        date: this.props.date,
         collection: [{
             exercise: "",
             sets: "",
@@ -17,9 +16,9 @@ class WeightsAdd extends Component {
         invalidSets: false,
         invalidReps: false,
         invalidWeight: false,
-        msg: ''
+        msg: '',
+        loaded: this.props.dataModifier.loaded
     }
-
 
     //changes when keys are pressed
     handleChange = (e) => {
@@ -78,14 +77,21 @@ class WeightsAdd extends Component {
 
     submit = (e) => {
         e.preventDefault();
-
+        console.log("table-body-add");
+        const { dispatch } = this.props;
+        console.log(this.props);
+        console.log("addItem: ");
+        console.log(this.state.id);
+        var options = { id: this.props.dataModifier.id, collection: this.state.collection, 
+            date: this.props.dataModifier.dateShortened, flag: 1 };
+        dispatch(itemsConst.addItem(options));
+        /* 
         axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, weightFlag: 1 })
             .then((response) => {
                 console.log("submit then")
                 console.log(this.props);
                this.props.updateData(1,this.state.collection); 
             })
-            .then(() => { this.props.refreshUser(); })
             .then(() => {
                 console.log("form reset in submit button promise")
                 this.setState({
@@ -131,13 +137,12 @@ class WeightsAdd extends Component {
 
 
             });
-
+ */
     }
 
     render() {
         const { id, collection } = this.state;
         console.log("this.props");
-        console.log(this.props.refreshUser);
         return (
             <div>
                 {this.state.msg ? (
@@ -185,4 +190,13 @@ class WeightsAdd extends Component {
     }
 }
 
-export default WeightsAdd;
+function mapStateToProps(state) {
+    console.log(state);
+    const { eventReducer, dataModifier } = state;
+    return {
+        eventReducer,
+        dataModifier
+    };
+}
+
+export default connect(mapStateToProps)(WeightsAdd);

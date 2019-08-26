@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Form, FormGroup, Alert, Label, Row, Col, Input, Button } from 'reactstrap';
-import axios from 'axios';
+import { itemsConst } from '../../../actions/items_actions';
 
 class BWAdd extends Component {
     state = {
-        id: this.props.id,
-        date: this.props.date,
         collection: [{
             exercise: "",
             sets: "",
@@ -47,50 +46,11 @@ class BWAdd extends Component {
 
     submit = (e) => {
         e.preventDefault();
+        
+        const { dispatch } = this.props;
+        var options = { id: this.props.dataModifier.id, collection: this.state.collection, date: this.props.dataModifier.dateShortened, flag: 3 };
 
-        console.log("post is triggered")
-        axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, bwFlag: 1 })
-            .then(response => {
-                console.log(response);
-                this.props.updateData(3,this.state.collection); 
-            })
-            .then(() => { this.props.refreshUser(); })
-            .then(() => {
-                console.log("form reset in submit button promise")
-                this.setState({
-                    collection: [{
-                        exercise: "",
-                        sets: "",
-                        reps: ""
-                    }]
-                })
-            })
-            .catch(error => {
-                console.log("post /api/add-items error: ");
-                console.log(error);
-                const err = error.response.data;
-                if (err.target == "name") {
-                    this.setState({
-                        invalidEx: true,
-                        msg: err.msg
-                    })
-                }
-                if (err.target == "sets") {
-                    this.setState({
-                        invalidSets: true,
-                        msg: err.msg
-                    })
-                }
-
-                if (err.target == "reps") {
-                    this.setState({
-                        invalidReps: true,
-                        msg: err.msg
-                    })
-                }
-
-            });
-
+        dispatch(itemsConst.addItem(options));
     }
 
 
@@ -101,7 +61,7 @@ class BWAdd extends Component {
                   {this.state.msg ? (
                     <Alert color='danger'>{this.state.msg}</Alert>
                 ) : null}
-                {collection.map((val, idx) => {
+              {collection.map((val, idx) => {
                     let exId = `ex-${idx}`, setId = `sets-${idx}`, repId = `reps-${idx}`;
                     return (
                         <div key={id + idx}>
@@ -127,7 +87,7 @@ class BWAdd extends Component {
                             </Row>
                         </div>
                     )
-                }
+                } 
                 )}
                 <Button onClick={this.submit} block>Add Exercise</Button>
             </Form>
@@ -135,4 +95,14 @@ class BWAdd extends Component {
     }
 }
 
-export default BWAdd;
+function mapStateToProps(state) {
+    console.log('state');
+    console.log(state);
+    const { eventReducer, dataModifier } = state;
+    return {
+        eventReducer,
+        dataModifier
+    };
+  }
+    
+export default connect(mapStateToProps)(BWAdd);

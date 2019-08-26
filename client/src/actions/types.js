@@ -1,0 +1,38 @@
+/* GET related */
+export const GETALL_REQUEST = 'GETALL_REQUEST';
+export const GETALL_SUCCESS = 'GETALL_SUCCESS';
+export const GETALL_FAILURE = 'GETALL_FAILURE';
+/* Register related */
+export const REGISTER_REQUEST = 'REGISTER_REQUEST';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAILURE = 'REGISTER_FAILURE';
+/* Login related */
+export const LOGIN_REQUEST = 'LOGIN_REQUEST';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAILURE = 'LOGIN_FAILURE';
+/* Logout related */
+export const LOGOUT = 'LOGOUT';
+/* Modal related */
+export const OPEN_MODAL = 'OPEN_MODAL';
+export const CLOSE_MODAL = 'CLOSE_MODAL';
+/*Alerts */
+export const SUCCESS = 'ALERT_SUCCESS';
+export const ERROR = 'ALERT_ERROR';
+export const CLEAR = 'ALERT_CLEAR';
+/* ITEMS ADD RELATED */
+export const ADDITEM_REQUEST = 'ADDITEM_REQUEST';
+export const ADDITEM_SUCCESS = 'ADDITEM_SUCCESS';
+export const ADDITEM_FAILURE = 'ADDITEM_FAILURE';
+/* ITEMS SAVECHANGES RELATED */
+export const SAVECHANGES_REQUEST = 'SAVECHANGES_REQUEST';
+export const SAVECHANGES_SUCCESS = 'SAVECHANGES_SUCCESS';
+export const SAVECHANGES_FAILURE = 'SAVECHANGES_FAILURE';
+/* ITEMS UPDATED RELATED */
+export const UPDATESTATE = 'UPDATEDSTATE';
+export const UPDATEEVENT = 'UPDATEEVENT';
+/*CALENDAR EVENT RELATED */
+export const SETDATE = 'SETDATE';
+export const FILTEREVENTS = 'FILTEREVENTS';
+export const FILTERBUTTON = 'FILTERBUTTON';
+/* SET THE MESSAGE */
+export const SETSUCCESSMSG = 'SETSUCCESSMSG';
