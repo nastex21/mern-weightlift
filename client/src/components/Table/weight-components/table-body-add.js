@@ -17,7 +17,7 @@ class WeightsAdd extends Component {
         invalidReps: false,
         invalidWeight: false,
         msg: '',
-        loaded: this.props.dataModifier.loaded
+        success: this.props.dataModifier.successMsg
     }
 
     //changes when keys are pressed
@@ -82,27 +82,21 @@ class WeightsAdd extends Component {
         console.log(this.props);
         console.log("addItem: ");
         console.log(this.state.id);
-        var options = { id: this.props.dataModifier.id, collection: this.state.collection, 
-            date: this.props.dataModifier.dateShortened, flag: 1 };
-        dispatch(itemsConst.addItem(options));
+        var options = {
+            id: this.props.dataModifier.id, collection: this.state.collection,
+            date: this.props.dataModifier.dateShortened, flag: 1
+        };
+        dispatch(itemsConst.addItem(options))
+            .then(() => this.setState({
+                collection: [{
+                    exercise: "",
+                    sets: "",
+                    reps: "",
+                    weight: ""
+                }]
+            }))
+            .catch(() => console.log("error"))
         /* 
-        axios.post("/api/add-items", { id: this.state.id, collection: this.state.collection, date: this.state.date, weightFlag: 1 })
-            .then((response) => {
-                console.log("submit then")
-                console.log(this.props);
-               this.props.updateData(1,this.state.collection); 
-            })
-            .then(() => {
-                console.log("form reset in submit button promise")
-                this.setState({
-                    collection: [{
-                        exercise: "",
-                        sets: "",
-                        reps: "",
-                        weight: ""
-                    }]
-                })
-            })
             .catch((error) => {
                 console.log("post /api/add-items error: ");
                 console.log(error);

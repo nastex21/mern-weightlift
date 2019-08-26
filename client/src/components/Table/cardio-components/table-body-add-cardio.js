@@ -69,24 +69,17 @@ class CardioAdd extends Component {
         const { dispatch } = this.props;
         var options = { id: this.props.dataModifier.id, collection: this.state.collection, date: this.props.dataModifier.dateShortened, flag: 2 };
 
-        dispatch(itemsConst.addItem(options));
-        /* axios.post("/api/add-items", { id: this.props.dataModifier.id, collection: this.state.collection, date: this.state.date, cardioFlag: 1 })
-            .then(response => {
-                console.log(response);
-                this.props.updateData(2,this.state.collection); 
-            })
-            .then(() => { this.props.refreshUser(); })
-            .then(() => {
-                console.log("form reset in submit button promise")
-                this.setState({
-                    collection: [{
-                        exercise: "",
-                        distance: "",
-                        hours: "",
-                        minutes: ""
-                    }]
-                })
-            })
+        dispatch(itemsConst.addItem(options))
+        .then(() => this.setState({
+            collection: [{
+                exercise: "",
+                distance: "",
+                hours: "",
+                minutes: ""
+            }]
+        }))
+        .catch(() => console.log("error"));
+        /*
             .catch(error => {
                 console.log("post /api/add-items error: ");
                 console.log(error);

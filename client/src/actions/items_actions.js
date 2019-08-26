@@ -18,12 +18,18 @@ function addItem(options) {
     dispatch(request());
     console.log("add data")
     console.log(options);
-    userService.addItem(options)
-      .then(
-        users => dispatch(success(users)),
-        error => dispatch(failure(error.toString()))
-      );
 
+    return new Promise((resolve, reject) => {
+      userService.addItem(options)
+      .then(users => {
+        dispatch(success(users));
+        resolve(users);
+      })
+      .catch(error => {
+        dispatch(failure(error.toString()));
+        reject(error);
+      })
+    })
     function request() { return { type: ADDITEM_REQUEST } }
     function success(users) { return { type: ADDITEM_SUCCESS, users } }
     function failure(error) { return { type: ADDITEM_FAILURE, error } }

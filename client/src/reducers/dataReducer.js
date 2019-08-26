@@ -24,7 +24,7 @@ const initialState = user ? {
     vidsLogs: [],
     msg: '',
     loaded: 'false',
-    successMsg: '',
+    successMsg: false,
     weightFilterFlag: false,
     cardioFilterFlag: false,
     bwFilterFlag: false,
@@ -162,7 +162,7 @@ export default function dataReducer(state = initialState, action) {
                 events: [...action.users.events],
                 eventsFiltered: [...action.users.events],
                 loaded: 'true',
-                successMsg: ''
+                successMsg: 'true'
             }
         case ADDITEM_FAILURE:
             return state.msg = 'Item addition failed';
@@ -216,7 +216,7 @@ export default function dataReducer(state = initialState, action) {
                 events: [...eventsArr],
                 eventsFiltered: [...eventsArr],
                 loaded: 'false',
-                successMsg: 'true',
+                successMsg: true,
                 loggedIn: true
 
             }
@@ -296,7 +296,7 @@ export default function dataReducer(state = initialState, action) {
             return {
                 ...state,
                 eventsFiltered: [...action.filterEvents],
-                weightFilterFlag: action.flag.weightFlag !== undefined ?  action.flag.weightFlag : state.weightFilterFlag,
+                weightFilterFlag: action.flag.weightFlag !== undefined ? action.flag.weightFlag : state.weightFilterFlag,
                 cardioFilterFlag: action.flag.cardioFlag !== undefined ? action.flag.cardioFlag : state.cardioFilterFlag,
                 vidsFilterFlag: action.flag.vidsFlag !== undefined ? action.flag.vidsFlag : state.vidsFilterFlag,
                 bwFilterFlag: action.flag.bwFlag !== undefined ? action.flag.bwFlag : state.bwFilterFlag,

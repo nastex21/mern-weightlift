@@ -50,11 +50,19 @@ class BWAdd extends Component {
 
     submit = (e) => {
         e.preventDefault();
-        
+
         const { dispatch } = this.props;
         var options = { id: this.props.dataModifier.id, collection: this.state.collection, date: this.props.dataModifier.dateShortened, flag: 3 };
 
-        dispatch(itemsConst.addItem(options));
+        dispatch(itemsConst.addItem(options))
+            .then(() => this.setState({
+                collection: [{
+                    exercise: "",
+                    sets: "",
+                    reps: "",
+                }]
+            }))
+            .catch(() => console.log("error"))
     }
 
 
@@ -62,10 +70,10 @@ class BWAdd extends Component {
         const { id, collection } = this.state;
         return (
             <Form onSubmit={this.submit} onChange={this.handleChange}>
-                  {this.state.msg ? (
+                {this.state.msg ? (
                     <Alert color='danger'>{this.state.msg}</Alert>
                 ) : null}
-              {collection.map((val, idx) => {
+                {collection.map((val, idx) => {
                     let exId = `ex-${idx}`, setId = `sets-${idx}`, repId = `reps-${idx}`;
                     return (
                         <div key={id + idx}>
@@ -85,13 +93,13 @@ class BWAdd extends Component {
                                 <Col md={4}>
                                     <FormGroup>
                                         <Label for={repId}>Reps</Label>
-                                        <Input invalid={this.state.invalidReps}type="text" data-id={idx} name={repId} id={repId} value={collection[idx].reps} className="reps" placeholder="Number" />
+                                        <Input invalid={this.state.invalidReps} type="text" data-id={idx} name={repId} id={repId} value={collection[idx].reps} className="reps" placeholder="Number" />
                                     </FormGroup>
                                 </Col>
                             </Row>
                         </div>
                     )
-                } 
+                }
                 )}
                 <Button onClick={this.submit} block>Add Exercise</Button>
             </Form>
@@ -107,6 +115,6 @@ function mapStateToProps(state) {
         eventReducer,
         dataModifier
     };
-  }
-    
+}
+
 export default connect(mapStateToProps)(BWAdd);
