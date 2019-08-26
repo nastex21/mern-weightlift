@@ -38,6 +38,7 @@ class CardioAdd extends Component {
                 collection[e.target.dataset.id][e.target.className] = e.target.value;
                 this.setState({ collection }, () => console.log(this.state.collection))
             } else if (e.target.className == "hours") {
+                e.target.value = +e.target.value;
                 if (e.target.value == '') {
                     collection[e.target.dataset.id][e.target.className] = e.target.value;
                     this.setState({ collection }, () => console.log(this.state.collection))
@@ -45,6 +46,7 @@ class CardioAdd extends Component {
                 collection[e.target.dataset.id][e.target.className] = e.target.value;
                 this.setState({ collection }, () => console.log(this.state.collection))
             } else if (e.target.className == "minutes") {
+                e.target.value = +e.target.value;
                 if (e.target.value == '' || e.target.value >= 0 && e.target.value < 60) {
                     collection[e.target.dataset.id][e.target.className] = e.target.value;
                     this.setState({ collection }, () => console.log(this.state.collection))

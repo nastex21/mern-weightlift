@@ -33,10 +33,14 @@ class BWAdd extends Component {
             //if the target.value is empty or it doesn't pass the test, then setState
 
             if (e.target.className == "sets" || e.target.className == "reps") {
+                e.target.value = +e.target.value;
+                console.log(e.target.value);
                 e.target.value = parseInt(e.target.value, 10)
                 if (e.target.value == '' || re.test(e.target.value)) {
                     this.setState({ collection }, () => console.log(this.state.collection))
                 }
+                collection[e.target.dataset.id][e.target.className] = e.target.value;
+                this.setState({ collection }, () => console.log(this.state.collection))
             } else {
 
                 this.setState({ collection }, () => console.log(this.state.collection))

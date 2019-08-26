@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route, Router } from 'react-router-dom';
+import { Route, Router, Switch } from 'react-router-dom';
 import { history } from './helpers/history';
 import { alertActions } from './actions/alert';
 import { updateEvent } from './actions/items_actions';
@@ -15,19 +15,19 @@ import gymSplash from './assets/images/dumbbell.jpg';
 
 class App extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       success: false,
       msg: null,
     }
-    
 
-  const { dispatch } = this.props;
+
+    const { dispatch } = this.props;
     history.listen((location, action) => {
       // clear alert on location change
       dispatch(alertActions.clear());
-    }); 
+    });
   }
 
   updateSuccess = () => {
@@ -118,19 +118,21 @@ class App extends Component {
     }
     return (
       <Router history={history}>
-        <div className='App' style={!this.props.dataModifier.loggedIn ? style : loggedinStyle}>
-          {this.props.dataModifier.loggedIn ? <NavbarTrue /> : <NavbarFalse />}
-    {this.props.dataModifier.loggedIn ? <Route exact path="/api/dashboard" render={(props) => <Dashboard  /> } />: null}
-          <Route exact path="/" render={(props) => <Home {...props} />} />
-          <Route path="/api/login"
-            render={() =>
-              <LoginForm  success={this.state.success} msg={this.state.msg} />}
-          />
-          <Route path="/api/signup"
-            render={() =>
-              <Signup updateSuccess={this.updateSuccess} />} 
-          />
-        </div>
+        <Switch>
+          <div className='App' style={!this.props.dataModifier.loggedIn ? style : loggedinStyle}>
+            {this.props.dataModifier.loggedIn ? <NavbarTrue /> : <NavbarFalse />}
+            {this.props.dataModifier.loggedIn ? <Route exact path="/api/dashboard" render={(props) => <Dashboard />} /> : null}
+            <Route exact path="/" render={(props) => <Home {...props} />} />
+            <Route path="/api/login"
+              render={() =>
+                <LoginForm success={this.state.success} msg={this.state.msg} />}
+            />
+            <Route path="/api/signup"
+              render={() =>
+                <Signup updateSuccess={this.updateSuccess} />}
+            />
+          </div>
+        </Switch>
       </Router>
     );
   }
