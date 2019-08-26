@@ -70,15 +70,15 @@ class CardioAdd extends Component {
         var options = { id: this.props.dataModifier.id, collection: this.state.collection, date: this.props.dataModifier.dateShortened, flag: 2 };
 
         dispatch(itemsConst.addItem(options))
-        .then(() => this.setState({
-            collection: [{
-                exercise: "",
-                distance: "",
-                hours: "",
-                minutes: ""
-            }]
-        }))
-        .catch(() => console.log("error"));
+            .then(() => this.setState({
+                collection: [{
+                    exercise: "",
+                    distance: "",
+                    hours: "",
+                    minutes: ""
+                }]
+            }))
+            .catch(() => console.log("error"));
         /*
             .catch(error => {
                 console.log("post /api/add-items error: ");

@@ -47,7 +47,7 @@ class ExVidsClassesAdd extends Component {
                         collection[e.target.dataset.id].completed = "false";
                         this.setState({ collection }, () => console.log(this.state.collection));
                     } else {
-                        console.log('3')                        
+                        console.log('3')
                         collection[e.target.dataset.id][e.target.className] = "";
                         collection[e.target.dataset.id].completed = "false";
                         this.setState({ collection }, () => console.log(this.state.collection));
@@ -60,8 +60,8 @@ class ExVidsClassesAdd extends Component {
             } else if (e.target.className == "minutes") {
                 e.target.value = +e.target.value;
                 if (e.target.value == '' || e.target.value >= 0 && e.target.value < 60) {
-               
-                   if (!this.state.completed) {
+
+                    if (!this.state.completed) {
                         console.log('6')
                         collection[e.target.dataset.id][e.target.className] = e.target.value;
                         collection[e.target.dataset.id].completed = "false";
@@ -97,40 +97,40 @@ class ExVidsClassesAdd extends Component {
         const { dispatch } = this.props;
         var options = { id: this.props.dataModifier.id, collection: this.state.collection, date: this.props.dataModifier.dateShortened, flag: 4 };
         dispatch(itemsConst.addItem(options))
-        .then(() => this.setState({
-            collection: [{
-                exercise: "",
-                hours: "",
-                minutes: "",
-                completed: "false"
-            }]
-        }))
-        .catch(() => console.log("error"))
-  /*     
-            .catch((error) => {
-                console.log(error);
-                console.log(error.response);
-                if (error.response.data.target == "name") {
-                    this.setState({
-                        invalidEx: true,
-                        msg: error.response.data.msg
-                    })
-                } else if (error.response.data.target == "hrs") {
-                    this.setState({
-                        invalidHrs: true,
-                        msg: error.response.data.msg
-                    })
-                } else if (error.response.data.target == "mins") {
-                    this.setState({
-                        invalidMins: true,
-                        msg: error.response.data.msg
-                    })
-                } else {
-                    this.setState({
-                        msg: error.response.data.msg
-                    })
-                } 
-            }); */
+            .then(() => this.setState({
+                collection: [{
+                    exercise: "",
+                    hours: "",
+                    minutes: "",
+                    completed: "false"
+                }]
+            }))
+            .catch(() => console.log("error"))
+        /*     
+                  .catch((error) => {
+                      console.log(error);
+                      console.log(error.response);
+                      if (error.response.data.target == "name") {
+                          this.setState({
+                              invalidEx: true,
+                              msg: error.response.data.msg
+                          })
+                      } else if (error.response.data.target == "hrs") {
+                          this.setState({
+                              invalidHrs: true,
+                              msg: error.response.data.msg
+                          })
+                      } else if (error.response.data.target == "mins") {
+                          this.setState({
+                              invalidMins: true,
+                              msg: error.response.data.msg
+                          })
+                      } else {
+                          this.setState({
+                              msg: error.response.data.msg
+                          })
+                      } 
+                  }); */
     }
 
 
@@ -144,7 +144,7 @@ class ExVidsClassesAdd extends Component {
 
         return (
             <Form onSubmit={this.submit} onChange={this.handleChange}>
-                  {this.state.msg ? (
+                {this.state.msg ? (
                     <Alert color='danger'>{this.state.msg}</Alert>
                 ) : null}
                 {collection.map((val, idx) => {
@@ -201,6 +201,6 @@ function mapStateToProps(state) {
         eventReducer,
         dataModifier
     };
-  }
-    
+}
+
 export default connect(mapStateToProps)(ExVidsClassesAdd);
