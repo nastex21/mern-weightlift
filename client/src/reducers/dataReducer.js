@@ -88,13 +88,14 @@ export default function dataReducer(state = initialState, action) {
                 events: [...eventsArr],
                 eventsFiltered: [...eventsArr],
                 loggedIn: true,
-                successMsg: ''
+                successMsg: '',
+                msg: action.data.msg
             };
         case LOGIN_FAILURE:
             console.log("action");
             console.log(action);
             return {
-                msg: ''
+                msg: action.error ? "Incorrect username and/or password" : null
             };
         case LOGOUT:
             return {};

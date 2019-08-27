@@ -10,7 +10,7 @@ class LoginForm extends Component {
     state = {
         username: '',
         password: '',
-        msg: this.props.msg,
+        msg: this.props.dataModifier.msg,
         success: this.props.success,
         visible: false
         }
@@ -48,16 +48,13 @@ class LoginForm extends Component {
 
     render() {
         const { username, password } = this.state;
+        console.log(this.props.dataModifier.msg);
         if (this.props.loggedIn) {
             return <Redirect to={{ pathname: "/api/dashboard" }} />
         } else {
             return (
                 <div className="loginDiv regLogin">
-                    {this.state.msg && !this.state.success ? <Alert color="danger">{this.state.msg}</Alert> : null}
-                    {this.state.msg && this.state.success ? <Alert color="success">{this.state.msg}</Alert> : null}
-                    <Alert color="warning" isOpen={this.state.visible} toggle={this.onDismiss}>
-                        Incorrect name or password. Please try again.
-                    </Alert>
+                    {this.props.dataModifier.msg ? <Alert color="danger">{this.props.dataModifier.msg}</Alert> : null}
                     <Container className="loginForm regLoginForm">
                         <Form className="form1 regLogForm" onSubmit={e => this.handleSubmit(e)}>
                             <Col>
@@ -83,10 +80,10 @@ class LoginForm extends Component {
 
 function mapStateToProps(state) {
     console.log(state);
-    /* const { loggedIn } = state.authenticate;
+    const { alert, dataModifier, eventReducer } = state;
     return {
-        loggedIn
-    }; */
+        dataModifier
+    }; 
 }
 
 export default connect(mapStateToProps)(LoginForm);

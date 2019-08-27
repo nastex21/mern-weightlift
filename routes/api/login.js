@@ -12,41 +12,27 @@ router.post('/', async (req, res, next) => {
 
   console.log(username);
   //checking to make sure the user entered the correct username/password combo
-  User.findOne({ username: username })
-    .then(user => {
-      console.log("success login");
-      console.log(user);
-      if (!user) {
-        return res.status(401).send({
-          msg: "Incorrect username and/or password."
-        })
-      }
-      var result = bcrypt.compareSync(password, user.password);
+  User.findOne({ username: username }, function (err, user) {
+    if (!user) {
+      return res.status(401).json({
+        msg: "Incorrect username and/or password."
+      })
+    }
 
-      if (result) {
-        //if user log in success, generate a JWT token for the user with a secret key
-        const token = jwt.sign({ user }, process.env.SECRET);
+    var result = bcrypt.compareSync(password, user.password);
 
-        return res.status(200).send({
-          data: user,
-          token: token
-        })
-      } else {
-        return res.status(401).send({
-          msg: "Incorrect username and/or password."
-        })
-      }
+    if (result) {
+      //if user log in success, generate a JWT token for the user with a secret key
+      const token = jwt.sign({ user }, process.env.SECRET);
 
-    })
-    .catch(error => {
-      console.log("error login");
-      console.log(error);
-      if (error) {
-        return res.status(401).json({
-          msg: "Incorrect username and/or password."
-        })
-      }
-    })
+      return res.status(200).send({
+        data: user,
+        token: token
+      })
+    }
+
+
+  })
 });
 
 module.exports = router;

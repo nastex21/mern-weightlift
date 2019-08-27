@@ -150,9 +150,10 @@ function login(username, password) {
       return user;
     })
     .catch(error => {
-      console.log("error login function");
-      console.log(error);
-      return error;
+     if (error.response){
+       console.log(error.response);
+       return error.response;
+     }
     })
 }
 

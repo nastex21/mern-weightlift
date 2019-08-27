@@ -21,14 +21,14 @@ function addItem(options) {
 
     return new Promise((resolve, reject) => {
       userService.addItem(options)
-      .then(users => {
-        dispatch(success(users));
-        resolve(users);
-      })
-      .catch(error => {
-        dispatch(failure(error.toString()));
-        reject(error);
-      })
+        .catch(error => {
+          dispatch(failure(error.toString()));
+          reject(error);
+        })
+        .then(users => {
+          dispatch(success(users));
+          resolve(users);
+        })
     })
     function request() { return { type: ADDITEM_REQUEST } }
     function success(users) { return { type: ADDITEM_SUCCESS, users } }
