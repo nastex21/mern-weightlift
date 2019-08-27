@@ -45,13 +45,13 @@ function login(username, password) {
         console.log(user);
         dispatch(success(user));
         history.push('/api/dashboard');
-      },
-        error => {
+      })
+       .catch(error => {
+          console.log("error");
+          console.log(error);
           dispatch(failure(error.toString()));
-          //dispatch(alertActions.error(error.toString()));
-        }
-      );
-  };
+        })
+  }
 
   function request(user) { return { type: LOGIN_REQUEST, user } }
   function success(user) { return { type: LOGIN_SUCCESS, user } }

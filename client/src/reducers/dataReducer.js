@@ -91,7 +91,11 @@ export default function dataReducer(state = initialState, action) {
                 successMsg: ''
             };
         case LOGIN_FAILURE:
-            return {};
+            console.log("action");
+            console.log(action);
+            return {
+                msg: ''
+            };
         case LOGOUT:
             return {};
         case GETALL_REQUEST:

@@ -143,16 +143,17 @@ function getAll(userID) {
 
 
 function login(username, password) {
-  return axios.post('/api/login', { username: username, password: password }, {
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    }
-  })
+  return axios.post('/api/login', { username: username, password: password })
     .then(user => {
+      console.log("success login user")
       localStorage.setItem('user', JSON.stringify(user));
       return user;
-    });
+    })
+    .catch(error => {
+      console.log("error login function");
+      console.log(error);
+      return error;
+    })
 }
 
 function logout() {
