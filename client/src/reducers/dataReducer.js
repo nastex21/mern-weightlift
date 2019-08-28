@@ -89,7 +89,7 @@ export default function dataReducer(state = initialState, action) {
                 eventsFiltered: [...eventsArr],
                 loggedIn: true,
                 successMsg: '',
-                msg: action.data.msg
+                msg: ''
             };
         case LOGIN_FAILURE:
             console.log("action");

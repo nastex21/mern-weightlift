@@ -80,7 +80,7 @@ class LoginForm extends Component {
 
 function mapStateToProps(state) {
     console.log(state);
-    const { alert, dataModifier, eventReducer } = state;
+    const { alert, dataModifier } = state;
     return {
         dataModifier
     }; 

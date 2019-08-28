@@ -29,9 +29,11 @@ router.post('/', async (req, res, next) => {
         data: user,
         token: token
       })
+    } else {
+      return res.status(401).json({
+        msg: "Incorrect username and/or password."
+      })
     }
-
-
   })
 });
 

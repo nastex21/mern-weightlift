@@ -46,11 +46,11 @@ function login(username, password) {
         dispatch(success(user));
         history.push('/api/dashboard');
       })
-       .catch(error => {
-          console.log("error");
-          console.log(error);
-          dispatch(failure(error.toString()));
-        })
+      .catch(error => {
+        console.log("error");
+        console.log(error);
+        dispatch(failure(error.toString()));
+      })
   }
 
   function request(user) { return { type: LOGIN_REQUEST, user } }
