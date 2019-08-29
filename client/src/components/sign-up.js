@@ -9,7 +9,6 @@ class Signup extends Component {
         username: "",
         password: "",
         password2: "",
-        redirectTo: null,
         validate: {
             nameState: "",
             passwordState: "",
@@ -96,8 +95,8 @@ class Signup extends Component {
 
     render() {
         const { username, password, password2 } = this.state;
-        if (this.state.redirectTo) {
-            return <Redirect to={{ pathname: this.state.redirectTo }} />;
+        if (this.props.dataModifier.loggedIn) {
+            return <Redirect to={{ pathname: "/api/dashboard" }} />
         } else {
             return (
                 <div className="registerForm regLogin">
@@ -180,7 +179,9 @@ class Signup extends Component {
 function mapStateToProps(state) {
     console.log(state);
     const { registering } = state.register;
+    const { dataModifier } = state;
     return {
+        dataModifier,
         registering
     }; 
 }

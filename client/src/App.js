@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route, Router, Switch } from 'react-router-dom';
+import { Route, Router, Switch, Redirect } from 'react-router-dom';
 import { history } from './helpers/history';
 import { alertActions } from './actions/alert';
 import { updateEvent } from './actions/items_actions';
@@ -117,11 +117,13 @@ class App extends Component {
     const loggedinStyle = {
     }
     return (
+
       <Router history={history}>
         <Switch>
           <div className='App' style={!this.props.dataModifier.loggedIn ? style : loggedinStyle}>
             {this.props.dataModifier.loggedIn ? <NavbarTrue /> : <NavbarFalse />}
             {this.props.dataModifier.loggedIn ? <Route exact path="/api/dashboard" render={(props) => <Dashboard />} /> : null}
+            {this.props.dataModifier.loggedIn ? <Redirect to={{ pathname: "/api/dashboard" }} /> : null}
             <Route exact path="/" render={(props) => <Home {...props} />} />
             <Route path="/api/login"
               render={() =>

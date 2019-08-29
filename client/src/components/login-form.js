@@ -49,7 +49,7 @@ class LoginForm extends Component {
     render() {
         const { username, password } = this.state;
         console.log(this.props.dataModifier.msg);
-        if (this.props.loggedIn) {
+        if (this.props.dataModifier.loggedIn) {
             return <Redirect to={{ pathname: "/api/dashboard" }} />
         } else {
             return (
