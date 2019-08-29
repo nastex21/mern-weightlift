@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { userActions } from '../actions/user_actions';
 import { Redirect } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import * as Actions from '../actions';
+import { toggleRegistration } from '../actions/user_actions';
+
 /* Form components */
 import { Container, Col, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
 
@@ -10,24 +14,14 @@ class LoginForm extends Component {
     state = {
         username: '',
         password: '',
-        msg: this.props.dataModifier.msg,
-        success: this.props.success,
-        visible: false
-        }
+        regVisible: false,
+        loginVisible: false
+    }
 
-     onDismiss = () => {
-        this.setState({
-            visible: false
-        });
+    onDismiss = () => {
+        this.props.dispatch(toggleRegistration());
     }
- 
-    updateMsg = (error) => {
-        if (error) {
-            return this.setState({
-                msg: "Incorrect username or password. Please try again.",
-            })
-        }
-    }
+
 
     handleChange = (event) => {
         this.setState({
@@ -54,7 +48,11 @@ class LoginForm extends Component {
         } else {
             return (
                 <div className="loginDiv regLogin">
-                    {this.props.dataModifier.msg ? <Alert color="danger">{this.props.dataModifier.msg}</Alert> : null}
+
+                    {this.props.dataModifier.loginFailure == true ? <Alert color="danger">"Incorrect password and/or username. Please try again."</Alert> : null}
+
+                    {this.props.register.success == true ? <Alert color="success" toggle={this.onDismiss}>"Successfully created account. Please log in."</Alert> : null}
+
                     <Container className="loginForm regLoginForm">
                         <Form className="form1 regLogForm" onSubmit={e => this.handleSubmit(e)}>
                             <Col>
@@ -80,10 +78,19 @@ class LoginForm extends Component {
 
 function mapStateToProps(state) {
     console.log(state);
-    const { alert, dataModifier } = state;
+    const { register, dataModifier } = state;
     return {
-        dataModifier
-    }; 
+        dataModifier,
+        register
+    };
 }
 
-export default connect(mapStateToProps)(LoginForm);
+
+function mapDispatchToProps(dispatch) {
+    return {
+        dispatch,
+        ...bindActionCreators(Actions, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

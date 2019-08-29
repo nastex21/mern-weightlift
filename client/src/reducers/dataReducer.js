@@ -22,7 +22,7 @@ const initialState = user ? {
     cardioLogs: [],
     bwLogs: [],
     vidsLogs: [],
-    msg: '',
+    loginFailure: '',
     loaded: 'false',
     successMsg: false,
     weightFilterFlag: false,
@@ -95,7 +95,7 @@ export default function dataReducer(state = initialState, action) {
             console.log("action");
             console.log(action);
             return {
-                msg: action.error ? "Incorrect username and/or password" : null
+                loginFailure: true
             };
         case LOGOUT:
             return {};
@@ -307,7 +307,8 @@ export default function dataReducer(state = initialState, action) {
                 bwFilterFlag: action.flag.bwFlag !== undefined ? action.flag.bwFlag : state.bwFilterFlag,
                 loggedIn: true
             }
-        default:
+
+            default:
             return state;
     }
 }

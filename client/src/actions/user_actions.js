@@ -1,4 +1,7 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE, GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS, SETSUCCESSMSG } from './types';
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, 
+  REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE, 
+  GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS, 
+  SETSUCCESSMSG, TOGGLEERRORDISPLAY } from './types';
 import { userService } from '../services/user.services';
 import { history } from '../helpers/history';
 
@@ -89,5 +92,11 @@ export const setMsg = (msg) => dispatch => {
   dispatch({
     type: SETSUCCESSMSG,
     msg: msg
+  })
+}
+
+export const toggleRegistration = () => dispatch => {
+  dispatch({
+    type: TOGGLEERRORDISPLAY 
   })
 }

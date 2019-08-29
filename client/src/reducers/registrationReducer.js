@@ -1,6 +1,12 @@
-import { REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS } from '../actions/types';
+import { REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS,  TOGGLEERRORDISPLAY } from '../actions/types';
 
-export default function registration(state = {}, action) {
+const initiialState = {
+  registering: false,
+  user: '',
+  success: false
+}
+
+export default function registration(state = initiialState, action) {
   console.log("action");
     console.log(action);
   switch (action.type) {
@@ -15,6 +21,10 @@ export default function registration(state = {}, action) {
     };
     case REGISTER_FAILURE:
       return {};
+    case TOGGLEERRORDISPLAY:
+      return {...state,
+      success: false
+    }
     default:
       return state
   }
