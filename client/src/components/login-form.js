@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { userActions } from '../actions/user_actions';
 import { Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import * as Actions from '../actions';
 import { toggleRegistration } from '../actions/user_actions';
 
 /* Form components */
@@ -13,9 +12,7 @@ import { Container, Col, Form, FormGroup, Label, Input, Alert } from 'reactstrap
 class LoginForm extends Component {
     state = {
         username: '',
-        password: '',
-        regVisible: false,
-        loginVisible: false
+        password: ''
     }
 
     onDismiss = () => {
@@ -89,7 +86,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         dispatch,
-        ...bindActionCreators(Actions, dispatch)
+        ...bindActionCreators( dispatch)
     };
 }
 
