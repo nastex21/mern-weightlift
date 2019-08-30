@@ -31,7 +31,7 @@ class Signup extends Component {
 
     validatePassword = e => {
         const { validate } = this.state;
-        if (e.target.value.length >= 6) {
+        if (e.target.value.length > 5) {
             validate.passwordState = "has-success";
         } else {
             validate.passwordState = "has-danger";
@@ -80,7 +80,7 @@ class Signup extends Component {
         }
 
         if (this.state.password !== this.state.password2State) {
-            validate.passwordState = "has-danger";
+            validate.passwordState = '';
             validate.password2State = "has-danger";
         }
 
