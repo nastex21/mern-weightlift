@@ -15,8 +15,8 @@ class Signup extends Component {
             passwordState: "",
             password2State: ""
         },
-        msg:this.props.registering.msg
-        };
+        msg: this.props.registering.msg
+    };
 
     validateName = e => {
         const { validate } = this.state;
@@ -30,6 +30,7 @@ class Signup extends Component {
     };
 
     validatePassword = e => {
+        console.log('validatePassword');
         const { validate } = this.state;
         if (e.target.value.length > 5) {
             validate.passwordState = "has-success";
@@ -40,6 +41,7 @@ class Signup extends Component {
     };
 
     comparePasswords = e => {
+        console.log('comparePassword');
         const { validate } = this.state;
 
         if (e.target.value !== this.state.password) {
@@ -52,13 +54,19 @@ class Signup extends Component {
     };
 
     handleChange = async event => {
+        console.log("handlechange");
         const { target } = event;
+        console.log(target);
 
         const value = target.type === "checkbox" ? target.checked : target.value;
         const { name } = target;
 
+        console.log(value);
+        console.log(name);
+
         await this.setState({ [name]: value });
     };
+
     handleSubmit = event => {
         console.log("sign-up handleSubmit, username: ");
         event.preventDefault();
@@ -79,9 +87,14 @@ class Signup extends Component {
             validate.password2State = "has-danger";
         }
 
-        if (this.state.password !== this.state.password2State) {
+        if (this.state.password !== this.state.password2) {
             validate.passwordState = '';
             validate.password2State = "has-danger";
+        }
+
+        if (this.state.password === this.state.password2) {
+            validate.passwordState = '';
+            validate.password2State = '';
         }
 
         console.log(this.state.password == this.state.password2)
@@ -89,6 +102,12 @@ class Signup extends Component {
         this.setState({
             validate
         }, function () {
+            console.log(this.state.validate.nameState);
+            console.log(this.state.validate.passwordState);
+            console.log(this.state.validate.password2State);
+            console.log(this.state.password);
+            console.log(this.state.password2);
+
             if (this.state.validate.nameState !== "has-danger" && this.state.validate.passwordState !== "has-danger" && this.state.validate.password2State !== "has-danger" && this.state.password == this.state.password2) {
                 var user = {
                     username: this.state.username,
@@ -97,7 +116,7 @@ class Signup extends Component {
 
                 console.log("went through");
                 console.log(this.state);
-                dispatch(userActions.register(user));
+                //dispatch(userActions.register(user));
             }
         });
     }
@@ -110,7 +129,7 @@ class Signup extends Component {
             return (
                 <div className="registerForm regLogin">
                     <Container className="RegisterBox regLoginForm">
-                    {this.state.msg ? <Alert color="danger">{this.state.msg}</Alert> : null}
+                        {this.state.msg ? <Alert color="danger">{this.state.msg}</Alert> : null}
                         <Form className="form2 regLogForm" onSubmit={e => this.handleSubmit(e)}>
                             <Col>
                                 <FormGroup>
@@ -162,9 +181,7 @@ class Signup extends Component {
                                         placeholder="******"
                                         value={password2}
                                         valid={this.state.validate.password2State === "has-success"}
-                                        invalid={
-                                            this.state.validate.password2State === "has-danger"
-                                        }
+                                        invalid={this.state.validate.password2State === "has-danger"}
                                         onChange={e => {
                                             this.comparePasswords(e);
                                             this.handleChange(e);
