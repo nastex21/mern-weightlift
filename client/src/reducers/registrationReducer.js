@@ -3,7 +3,8 @@ import { REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS,  TOGGLEERRORDISPL
 const initiialState = {
   registering: false,
   user: '',
-  success: false
+  success: false,
+  msg: ''
 }
 
 export default function registration(state = initiialState, action) {
@@ -20,7 +21,10 @@ export default function registration(state = initiialState, action) {
         success: true
     };
     case REGISTER_FAILURE:
-      return {};
+      return {...state,
+        success: false,
+        msg: 'Username already taken. '
+      };
     case TOGGLEERRORDISPLAY:
       return {...state,
       success: false

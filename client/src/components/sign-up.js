@@ -4,6 +4,7 @@ import { userActions } from '../actions/user_actions';
 import { connect } from 'react-redux';
 import { Container, Col, Form, FormGroup, Label, Input, FormFeedback, Alert } from "reactstrap";
 
+
 class Signup extends Component {
     state = {
         username: "",
@@ -14,9 +15,8 @@ class Signup extends Component {
             passwordState: "",
             password2State: ""
         },
-        msg: false,
-        warning: ''
-    };
+        msg:this.props.registering.msg
+        };
 
     validateName = e => {
         const { validate } = this.state;
@@ -56,6 +56,7 @@ class Signup extends Component {
 
         const value = target.type === "checkbox" ? target.checked : target.value;
         const { name } = target;
+
         await this.setState({ [name]: value });
     };
     handleSubmit = event => {
@@ -86,12 +87,9 @@ class Signup extends Component {
         console.log(this.state.password == this.state.password2)
 
         this.setState({
-            validate,
-            msg: 'Please make sure your passwords match.',
-            warning: true
+            validate
         }, function () {
-            if (this.state.validate.nameState !== "has-danger" && this.state.validate.passwordState !== "has-danger" &&this.state.validate.password2State !== "has-danger" && this.state.password == this.state.password2) 
-            {
+            if (this.state.validate.nameState !== "has-danger" && this.state.validate.passwordState !== "has-danger" && this.state.validate.password2State !== "has-danger" && this.state.password == this.state.password2) {
                 var user = {
                     username: this.state.username,
                     password: this.state.password
@@ -101,7 +99,7 @@ class Signup extends Component {
                 console.log(this.state);
                 dispatch(userActions.register(user));
             }
-        }); 
+        });
     }
 
     render() {
@@ -112,7 +110,7 @@ class Signup extends Component {
             return (
                 <div className="registerForm regLogin">
                     <Container className="RegisterBox regLoginForm">
-                        {this.state.warning ? <Alert color="danger">{this.state.msg}</Alert> : null}
+                    {this.state.msg ? <Alert color="danger">{this.state.msg}</Alert> : null}
                         <Form className="form2 regLogForm" onSubmit={e => this.handleSubmit(e)}>
                             <Col>
                                 <FormGroup>
@@ -151,9 +149,7 @@ class Signup extends Component {
                                         }}
                                     />
                                     <FormFeedback valid>Valid password</FormFeedback>
-                                    <FormFeedback>
-                                        Please enter a password longer than six characters
-                  </FormFeedback>
+                                    <FormFeedback> Please enter a password longer than six characters </FormFeedback>
                                 </FormGroup>
                             </Col>
                             <Col>
