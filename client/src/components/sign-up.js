@@ -65,6 +65,7 @@ class Signup extends Component {
         const { dispatch } = this.props;
 
         const { validate } = this.state;
+
         if (this.state.username === "") {
             validate.nameState = "has-danger";
         }
@@ -77,20 +78,30 @@ class Signup extends Component {
             validate.password2State = "has-danger";
         }
 
-        this.setState({ validate });
-
-
-        if (
-            this.state.validate.nameState !== "has-danger" ||
-            this.state.validate.passwordState !== "has-danger" ||
-            this.state.validate.password2State !== "has-danger"
-        ) {
-            var user = {
-                username: this.state.username,
-                password: this.state.password
-            }
-            dispatch(userActions.register(user));
+        if (this.state.password !== this.state.password2State) {
+            validate.passwordState = "has-danger";
+            validate.password2State = "has-danger";
         }
+
+        console.log(this.state.password == this.state.password2)
+
+        this.setState({
+            validate,
+            msg: 'Please make sure your passwords match.',
+            warning: true
+        }, function () {
+            if (this.state.validate.nameState !== "has-danger" && this.state.validate.passwordState !== "has-danger" &&this.state.validate.password2State !== "has-danger" && this.state.password == this.state.password2) 
+            {
+                var user = {
+                    username: this.state.username,
+                    password: this.state.password
+                }
+
+                console.log("went through");
+                console.log(this.state);
+                dispatch(userActions.register(user));
+            }
+        }); 
     }
 
     render() {
@@ -183,7 +194,7 @@ function mapStateToProps(state) {
     return {
         dataModifier,
         registering
-    }; 
+    };
 }
 
 export default connect(mapStateToProps)(Signup);

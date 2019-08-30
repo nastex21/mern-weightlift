@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.post('/', (req, res) => {
 
-  const { username, password, logs } = req.body
+  const { username, password } = req.body
   // ADD VALIDATION
   User.findOne({ username: username }, (err, user) => {
     if (err) {
