@@ -12,7 +12,7 @@ class LeftPane extends Component {
     }
 
     filteredEvents = (num) => {
-       // this.props.dispatch(itemsConst.saveChanges(dataObj));
+        // this.props.dispatch(itemsConst.saveChanges(dataObj));
         var filtered = []
         if (num == 1) {
 
@@ -24,7 +24,7 @@ class LeftPane extends Component {
                 filtered = this.props.dataModifier.eventsFiltered.filter(function (item) {
                     return item.title !== "Weights"
                 });
-                
+
                 this.props.dispatch(filterButton(filtered, weightFlag));
 
             } else {
@@ -58,7 +58,7 @@ class LeftPane extends Component {
 
                 filtered = [...filtered, ...this.props.dataModifier.eventsFiltered];
 
-                this.props.dispatch(filterButton(filtered, cardioFlag ));
+                this.props.dispatch(filterButton(filtered, cardioFlag));
             }
         }
 
@@ -73,7 +73,7 @@ class LeftPane extends Component {
                     return item.title !== "Bodyweight"
                 })
 
-                this.props.dispatch(filterButton(filtered, bwFlag ));
+                this.props.dispatch(filterButton(filtered, bwFlag));
 
             } else {
                 filtered = this.props.dataModifier.events.filter(function (item) {
@@ -82,7 +82,7 @@ class LeftPane extends Component {
 
                 filtered = [...filtered, ...this.props.dataModifier.eventsFiltered];
 
-                this.props.dispatch(filterButton(filtered, bwFlag ));
+                this.props.dispatch(filterButton(filtered, bwFlag));
             }
         }
 
@@ -106,7 +106,7 @@ class LeftPane extends Component {
 
                 filtered = [...filtered, ...this.props.dataModifier.eventsFiltered];
 
-                this.props.dispatch(filterButton(filtered, vidsFlag ));
+                this.props.dispatch(filterButton(filtered, vidsFlag));
             }
         }
     }
@@ -155,25 +155,22 @@ class LeftPane extends Component {
                     <div className="buttonFilter">
                         <div className="rowLegend">
                             <div className='boxIcon'>
-                                <button className="green" type="button" onClick={(num) => this.filterButton(3)} >B</button>
+                                <button type="button" className="red" onClick={(num) => this.filterButton(1)}>W</button>
                             </div>
                         </div>
-
                         <div className="rowLegend">
                             <div className='boxIcon'>
                                 <button type="button" className="blue" onClick={(num) => this.filterButton(2)} >C</button>
                             </div>
                         </div>
-
+                        <div className="rowLegend">
+                            <div className='boxIcon'>
+                                <button type="button" className="green"  onClick={(num) => this.filterButton(3)} >B</button>
+                            </div>
+                        </div>
                         <div className="rowLegend">
                             <div className='boxIcon'>
                                 <button type="button" className="orange" onClick={(num) => this.filterButton(4)}>C/V</button>
-                            </div>
-                        </div>
-
-                        <div className="rowLegend">
-                            <div className='boxIcon'>
-                                <button type="button" className="red" onClick={(num) => this.filterButton(1)}>W</button>
                             </div>
                         </div>
                     </div>

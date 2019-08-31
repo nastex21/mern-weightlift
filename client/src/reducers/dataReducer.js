@@ -49,7 +49,8 @@ export default function dataReducer(state = initialState, action) {
                     "title": "Weights",
                     "date": item.date,
                     "color": "#d9534f",
-                    "collections": item.collections
+                    "collections": item.collections,
+                    "display": 1
                 })
             })
             action.user.data.data.cardiologs.map(function (item) {
@@ -57,7 +58,8 @@ export default function dataReducer(state = initialState, action) {
                     "title": "Cardio",
                     "date": item.date,
                     'color': '#0275d8',
-                    "collections": item.collections
+                    "collections": item.collections,
+                    "display": 2
                 })
             });
 
@@ -66,7 +68,8 @@ export default function dataReducer(state = initialState, action) {
                     "title": "Bodyweight",
                     "date": item.date,
                     'color': '#5cb85c',
-                    "collections": item.collections
+                    "collections": item.collections,
+                    "display": 3
                 })
             });
 
@@ -75,7 +78,8 @@ export default function dataReducer(state = initialState, action) {
                     "title": "Classes/Videos",
                     "date": item.date,
                     'color': '#f0ad4e',
-                    "collections": item.collections
+                    "collections": item.collections,
+                    "display": 4
                 })
             });
             return {
@@ -105,40 +109,42 @@ export default function dataReducer(state = initialState, action) {
             console.log("GETALL_SUCCESS");
             console.log(action);
             var eventsArr = [];
-            action.users.data.logs.map(function (item) {
-                eventsArr.push({
-                    "title": "Weights",
-                    "date": item.date,
-                    "color": "#d9534f",
-                    "collections": item.collections
-                })
-            })
-            action.users.data.cardiologs.map(function (item) {
-                eventsArr.push({
-                    "title": "Cardio",
-                    "date": item.date,
-                    'color': '#0275d8',
-                    "collections": item.collections
-                })
-            });
-
-            action.users.data.bwlogs.map(function (item) {
-                eventsArr.push({
-                    "title": "Bodyweight",
-                    "date": item.date,
-                    'color': '#5cb85c',
-                    "collections": item.collections
-                })
-            });
-
             action.users.data.vidslogs.map(function (item) {
                 eventsArr.push({
                     "title": "Classes/Videos",
                     "date": item.date,
                     'color': '#f0ad4e',
-                    "collections": item.collections
+                    "collections": item.collections,
+                    "display": 4
                 })
             });
+            action.users.data.bwlogs.map(function (item) {
+                eventsArr.push({
+                    "title": "Bodyweight",
+                    "date": item.date,
+                    'color': '#5cb85c',
+                    "collections": item.collections,
+                    "display": 3
+                })
+            });
+            action.users.data.cardiologs.map(function (item) {
+                eventsArr.push({
+                    "title": "Cardio",
+                    "date": item.date,
+                    'color': '#0275d8',
+                    "collections": item.collections,
+                    "display": 2
+                })
+            });
+            action.users.data.logs.map(function (item) {
+                eventsArr.push({
+                    "title": "Weights",
+                    "date": item.date,
+                    "color": "#d9534f",
+                    "collections": item.collections,
+                    "display": 1
+                })
+            })
             return {
                 ...state,
                 username: action.users.data.username,
@@ -180,7 +186,8 @@ export default function dataReducer(state = initialState, action) {
                     "title": "Weights",
                     "date": item.date,
                     "color": "#d9534f",
-                    "collections": item.collections
+                    "collections": item.collections,
+                    "display": 1
                 })
             })
             action.users.data.cardiologs.map(function (item) {
@@ -188,7 +195,8 @@ export default function dataReducer(state = initialState, action) {
                     "title": "Cardio",
                     "date": item.date,
                     'color': '#0275d8',
-                    "collections": item.collections
+                    "collections": item.collections,
+                    "display": 2
                 })
             });
 
@@ -197,7 +205,8 @@ export default function dataReducer(state = initialState, action) {
                     "title": "Bodyweight",
                     "date": item.date,
                     'color': '#5cb85c',
-                    "collections": item.collections
+                    "collections": item.collections,
+                    "display": 3
                 })
             });
 
@@ -206,7 +215,8 @@ export default function dataReducer(state = initialState, action) {
                     "title": "Classes/Videos",
                     "date": item.date,
                     'color': '#f0ad4e',
-                    "collections": item.collections
+                    "collections": item.collections,
+                    "display": 4
                 })
             });
             return {
