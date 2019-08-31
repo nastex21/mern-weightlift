@@ -16,7 +16,8 @@ class Signup extends Component {
             password2State: ""
         },
         msg: this.props.register.error,
-        nameErr: ''
+        nameErr: '',
+        passErr: ''
     };
 
     validateName = e => {
@@ -112,13 +113,19 @@ class Signup extends Component {
             validate.password2State = '';
         }
 
+        if (this.state.password.length < 6 || this.state.password2.length < 6) {
+            this.setState({
+                passErr: "Password is too short."
+            })
+        }
+
         console.log(this.state.password == this.state.password2)
 
         this.setState({
             validate
         }, function () {
 
-            if (this.state.validate.nameState !== "has-danger" && this.state.validate.passwordState !== "has-danger" && this.state.validate.password2State !== "has-danger" && this.state.password == this.state.password2) {
+            if (this.state.validate.nameState !== "has-danger" && this.state.validate.passwordState !== "has-danger" && this.state.validate.password2State !== "has-danger" && this.state.password == this.state.password2 && this.state.passErr && this.state.password.length >= 6 && this.state.password2.length >= 6) {
                 var user = {
                     username: this.state.username,
                     password: this.state.password
@@ -141,6 +148,7 @@ class Signup extends Component {
                     <Container className="RegisterBox regLoginForm">
                         {this.props.register.error ? <Alert color="danger">{this.props.register.error}</Alert> : null}
                         {this.state.nameErr ? <Alert color="danger">{this.state.nameErr}</Alert> : null}
+                        {this.state.passErr ? <Alert color="danger">{this.state.passErr}</Alert> : null}
                         <Form className="form2 regLogForm" onSubmit={e => this.handleSubmit(e)}>
                             <Col>
                                 <FormGroup>
