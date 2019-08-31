@@ -12,7 +12,7 @@ router.post('/', (req, res) => {
     } else if (user) {
       console.log("User already taken");
       res.json({
-        error: `Sorry, there's already a user with the username: ${username}`
+        error: "Sorry, username is already taken."
       })
     } else {
       const newUser = new User({

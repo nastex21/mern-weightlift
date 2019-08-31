@@ -15,7 +15,7 @@ class Signup extends Component {
             passwordState: "",
             password2State: ""
         },
-        msg: this.props.registering.msg
+        msg: this.props.register.error
     };
 
     validateName = e => {
@@ -102,11 +102,6 @@ class Signup extends Component {
         this.setState({
             validate
         }, function () {
-            console.log(this.state.validate.nameState);
-            console.log(this.state.validate.passwordState);
-            console.log(this.state.validate.password2State);
-            console.log(this.state.password);
-            console.log(this.state.password2);
 
             if (this.state.validate.nameState !== "has-danger" && this.state.validate.passwordState !== "has-danger" && this.state.validate.password2State !== "has-danger" && this.state.password == this.state.password2) {
                 var user = {
@@ -116,7 +111,7 @@ class Signup extends Component {
 
                 console.log("went through");
                 console.log(this.state);
-                //dispatch(userActions.register(user));
+                dispatch(userActions.register(user));
             }
         });
     }
@@ -129,7 +124,7 @@ class Signup extends Component {
             return (
                 <div className="registerForm regLogin">
                     <Container className="RegisterBox regLoginForm">
-                        {this.state.msg ? <Alert color="danger">{this.state.msg}</Alert> : null}
+                        {this.props.register.error ? <Alert color="danger">{this.props.register.error}</Alert> : null}
                         <Form className="form2 regLogForm" onSubmit={e => this.handleSubmit(e)}>
                             <Col>
                                 <FormGroup>
@@ -203,10 +198,11 @@ class Signup extends Component {
 function mapStateToProps(state) {
     console.log(state);
     const { registering } = state.register;
-    const { dataModifier } = state;
+    const { dataModifier, register } = state;
     return {
         dataModifier,
-        registering
+        registering,
+        register
     };
 }
 

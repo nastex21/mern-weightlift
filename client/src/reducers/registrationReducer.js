@@ -4,7 +4,8 @@ const initiialState = {
   registering: false,
   user: '',
   success: false,
-  msg: ''
+  msg: '',
+  error: ''
 }
 
 export default function registration(state = initiialState, action) {
@@ -23,7 +24,7 @@ export default function registration(state = initiialState, action) {
     case REGISTER_FAILURE:
       return {...state,
         success: false,
-        msg: 'Username already taken. '
+        error: action.error
       };
     case TOGGLEERRORDISPLAY:
       return {...state,

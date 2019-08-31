@@ -22,8 +22,13 @@ function register(user) {
     userService.register(user)
       .then(user => {
         console.log("then register")
-        dispatch(success(user));
-        history.push('/api/login');
+        if (user == "Sorry, username is already taken."){
+          var msg = "Sorry, username is already taken.";
+          dispatch(failure(msg));
+        } else {
+          dispatch(success(user));
+          history.push('/api/login');
+        }
       })
       .catch(error => {
         console.log("error register")
