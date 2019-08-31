@@ -12,11 +12,6 @@ export const userService = {
 
 let user = JSON.parse(localStorage.getItem('user'));
 
-var header;
-if (user) {
-  header = 'Bearer ' + user.data.token
-}
-
 function addItem(options) {
 
   var item = {
@@ -117,7 +112,8 @@ function getAll(userID) {
     url: '/api/dashboard',
     params: {
       id: userID,
-    }
+    },
+    headers: authHeader()
   }).then(response => {
     return response;
   }).catch(error => {
@@ -150,10 +146,10 @@ function login(username, password) {
       return user;
     })
     .catch(error => {
-     if (error.response){
-       console.log(error.response);
-       return error.response;
-     }
+      if (error.response) {
+        console.log(error.response);
+        return error.response;
+      }
     })
 }
 

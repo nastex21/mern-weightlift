@@ -6,24 +6,20 @@ const jwt = require('jsonwebtoken');
 //Check to make sure header is not undefined, if so, return Forbidden (403)
 const checkToken = (req, res, next) => {
   const header = req.headers['authorization'];
-  console.log("header");
-  console.log(req.headers.authorization);
+
   if (typeof header !== 'undefined') {
     const bearer = header.split(' ');
     const token = bearer[1];
-    console.log('if token')
-    console.log(token);
+
     req.token = token;
-    console.log(req.headers);
     next();
   } else {
-    //If header is undefined return Forbidden (403)
-    console.log('else token')
+
     res.sendStatus(403)
   }
 }
 
-router.get('/', (req, res) => {
+router.get('/', checkToken, (req, res) => {
   console.log('router get')
   //verify the JWT token generated for the user
       User.findById(req.query.id ).then(user => {
