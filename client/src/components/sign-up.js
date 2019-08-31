@@ -15,7 +15,8 @@ class Signup extends Component {
             passwordState: "",
             password2State: ""
         },
-        msg: this.props.register.error
+        msg: this.props.register.error,
+        nameErr: ''
     };
 
     validateName = e => {
@@ -64,7 +65,21 @@ class Signup extends Component {
         console.log(value);
         console.log(name);
 
-        await this.setState({ [name]: value });
+        if (name == 'username') {
+            console.log(value);
+            var check = new RegExp("^[a-zA-Z0-9]*$");
+            if (check.test(value)) {
+                await this.setState({ [name]: value, nameErr: '' });
+            } else {
+                await this.setState({
+                    nameErr: "Username error: Only letters and numbers please."
+                })
+            }
+        } else {
+            console.log("else")
+            await this.setState({ [name]: value });
+        }
+
     };
 
     handleSubmit = event => {
@@ -125,6 +140,7 @@ class Signup extends Component {
                 <div className="registerForm regLogin">
                     <Container className="RegisterBox regLoginForm">
                         {this.props.register.error ? <Alert color="danger">{this.props.register.error}</Alert> : null}
+                        {this.state.nameErr ? <Alert color="danger">{this.state.nameErr}</Alert> : null}
                         <Form className="form2 regLogForm" onSubmit={e => this.handleSubmit(e)}>
                             <Col>
                                 <FormGroup>
