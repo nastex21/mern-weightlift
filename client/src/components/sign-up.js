@@ -78,7 +78,7 @@ class Signup extends Component {
             }
         } else {
             console.log("else")
-            await this.setState({ [name]: value });
+            await this.setState({ [name]: value, nameErr: '', passErr: '' });
         }
 
     };
