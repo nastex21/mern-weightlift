@@ -140,12 +140,17 @@ class LeftPane extends Component {
 
     render() {
 
+        //for dates clicked on event calendar
         var newDate = new Date(this.props.dataModifier.date);
-
-        console.log(newDate);
-
         var m = newDate.getMonth();
         var d = newDate.getDate();
+
+        //for current date
+        var nowDate = new Date();
+        var nowDay = nowDate.getDate();
+        var nowMonth = nowDate.getMonth();
+
+
         var months = ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"];
 
@@ -166,7 +171,7 @@ class LeftPane extends Component {
                         </div>
                         <div className="rowLegend">
                             <div className='boxIcon'>
-                                <button type="button" className="green"  onClick={(num) => this.filterButton(3)} >B</button>
+                                <button type="button" className="green" onClick={(num) => this.filterButton(3)} >B</button>
                             </div>
                         </div>
                         <div className="rowLegend">
@@ -177,11 +182,14 @@ class LeftPane extends Component {
                     </div>
                 </div>
                 <div className="datePane">
-                    <span className="dayPane">{isNaN(d) ? null : d}</span>
-                    <p className="monthPane">{months[m]}</p>
+                    <span className="dayPane">{isNaN(d) ? nowDay : d}</span>
+                    <p className="monthPane">{isNaN(d) ? months[nowMonth] : months[m]}</p>
                 </div>
-                <div className="exercisePane">
-
+                <div className="addButton">
+                    <div className='boxIcon'>
+                        <p>Add</p>
+                        <button type="button" className="orange" onClick={isNaN(d) ? () => this.props.toggle(nowDate) : () => this.props.toggle(newDate) }>+</button>
+                    </div>
                 </div>
             </div>
         )
