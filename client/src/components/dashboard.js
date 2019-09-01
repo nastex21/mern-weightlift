@@ -79,10 +79,6 @@ class Dashboard extends Component {
         var d = now.getDate();
         var hyphenDate = '' + y + "-" + (m < 10 ? '0' : '') + m + "-" + (d < 10 ? '0' : '') + d;
 
-        /* if (dateVal !== '') {
-           
-       } 
-*/
         this.setState(prevState => ({
             color: color,
             modalVer: 'false',

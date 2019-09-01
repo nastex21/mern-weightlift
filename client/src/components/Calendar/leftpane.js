@@ -12,7 +12,6 @@ class LeftPane extends Component {
     }
 
     filteredEvents = (num) => {
-        // this.props.dispatch(itemsConst.saveChanges(dataObj));
         var filtered = []
         if (num == 1) {
 
@@ -142,6 +141,8 @@ class LeftPane extends Component {
     render() {
 
         var newDate = new Date(this.props.dataModifier.date);
+
+        console.log(newDate);
 
         var m = newDate.getMonth();
         var d = newDate.getDate();

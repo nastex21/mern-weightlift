@@ -294,6 +294,7 @@ export default function dataReducer(state = initialState, action) {
             }
             return {
                 ...state,
+                date: action.dateVal,
                 dateText: action.dateVal.toLocaleString('en-US', options),
                 color: action.color,
                 eventsFiltered: [...newCollection[0].collections],
