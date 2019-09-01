@@ -56,8 +56,6 @@ class Dashboard extends Component {
     }
 
     modalToggle = () => {
-        console.log("modalToggle");
-
         this.setState(prevState => ({
             modal: !prevState.modal
         })
@@ -66,11 +64,19 @@ class Dashboard extends Component {
 
 
     addToggleLP = (date) => {
-        console.log(date);
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        var d = date.getDate();
+        var hyphenDate = '' + y + "-" + (m < 10 ? '0' : '') + m + "-" + (d < 10 ? '0' : '') + d;
+
+        this.setState(prevState => ({
+            modalVer: 'true',
+            modal: !prevState.modal
+        }), () => this.props.dispatch(setDate(date, hyphenDate))
+        )
     }
 
     toggle = (info) => {
-        console.log('event');
         let val = info.event;
 
         let dateVal = "";
@@ -98,13 +104,12 @@ class Dashboard extends Component {
 
 
     dateClickInfo = (info) => {
-        console.log("dateClickInfo");
         let dateVal = new Date(info.date);
+
         this.setState(prevState => ({
             modalVer: 'true',
             modal: !prevState.modal
-        })
-            , () => this.props.dispatch(setDate(dateVal, info.dateStr))
+        }), () => this.props.dispatch(setDate(dateVal, info.dateStr))
         )
 
     }
@@ -118,8 +123,7 @@ class Dashboard extends Component {
 
     render() {
         const { color } = this.state;
-        console.log("this.props.modalisOpen");
-        console.log(this.props.dataModifier);
+
         const { weightFilterFlag, cardioFilterFlag, bwFilterFlag, vidsFilterFlag } = this.props.dataModifier;
 
         return (
@@ -146,8 +150,6 @@ class Dashboard extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log('state');
-    console.log(state);
     const { alert, dataModifier } = state;
     return {
         alert,
