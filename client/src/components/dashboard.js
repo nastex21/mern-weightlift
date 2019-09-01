@@ -55,14 +55,6 @@ class Dashboard extends Component {
         }
     }
 
-    modalToggle = () => {
-        this.setState(prevState => ({
-            modal: !prevState.modal
-        })
-        )
-    }
-
-
     addToggleLP = (date) => {
         var y = date.getFullYear();
         var m = date.getMonth() + 1;
@@ -74,6 +66,10 @@ class Dashboard extends Component {
             modal: !prevState.modal
         }), () => this.props.dispatch(setDate(date, hyphenDate))
         )
+    }
+
+    editToggleLP = () => {
+
     }
 
     toggle = (info) => {
@@ -128,7 +124,7 @@ class Dashboard extends Component {
 
         return (
             <div className="calendar-body">
-                <LeftPane date={this.state.oldDate} exercise={this.state.updatedInfo} toggle={this.addToggleLP} />
+                <LeftPane date={this.state.oldDate} exercise={this.state.updatedInfo} toggle={this.addToggleLP} color={this.state.collor} events={weightFilterFlag || cardioFilterFlag || bwFilterFlag || vidsFilterFlag ? this.props.dataModifier.eventsFiltered : this.props.dataModifier.events} />
                 <FullCalendar className="fcDiv bg-dark text-white" defaultView="dayGridMonth" timeZone='local' height="auto" displayEventTime="false" eventOrder='display' plugins={[dayGridPlugin, bootstrapPlugin, interactionPlugin]} themeSystem='bootstrap' selectable="true" dateClick={this.dateClickInfo} events={weightFilterFlag || cardioFilterFlag || bwFilterFlag || vidsFilterFlag ? this.props.dataModifier.eventsFiltered : this.props.dataModifier.events} eventClick={this.toggle} />
                 <Modal isOpen={this.state.modal} toggle={this.toggle} size="lg" style={{ maxWidth: '1600px', width: '80%' }} color={color} onClosed={this.showErrorMsg}>
                     <ModalHeader toggle={this.toggle}>

@@ -154,6 +154,9 @@ class LeftPane extends Component {
         var months = ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"];
 
+        console.log("LeftPane");
+        console.log(this.props.events);
+        
         return (
             <div className="bothPanes leftPane" >
                 <div className="filterBox">
@@ -188,7 +191,7 @@ class LeftPane extends Component {
                 <div className="addButton">
                     <div className='boxIcon'>
                         <p>Add</p>
-                        <button type="button" className="orange" onClick={isNaN(d) ? () => this.props.toggle(nowDate) : () => this.props.toggle(newDate) }>+</button>
+                        <button type="button" className="orange" onClick={isNaN(d) ? () => this.props.toggle(nowDate) : () => this.props.toggle(newDate)}>+</button>
                     </div>
                 </div>
             </div>
