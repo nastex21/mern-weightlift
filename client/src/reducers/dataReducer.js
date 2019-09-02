@@ -251,12 +251,15 @@ export default function dataReducer(state = initialState, action) {
                 successMsg: ''
             };
         case SETDATE:
+            console.log("SETDATE");
+            console.log(action);
             return {
                 ...state,
                 date: action.date,
                 dateShortened: action.dateShort,
                 dateText: action.date.toLocaleString('en-US', options),
-                successMsg: ''
+                successMsg: '',
+                eventsFiltered: state.events.filter(item => item.date === action.dateShort)
             };
         case UPDATEEVENT:
             return {

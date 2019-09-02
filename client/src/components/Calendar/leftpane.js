@@ -155,7 +155,7 @@ class LeftPane extends Component {
             "July", "August", "September", "October", "November", "December"];
 
         console.log("LeftPane");
-        console.log(this.props.events);
+        console.log(this.props.dataModifier.eventsFiltered.length);
         
         return (
             <div className="bothPanes leftPane" >
