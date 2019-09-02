@@ -253,13 +253,13 @@ export default function dataReducer(state = initialState, action) {
         case SETDATE:
             console.log("SETDATE");
             console.log(action);
+            //,eventsFiltered: state.events.filter(item => item.date === action.dateShort)
             return {
                 ...state,
                 date: action.date,
                 dateShortened: action.dateShort,
                 dateText: action.date.toLocaleString('en-US', options),
-                successMsg: '',
-                eventsFiltered: state.events.filter(item => item.date === action.dateShort)
+                successMsg: ''
             };
         case UPDATEEVENT:
             return {
@@ -271,6 +271,8 @@ export default function dataReducer(state = initialState, action) {
         case FILTEREVENTS:
             console.log("FILTEREVENTS");
             var newCollection;
+            console.log('newCollection');
+            console.log(action);
             //weights
             if (action.color == "#d9534f") {
                 newCollection = state.weightLogs.filter(item => {
@@ -295,6 +297,7 @@ export default function dataReducer(state = initialState, action) {
                     return item.date === action.hyphenDate
                 })
             }
+            console.log(newCollection);
             return {
                 ...state,
                 date: action.dateVal,

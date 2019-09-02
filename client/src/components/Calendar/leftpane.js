@@ -156,6 +156,8 @@ class LeftPane extends Component {
 
         console.log("LeftPane");
         console.log(this.props.dataModifier.eventsFiltered.length);
+
+        const { date, dateShortened } = this.props.dataModifier;
         
         return (
             <div className="bothPanes leftPane" >
@@ -197,6 +199,10 @@ class LeftPane extends Component {
                 <div className="editButtons">
                      <p>Edit</p>
                     <div className="boxIcon">
+                    <button type="button" className="orange" onClick={() => this.props.editToggle(dateShortened, date, 1)}>W</button>
+                    <button type="button" className="orange" onClick={() => this.props.editToggle(dateShortened, date, 1)}>C</button>
+                    <button type="button" className="orange" onClick={() => this.props.editToggle(dateShortened, date, 1)}>B</button>
+                    <button type="button" className="orange" onClick={() => this.props.editToggle(dateShortened, date, 1)}>C/V</button>
                     </div>
                 </div>
             </div>
