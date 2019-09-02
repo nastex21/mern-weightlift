@@ -8,7 +8,14 @@ class LeftPane extends Component {
         weightFilterFlag: false,
         cardioFilterFlag: false,
         bwFilterFlag: false,
-        vidsFilterFlag: false
+        vidsFilterFlag: false,
+        eventsButtons: ''
+    }
+
+    componentDidUpdate() {
+        /*    this.setState({
+               eventsButtons: this.props.dataModified != null && this.props.dataModified.dateShortened ? this.props.dataModified.events.filter(item => item.date === this.props.dataModified.dateShortened) : null
+           }) */
     }
 
     filteredEvents = (num) => {
@@ -137,6 +144,32 @@ class LeftPane extends Component {
         }
     }
 
+    buttonsRender = () => {
+        console.log("It's running");
+        const { date, dateShortened } = this.props.dataModifier;
+
+        var elementTest = function(element){
+            return element.date === dateShortened
+        }
+
+        var weightTest = this.props.dataModifier.weightLogs.some(elementTest);
+        var cardioTest = this.props.dataModifier.cardioLogs.some(elementTest);
+        var bwTest = this.props.dataModifier.bwLogs.some(elementTest);
+        var vidsTest = this.props.dataModifier.vidsLogs.some(elementTest);
+
+        return [
+            <div className="editButtons">
+                <p>Edit</p>
+                <div className="boxIcon">
+                    {weightTest ? <button type="button" className="orange" onClick={() => this.props.editToggle(dateShortened, date, 1)}>W</button> : null}
+                    {cardioTest ? <button type="button" className="orange" onClick={() => this.props.editToggle(dateShortened, date, 2)}>C</button> : null}
+                    {bwTest ? <button type="button" className="orange" onClick={() => this.props.editToggle(dateShortened, date, 3)}>B</button> : null}
+                    {vidsTest ? <button type="button" className="orange" onClick={() => this.props.editToggle(dateShortened, date, 4)}>C/V</button> : null}
+                </div>
+            </div>
+        ]
+    }
+
 
     render() {
 
@@ -157,8 +190,15 @@ class LeftPane extends Component {
         console.log("LeftPane");
         console.log(this.props.dataModifier.eventsFiltered.length);
 
-        const { date, dateShortened } = this.props.dataModifier;
         
+        var dateShortened;
+        
+        if (this.props.dataModifier){
+            dateShortened = this.props.dataModifier.dateShortened
+        }
+
+        console.log(dateShortened);
+
         return (
             <div className="bothPanes leftPane" >
                 <div className="filterBox">
@@ -196,15 +236,7 @@ class LeftPane extends Component {
                         <button type="button" className="orange" onClick={isNaN(d) ? () => this.props.toggle(nowDate) : () => this.props.toggle(newDate)}>+</button>
                     </div>
                 </div>
-                <div className="editButtons">
-                     <p>Edit</p>
-                    <div className="boxIcon">
-                    <button type="button" className="orange" onClick={() => this.props.editToggle(dateShortened, date, 1)}>W</button>
-                    <button type="button" className="orange" onClick={() => this.props.editToggle(dateShortened, date, 1)}>C</button>
-                    <button type="button" className="orange" onClick={() => this.props.editToggle(dateShortened, date, 1)}>B</button>
-                    <button type="button" className="orange" onClick={() => this.props.editToggle(dateShortened, date, 1)}>C/V</button>
-                    </div>
-                </div>
+                {dateShortened ? this.buttonsRender() : null}
             </div>
         )
     }

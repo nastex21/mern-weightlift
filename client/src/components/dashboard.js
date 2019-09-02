@@ -69,10 +69,6 @@ class Dashboard extends Component {
     }
 
     editToggleLP = (hyphenDate, dateVal, num) => {
-        console.log("does something");
-        console.log(num);
-        console.log(hyphenDate);
-        console.log(dateVal);
         if (num == 1) {
             this.setState(prevState => ({
                 color: "#d9534f",
