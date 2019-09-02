@@ -10,7 +10,6 @@ import { faTrashAlt, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { checkName, checkMinutes, checkWeight, wholeNumValidation } from '../Validation/validate';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import { itemsConst } from '../../actions/items_actions';
-import { setMsg } from '../../actions/user_actions';
 import { connect } from 'react-redux';
 
 class ModalEditDel extends Component {

@@ -194,6 +194,11 @@ class LeftPane extends Component {
                         <button type="button" className="orange" onClick={isNaN(d) ? () => this.props.toggle(nowDate) : () => this.props.toggle(newDate)}>+</button>
                     </div>
                 </div>
+                <div className="editButtons">
+                     <p>Edit</p>
+                    <div className="boxIcon">
+                    </div>
+                </div>
             </div>
         )
     }
@@ -202,9 +207,8 @@ class LeftPane extends Component {
 function mapStateToProps(state) {
     console.log('state');
     console.log(state);
-    const { alert, dataModifier } = state;
+    const { dataModifier } = state;
     return {
-        alert,
         dataModifier
     };
 }

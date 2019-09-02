@@ -146,9 +146,8 @@ class Dashboard extends Component {
 }
 
 function mapStateToProps(state) {
-    const { alert, dataModifier } = state;
+    const { dataModifier } = state;
     return {
-        alert,
         dataModifier
     };
 }

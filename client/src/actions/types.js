@@ -15,10 +15,6 @@ export const LOGOUT = 'LOGOUT';
 /* Modal related */
 export const OPEN_MODAL = 'OPEN_MODAL';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
-/*Alerts */
-export const SUCCESS = 'ALERT_SUCCESS';
-export const ERROR = 'ALERT_ERROR';
-export const CLEAR = 'ALERT_CLEAR';
 /* ITEMS ADD RELATED */
 export const ADDITEM_REQUEST = 'ADDITEM_REQUEST';
 export const ADDITEM_SUCCESS = 'ADDITEM_SUCCESS';

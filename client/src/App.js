@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route, Router, Switch, Redirect } from 'react-router-dom';
 import { history } from './helpers/history';
-import { alertActions } from './actions/alert';
 import { updateEvent } from './actions/items_actions';
 // components
 import Signup from './components/sign-up';
@@ -21,13 +20,6 @@ class App extends Component {
       success: false,
       msg: null,
     }
-
-
-    const { dispatch } = this.props;
-    history.listen((location, action) => {
-      // clear alert on location change
-      dispatch(alertActions.clear());
-    });
   }
 
   updateSuccess = () => {
@@ -143,9 +135,8 @@ class App extends Component {
 function mapStateToProps(state) {
   console.log('state');
   console.log(state);
-  const { alert, dataModifier, eventReducer } = state;
+  const { dataModifier, eventReducer } = state;
   return {
-    alert,
     dataModifier,
     eventReducer
   };
