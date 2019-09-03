@@ -347,6 +347,8 @@ class ModalEditDel extends Component {
             backgroundcolor: 'danger',
         }
 
+        console.log(this.props.dataModifier.successMsg);
+
         return (
             <div>
                 {this.state.collection.length > 0 ? <BootstrapTable keyField='_id' bootstrap4={true} striped={true} data={collection} columns={columns} cellEdit={cellEdit} /> : <p className="emptyWarning">It looks empty in here</p>}
