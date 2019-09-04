@@ -4,7 +4,6 @@ const initiialState = {
   registering: false,
   user: '',
   success: false,
-  msg: '',
   error: ''
 }
 

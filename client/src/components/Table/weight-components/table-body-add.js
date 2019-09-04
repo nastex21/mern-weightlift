@@ -16,8 +16,7 @@ class WeightsAdd extends Component {
         invalidSets: false,
         invalidReps: false,
         invalidWeight: false,
-        msg: '',
-        success: this.props.dataModifier.successMsg
+        msg: ''
     }
 
     //changes when keys are pressed

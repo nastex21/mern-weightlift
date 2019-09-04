@@ -19,7 +19,6 @@ class ModalEditDel extends Component {
         color: this.props.dataModifier.color,
         collection: this.props.dataModifier.eventsFiltered,
         msgUpdate: this.props.msgUpdate,
-        successMsg: false,
         rowData: '',
         selectAll: false,
         selected: [],
@@ -49,7 +48,7 @@ class ModalEditDel extends Component {
         dataObj.date = this.state.date;
         dataObj.color = this.state.color;
         dataObj.collection = this.state.collection;
-
+        console.log('saveChanges');
         this.props.dispatch(itemsConst.saveChanges(dataObj));
     }
 
@@ -359,12 +358,10 @@ class ModalEditDel extends Component {
                     </ModalHeader>
                     <ModalBody>
                         <div>
-                        { this.props.dataModifier.successMsg == 'true' ? <p>Successfully changed.</p> : this.props.dataModifier.successMsg == 'false' ? <p>Sorry, there was an error. Please try again later.</p> :
-                        <>
-                        <p>Are you sure you want to save these changes?</p>  
-                        <button onClick={this.saveChanges}>Accept</button>
-                        <button onClick={this.toggle}>Cancel</button> 
-                        </>}
+                        { this.props.dataModifier.successMsg === 'true' ? <p>Successfully changed.</p> 
+                        : this.props.dataModifier.successMsg === 'false' ? <p>Sorry, there was an error. Please try again later.</p> 
+                        : this.props.dataModifier.successMsg == '' ? <> <p>Are you sure you want to save these changes?</p>  <button onClick={this.saveChanges}>Accept</button><button onClick={this.toggle}>Cancel</button> </>
+                        : null }
                         </div>
                     </ModalBody>
                 </Modal>
@@ -376,9 +373,8 @@ class ModalEditDel extends Component {
 function mapStateToProps(state) {
     console.log('state');
     console.log(state);
-    const { eventReducer, dataModifier } = state;
+    const { dataModifier } = state;
     return {
-        eventReducer,
         dataModifier
     };
 }

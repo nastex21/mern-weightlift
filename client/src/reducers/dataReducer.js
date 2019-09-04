@@ -1,7 +1,7 @@
 import {
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, GETALL_FAILURE, GETALL_REQUEST, GETALL_SUCCESS,
     ADDITEM_REQUEST, ADDITEM_FAILURE, ADDITEM_SUCCESS, SAVECHANGES_FAILURE, SAVECHANGES_REQUEST, SAVECHANGES_SUCCESS,
-    UPDATESTATE, SETDATE, UPDATEEVENT, FILTEREVENTS, SETSUCCESSMSG, FILTERBUTTON
+    UPDATESTATE, SETDATE, UPDATEEVENT, FILTEREVENTS, FILTERBUTTON
 } from '../actions/types';
 
 var user = JSON.parse(localStorage.getItem('user'));
@@ -24,7 +24,7 @@ const initialState = user ? {
     vidsLogs: [],
     loginFailure: '',
     loaded: 'false',
-    successMsg: false,
+    successMsg: '', 
     weightFilterFlag: false,
     cardioFilterFlag: false,
     bwFilterFlag: false,
@@ -104,7 +104,10 @@ export default function dataReducer(state = initialState, action) {
         case LOGOUT:
             return {};
         case GETALL_REQUEST:
-            return { ...state, msg: 'loading' }
+            return { ...state, 
+            msg: 'loading',     
+            successMsg: '',
+        }
         case GETALL_SUCCESS:
             console.log("GETALL_SUCCESS");
             console.log(action);
@@ -160,9 +163,15 @@ export default function dataReducer(state = initialState, action) {
                 successMsg: ''
             }
         case GETALL_FAILURE:
-            return { ...state, msg: "Failed to get" };
+            return { ...state, 
+                msg: "Failed to get",
+                successMsg: '',
+ };
         case ADDITEM_REQUEST:
-            return { ...state, msg: "loading" };
+            return { ...state, 
+            msg: "loading",
+            successMsg: '',
+ };
         case ADDITEM_SUCCESS:
             return {
                 ...state,
@@ -173,7 +182,7 @@ export default function dataReducer(state = initialState, action) {
                 events: [...action.users.events],
                 eventsFiltered: [...action.users.events],
                 loaded: 'true',
-                successMsg: 'true'
+                successMsg: ''
             }
         case ADDITEM_FAILURE:
             return state.msg = 'Item addition failed';
@@ -221,7 +230,6 @@ export default function dataReducer(state = initialState, action) {
             });
             return {
                 ...state,
-                msg: 'Success',
                 id: action.users.data._id,
                 username: action.users.data.username,
                 weightLogs: [...action.users.data.logs],
@@ -231,7 +239,7 @@ export default function dataReducer(state = initialState, action) {
                 events: [...eventsArr],
                 eventsFiltered: [...eventsArr],
                 loaded: 'false',
-                successMsg: true,
+                successMsg: 'true',
                 loggedIn: true
 
             }
@@ -306,13 +314,7 @@ export default function dataReducer(state = initialState, action) {
                 eventsFiltered: [...newCollection[0].collections],
                 successMsg: ''
             }
-        case SETSUCCESSMSG:
-            return {
-                ...state,
-                successMsg: action.msg
-            }
         case FILTERBUTTON:
-            var newCollection;
             console.log("FILTERBUTTOn");
             console.log(action);
             return {
