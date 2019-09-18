@@ -7,6 +7,9 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const app = express();
 
+var helmet = require('helmet')
+app.use(helmet())
+
 // Bodyparser
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
