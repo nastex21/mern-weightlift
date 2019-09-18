@@ -12,4 +12,14 @@ Basic functionality works but there still some needs such as:
 
 -Add a landing page
 
--Optimize the mobile side
+-Optimize the mobile side 
+
+Released 1.01
+- Fixed registration problem
+
+Future incoming fixes:
+- Make the landing page look better
+- Needs better styling
+
+Released 1.00
+- App works but had some problems with the registration. 
