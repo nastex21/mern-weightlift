@@ -159,7 +159,9 @@ function logout() {
 }
 
 function register(user) {
-  return axios.post("/api/signup/", { username: user.username, password: user.password }).then(response => {
+  console.log("register initiated");
+  return axios.post("/api/signup/", { username: user.username, password: user.password })
+  .then(response => {
     if (response.data.user) {
       return response.data.user;
     } else {

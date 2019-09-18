@@ -125,7 +125,15 @@ class Signup extends Component {
             validate
         }, function () {
 
-            if (this.state.validate.nameState !== "has-danger" && this.state.validate.passwordState !== "has-danger" && this.state.validate.password2State !== "has-danger" && this.state.password == this.state.password2 && this.state.passErr && this.state.password.length >= 6 && this.state.password2.length >= 6) {
+            console.log(this.state.validate.nameState !== "has-danger");
+            console.log(this.state.validate.passwordState !== "has-danger");
+            console.log(this.state.validate.password2State !== "has-danger");
+            console.log(this.state.password === this.state.password2);
+            console.log(this.state.passErr);
+            console.log(this.state.password.length);
+            console.log(this.state.password2.length);
+
+            if (this.state.validate.nameState !== "has-danger" && this.state.validate.passwordState !== "has-danger" && this.state.validate.password2State !== "has-danger" && this.state.password == this.state.password2 && this.state.passErr === '' && this.state.password.length >= 6 && this.state.password2.length >= 6) {
                 var user = {
                     username: this.state.username,
                     password: this.state.password
