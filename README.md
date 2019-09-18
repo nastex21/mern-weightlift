@@ -14,12 +14,12 @@ Basic functionality works but there still some needs such as:
 
 -Optimize the mobile side 
 
-Released 1.01
+Released 1.01 (09/18/2019)
 - Fixed registration problem
 
 Future incoming fixes:
 - Make the landing page look better
 - Needs better styling
 
-Released 1.00
+Released 1.00  (09/18/2019)
 - App works but had some problems with the registration. 
