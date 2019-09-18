@@ -7,6 +7,9 @@ It started out as an app to track weightlifting but I eventually expanded it to 
 This app allows you to register with your own unique username and password and add your exercise statistics for a particular exercise group.
 
 Basic functionality works but there still some needs such as:
+
 -Still need to clean the UI and web page. Looks a bit janky.
+
 -Add a landing page
+
 -Optimize the mobile side
