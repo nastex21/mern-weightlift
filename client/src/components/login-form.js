@@ -28,7 +28,6 @@ class LoginForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault()
-        console.log('handleSubmit this.props');
         const { dispatch } = this.props;
 
         const { username, password } = this.state;
@@ -39,7 +38,6 @@ class LoginForm extends Component {
 
     render() {
         const { username, password } = this.state;
-        console.log(this.props.dataModifier.msg);
         if (this.props.dataModifier.loggedIn) {
             return <Redirect to={{ pathname: "/api/dashboard" }} />
         } else {
@@ -74,7 +72,6 @@ class LoginForm extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state);
     const { register, dataModifier } = state;
     return {
         dataModifier,

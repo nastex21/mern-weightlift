@@ -21,7 +21,6 @@ class WeightsAdd extends Component {
 
     //changes when keys are pressed
     handleChange = (e) => {
-        console.log(e.target.value)
         //get the className and remove the 'form-control' suffix at the end
         e.target.className = e.target.className.replace(' form-control', '');
         e.target.className = e.target.className.replace(' is-invalid', '');
@@ -49,7 +48,6 @@ class WeightsAdd extends Component {
             } else if (e.target.className == "weight") {
                 e.target.value = +e.target.value;
                 if (e.target.value == '' || re.test(e.target.value)) {
-                    console.log(re.test(e.target.value));
                     collection[e.target.dataset.id][e.target.className] = e.target.value;
                     this.setState({ collection }, () => this.setState({ collection }, () => this.setState({
                         invalidEx: false,
@@ -60,7 +58,6 @@ class WeightsAdd extends Component {
                     })))
                 }
             } else {
-                console.log("else state")
                 collection[e.target.dataset.id][e.target.className] = e.target.value;
                 this.setState({ collection }, () => this.setState({ collection }, () => this.setState({
                     invalidEx: false,
@@ -76,11 +73,7 @@ class WeightsAdd extends Component {
 
     submit = (e) => {
         e.preventDefault();
-        console.log("table-body-add");
         const { dispatch } = this.props;
-        console.log(this.props);
-        console.log("addItem: ");
-        console.log(this.state.id);
         var options = {
             id: this.props.dataModifier.id, collection: this.state.collection,
             date: this.props.dataModifier.dateShortened, flag: 1
@@ -95,47 +88,10 @@ class WeightsAdd extends Component {
                 }]
             }))
             .catch(() => console.log("error"))
-        /* 
-            .catch((error) => {
-                console.log("post /api/add-items error: ");
-                console.log(error);
-                console.log(error.response);
-                const err = error.response.data;
-                if (err.target == "name") {
-                    this.setState({
-                        invalidEx: true,
-                        msg: err.msg
-                    })
-                }
-                if (err.target == "sets") {
-                    this.setState({
-                        invalidSets: true,
-                        msg: err.msg
-                    })
-                }
-
-                if (err.target == "reps") {
-                    this.setState({
-                        invalidReps: true,
-                        msg: err.msg
-                    })
-                }
-
-                if (err.target == "weight") {
-                    this.setState({
-                        invalidWeight: true,
-                        msg: err.msg
-                    })
-                }
-
-
-            });
- */
     }
 
     render() {
         const { id, collection } = this.state;
-        console.log("this.props");
         return (
             <div>
                 {this.state.msg ? (
@@ -184,7 +140,6 @@ class WeightsAdd extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state);
     const { eventReducer, dataModifier } = state;
     return {
         eventReducer,

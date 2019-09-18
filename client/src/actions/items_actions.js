@@ -13,11 +13,8 @@ export const itemsConst = {
 
 /* ADD ITEM(S) DISPATCH */
 function addItem(options) {
-  console.log("it's running")
   return dispatch => {
     dispatch(request());
-    console.log("add data")
-    console.log(options);
 
     return new Promise((resolve, reject) => {
       userService.addItem(options)
@@ -38,10 +35,8 @@ function addItem(options) {
 
 /* SAVE CHANEGS DISPATCH */
 function saveChanges(data) {
-  console.log("save changes is running item_actions");
   return dispatch => {
     dispatch(request());
-    console.log("after request")
     userService.saveChanges(data)
       .then(
         users => dispatch(success(users)),
@@ -77,9 +72,6 @@ export const updateEvent = (data) => dispatch => {
 /*SET DATE */
 
 export const setDate = (date, dateShort) => dispatch => {
-  console.log('setDate');
-  console.log(date);
-  console.log(dateShort);
   dispatch({
     type: SETDATE,
     date, dateShort
@@ -89,10 +81,6 @@ export const setDate = (date, dateShort) => dispatch => {
 /*FILTER EVENTS */
 
 export const filterEvent = (hyphenDate, dateVal, color) => dispatch => {
-  console.log("filterEvent");
-  console.log(hyphenDate);
-  console.log(dateVal);
-  console.log(color);
   dispatch({
     type: FILTEREVENTS,
     hyphenDate, dateVal, color

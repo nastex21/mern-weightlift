@@ -29,8 +29,6 @@ function addItem(options) {
 
   return axios.post("/api/add-items", { id: item.id, collection: item.collection, date: item.date, flag: item.flag }, config)
     .then(data => {
-      console.log("data");
-      console.log(data);
       var newObj = {};
       let eventsArr = [];
       data.data.logs.map(function (item) {
@@ -55,7 +53,6 @@ function addItem(options) {
       });
 
       data.data.bwlogs.map(function (item) {
-        console.log(item);
         if (item.collections.length > 0) {
           eventsArr.push({
             "title": "Bodyweight",
@@ -81,8 +78,6 @@ function addItem(options) {
       newObj.cardiologs = data.data.cardiologs;
       newObj.bwlogs = data.data.bwlogs;
       newObj.vidslogs = data.data.vidslogs;
-      console.log("newObj");
-      console.log(newObj);
       return newObj;
     })
     .catch(error => {
@@ -92,12 +87,9 @@ function addItem(options) {
 }
 
 function saveChanges(dataObj) {
-  console.log("saveChanges");
-  console.log(dataObj);
 
   return axios.post('/api/edit-items', dataObj)
     .then((response) => {
-      console.log(response);
       return response
     })
     .catch(error => {
@@ -141,13 +133,11 @@ function getAll(userID) {
 function login(username, password) {
   return axios.post('/api/login', { username: username, password: password })
     .then(user => {
-      console.log("success login user")
       localStorage.setItem('user', JSON.stringify(user));
       return user;
     })
     .catch(error => {
       if (error.response) {
-        console.log(error.response);
         return error.response;
       }
     })
@@ -159,7 +149,6 @@ function logout() {
 }
 
 function register(user) {
-  console.log("register initiated");
   return axios.post("/api/signup/", { username: user.username, password: user.password })
   .then(response => {
     if (response.data.user) {

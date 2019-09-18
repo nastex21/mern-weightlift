@@ -180,17 +180,11 @@ class LeftPane extends Component {
         var months = ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"];
 
-        console.log("LeftPane");
-        console.log(this.props.dataModifier.eventsFiltered.length);
-
-        
         var dateShortened;
         
         if (this.props.dataModifier){
             dateShortened = this.props.dataModifier.dateShortened
         }
-
-        console.log(dateShortened);
 
         return (
             <div className="bothPanes leftPane" >
@@ -236,8 +230,6 @@ class LeftPane extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log('state');
-    console.log(state);
     const { dataModifier } = state;
     return {
         dataModifier

@@ -20,14 +20,12 @@ const checkToken = (req, res, next) => {
 }
 
 router.post('/', checkToken, Validate, async (req, res) => {
-    console.log("additem init");
     const updateWeights = (id, updateObj) => {
         var update = {
             $addToSet: {
                 'logs.$[i].collections': updateObj.logs.collections
             }
         };
-        console.log("yes")
         var updateSet = {
             $push: {
                 'logs': {
@@ -48,41 +46,34 @@ router.post('/', checkToken, Validate, async (req, res) => {
 
         User.findOne({ "_id": id, 'logs': { $not: { $elemMatch: { 'date': updateObj.logs.date } } } }, (err, data) => {
             if (err) {
-                return console.log("500");
+                return res.status(500).end();
             }
             if (!data) {
                 let dataID = id;
                 return pushData(dataID);
             }
-            console.log("200");
 
             User.findByIdAndUpdate({ "_id": id }, updateSet, { new: true }, (err, data) => {
-                console.log("second findOneAndUpdate");
                 if (err) {
-                    console.log("500");
                     return res.status(500).end();
                 }
                 if (!data) {
-                    console.log("404");
+                    
                     return res.status(404).end();
                 }
-                console.log("200");
-                console.log(data);
                 return res.status(200).json(data);
             })
 
         })
         const pushData = (id) => {
             User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
-                console.log("first findOneAndUpdate");
+                
                 if (err) {
-                    return console.log("500");
+                    return res.status(500).end();
                 }
                 if (!data) {
-                    return console.log("404");
+                    return res.status(404).end();
                 }
-                console.log("200");
-                console.log(data);
                 return res.status(200).json(data);
             });
         }
@@ -115,26 +106,22 @@ router.post('/', checkToken, Validate, async (req, res) => {
 
         User.findOne({ "_id": id, 'cardiologs': { $not: { $elemMatch: { 'date': updateObj.cardiologs.date } } } }, (err, data) => {
             if (err) {
-                return console.log("500");
+                return res.status(500).end();
             }
             if (!data) {
                 let dataID = id;
                 return pushData(dataID);
             }
-            console.log("200");
+            
 
             User.findByIdAndUpdate({ "_id": id }, updateSet, { new: true }, (err, data) => {
-                console.log("second findOneAndUpdate");
+                
                 if (err) {
-                    console.log("500");
                     return res.status(500).end();
                 }
-                if (!data) {
-                    console.log("404");
+                if (!data) {                    
                     return res.status(404).end();
-                }
-                console.log("200");
-                console.log(data);
+                }               
                 return res.status(200).json(data);
             })
 
@@ -142,15 +129,14 @@ router.post('/', checkToken, Validate, async (req, res) => {
 
         const pushData = (id) => {
             User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
-                console.log("first findOneAndUpdate");
                 if (err) {
-                    return console.log("500");
+                    return res.status(500).end();
                 }
                 if (!data) {
-                    return console.log("404");
+                    return res.status(404).end();
                 }
-                console.log("200");
-                console.log(data);
+                
+                
                 return res.status(200).json(data);
             });
         };
@@ -183,26 +169,23 @@ router.post('/', checkToken, Validate, async (req, res) => {
 
         User.findOne({ "_id": id, 'bwlogs': { $not: { $elemMatch: { 'date': updateObj.bwlogs.date } } } }, (err, data) => {
             if (err) {
-                return console.log("500");
+                return res.status(500).end();
             }
             if (!data) {
                 let dataID = id;
                 return pushData(dataID);
             }
-            console.log("200");
+            
 
             User.findByIdAndUpdate({ "_id": id }, updateSet,  { new: true }, (err, data) => {
-                console.log("second findOneAndUpdate");
+                
                 if (err) {
-                    console.log("500");
                     return res.status(500).end();
                 }
                 if (!data) {
-                    console.log("404");
+                    
                     return res.status(404).end();
-                }
-                console.log("200");
-                console.log(data);
+                }         
                 return res.status(200).json(data);
             })
 
@@ -210,15 +193,12 @@ router.post('/', checkToken, Validate, async (req, res) => {
 
         const pushData = (id) => {
             User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
-                console.log("first findOneAndUpdate");
                 if (err) {
-                    return console.log("500");
+                    return res.status(500).end();
                 }
                 if (!data) {
-                    return console.log("404");
-                }
-                console.log("200");
-                console.log(data);
+                    return res.status(404).end();
+                }           
                 return res.status(200).json(data);
             });
         };
@@ -251,26 +231,22 @@ router.post('/', checkToken, Validate, async (req, res) => {
 
         User.findOne({ "_id": id, 'vidslogs': { $not: { $elemMatch: { 'date': updateObj.vidslogs.date } } } }, (err, data) => {
             if (err) {
-                return console.log("500");
+                return res.status(500).end();
             }
             if (!data) {
                 let dataID = id;
                 return pushData(dataID);
             }
-            console.log("200");
+            
 
             User.findByIdAndUpdate({ "_id": id }, updateSet, {new: true}, (err, data) => {
-                console.log("second findOneAndUpdate");
+                
                 if (err) {
-                    console.log("500");
                     return res.status(500).end();
                 }
                 if (!data) {
-                    console.log("404");
                     return res.status(404).end();
-                }
-                console.log("200");
-                console.log(data);
+                }                
                 return res.status(200).json(data);
             })
 
@@ -278,15 +254,13 @@ router.post('/', checkToken, Validate, async (req, res) => {
 
         const pushData = (id) => {
             User.findOneAndUpdate({ "_id": id }, update, filter, (err, data) => {
-                console.log("first findOneAndUpdate");
+                
                 if (err) {
-                    return console.log("500");
+                    return res.status(500).end();
                 }
                 if (!data) {
-                    return console.log("404");
-                }
-                console.log("200");
-                console.log(data);
+                    return res.status(404).end();
+                }   
                 return res.status(200).json(data);
             });
         }
@@ -304,18 +278,13 @@ router.post('/', checkToken, Validate, async (req, res) => {
 
         return updateObj;
     }
-    console.log('req.body');
-    console.log(req.body);
+
     if (req.body.flag == 1) {
         var updateObj = createObj(req.body.collection);
 
         var pushThis = {
             logs: updateObj
         }
-        console.log('weightFlag');
-        console.log(req.body.id);
-        console.log(pushThis);
-
         updateWeights(req.body.id, pushThis);
     }
 

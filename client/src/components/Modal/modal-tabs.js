@@ -16,8 +16,6 @@ class ModalTabs extends Component {
 
 
     toggle = (tab) => {
-        console.log("tab");
-        console.log(tab);
         if (this.state.activeTab !== tab) {
             this.setState({
                 activeTab: tab
@@ -28,7 +26,6 @@ class ModalTabs extends Component {
 
     render() {
         const { activeTab } = this.state;
-        console.log(activeTab);
         return (
             <React.Fragment>
                 <Nav tabs>
@@ -76,8 +73,6 @@ class ModalTabs extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log('state');
-    console.log(state);
     const { eventReducer, dataModifier } = state;
     return {
         eventReducer,

@@ -20,40 +20,32 @@ class ExVidsClassesAdd extends Component {
 
     //changes when keys are pressed
     handleChange = (e) => {
-        console.log(e.target.checked);
-        console.log('triggered handleChange');
         //get the className and remove the 'form-control' suffix at the end
         e.target.className = e.target.className.replace(' form-control', '');
         e.target.className = e.target.className.replace(' is-invalid', '');
 
-        console.log(e.target.className);
         if (e.target.className == 'completed form-check-input') {
             e.target.className = "completed";
         }
 
-        console.log(e.target.className);
         //if the className is in the array
         if (["exercise", "hours", "minutes", "completed"].includes(e.target.className)) {
             let collection = [...this.state.collection];
 
-            console.log(e.target.className);
             //if the target.value is empty or it doesn't pass the test, then setState
             if (e.target.className == "hours") {
                 e.target.value = +e.target.value;
                 if (e.target.value == '') {
                     if (!this.state.completed) {
-                        console.log('2')
                         collection[e.target.dataset.id][e.target.className] = e.target.value;
                         collection[e.target.dataset.id].completed = "false";
                         this.setState({ collection }, () => console.log(this.state.collection));
                     } else {
-                        console.log('3')
                         collection[e.target.dataset.id][e.target.className] = "";
                         collection[e.target.dataset.id].completed = "false";
                         this.setState({ collection }, () => console.log(this.state.collection));
                     }
                 }
-                console.log('4')
                 collection[e.target.dataset.id][e.target.className] = e.target.value;
                 collection[e.target.dataset.id].completed = "false";
                 this.setState({ collection }, () => console.log(this.state.collection));
@@ -62,12 +54,10 @@ class ExVidsClassesAdd extends Component {
                 if (e.target.value == '' || e.target.value >= 0 && e.target.value < 60) {
 
                     if (!this.state.completed) {
-                        console.log('6')
                         collection[e.target.dataset.id][e.target.className] = e.target.value;
                         collection[e.target.dataset.id].completed = "false";
                         this.setState({ collection }, () => console.log(this.state.collection));
                     } else {
-                        console.log('7')
                         collection[e.target.dataset.id][e.target.className] = "";
                         collection[e.target.dataset.id].completed = "false";
                         this.setState({ collection }, () => console.log(this.state.collection));
@@ -76,7 +66,6 @@ class ExVidsClassesAdd extends Component {
                     console.log("Error: Minutes to be less than 60")
                 }
             } else {
-                console.log('8')
                 if (["exercise"].includes(e.target.className)) {
                     collection[e.target.dataset.id].exercise = e.target.value;
                 }
@@ -93,7 +82,6 @@ class ExVidsClassesAdd extends Component {
     submit = (e) => {
         e.preventDefault();
 
-        console.log('table-body-vidsclasses');
         const { dispatch } = this.props;
         var options = { id: this.props.dataModifier.id, collection: this.state.collection, date: this.props.dataModifier.dateShortened, flag: 4 };
         dispatch(itemsConst.addItem(options))
@@ -106,31 +94,6 @@ class ExVidsClassesAdd extends Component {
                 }]
             }))
             .catch(() => console.log("error"))
-        /*     
-                  .catch((error) => {
-                      console.log(error);
-                      console.log(error.response);
-                      if (error.response.data.target == "name") {
-                          this.setState({
-                              invalidEx: true,
-                              msg: error.response.data.msg
-                          })
-                      } else if (error.response.data.target == "hrs") {
-                          this.setState({
-                              invalidHrs: true,
-                              msg: error.response.data.msg
-                          })
-                      } else if (error.response.data.target == "mins") {
-                          this.setState({
-                              invalidMins: true,
-                              msg: error.response.data.msg
-                          })
-                      } else {
-                          this.setState({
-                              msg: error.response.data.msg
-                          })
-                      } 
-                  }); */
     }
 
 

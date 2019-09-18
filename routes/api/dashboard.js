@@ -20,17 +20,14 @@ const checkToken = (req, res, next) => {
 }
 
 router.get('/', checkToken, (req, res) => {
-  console.log('router get')
   //verify the JWT token generated for the user
       User.findById(req.query.id ).then(user => {
         if (!user) {
-          console.log('not found');
           return res.status(404).json({ usernamenotfound: "username not found" });
         }
 
         if (user) {
           //if user log in success, generate a JWT token for the user with a secret key
-          console.log(user);
           res.json(user);
         }
 

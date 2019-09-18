@@ -14,14 +14,11 @@ export const userActions = {
 
 /*REGISTER DISPATCH */
 function register(user) {
-  console.log('user_actions');
-  console.log(user);
   return dispatch => {
     dispatch(request(user));
 
     userService.register(user)
       .then(user => {
-        console.log("then register")
         if (user == "Sorry, username is already taken."){
           var msg = "Sorry, username is already taken.";
           dispatch(failure(msg));
@@ -31,7 +28,6 @@ function register(user) {
         }
       })
       .catch(error => {
-        console.log("error register")
         dispatch(failure(error.toString()))
       })
   };
@@ -49,14 +45,10 @@ function login(username, password) {
 
     userService.login(username, password)
       .then(user => {
-        console.log("login dispatch");
-        console.log(user);
         dispatch(success(user));
         history.push('/api/dashboard');
       })
       .catch(error => {
-        console.log("error");
-        console.log(error);
         dispatch(failure(error.toString()));
       })
   }
@@ -74,11 +66,8 @@ function logout() {
 
 /*GRAB DATA DISPATCH */
 function getAll(data) {
-  console.log("it's running")
   return dispatch => {
     dispatch(request());
-    console.log("getAll data")
-    console.log(data);
     userService.getAll(data)
       .then(
         users => dispatch(success(users)),

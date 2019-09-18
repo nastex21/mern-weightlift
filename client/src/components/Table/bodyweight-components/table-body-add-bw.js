@@ -29,12 +29,10 @@ class BWAdd extends Component {
             collection[e.target.dataset.id][e.target.className] = e.target.value;
             //regex to look for number
             const re = /^\d+$\b/;
-            console.log(re.test(e.target.value))
             //if the target.value is empty or it doesn't pass the test, then setState
 
             if (e.target.className == "sets" || e.target.className == "reps") {
                 e.target.value = +e.target.value;
-                console.log(e.target.value);
                 e.target.value = parseInt(e.target.value, 10)
                 if (e.target.value == '' || re.test(e.target.value)) {
                     this.setState({ collection }, () => console.log(this.state.collection))
@@ -108,8 +106,6 @@ class BWAdd extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log('state');
-    console.log(state);
     const { eventReducer, dataModifier } = state;
     return {
         eventReducer,

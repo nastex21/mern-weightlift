@@ -10,7 +10,6 @@ router.post('/', async (req, res, next) => {
   const { username } = body;
   const { password } = body;
 
-  console.log(username);
   //checking to make sure the user entered the correct username/password combo
   User.findOne({ username: username }, function (err, user) {
     if (!user) {

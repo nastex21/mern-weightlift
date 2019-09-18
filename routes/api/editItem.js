@@ -52,7 +52,6 @@ router.post('/', Validate, (req, res) => {
                 if (!data) {
                     return res.status(404).end();
                 }
-                console.log(data);
                 return res.json(data);
             });
         }
@@ -82,7 +81,6 @@ router.post('/', Validate, (req, res) => {
                     if (!data) {
                         return res.status(404).end();
                     }
-                    console.log(data);
                     return res.json(data);
                 })
             }

@@ -6,7 +6,6 @@ router.post('/', async (req, res) => {
         req.logout();
         res.redirect('/'); 
     } else {
-        console.log("else no user");
         res.send({ msg: 'no user to log out' })
     }
 })

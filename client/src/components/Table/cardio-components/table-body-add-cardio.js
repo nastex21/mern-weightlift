@@ -20,14 +20,12 @@ class CardioAdd extends Component {
 
     //changes when keys are pressed
     handleChange = (e) => {
-        console.log(e.target.className);
         //get the className and remove the 'form-control' suffix at the end
         e.target.className = e.target.className.replace(' form-control', '');
         e.target.className = e.target.className.replace(' is-invalid', '');
 
         //if the className is in the array
         if (["exercise", "distance", "hours", "minutes"].includes(e.target.className)) {
-            console.log(e.target.className);
 
             let collection = [...this.state.collection];
             //collection[location in array][exercise,distance, hours or minutes] = e.target.value
@@ -64,8 +62,6 @@ class CardioAdd extends Component {
         //e.target.value = e.target.value.replace(/^0+/, ''); -- get rid of leading zeroes
         e.preventDefault();
 
-        console.log("post is triggered")
-        console.log(this.props.id);
         const { dispatch } = this.props;
         var options = { id: this.props.dataModifier.id, collection: this.state.collection, date: this.props.dataModifier.dateShortened, flag: 2 };
 
@@ -79,39 +75,6 @@ class CardioAdd extends Component {
                 }]
             }))
             .catch(() => console.log("error"));
-        /*
-            .catch(error => {
-                console.log("post /api/add-items error: ");
-                console.log(error);
-                const err = error.response.data;
-                if (err.target == "name") {
-                    this.setState({
-                        invalidEx: true,
-                        msg: err.msg
-                    })
-                }
-                if (err.target == "distance") {
-                    this.setState({
-                        invalidDistance: true,
-                        msg: err.msg
-                    })
-                }
-
-                if (err.target == "hrs") {
-                    this.setState({
-                        invalidHrs: true,
-                        msg: err.msg
-                    })
-                }
-
-                if (err.target == "mins") {
-                    this.setState({
-                        invalidMins: true,
-                        msg: err.msg
-                    })
-                }
-            }); */
-
     }
 
 
@@ -167,7 +130,6 @@ class CardioAdd extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state);
     const { eventReducer, dataModifier } = state;
     return {
         eventReducer,

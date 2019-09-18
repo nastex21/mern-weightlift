@@ -32,8 +32,6 @@ const initialState = user ? {
 } : {};
 
 export default function dataReducer(state = initialState, action) {
-    console.log("action");
-    console.log(action);
     switch (action.type) {
         case LOGIN_REQUEST:
             return {
@@ -96,8 +94,6 @@ export default function dataReducer(state = initialState, action) {
                 msg: ''
             };
         case LOGIN_FAILURE:
-            console.log("action");
-            console.log(action);
             return {
                 loginFailure: true
             };
@@ -109,8 +105,6 @@ export default function dataReducer(state = initialState, action) {
             successMsg: '',
         }
         case GETALL_SUCCESS:
-            console.log("GETALL_SUCCESS");
-            console.log(action);
             var eventsArr = [];
             action.users.data.vidslogs.map(function (item) {
                 eventsArr.push({
@@ -259,9 +253,6 @@ export default function dataReducer(state = initialState, action) {
                 successMsg: ''
             };
         case SETDATE:
-            console.log("SETDATE");
-            console.log(action);
-            //,eventsFiltered: state.events.filter(item => item.date === action.dateShort)
             return {
                 ...state,
                 date: action.date,
@@ -277,10 +268,8 @@ export default function dataReducer(state = initialState, action) {
                 successMsg: ''
             }
         case FILTEREVENTS:
-            console.log("FILTEREVENTS");
             var newCollection;
-            console.log('newCollection');
-            console.log(action);
+
             //weights
             if (action.color == "#d9534f") {
                 newCollection = state.weightLogs.filter(item => {
@@ -305,7 +294,6 @@ export default function dataReducer(state = initialState, action) {
                     return item.date === action.hyphenDate
                 })
             }
-            console.log(newCollection);
             return {
                 ...state,
                 date: action.dateVal,
@@ -315,8 +303,6 @@ export default function dataReducer(state = initialState, action) {
                 successMsg: ''
             }
         case FILTERBUTTON:
-            console.log("FILTERBUTTOn");
-            console.log(action);
             return {
                 ...state,
                 eventsFiltered: [...action.filterEvents],

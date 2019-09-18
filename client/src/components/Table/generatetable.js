@@ -16,7 +16,6 @@ class GenerateTable extends Component {
 
 
     render() {
-        console.log(this.props)
         var newArr = [];
         var exercise;
 
@@ -122,8 +121,6 @@ class GenerateTable extends Component {
 };
 
 function mapStateToProps(state) {
-    console.log('state');
-    console.log(state);
     const { alert, dataModifier } = state;
     return {
         alert,

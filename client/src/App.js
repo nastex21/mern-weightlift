@@ -30,7 +30,6 @@ class App extends Component {
   }
 
   updateEventCalendar = () => {
-    console.log(this.props);
     let eventsArr = [];
     this.props.dataModifier.weightLogs.map(function (item) {
       if (item.collections.length > 0) {
@@ -54,7 +53,6 @@ class App extends Component {
     });
 
     this.props.dataModifier.bwLogs.map(function (item) {
-      console.log(item);
       if (item.collections.length > 0) {
         eventsArr.push({
           "title": "Bodyweight",
@@ -97,8 +95,6 @@ class App extends Component {
   }
 
   render() {
-    console.log("this.props");
-    console.log(this.props);
     const style = {
       backgroundImage: `url(${gymSplash})`,
       backgroundPosition: 'center',
@@ -133,8 +129,6 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log('state');
-  console.log(state);
   const { dataModifier, eventReducer } = state;
   return {
     dataModifier,

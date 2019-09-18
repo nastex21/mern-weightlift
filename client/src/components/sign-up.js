@@ -32,7 +32,6 @@ class Signup extends Component {
     };
 
     validatePassword = e => {
-        console.log('validatePassword');
         const { validate } = this.state;
         if (e.target.value.length > 5) {
             validate.passwordState = "has-success";
@@ -43,7 +42,6 @@ class Signup extends Component {
     };
 
     comparePasswords = e => {
-        console.log('comparePassword');
         const { validate } = this.state;
 
         if (e.target.value !== this.state.password) {
@@ -56,18 +54,11 @@ class Signup extends Component {
     };
 
     handleChange = async event => {
-        console.log("handlechange");
         const { target } = event;
-        console.log(target);
-
         const value = target.type === "checkbox" ? target.checked : target.value;
         const { name } = target;
 
-        console.log(value);
-        console.log(name);
-
         if (name == 'username') {
-            console.log(value);
             var check = new RegExp("^[a-zA-Z0-9]*$");
             if (check.test(value)) {
                 await this.setState({ [name]: value, nameErr: '' });
@@ -77,14 +68,12 @@ class Signup extends Component {
                 })
             }
         } else {
-            console.log("else")
             await this.setState({ [name]: value, nameErr: '', passErr: '' });
         }
 
     };
 
     handleSubmit = event => {
-        console.log("sign-up handleSubmit, username: ");
         event.preventDefault();
 
         const { dispatch } = this.props;
@@ -119,28 +108,14 @@ class Signup extends Component {
             })
         }
 
-        console.log(this.state.password == this.state.password2)
-
         this.setState({
             validate
         }, function () {
-
-            console.log(this.state.validate.nameState !== "has-danger");
-            console.log(this.state.validate.passwordState !== "has-danger");
-            console.log(this.state.validate.password2State !== "has-danger");
-            console.log(this.state.password === this.state.password2);
-            console.log(this.state.passErr);
-            console.log(this.state.password.length);
-            console.log(this.state.password2.length);
-
             if (this.state.validate.nameState !== "has-danger" && this.state.validate.passwordState !== "has-danger" && this.state.validate.password2State !== "has-danger" && this.state.password == this.state.password2 && this.state.passErr === '' && this.state.password.length >= 6 && this.state.password2.length >= 6) {
                 var user = {
                     username: this.state.username,
                     password: this.state.password
                 }
-
-                console.log("went through");
-                console.log(this.state);
                 dispatch(userActions.register(user));
             }
         });
@@ -228,7 +203,6 @@ class Signup extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state);
     const { registering } = state.register;
     const { dataModifier, register } = state;
     return {

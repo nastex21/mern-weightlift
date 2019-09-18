@@ -1,7 +1,4 @@
 module.exports = function (req, res, next) {
-    console.log('vaildate');
-    console.log(req.body);
-    console.log('after');
     const { weightFlag, cardioFlag, bwFlag, vidsFlag, color } = req.body;
     var data = req.body;
     var arr = [];
@@ -16,10 +13,8 @@ module.exports = function (req, res, next) {
         //find any error and stop test immediately
         data.collection.some(function (item) {
             if (weightFlag == 1 || bwFlag == 1 || color == '#d9534f' || color == '#5cb85c') {
-                console.log("weightflag or bwFlag")
                 //find empty strings
                 if (item.exercise === '' || item.sets === '' || item.reps === '' || item.weight === '') {
-                    console.log("error 24")
                     errCounter = 1;
                     return error.emptyStringCheck = "Please don't leave blank";
                 }
@@ -77,16 +72,12 @@ module.exports = function (req, res, next) {
         });
 
         arr.forEach(item => {
-            console.log(item.completed);
             if (item.completed == "false") {
-                console.log('false');
                 if (item.exercise === '' || item.hours === '' || item.minutes === '') {
-                    console.log("Undefined");
                     errCounter = 1;
                 }
 
                 if (item.hours == undefined || item.minutes == undefined) {
-                    console.log("Hours and minutes can't both be zero")
                     errCounter = 1;
                 }
 
@@ -95,12 +86,9 @@ module.exports = function (req, res, next) {
                 }
             } else {
                 if (item.completed == 'true') {
-                    console.log("true");
                     arr.some(function (item) {
-                        console.log("else")
                         //find empty strings
                         if (item.exercise === '') {
-                            console.log("found!")
                             errCounter = 1;
                         }
                     });
@@ -111,19 +99,16 @@ module.exports = function (req, res, next) {
         arr.forEach(function (item) {
             if (item.hours == 0 && item.minutes == 0) {
                 errCounter = 1;
-                console.log("hours and minutes can't both be zero")
             }
         })
 
     }
 
     if (errCounter === 1) {
-        console.log('fails Validate');
         return res.status(400).send({
             message: 'This is an error!'
         }).end();
     } else {
-        console.log('passes Validate');
-        next()
+        next();
     }
 };

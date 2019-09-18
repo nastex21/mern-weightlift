@@ -8,8 +8,6 @@ const initiialState = {
 }
 
 export default function registration(state = initiialState, action) {
-  console.log("action");
-    console.log(action);
   switch (action.type) {
     case REGISTER_REQUEST:
         return {...state,

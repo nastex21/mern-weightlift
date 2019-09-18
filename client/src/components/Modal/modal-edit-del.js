@@ -48,12 +48,10 @@ class ModalEditDel extends Component {
         dataObj.date = this.state.date;
         dataObj.color = this.state.color;
         dataObj.collection = this.state.collection;
-        console.log('saveChanges');
         this.props.dispatch(itemsConst.saveChanges(dataObj));
     }
 
     toggle = (info) => {
-        console.log("toggle modal-edit-del");
         this.setState(prevState => ({
             modal: !prevState.modal
                 })
@@ -62,7 +60,6 @@ class ModalEditDel extends Component {
 
     render() {
         const { color, edit, collection } = this.state;
-        console.log(collection);
         var columns, minsColumn, hrsColumn;
         var dummy = {
             dataField: 'df2',
@@ -346,8 +343,6 @@ class ModalEditDel extends Component {
             backgroundcolor: 'danger',
         }
 
-        console.log(this.props.dataModifier.successMsg);
-
         return (
             <div>
                 {this.state.collection.length > 0 ? <BootstrapTable keyField='_id' bootstrap4={true} striped={true} data={collection} columns={columns} cellEdit={cellEdit} /> : <p className="emptyWarning">It looks empty in here</p>}
@@ -371,8 +366,6 @@ class ModalEditDel extends Component {
 };
 
 function mapStateToProps(state) {
-    console.log('state');
-    console.log(state);
     const { dataModifier } = state;
     return {
         dataModifier
