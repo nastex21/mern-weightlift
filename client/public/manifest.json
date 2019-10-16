@@ -1,10 +1,15 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Personal Spotter",
+  "name": "PS Icon",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "src": "/icons/favicon-16x16.ico",
+      "sizes": "16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/icons/favicon-32x32.ico",
+      "sizes": "32x32",
       "type": "image/x-icon"
     }
   ],
@@ -13,3 +18,8 @@
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
